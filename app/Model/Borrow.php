@@ -32,7 +32,7 @@ class Borrow extends Model
      *
      * @return array
     */
-    public function book()
+    public function books()
     {
         return $this->belongsTo(Book::class, 'book_id');
     }
@@ -42,7 +42,7 @@ class Borrow extends Model
      *
      * @return array
     */
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

@@ -14,10 +14,10 @@ class CommentsTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        $userId = App\Model\User::all('id')->pluck('id')->toArray();
+        $userId = DB::table('users')->pluck('id')->toArray();
         $faker = Faker::create();
         for ($i = 0; $i <= 15; $i++) {
-            factory(App\Model\Comment::class, 1)->create(['user_id' => $faker->randomElement('$userId')]);            
+            factory(App\Model\Comment::class, 1)->create(['user_id' => $faker->randomElement($userId)]);            
         }
         Model::reguard();
     }
