@@ -14,7 +14,7 @@ class Post extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'post';
+    protected $table = 'posts';
 
     /**
      * The attributes that are mass assignable.
@@ -33,7 +33,7 @@ class Post extends Model
      *
      * @return array
     */
-    public function book()
+    public function books()
     {
         return $this->belongsTo(Book::class, 'book_id');
     }
@@ -43,7 +43,7 @@ class Post extends Model
      *
      * @return array
     */
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -53,7 +53,7 @@ class Post extends Model
      *
      * @return array
     */
-    public function users()
+    public function userPosts()
     {
         return $this->belongsToMany(User::class);
     }
@@ -63,7 +63,7 @@ class Post extends Model
      *
      * @return array
     */
-    public function likeAndShare()
+    public function likesAndShares()
     {
         return $this->hasMany(Like_and_Share::class);
     }

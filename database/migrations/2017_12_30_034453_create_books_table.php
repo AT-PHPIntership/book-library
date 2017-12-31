@@ -28,6 +28,7 @@ class CreateBooksTable extends Migration
             $table->string('image');
             $table->float('avg_rating');
             $table->integer('total_rating');
+            $table->tinyInteger('status');
             $table->timestamps();
             $table->softDeletes();
         });

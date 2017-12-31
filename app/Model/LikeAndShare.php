@@ -12,7 +12,7 @@ class LikeAndShare extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'comments';
+    protected $table = 'likes_and_shares';
 
     /**
      * The attributes that are mass assignable.
@@ -31,7 +31,7 @@ class LikeAndShare extends Model
      *
      * @return array
     */
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -41,7 +41,7 @@ class LikeAndShare extends Model
      *
      * @return array
     */
-    public function post()
+    public function posts()
     {
         return $this->belongsTo(Post::class, 'post_id');
     }
