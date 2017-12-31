@@ -23,12 +23,13 @@ class CreateBooksTable extends Migration
             $table->string('name');
             $table->string('author');
             $table->string('year');            
+            $table->string('price');            
             $table->string('description');
             $table->string('donate_by');
             $table->string('image');
-            $table->float('avg_rating');
-            $table->integer('total_rating');
-            $table->tinyInteger('status');
+            $table->float('avg_rating')->defautl(0.0);
+            $table->integer('total_rating')->default(0);
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

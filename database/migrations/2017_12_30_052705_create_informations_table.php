@@ -15,12 +15,13 @@ class CreateInformationsTable extends Migration
     {
         Schema::create('informations', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->string('user_id');
             $table->foreign('user_id')
-                  ->references('id')->on('users')
+                  ->references('employee_code')->on('users')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->string('hobby');
+            $table->string('type');
             $table->timestamps();
             $table->softDeletes();
         });
