@@ -20,7 +20,7 @@ class CreateBorrowsTable extends Migration
                   ->references('id')->on('books')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->string('user_id');
+            $table->string('user_id')->nullable();
             $table->foreign('user_id')
                   ->references('employee_code')->on('users')
                   ->onUpdate('cascade')

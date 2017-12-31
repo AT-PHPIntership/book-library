@@ -25,7 +25,7 @@ class CreatePostsTable extends Migration
                   ->references('employee_code')->on('users')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->tinyInteger('type_post');
+            $table->tinyInteger('type');
             $table->string('content');
             $table->timestamps();
             $table->softDeletes();

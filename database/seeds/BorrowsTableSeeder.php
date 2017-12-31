@@ -1,8 +1,8 @@
 <?php
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Faker\Factory as Faker;
 
 class BorrowsTableSeeder extends Seeder
 {
@@ -18,8 +18,10 @@ class BorrowsTableSeeder extends Seeder
         $userId = DB::table('users')->pluck('employee_code')->toArray();
         $faker = Faker::create();
         for ($i = 0; $i <= 15; $i++) {
-            factory(App\Model\Borrow::class, 1)->create(['book_id' => $faker->randomElement($bookId)]);
-            factory(App\Model\Borrow::class, 1)->create(['user_id' => $faker->randomElement($userId)]);            
+            factory(App\Model\Borrow::class, 1)->create([
+                'book_id' => $faker->randomElement($bookId),
+                'user_id' => $faker->randomElement($userId)
+            ]);
         }
         Model::reguard();
     }

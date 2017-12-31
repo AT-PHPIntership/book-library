@@ -24,6 +24,7 @@ class Book extends Model
         'name',
         'author',
         'year',
+        'price',
         'description',
         'donate_by',
         'avg_rating',

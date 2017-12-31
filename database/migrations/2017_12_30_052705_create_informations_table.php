@@ -21,6 +21,7 @@ class CreateInformationsTable extends Migration
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->string('hobby');
+            $table->string('type');
             $table->timestamps();
             $table->softDeletes();
         });

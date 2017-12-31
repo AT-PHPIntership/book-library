@@ -30,6 +30,7 @@ $factory->define(App\Model\Book::class, function (Faker $faker) {
         'year' => $faker->year,
         'description' => $faker->text,
         'donate_by' => $faker->name,
+        'price' => $faker->numberBetween($min = 1000, $max = 9000),
         'avg_rating' => $faker->numberBetween($min = 1, $max = 5),
         'total_rating' => $faker->numberBetween($min = 1, $max = 20),
         'image' => $faker->image,
@@ -50,6 +51,13 @@ $factory->define(App\Model\Comment::class, function (Faker $faker) {
         'target_id' => $faker->numberBetween($min = 1, $max = 15),
         'target_table' => $faker->randomElement(['Status','Find','Review']),
         'parent_id' => $faker->numberBetween($min = 1, $max = 2),
+        'content' => $faker->text
+    ];
+});
+
+$factory->define(App\Model\Post::class, function (Faker $faker) {
+    return [
+        'type' => $faker->numberBetween($min = 1, $max = 3),
         'content' => $faker->text
     ];
 });
