@@ -20,9 +20,9 @@ class CreateBorrowsTable extends Migration
                   ->references('id')->on('books')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->integer('user_id')->unsigned();
+            $table->string('user_id');
             $table->foreign('user_id')
-                  ->references('id')->on('users')
+                  ->references('employee_code')->on('users')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->datetime('from_date');

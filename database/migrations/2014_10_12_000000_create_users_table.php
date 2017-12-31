@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('team');
             $table->string('avatar_url')->nullable();
-            $table->tinyInteger('role');            
+            $table->tinyInteger('role')->default(0);            
             $table->string('access_token')->nullable();
             $table->string('expires_at')->nullable();
             $table->rememberToken();

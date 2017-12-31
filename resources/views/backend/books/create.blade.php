@@ -44,10 +44,10 @@
                 @endif
               </div>
               <div class="form-group">
-                <label for="status">Status</label>
+                <label for="status">Price</label>
                 <input name="status" type="text" class="form-control" id="status" placeholder="Enter status" value="{{ old('status') }}">
-                @if($errors->first('status'))
-                  <span class="text-danger">{{ $errors->first('status') }}</span>
+                @if($errors->first('price'))
+                  <span class="text-danger">{{ $errors->first('price') }}</span>
                 @endif
               </div>
               <div class="form-group">
