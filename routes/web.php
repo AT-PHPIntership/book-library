@@ -14,3 +14,5 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('book/add', 'Admin\\BookController@create')->name('book.create');
