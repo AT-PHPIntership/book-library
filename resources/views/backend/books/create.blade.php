@@ -44,8 +44,8 @@
                 @endif
               </div>
               <div class="form-group">
-                <label for="status">Price</label>
-                <input name="status" type="text" class="form-control" id="status" placeholder="Enter status" value="{{ old('status') }}">
+                <label for="price">Price</label>
+                <input name="price" type="text" class="form-control" id="status" placeholder="Enter status" value="{{ old('status') }}">
                 @if($errors->first('price'))
                   <span class="text-danger">{{ $errors->first('price') }}</span>
                 @endif
