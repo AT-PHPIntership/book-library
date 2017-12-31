@@ -9,12 +9,18 @@ use App\Http\Controllers\Controller;
 
 class BookController extends Controller
 {
-    public function create() {
-        $column = [
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $fields = [
             'id',
             'name',
         ];
-        $categories = Category::all();
+        $categories = Category::select($fields)->get();
         return view('backend.books.create')->with('categories', $categories);
     }
 }

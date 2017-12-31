@@ -1,9 +1,22 @@
 $(document).ready(function() {
+  /**
+   * show editor
+   */
   $(function () {
-    // Replace the <textarea id="editor1"> with a CKEditor
-    // instance, using default configuration.
     CKEDITOR.replace('editor1')
-    //bootstrap WYSIHTML5 - text editor
     $('.textarea').wysihtml5()
   })
+  /**
+   * show submit button when input file has value
+   */
+  $('#btn-import-excel').change(function(){
+    $('#btn-submit-file').show();
+  });
+
+  function checkFileValue() {
+    if($('#btn-import-excel').val() !== null) {
+      $('#btn-submit-file').show();
+    }
+  }
+  checkFileValue();
 })
