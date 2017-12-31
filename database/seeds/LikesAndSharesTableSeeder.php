@@ -15,7 +15,7 @@ class LikesAndSharesTableSeeder extends Seeder
     {
         Model::unguard();
         $postId = DB::table('posts')->pluck('id')->toArray();
-        $userId = DB::table('users')->pluck('id')->toArray();
+        $userId = DB::table('users')->pluck('employee_code')->toArray();
         $faker = Faker::create();
         for ($i = 0; $i <= 15; $i++) {
             factory(App\Model\LikeAndShare::class, 1)->create(['post_id' => $faker->randomElement($postId)]);

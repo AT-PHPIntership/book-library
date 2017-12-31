@@ -14,7 +14,7 @@ class InformationsTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        $userId = DB::table('users')->pluck('id')->toArray();
+        $userId = DB::table('users')->pluck('employee_code')->toArray();
         $faker = Faker::create();
         for ($i = 0; $i <= 15; $i++) {
             factory(App\Model\Information::class, 1)->create(['user_id' => $faker->randomElement($userId)]);            
