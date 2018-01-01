@@ -22,7 +22,7 @@
         <div class="box box-info">
           <!-- /.box-header -->
           <div class="box-body pad">
-            <form action="{{ route('book.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data">
               {{csrf_field()}}
               <div class="form-group">
                 <label for="name">Name</label>
@@ -33,6 +33,9 @@
               </div>
               <select name="category_id" id="category">
               @foreach($categories as $category)
+                @if($category->id == 1)
+                  @continue;
+                @endif
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
               @endforeach
               </select>
