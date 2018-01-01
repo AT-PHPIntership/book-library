@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['middleware' => ['guest'], 'prefix' => 'admin', 'namespace' => 'Admin'], function () {
+    Route::resource('/books', 'BookController');
+});
