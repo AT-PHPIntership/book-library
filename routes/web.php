@@ -16,5 +16,5 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => ['guest'], 'prefix' => 'admin', 'namespace' => 'Admin'], function () {
-    Route::resource('/book', 'BookController');
+    Route::resource('/books', 'BookController');
 });
