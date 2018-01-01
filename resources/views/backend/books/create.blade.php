@@ -9,9 +9,9 @@
       <small>Advanced form element</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">Forms</a></li>
-      <li class="active">Editors</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i>admin</a></li>
+      <li><a href="#">book</a></li>
+      <li class="active">create</li>
     </ol>
   </section>
 
@@ -22,7 +22,7 @@
         <div class="box box-info">
           <!-- /.box-header -->
           <div class="box-body pad">
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('book.store') }}" method="POST" enctype="multipart/form-data">
               {{csrf_field()}}
               <div class="form-group">
                 <label for="name">Name</label>
@@ -45,7 +45,7 @@
               </div>
               <div class="form-group">
                 <label for="price">Price</label>
-                <input name="price" type="text" class="form-control" id="status" placeholder="Enter status" value="{{ old('status') }}">
+                <input name="price" type="text" class="form-control" id="status" placeholder="Enter status" value="{{ old('price') }}">
                 @if($errors->first('price'))
                   <span class="text-danger">{{ $errors->first('price') }}</span>
                 @endif
@@ -55,6 +55,9 @@
                 <input name="donate_by" type="text" class="form-control" id="donate_by" placeholder="Enter donater" value="{{ old('donate_by') }}" >
                 @if($errors->first('donate_by'))
                   <span class="text-danger">{{ $errors->first('donate_by') }}</span>
+                @endif
+                @if(session('no_exist'))
+                  <span class="text-danger">{{session('no_exist')}}</span>
                 @endif
               </div>
               <div class="form-group">
@@ -71,8 +74,10 @@
               <div class="form-group">
                 <label for="exampleInputFile">Book Image</label>
                 <input name="image" type="file" id="exampleInputFile">
-
                 <p class="help-block">Only upload image with maximum 10mb</p>
+                @if($errors->first('image'))
+                  <span class="text-danger">{{ $errors->first('image') }}</span>
+                @endif
               </div>
 
               <div class="box-footer">

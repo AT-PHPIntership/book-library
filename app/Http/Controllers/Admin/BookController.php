@@ -21,6 +21,6 @@ class BookController extends Controller
             'name',
         ];
         $categories = Category::select($fields)->get();
-        return view('backend.books.create')->with('categories', $categories);
+        return view('backend.books.create', compact('categories'));
     }
 }
