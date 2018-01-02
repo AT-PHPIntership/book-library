@@ -12,5 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('backend.layouts.main');
+});
+
+Route::get('admin/user/detail', function () {
+    return view('backend.users.detail');
 });
