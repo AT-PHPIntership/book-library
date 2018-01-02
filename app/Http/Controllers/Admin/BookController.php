@@ -20,6 +20,5 @@ class BookController extends Controller
             'name'
         ];
         $category = Category::select($field)->get();
-        dd($category);
     }
 }
