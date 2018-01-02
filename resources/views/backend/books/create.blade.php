@@ -23,7 +23,7 @@
         <div class="box box-info">
           <!-- /.box-header -->
           <div class="box-body pad">
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
               {{csrf_field()}}
               <div class="form-group">
                 <label for="name">Name</label>
@@ -69,6 +69,9 @@
                 <label for="description">Description</label></br>
                 <textarea name="description" class="textarea" placeholder="{{ __('Description about this book') }}"
                           style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                @if($errors->first('description'))
+                  <span class="text-danger">{{ $errors->first('description') }}</span>
+                @endif
               </div>
               <div class="form-group">
                 <label for="exampleInputFile">{{ __('Book Image') }}</label>
