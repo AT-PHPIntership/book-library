@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostsTable extends Migration
+class CreateBorrowTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,20 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('borrow', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('book_id')->unsigned()->nullable();
+            $table->integer('book_id')->unsigned();
             $table->foreign('book_id')
                   ->references('id')->on('books')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->string('user_id');
+            $table->integer('user_id');
             $table->foreign('user_id')
-                  ->references('employee_code')->on('users')
+                  ->references('id')->on('users')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->tinyInteger('type');
-            $table->string('content');
+            $table->datetime('from_date');
+            $table->datetime('to_date');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -39,6 +39,6 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('borrow');
     }
 }
