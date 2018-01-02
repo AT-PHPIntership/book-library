@@ -14,3 +14,4 @@
 Route::get('/', function () {
     return view('backend.layouts.main');
 });
+Route::get('admin/users', 'Admin\\UserController@index')->name('user.index');
