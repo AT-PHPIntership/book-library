@@ -19,6 +19,6 @@ class BookController extends Controller
             'id',
             'name'
         ];
-        $category = Category::select($field)->get();
+        $categories = Category::select($field)->get();
     }
 }
