@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('backend.layouts.main');
 });
+Route::get('admin/books/list', function () {
+    return view('backend.books.list');
+});

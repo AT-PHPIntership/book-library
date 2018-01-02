@@ -42,7 +42,7 @@
   <!-- end left-bar -->
 
   <!-- start content -->
-  
+  @yield('content')
   <!-- end content -->
 
   <!-- start footer -->
