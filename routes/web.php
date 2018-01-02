@@ -12,5 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('backend.layouts.main');
+});
+
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
+    Route::resource('books', 'BookController');
 });
