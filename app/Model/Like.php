@@ -4,15 +4,16 @@ namespace App\Model;
 
 use App\Model\Post;
 use Illuminate\Database\Eloquent\Model;
+use App\Model\User;
 
-class LikeAndShare extends Model
+class Like extends Model
 {
     /**
      * Declare table
      *
      * @var string $tabel table name
      */
-    protected $table = 'like_and_share';
+    protected $table = 'like';
 
     /**
      * The attributes that are mass assignable.
@@ -22,8 +23,6 @@ class LikeAndShare extends Model
     protected $fillable = [
         'user_id',
         'post_id',
-        'like',
-        'share',
     ];
     
     /**
