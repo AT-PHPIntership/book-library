@@ -53,6 +53,5 @@
   @include('backend.layouts.partials.js')
   <!-- end js -->
 </div>
-<!-- ./wrapper -->
 </body>
 </html>
