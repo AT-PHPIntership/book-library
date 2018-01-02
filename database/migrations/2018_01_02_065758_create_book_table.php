@@ -18,7 +18,7 @@ class CreateBookTable extends Migration
             $table->string('QRcode');
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')
-                  ->references('id')->on('categories')
+                  ->references('id')->on('category')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->integer('donator_id')->unsigned();
@@ -34,7 +34,7 @@ class CreateBookTable extends Migration
             $table->string('image');
             $table->float('avg_rating')->defautl(0.0);
             $table->integer('total_rating')->default(0);
-            $table->tinyInteger('status')->default(1);
+            $table->tinyInteger('status')->default(1)->comment="1: available; 0:borrowed";
             $table->timestamps();
             $table->softDeletes();
         });
