@@ -6,8 +6,8 @@
     <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Book
-      <small>{{ __('Add book') }}</small>
+      {{ __('Book') }}
+      <small>{{ __('create book') }}</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i>{{ __('admin') }}</a></li>
@@ -16,7 +16,7 @@
     </ol>
   </section>
 
-    <!-- Main content -->
+  <!-- Main content -->
   <section class="content">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
@@ -26,14 +26,14 @@
             <form action="" method="POST" enctype="multipart/form-data">
               {{csrf_field()}}
               <div class="form-group">
-                <label for="name">Name</label>
+                <label for="name">{{ __('Name') }}</label>
                 <input name="name" type="text" class="form-control" id="name" placeholder="{{ __('Enter name') }}" value="{{ old('name') }}">
                 @if($errors->first('name'))
                   <span class="text-danger">{{ $errors->first('name') }}</span>
                 @endif
               </div>
               <div class="form-group">
-                <label for="name">{{ __('Category') }}</label>
+                <label for="category_id">{{ __('Category') }}</label></br>
                 <select name="category_id" id="category">
                 </select>
               </div>
@@ -46,16 +46,16 @@
               </div>
               <div class="form-group">
                 <label for="price">{{ __('Price') }}</label>
-                <input name="price" type="text" class="form-control" id="status" placeholder="{{ __('Enter status') }}" value="{{ old('price') }}">
+                <input name="price" type="text" class="form-control" id="price" placeholder="{{ __('Enter status') }}" value="{{ old('price') }}">
                 @if($errors->first('price'))
                   <span class="text-danger">{{ $errors->first('price') }}</span>
                 @endif
               </div>
               <div class="form-group">
-                <label for="donate_by">{{ __('Donate By') }}</label>
-                <input name="donate_by" type="text" class="form-control" id="donate_by" placeholder="{{ __('Enter donater') }}" value="{{ old('donate_by') }}" >
+                <label for="donator">{{ __('Donator') }}</label>
+                <input name="donator" type="text" class="form-control" id="donator" placeholder="{{ __('Enter donator') }}" value="{{ old('donator') }}" >
                 @if($errors->first('donate_by'))
-                  <span class="text-danger">{{ $errors->first('donate_by') }}</span>
+                  <span class="text-danger">{{ $errors->first('donator') }}</span>
                 @endif
               </div>
               <div class="form-group">
@@ -66,9 +66,8 @@
                 @endif
               </div>
               <div class="form-group">
-                <label for="description">Description</label></br>
-                <textarea name="description" class="textarea" placeholder="{{ __('Description about this book') }}"
-                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                <label for="description">{{__('Description') }}</label></br>
+                <textarea name="description" id="description" class="textarea" placeholder="{{ __('Description about this book') }}"></textarea>
               </div>
               <div class="form-group">
                 <label for="exampleInputFile">{{ __('Book Image') }}</label>
@@ -81,17 +80,14 @@
 
               <div class="box-footer">
                 <button id="btn-add-book" type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
-                <button type="reset" class="btn btn-warning">{{ __('Clear') }}</button>
+                <button type="reset" class="btn btn-danger">{{ __('Reset') }}</button>
+                <button id="btn-back" type="reset" class="btn btn-warning">{{ __('Back') }}</button>
               </div>
             </form>
           </div>
-          <div class="box body-pad">
         </div>
       </div>
       <!-- /.box -->
-        
-      </div>
-      <!-- /.col-->
     </div>
     <!-- ./row -->
   </section>
