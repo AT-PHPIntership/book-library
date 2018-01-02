@@ -32,26 +32,26 @@
   
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
-  <!-- start header -->
-  @include('backend.layouts.partials.header')
-  <!-- end header -->
+  <div class="wrapper">
+    <!-- start header -->
+    @include('backend.layouts.partials.header')
+    <!-- end header -->
 
-  <!-- start left-bar -->
-  @include ('backend.layouts.partials.left-bar')
-  <!-- end left-bar -->
+    <!-- start left-bar -->
+    @include ('backend.layouts.partials.left-bar')
+    <!-- end left-bar -->
 
-  <!-- start content -->
-  
-  <!-- end content -->
+    <!-- start content -->
+    @yield('content')
+    <!-- end content -->
 
-  <!-- start footer -->
-  @include('backend.layouts.partials.footer')
-  <!-- end footer -->
+    <!-- start footer -->
+    @include('backend.layouts.partials.footer')
+    <!-- end footer -->
 
-  <!-- start js -->
-  @include('backend.layouts.partials.js')
-  <!-- end js -->
-</div>
+    <!-- start js -->
+    @include('backend.layouts.partials.js')
+    <!-- end js -->
+  </div>
 </body>
 </html>
