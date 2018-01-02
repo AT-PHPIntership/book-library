@@ -15,11 +15,11 @@ class BookController extends Controller
      */
     public function create()
     {
-        $field = [
+        $fields = [
             'id',
             'name'
         ];
-        $categories = Category::select($field)->get();
+        $categories = Category::select($fields)->get();
         return view('backend.books.create', compact('categories'));
     }
 }
