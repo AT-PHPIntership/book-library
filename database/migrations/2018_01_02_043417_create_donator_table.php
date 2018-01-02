@@ -15,9 +15,9 @@ class CreateDonatorTable extends Migration
     {
         Schema::create('donator', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('user_id')->nullable();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')
-                  ->references('id')->on('users')
+                  ->references('id')->on('user')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->string('employee_code');
