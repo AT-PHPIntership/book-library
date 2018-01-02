@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLikeAndShareTable extends Migration
+class CreateLikeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,19 @@ class CreateLikeAndShareTable extends Migration
      */
     public function up()
     {
-        Schema::create('like_and_share', function (Blueprint $table) {
+        Schema::create('like', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('post_id')->unsigned();
             $table->foreign('post_id')
-                    ->references('id')->on('posts')
+                    ->references('id')->on('post')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned();
             $table->foreign('user_id')
-                    ->references('id')->on('users')
+                    ->references('id')->on('user')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-            $table->integer('like');
-            $table->integer('share');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -39,7 +36,7 @@ class CreateLikeAndShareTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('like_and_share');
+        Schema::dropIfExists('like');
 
     }
 }
