@@ -15,7 +15,7 @@ class Book extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'book';
+    protected $table = 'books';
 
     /**
      * The attributes that are mass assignable.

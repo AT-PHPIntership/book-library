@@ -13,7 +13,7 @@ class Borrow extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'borrow';
+    protected $table = 'borrows';
 
     /**
      * The attributes that are mass assignable.
