@@ -6,8 +6,13 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-	public function index()
-	{
-		return view('backend.layouts.books.list');
-	}
+    /**
+    * Index
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function index()
+    {
+        return view('backend.layouts.books.list');
+    }
 }
