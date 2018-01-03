@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('backend.layouts.main');
+// });
+Route::get('admin/books', 'BookController@index');
