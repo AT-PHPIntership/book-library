@@ -13,7 +13,3 @@
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
     Route::resource('books', 'BookController');
 });
-
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
-    Route::resource('books', 'BookController');
-});

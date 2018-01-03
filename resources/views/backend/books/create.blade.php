@@ -15,7 +15,7 @@
       <li class="active">{{ __('create') }}</li>
     </ol>
   </section>
-
+  @include('flash::message')
     <!-- Main content -->
   <section class="content">
     <div class="row">
@@ -35,6 +35,12 @@
               <div class="form-group">
                 <label for="name">{{ __('Category') }}</label>
                 <select name="category_id" id="category">
+                @foreach($categories as $category)
+                  @if($category->id == 1)
+                    @continue;
+                  @endif
+                  <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
                 </select>
               </div>
               <div class="form-group">
@@ -52,10 +58,10 @@
                 @endif
               </div>
               <div class="form-group">
-                <label for="donate_by">{{ __('Donate By') }}</label>
-                <input name="donate_by" type="text" class="form-control" id="donate_by" placeholder="{{ __('Enter donater') }}" value="{{ old('donate_by') }}" >
-                @if($errors->first('donate_by'))
-                  <span class="text-danger">{{ $errors->first('donate_by') }}</span>
+                <label for="donator">{{ __('Donator') }}</label>
+                <input name="donator_id" type="text" class="form-control" id="donator" placeholder="{{ __('Enter donator') }}" value="{{ old('donate_by') }}" >
+                @if($errors->first('donator'))
+                  <span class="text-danger">{{ $errors->first('donator') }}</span>
                 @endif
               </div>
               <div class="form-group">
