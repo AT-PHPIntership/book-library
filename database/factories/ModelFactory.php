@@ -40,18 +40,10 @@ $factory->define(App\Model\Borrow::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Model\Comment::class, function (Faker $faker) {
-    return [
-        'commenttable_id' => $faker->numberBetween($min = 1, $max = 15),
-        'commenttable_type' => $faker->randomElement(['Status','Find','Review']),
-        'parent_id' => $faker->numberBetween($min = 1, $max = 2),
-        'content' => $faker->text
-    ];
-});
-
 $factory->define(App\Model\Post::class, function (Faker $faker) {
     return [
-        'type' => $faker->numberBetween($min = 1, $max = 3),
+        'postable_id' => $faker->numberBetween($min = 1, $max = 10),        
+        'postable_type' => $faker->randomElement(['Review', 'Find', 'Status']),
         'content' => $faker->text
     ];
 });
