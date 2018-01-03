@@ -1,12 +1,9 @@
 <header class="main-header">
   <a href="index2.html" class="logo">
-    <span class="logo-mini"><b>A</b>LT</span>
-    <span class="logo-lg"><b>Admin</b>LTE</span>
+    <span class="logo-mini"><b>A</b>dm</span>
+    <span class="logo-lg"><b>{{__('Admin ')}}</b>{{__('Management')}}</span>
   </a>
   <nav class="navbar navbar-static-top">
-    <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-      <span class="sr-only">Toggle navigation</span>
-    </a>
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
         <li class="dropdown user user-menu">
@@ -18,16 +15,16 @@
             <li class="user-header">
               <img src="{{ asset('bower_components/admin-lte/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
               <p>
-                Alexander Pierce - Web Developer
-                <small>Member since Nov. 2012</small>
+                Alexander Pierce - {{__('Web Developer')}}
+                <small>{{__('Member since Jun. 2017')}}</small>
               </p>
             </li>
             <li class="user-footer">
               <div class="pull-left">
-                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                <a href="#" class="btn btn-default btn-flat">{{__('Profile')}}</a>
               </div>
               <div class="pull-right">
-                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                <a href="#" class="btn btn-default btn-flat">{{__('Log out')}}</a>
               </div>
             </li>
           </ul>

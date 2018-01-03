@@ -1,6 +1,6 @@
 <footer class="main-footer">
   <div class="pull-right hidden-xs">
-    <b>Version</b> 2.4.0
+    <b>{{ __('Version') }}</b> 2.4.0
   </div>
-  <strong>Copyright &copy; 2014-2016 <a href="https://asiantech.vn">Library Book</a>.</strong> Belong to Seven Bug
+  <strong>{{ __('Copyright ') }} &copy; <a href="https://asiantech.vn">{{ __('Book Library') }} </a>.</strong>{{__('Belong to')}} Seven Bug Team
 </footer>
