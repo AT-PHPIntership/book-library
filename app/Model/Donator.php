@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\Model\Book;
+use App\Model\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Donator extends Model

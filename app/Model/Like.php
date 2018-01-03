@@ -3,8 +3,8 @@
 namespace App\Model;
 
 use App\Model\Post;
-use Illuminate\Database\Eloquent\Model;
 use App\Model\User;
+use Illuminate\Database\Eloquent\Model;
 
 class Like extends Model
 {
