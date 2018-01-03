@@ -24,13 +24,14 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
-              <table class="table table-hover">
+              <table class="table table-striped table-hover">
                 <tr>
                   <th>No.</th>
                   <th>Name</th>
                   <th>Author</th>
                   <th>Average review score</th>
                   <th>Total borrow</th>
+                  <th>Option</th>
                 </tr>
                 <tr>
                   <td>183</td>
