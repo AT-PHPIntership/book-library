@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBorrowTable extends Migration
+class CreateDonatorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,15 @@ class CreateBorrowTable extends Migration
      */
     public function up()
     {
-        Schema::create('borrow', function (Blueprint $table) {
+        Schema::create('donators', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('book_id')->unsigned();
-            $table->foreign('book_id')
-                  ->references('id')->on('book')
-                  ->onUpdate('cascade')
-                  ->onDelete('cascade');
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')
-                  ->references('id')->on('user')
+                  ->references('id')->on('users')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->datetime('from_date');
-            $table->datetime('to_date');
+            $table->string('employee_code');
+            $table->string('email');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -39,6 +34,6 @@ class CreateBorrowTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('borrow');
+        Schema::dropIfExists('donator');
     }
 }
