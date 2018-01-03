@@ -2,19 +2,16 @@
 
 namespace App\Model;
 
-use App\Model\Book;
-use App\Model\User;
-use App\Model\Like_and_Share;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Rating extends Model
 {
     /**
      * Declare table
      *
      * @var string $tabel table name
      */
-    protected $table = 'post';
+    protected $table = 'rating';
 
     /**
      * The attributes that are mass assignable.
@@ -24,8 +21,7 @@ class Post extends Model
     protected $fillable = [
         'book_id',
         'user_id',
-        'type',
-        'content',
+        'rating',
     ];
 
     /**
@@ -46,25 +42,5 @@ class Post extends Model
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    /**
-     * Relationship belongsToMany with User
-     *
-     * @return array
-    */
-    public function userPosts()
-    {
-        return $this->belongsToMany(User::class);
-    }
-
-    /**
-     * Relationship hasMany with Like_and_Share
-     *
-     * @return array
-    */
-    public function likesAndShares()
-    {
-        return $this->hasMany(Like_and_Share::class);
     }
 }

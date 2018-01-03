@@ -12,7 +12,7 @@ class Category extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'categories';
+    protected $table = 'category';
 
     /**
      * The attributes that are mass assignable.

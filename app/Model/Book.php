@@ -3,6 +3,8 @@
 namespace App\Model;
 
 use App\Model\User;
+use App\Model\Rating;
+use App\Model\Donator;
 use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
@@ -12,7 +14,7 @@ class Book extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'books';
+    protected $table = 'book';
 
     /**
      * The attributes that are mass assignable.
@@ -61,5 +63,25 @@ class Book extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    /**
+     * Relationship belongsTo with Donator
+     *
+     * @return array
+    */
+    public function donator()
+    {
+        return $this->belongsTo(Donator::class, 'donator_id');
+    }
+
+    /**
+     * Relationship hasMany with Rating
+     *
+     * @return array
+    */
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
     }
 }

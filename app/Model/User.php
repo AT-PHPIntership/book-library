@@ -6,7 +6,7 @@ use App\Model\Post;
 use App\Model\Book;
 use App\Model\Borrow;
 use App\Model\Comment;
-use App\Model\Like_and_Share;
+use App\Model\Like;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -19,7 +19,7 @@ class User extends Authenticatable
      *
      * @var string $tabel table name
      */
-    protected $table = 'users';
+    protected $table = 'user';
 
     /**
      * The attributes that are mass assignable.
@@ -27,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'emplyee_code',
+        'employee_code',
         'name',
         'email',
         'team',
@@ -69,7 +69,7 @@ class User extends Authenticatable
      *
      * @return array
     */
-    public function postsLikeShare()
+    public function postsLike()
     {
         return $this->belongsToMany(Post::class);
     }
@@ -89,19 +89,9 @@ class User extends Authenticatable
      *
      * @return array
     */
-    public function likeAndShare()
+    public function like()
     {
-        return $this->hasMany(Like_and_Share::class);
-    }
-
-    /**
-     * Relationship hasMany with Information
-     *
-     * @return array
-    */
-    public function informations()
-    {
-        return $this->hasMany(Information::class);
+        return $this->hasMany(Like::class);
     }
 
     /**
@@ -109,7 +99,7 @@ class User extends Authenticatable
      *
      * @return array
     */
-    public function comment()
+    public function comments()
     {
         return $this->hasMany(Comment::class);
     }

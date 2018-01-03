@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Model\User;
 
 class UserController extends Controller
 {
@@ -15,6 +15,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('backend.users.index');
+        $field = [
+            'employee_code',
+            'name',
+            'email'
+        ];
+        $users = User::select($field)
+        ->get();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        return view('backend.users.index', compact('users'));
     }
 }

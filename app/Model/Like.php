@@ -2,17 +2,18 @@
 
 namespace App\Model;
 
-use App\Model\User;
+use App\Model\Post;
 use Illuminate\Database\Eloquent\Model;
+use App\Model\User;
 
-class Comment extends Model
+class Like extends Model
 {
     /**
      * Declare table
      *
      * @var string $tabel table name
      */
-    protected $table = 'comment';
+    protected $table = 'like';
 
     /**
      * The attributes that are mass assignable.
@@ -21,10 +22,7 @@ class Comment extends Model
      */
     protected $fillable = [
         'user_id',
-        'target_id',
-        'target_table',
-        'parent_id',
-        'content',
+        'post_id',
     ];
     
     /**
@@ -32,8 +30,18 @@ class Comment extends Model
      *
      * @return array
     */
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Relationship belongsTo with Post
+     *
+     * @return array
+    */
+    public function posts()
+    {
+        return $this->belongsTo(Post::class, 'post_id');
     }
 }
