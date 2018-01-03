@@ -80,6 +80,7 @@ class LoginController extends Controller
             $user->access_token = $userResponse->access_token;
             $user->expires_at = $userResponse->expires_at;
             # Save User, update token
+            dd($user);
             $user->save();
             # Set login for user
             Auth::login($user, $request->filled('remember'));

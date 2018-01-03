@@ -15,12 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Login
 Auth::routes();
-Route::group(['namespace'=>'Admin', 'prefix'=>'admin'], function () {
-    Route::get('/login', 'LoginController@showLoginForm')->name('admin.login');
-    Route::get('/', function () {
-        return view('home');
-    });
-});
+Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Admin\LoginController@login');
-Route::post('/logout', 'Admin\LoginController@showLoginForm')->name('admin.login');
+Route::post('/logout', 'Admin\LoginController@showLoginForm')->name('logout');
+//Admin 
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
+   Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
+});
+
