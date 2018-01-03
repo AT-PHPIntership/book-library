@@ -15,5 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Login
 Auth::routes();
 Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
+
+//Admin 
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
+   Route::resource('/users', 'UserController', ['except' => ['create', 'store']]);
+});
