@@ -9,9 +9,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('backend.layouts.main');
-});
-Route::get('admin/books/list', function () {
-    return view('backend.books.list');
-});
+// Route::get('/', function () {
+//     return view('backend.layouts.main');
+// });
+Route::get('admin/books', 'BookController@index');

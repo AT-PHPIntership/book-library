@@ -42,7 +42,7 @@
   <!-- end left-bar -->
 
   <!-- start content -->
-  
+  @yield('content')
   <!-- end content -->
 
   <!-- start footer -->
@@ -53,6 +53,5 @@
   @include('backend.layouts.partials.js')
   <!-- end js -->
 </div>
-<!-- ./wrapper -->
 </body>
 </html>
