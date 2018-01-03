@@ -14,4 +14,4 @@
 Route::get('/', function () {
     return view('backend.layouts.main');
 });
-Route::get('admin/user/detail', 'HomeController@showDetails');
+Route::get('admin/user/detail', 'UserController@showDetails');
