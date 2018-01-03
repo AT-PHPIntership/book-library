@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-	public function showDetails(){
-		return view('backend.users.details');
-	}
+  public function showDetails() {
+    return view('backend.users.details');
+  }
 }
