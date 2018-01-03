@@ -7,11 +7,11 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      List Users
+    {{ __('List Users') }}
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home Page</a></li>
-      <li class="active">Users</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i>{{ __('Home Page') }}</a></li>
+      <li class="active">{{ __('Users') }}</li>
     </ol>
   </section>
 
@@ -21,7 +21,7 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">List Users Table</h3>
+            <h3 class="box-title">{{ __('List Users Table') }}</h3>
           </div>
           <div class="box-body">
             <table id="example2" class="table table-bordered table-hover">
@@ -34,15 +34,13 @@
               </tr>
               </thead>
               <tbody>
-              @foreach ($users as $index => $user)
               <tr>
-                <td>{{ $index + $users->firstItem() }}</td>
-                <td>{{ $user->employee_code  }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
+                <td>1</td>
+                <td>AT-0001</td>
+                <td>Employee 1</td>
+                <td>a@asiantech.com</td>
               </tr>
               </tfoot>
-              @endforeach
             </table>
           </div>
         </div>
