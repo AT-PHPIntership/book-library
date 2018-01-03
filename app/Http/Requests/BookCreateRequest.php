@@ -28,7 +28,7 @@ class BookCreateRequest extends FormRequest
             'author' => 'required',
             'category_id' => 'required|numeric',
             'price' => 'required|numeric',
-            'donate_by' => 'required|exists:user,employee_code',
+            'donator' => 'required|exists:user,employee_code',
             'year' => 'required|numeric',
             'description' => 'required|string',
             'image'=> 'image|max:10240',
