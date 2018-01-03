@@ -14,7 +14,7 @@ class Post extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'post';
+    protected $table = 'posts';
 
     /**
      * The attributes that are mass assignable.
