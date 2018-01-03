@@ -18,5 +18,5 @@ Route::get('/', function () {
 
 //Admin 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
-   Route::resource('user', 'UserController', ['except' => ['create', 'store']]);
+   Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
 });
