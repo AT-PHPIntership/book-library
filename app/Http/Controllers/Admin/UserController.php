@@ -15,13 +15,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        $field = [
-            'employee_code',
-            'name',
-            'email'
-        ];
-        $users = User::select($field)
-        ->get();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-        return view('backend.users.index', compact('users'));
+        return view('backend.users.index');
     }
 }
