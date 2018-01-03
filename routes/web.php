@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+//Admin 
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
+   Route::resource('user', 'UserController', ['except' => ['create', 'store']]);
+});
