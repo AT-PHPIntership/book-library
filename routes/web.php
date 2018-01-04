@@ -15,3 +15,4 @@
 //     return view('backend.layouts.main');
 // });
 Route::get('admin/books', 'BookController@index');
+Route::get('admin/books/search', 'BookController@search');
