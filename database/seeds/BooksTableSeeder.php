@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Faker\Factory as Faker;
 
-class BookTableSeeder extends Seeder
+class BooksTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +14,8 @@ class BookTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        $categoryId = DB::table('category')->pluck('id')->toArray();
-        $donatorId = DB::table('donator')->pluck('id')->toArray();
+        $categoryId = DB::table('categories')->pluck('id')->toArray();
+        $donatorId = DB::table('donators')->pluck('id')->toArray();
         $faker = Faker::create();
         for ($i = 0; $i <= 15; $i++) {
             factory(App\Model\Book::class, 1)->create([

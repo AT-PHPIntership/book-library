@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLikeTable extends Migration
+class CreateFavoritesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateLikeTable extends Migration
      */
     public function up()
     {
-        Schema::create('like', function (Blueprint $table) {
+        Schema::create('favorites', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('post_id')->unsigned();
             $table->foreign('post_id')
-                    ->references('id')->on('post')
+                    ->references('id')->on('posts')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')
-                    ->references('id')->on('user')
+                    ->references('id')->on('users')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $table->timestamps();
@@ -36,7 +36,6 @@ class CreateLikeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('like');
-
+        Schema::dropIfExists('favorites');
     }
 }
