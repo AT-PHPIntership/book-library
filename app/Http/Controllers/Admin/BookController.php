@@ -29,7 +29,7 @@ class BookController extends Controller
     /**
      * Store a newly book created resource in storage.
      *
-     * @param App\Http\Requests\BookCreateRequest $request
+     * @param App\Http\Requests\BookCreateRequest $request get create request
      *
      * @return \Illuminate\Http\Response
      */
