@@ -2,18 +2,18 @@
 
 namespace App\Model;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Model\Book;
 use App\Model\User;
+use App\Model\Book;
+use Illuminate\Database\Eloquent\Model;
 
-class Rating extends Model
+class Borrowing extends Model
 {
     /**
      * Declare table
      *
      * @var string $tabel table name
      */
-    protected $table = 'ratings';
+    protected $table = 'borrowings';
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +23,8 @@ class Rating extends Model
     protected $fillable = [
         'book_id',
         'user_id',
-        'rating',
+        'from_date',
+        'to_date',
     ];
 
     /**

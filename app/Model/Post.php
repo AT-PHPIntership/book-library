@@ -2,9 +2,9 @@
 
 namespace App\Model;
 
-use App\Model\Book;
+use App\Model\Post;
 use App\Model\User;
-use App\Model\Like_and_Share;
+use App\Model\Favorite;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -14,7 +14,7 @@ class Post extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'post';
+    protected $table = 'posts';
 
     /**
      * The attributes that are mass assignable.
@@ -29,15 +29,25 @@ class Post extends Model
     ];
 
     /**
-     * Relationship belongsTo with Book
+     * Get all of the owning postable models
      *
      * @return array
     */
-    public function books()
+    public function postable()
     {
-        return $this->belongsTo(Book::class, 'book_id');
+        return $this->morphTo();
     }
     
+    /**
+     * Relationship belongsTo with User
+     *
+     * @return array
+    */
+    public function posts()
+    {
+        return $this->morphMany(Post::class, 'postable');
+    }
+
     /**
      * Relationship belongsTo with User
      *
@@ -59,12 +69,12 @@ class Post extends Model
     }
 
     /**
-     * Relationship hasMany with Like_and_Share
+     * Relationship hasMany with Favorite
      *
      * @return array
     */
-    public function likesAndShares()
+    public function favorites()
     {
-        return $this->hasMany(Like_and_Share::class);
+        return $this->hasMany(Favorite::class);
     }
 }

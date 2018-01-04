@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommentTable extends Migration
+class CreateDonatorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,15 @@ class CreateCommentTable extends Migration
      */
     public function up()
     {
-        Schema::create('comment', function (Blueprint $table) {
+        Schema::create('donators', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')
                   ->references('id')->on('user')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->integer('commenttable_id')->unsigned();
-            $table->string('commenttable_type');
-            $table->integer('parent_id');
-            $table->string('content');
+            $table->string('employee_code', 255);
+            $table->string('email', 100);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -36,6 +34,6 @@ class CreateCommentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comment');
+        Schema::dropIfExists('donator');
     }
 }

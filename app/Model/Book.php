@@ -2,7 +2,9 @@
 
 namespace App\Model;
 
+use App\Model\Book;
 use App\Model\User;
+use App\Model\Borrowing;
 use App\Model\Rating;
 use App\Model\Donator;
 use Illuminate\Database\Eloquent\Model;
@@ -14,8 +16,8 @@ class Book extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'book';
     const ROW_LIMIT = 10;
+    protected $table = 'book';
 
     /**
      * The attributes that are mass assignable.
@@ -23,29 +25,28 @@ class Book extends Model
      * @var array
      */
     protected $fillable = [
+        'QRcode',
         'category_id',
         'name',
         'author',
         'year',
         'price',
         'description',
-        'donate_by',
+        'donator_id',
         'avg_rating',
         'total_rating',
         'image',
         'status'
     ];
 
-    // protected $appends = ['total_borrow'];
-
     /**
-     * Relationship hasMany with Post
+     * Relationship morphMany with Post
      *
      * @return array
     */
     public function posts()
     {
-        return $this->hasMany(Post::class);
+        return $this->morphMany(Post::class, 'postable');
     }
 
     /**
