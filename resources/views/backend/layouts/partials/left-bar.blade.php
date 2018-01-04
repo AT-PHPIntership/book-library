@@ -6,7 +6,7 @@
       </div>
       <div class="pull-left info">
         <p>Alexander Pierce</p>
-        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        <a href="#"><i class="fa fa-circle text-success"></i>{{ __('dashboard.online')  }}</a>
       </div>
     </div>
     <form action="#" method="get" class="sidebar-form">
@@ -19,28 +19,28 @@
       </div>
     </form>
     <ul class="sidebar-menu" data-widget="tree">
-      <li class="header">MAIN NAVIGATION</li>
+      <li class="header">{{ __('dashboard.main_navigation') }}</li>
       <li>
         <a href="">
-          <i class="fa fa-home" aria-hidden="true"></i> <span>HOMEPAGE</span>
+          <i class="fa fa-home" aria-hidden="true"></i> <span>{{ __('dashboard.home_page') }}</span>
         </a>
       </li>
       <li>
         <a href="#">
           <i class="fa fa-male" aria-hidden="true"></i>
-          <span>USERS</span>
+          <span>{{ __('dashboard.users') }}</span>
         </a>
       </li>
       <li>
         <a href="#">
           <i class="fa fa-book" aria-hidden="true"></i>
-          <span>BOOKS</span>
+          <span>{{ __('dashboard.books') }}</span>
         </a>
       </li>
       <li>
         <a href="#">
           <i class="fa fa-list" aria-hidden="true"></i>
-          <span>CATEGORIES</span>
+          <span>{{ __('dashboard.categories') }}</span>
         </a>
       </li>
     </ul>
