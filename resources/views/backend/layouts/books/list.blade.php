@@ -30,10 +30,11 @@
                   <th>Name</th>
                   <th>Author</th>
                   <th>Average review score</th>
+                 
                   <th>Total borrow</th>
                 </tr>
                 <tr>
-                  <td>183</td>
+                 {{--  <td>183</td>
                   <td>John Doe</td>
                   <td>11-7-2014</td>
                   <td><span class="label label-success">Approved</span></td>
@@ -42,44 +43,18 @@
                   <a href="#" 
                   class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
                   <button type="submit" class="btn-custom-option btn btn-delete-item fa fa-trash-o"></button> 
-                  </td>
+                  </td> --}}
+                  @foreach ($books as $key=>$book)
+                  <tr>
+                      <td>{{ ++$key}}</td>
+                      <td>{{$book->name}}</td>
+                      <td>{{$book->author}}</td>
+                      <td>{{$book->avg_rating}}</td>
+                      <td>{{$book->total_borrow}}</td>
+                  </tr>
+                  @endforeach
                 </tr>
-                <tr>
-                  <td>219</td>
-                  <td>Alexander Pierce</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-warning">Pending</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                  <td align="center">
-                  <a href="#" 
-                  class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                  <button type="submit" class="btn-custom-option btn btn-delete-item fa fa-trash-o"></button> 
-                  </td>
-                </tr>
-                <tr>
-                  <td>657</td>
-                  <td>Bob Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-primary">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                  <td align="center">
-                  <a href="#" 
-                  class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                  <button type="submit" class="btn-custom-option btn btn-delete-item fa fa-trash-o"></button> 
-                  </td>
-                </tr>
-                <tr>
-                  <td>175</td>
-                  <td>Mike Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-danger">Denied</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                  <td align="center">
-                  <a href="#" 
-                  class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                  <button type="submit" class="btn-custom-option btn btn-delete-item fa fa-trash-o"></button> 
-                  </td>
-                </tr>
+               
               </table>
             </div>
             <!-- /.box-body -->
@@ -90,11 +65,7 @@
     </section>
     <div class="box-footer clearfix">
       <ul class="pagination pagination-sm no-margin pull-right">
-        <li><a href="#">&laquo;</a></li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">&raquo;</a></li>
+      {{$books->links()}}
       </ul>
     </div>
     <!-- /.content -->

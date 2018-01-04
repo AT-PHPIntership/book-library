@@ -87,11 +87,21 @@ class Book extends Model
         return $this->hasMany(Rating::class);
     }
 
+    /**
+     * Relationship hasMany with Borrow
+     *
+     * @return array
+    */
     public function borrows()
     {
         return $this->hasMany(Borrow::class);
     }
 
+    /**
+     * Get total Borrow
+     *
+     * @return array
+    */
     public function getTotalBorrowAttribute()
     {
         return $this->borrows->count();
