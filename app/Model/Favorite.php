@@ -6,14 +6,14 @@ use App\Model\Post;
 use App\Model\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Like extends Model
+class Favorite extends Model
 {
     /**
      * Declare table
      *
      * @var string $tabel table name
      */
-    protected $table = 'likes';
+    protected $table = 'favorites';
 
     /**
      * The attributes that are mass assignable.
