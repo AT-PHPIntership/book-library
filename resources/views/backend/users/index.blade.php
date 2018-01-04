@@ -44,7 +44,7 @@
                 <td>3</td>
                 <td>5</td>
               </tr>
-              </tfoot>
+              </tbody>
             </table>
           </div>
         </div>
