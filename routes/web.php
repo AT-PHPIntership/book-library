@@ -24,4 +24,3 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::resource('books', 'BookController');
 });
 
-Route::get('admin/books', 'BookController@index');
