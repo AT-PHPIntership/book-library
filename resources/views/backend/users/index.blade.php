@@ -7,11 +7,11 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      List Users
+      {{ __('dashboard.list_users')  }}
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home Page</a></li>
-      <li class="active">Users</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i>{{ __('dashboard.home_page')  }}</a></li>
+      <li class="active">{{ __('dashboard.users') }}</li>
     </ol>
   </section>
 
@@ -21,18 +21,18 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">List Users Table</h3>
+            <h3 class="box-title">{{ __('dashboard.users_table') }}</h3>
           </div>
           <div class="box-body">
             <table id="example2" class="table table-bordered table-hover">
               <thead>
               <tr>
                 <th>No</th>
-                <th>Employee code</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Number of books user donated</th>
-                <th>Number of books user borrowed</th>
+                <th>{{ __('dashboard.employee_code') }}</th>
+                <th>{{ __('dashboard.employee_name') }}</th>
+                <th>{{ __('dashboard.employee_email') }}</th>
+                <th>{{ __('dashboard.total_donated') }}</th>
+                <th>{{ __('dashboard.total_borrowed') }}</th>
               </tr>
               </thead>
               <tbody>
