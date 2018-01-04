@@ -23,14 +23,14 @@ class UserController extends Controller
             'user.employee_code',
             'user.name',
             'user.email',
-            DB::raw('count(distinct(borrow.id)) as total'),
-            DB::raw('count(distinct(donator.id)) as total1'),
+            DB::raw('count(distinct(borrow.id)) as total_donated'),
+            DB::raw('count(distinct(donator.id)) as total_borrowed'),
         ];
         $users = User::leftJoin('borrow', 'borrow.user_id', '=', 'user.id')
         ->leftJoin('donator', 'donator.user_id', '=', 'user.id')
         ->select($field)
         ->groupBy('user.id')
-        ->get();
+        ->paginate(User::ROW_LIMIT);
         return view('backend.users.index', compact('users'));
     }
 
