@@ -35,6 +35,8 @@ class Book extends Model
         'status'
     ];
 
+    // protected $appends = ['total_borrow'];
+
     /**
      * Relationship hasMany with Post
      *
@@ -83,5 +85,15 @@ class Book extends Model
     public function ratings()
     {
         return $this->hasMany(Rating::class);
+    }
+
+    public function borrows()
+    {
+        return $this->hasMany(Borrow::class);
+    }
+
+    public function getTotalBorrowAttribute()
+    {
+        return $this->borrows->count();
     }
 }
