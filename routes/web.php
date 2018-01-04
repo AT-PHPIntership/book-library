@@ -11,8 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('backend.layouts.main');
+Route::prefix('admin')->group(function () {
+    Route::get('/', function () {
+        return view('backend.layouts.main');
+    });
 });
 
 
