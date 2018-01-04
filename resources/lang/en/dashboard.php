@@ -1,0 +1,30 @@
+<?php
+return [
+    'categories' => 'CATEGORIES',
+    'books' => 'BOOKS',
+    'users' => 'USERS',
+    'home_page' => 'HOME PAGE',
+    'main_navigation' => 'MAIN NAVIGATION',
+    'online'=> 'Online',
+
+    'create_title' => 'Create',
+    'create_book' => 'create book',
+    'admin' => 'admin',
+    'book' => 'book',
+    'create' => 'create',
+    'enter_name' => 'enter name',
+    'category' => 'category',
+    'author' => 'author',
+    'enter_author' => 'enter author',
+    'price' => 'price',
+    'enter_price' => 'enter price',
+    'donator' => 'donator',
+    'enter_donator' => 'enter donator',
+    'year' => 'year',
+    'enter_year' => 'enter year',
+    'description' => 'description',
+    'image' => 'image',
+    'submit' => 'submit',
+    'reset' => 'reset',
+    'back' => 'back'
+];
