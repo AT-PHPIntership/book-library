@@ -4,7 +4,7 @@ namespace App\Model;
 
 use App\Model\Post;
 use App\Model\User;
-use App\Model\Like;
+use App\Model\Favorite;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -14,7 +14,7 @@ class Post extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'post';
+    protected $table = 'posts';
 
     /**
      * The attributes that are mass assignable.
@@ -69,12 +69,12 @@ class Post extends Model
     }
 
     /**
-     * Relationship hasMany with Like_and_Share
+     * Relationship hasMany with Favorite
      *
      * @return array
     */
-    public function likes()
+    public function favorites()
     {
-        return $this->hasMany(Like::class);
+        return $this->hasMany(Favorite::class);
     }
 }

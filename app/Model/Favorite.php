@@ -2,18 +2,18 @@
 
 namespace App\Model;
 
+use App\Model\Post;
 use App\Model\User;
-use App\Model\Book;
 use Illuminate\Database\Eloquent\Model;
 
-class Borrow extends Model
+class Favorite extends Model
 {
     /**
      * Declare table
      *
      * @var string $tabel table name
      */
-    protected $table = 'borrow';
+    protected $table = 'favorites';
 
     /**
      * The attributes that are mass assignable.
@@ -21,21 +21,9 @@ class Borrow extends Model
      * @var array
      */
     protected $fillable = [
-        'book_id',
         'user_id',
-        'from_date',
-        'to_date',
+        'post_id',
     ];
-
-    /**
-     * Relationship belongsTo with Book
-     *
-     * @return array
-    */
-    public function books()
-    {
-        return $this->belongsTo(Book::class, 'book_id');
-    }
     
     /**
      * Relationship belongsTo with User
@@ -45,5 +33,15 @@ class Borrow extends Model
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Relationship belongsTo with Post
+     *
+     * @return array
+    */
+    public function posts()
+    {
+        return $this->belongsTo(Post::class, 'post_id');
     }
 }
