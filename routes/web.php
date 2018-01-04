@@ -22,3 +22,7 @@ Route::prefix('admin')->group(function () {
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
    Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
 });
+
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
+    Route::resource('books', 'BookController');
+});
