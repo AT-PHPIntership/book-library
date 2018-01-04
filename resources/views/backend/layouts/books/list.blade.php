@@ -30,8 +30,8 @@
                   <th>Name</th>
                   <th>Author</th>
                   <th>Average review score</th>
-                 
                   <th>Total borrow</th>
+                  <th></th>
                 </tr>
                 <tr>
                  {{--  <td>183</td>
@@ -40,17 +40,23 @@
                   <td><span class="label label-success">Approved</span></td>
                   <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
                   <td align="center">
-                  <a href="#" 
+                  <a href="#"
                   class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                  <button type="submit" class="btn-custom-option btn btn-delete-item fa fa-trash-o"></button> 
+                  <button type="submit" class="btn-custom-option btn btn-delete-item fa fa-trash-o"></button>
                   </td> --}}
                   @foreach ($books as $key=>$book)
                   <tr>
-                      <td>{{ ++$key}}</td>
+                      <td>{{$book->id}}</td>
                       <td>{{$book->name}}</td>
                       <td>{{$book->author}}</td>
                       <td>{{$book->avg_rating}}</td>
                       <td>{{$book->total_borrow}}</td>
+                      <td>
+                        <a href= "#" class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center">
+                        </a>
+                        <button type="submit" class="btn-custom-option btn btn-delete-item fa fa-trash-o">
+                        </button>
+                     </td>
                   </tr>
                   @endforeach
                 </tr>
