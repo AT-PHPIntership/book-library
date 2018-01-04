@@ -1,7 +1,7 @@
 <?php
 return [
     'list_book' => 'List of book',
-    'id' => 'No.',
+    'numbers order' => 'No.',
     'name' => 'Name',
     'author' => 'Author',
     'average_review_score' => 'Average review score',
