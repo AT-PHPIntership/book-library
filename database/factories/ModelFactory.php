@@ -33,7 +33,7 @@ $factory->define(App\Model\Book::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Model\Borrow::class, function (Faker $faker) {
+$factory->define(App\Model\Borrowing::class, function (Faker $faker) {
     return [
         'from_date' => $faker->datetime,
         'to_date' => $faker->datetime,
@@ -54,7 +54,7 @@ $factory->define(App\Model\Rating::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Model\Like::class, function (Faker $faker) {
+$factory->define(App\Model\Favorite::class, function (Faker $faker) {
     return [
     ];
 });
