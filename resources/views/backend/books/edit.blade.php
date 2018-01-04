@@ -6,7 +6,7 @@
     <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      {{ __('book.edit_title') }}
+      {{ __('book.title') }}
       <small>{{ __('book.edit_book') }}</small>
     </h1>
     <ol class="breadcrumb">
