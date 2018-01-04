@@ -13,7 +13,7 @@ class Rating extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'rating';
+    protected $table = 'ratings';
 
     /**
      * The attributes that are mass assignable.
