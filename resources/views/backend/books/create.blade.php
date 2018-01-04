@@ -15,26 +15,32 @@
       <li class="active">{{ __('create') }}</li>
     </ol>
   </section>
-
-  <!-- Main content -->
+  @include('flash::message')
+    <!-- Main content -->
   <section class="content">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
         <div class="box box-info">
           <!-- /.box-header -->
           <div class="box-body pad">
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
               {{csrf_field()}}
               <div class="form-group">
-                <label for="name">{{ __('Name') }}</label>
+                <label for="name">Name</label>
                 <input name="name" type="text" class="form-control" id="name" placeholder="{{ __('Enter name') }}" value="{{ old('name') }}">
                 @if($errors->first('name'))
                   <span class="text-danger">{{ $errors->first('name') }}</span>
                 @endif
               </div>
               <div class="form-group">
-                <label for="category_id">{{ __('Category') }}</label></br>
+                <label for="name">{{ __('Category') }}</label>
                 <select name="category_id" id="category">
+                @foreach($categories as $category)
+                  @if($category->id == 1)
+                    @continue;
+                  @endif
+                  <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
                 </select>
               </div>
               <div class="form-group">
@@ -53,9 +59,9 @@
               </div>
               <div class="form-group">
                 <label for="donator">{{ __('Donator') }}</label>
-                <input name="donator" type="text" class="form-control" id="donator" placeholder="{{ __('Enter donator') }}" value="{{ old('donator') }}" >
-                @if($errors->first('donate_by'))
-                  <span class="text-danger">{{ $errors->first('donator') }}</span>
+                <input name="donator_id" type="text" class="form-control" id="donator" placeholder="{{ __('Enter donator') }}" value="{{ old('donate_by') }}" >
+                @if($errors->first('donator_id'))
+                  <span class="text-danger">{{ $errors->first('donator_id') }}</span>
                 @endif
               </div>
               <div class="form-group">
