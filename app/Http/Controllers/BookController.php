@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Model\Book;
 
 class BookController extends Controller
 {
@@ -13,6 +14,13 @@ class BookController extends Controller
     */
     public function index()
     {
-        return view('backend.layouts.books.list');
+    	$fields = [
+    		'id',
+    		'name',
+    		'author',
+    		'avg_rating',
+    	];
+    	$books = Book::select($fields)->get();
+        return view('backend.layouts.books.list',compact('books'));
     }
 }
