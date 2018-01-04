@@ -20,8 +20,8 @@ class CreateDonatorsTable extends Migration
                   ->references('id')->on('users')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->string('employee_code');
-            $table->string('email');
+            $table->string('employee_code', 255);
+            $table->string('email', 100);
             $table->timestamps();
             $table->softDeletes();
         });

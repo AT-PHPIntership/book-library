@@ -21,7 +21,7 @@ class CreatePostsTable extends Migration
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->integer('postable_id')->unsigned();
-            $table->string('postable_type');
+            $table->string('postable_type', 30);
             $table->string('content');
             $table->timestamps();
             $table->softDeletes();
