@@ -29,7 +29,7 @@ class CreateBooksTable extends Migration
             $table->string('name');
             $table->string('author');
             $table->string('year');            
-            $table->string('price');            
+            $table->integer('price');            
             $table->string('description');
             $table->string('image');
             $table->float('avg_rating')->defautl(0.0);
