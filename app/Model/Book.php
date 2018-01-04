@@ -85,13 +85,19 @@ class Book extends Model
         return $this->hasMany(Rating::class);
     }
 
-    public function generateQRcode() {
-        $QRCodes = self::select('QRcode')->orderby('QRcode', 'desc')->limit(1)->get();
-        $qrIndex = explode('-', $QRCodes);
+    /**
+     * Relationship hasMany with Rating
+     *
+     * @return string
+    */
+    public function generateQRcode()
+    {
+        $qrCodes = self::select('QRcode')->orderby('QRcode', 'desc')->limit(1)->get();
+        $qrIndex = explode('-', $qrCodes);
         $lastNum = filter_var($qrIndex[1], FILTER_SANITIZE_NUMBER_INT) + 1;
 
         $finalQRcode = 'BAT-';
-        for($i = 0, $length = 6 - strlen($lastNum); $i < $length; $i++) {
+        for ($i = 0, $length = 6 - strlen($lastNum); $i < $length; $i++) {
             $finalQRcode .= '0';
         }
         return $finalQRcode .= $lastNum;

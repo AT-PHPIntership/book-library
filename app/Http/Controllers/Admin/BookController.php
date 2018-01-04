@@ -29,14 +29,15 @@ class BookController extends Controller
     /**
      * Store a newly book created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\BookCreateRequest $request
+     * 
      * @return \Illuminate\Http\Response
      */
     public function store(BookCreateRequest $request)
     {
         $book = new Book($request->toArray());
         // save image path, move image to directory
-        if(isset($request->image)) {
+        if (isset($request->image)) {
             $image = $request->image;
             $name = config('image.name_prefix') . "-" . $image->hashName();
             $folder = config('image.books.path_upload');
