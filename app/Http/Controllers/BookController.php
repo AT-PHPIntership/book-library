@@ -21,7 +21,7 @@ class BookController extends Controller
             'author',
             'avg_rating',
         ];
-        $books = Book::select($fields)->paginate(Book::ROW_LIMIT);
+        $books = Book::with('borrows')->select($fields)->paginate(Book::ROW_LIMIT);
         return view('backend.layouts.books.list', compact('books'));
     }
 }
