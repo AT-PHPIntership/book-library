@@ -41,6 +41,6 @@ class UserController extends Controller
      */
     public function show()
     {
-        //
+        return view('backend.users.details');
     }
 }
