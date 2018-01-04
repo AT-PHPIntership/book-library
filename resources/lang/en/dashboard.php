@@ -6,4 +6,4 @@ return [
     'home_page' => 'HOME PAGE',
     'main_navigation' => 'MAIN NAVIGATION',
     'online'=> 'Online',
-]; 
+];
