@@ -38,7 +38,7 @@
               <tbody>
               <tr>
                 <td>1</td>
-                <td><a href="/admin/user/show">AT-00001</a></td>
+                <td><a href="{{ url('/admin/users/') }}/<?php echo $user->employee_code; ?>">AT-0308</a></td>
                 <td>Employee 1</td>
                 <td>a@asiantech.vn</td>
                 <td>3</td>

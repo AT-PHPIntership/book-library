@@ -7,27 +7,26 @@
   <section class="content-header">
     <h1>User Profile</h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
-      <li><a href="#">Users</a></li>
+      <li><a href="{{ url('/admin') }}"><i class="fa fa-dashboard"></i> Admin</a></li>
+      <li><a href="{{ url('/admin/users') }}">Users</a></li>
       <li class="active">User profile</li>
     </ol>
   </section>
   
   <!-- Main content -->
   <section class="content">
-
     <div class="row">
       <div class="col-md-3">
-
         <!-- Profile Image -->
         <div class="box box-primary">
           <div class="box-body box-profile">
-            <img class="profile-user-img img-responsive img-circle" src="{{ URL::asset('bower_components/admin-lte/dist/img/user2-160x160.jpg') }}" alt="User profile picture">
-
-            <h3 class="profile-username text-center">Alexander Pierce</h3> <center><a href=""><small>(edit profile)</small></a></center>
-
-            <p class="text-muted text-center">Member</p>
-
+            <img class="profile-user-img img-responsive img-circle" src="{{ $user->avatar_url }}" alt="User profile picture">
+            <h3 class="profile-username text-center">{{ $user->name }}</h3><center><a href=""><small>(edit profile)</small></a></center>
+            <p class="text-muted text-center">
+              @if ($user->role == 1) admin
+              @else member
+              @endif
+            </p>
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item">
                 <b>Borrowed</b> <a class="pull-right" href="#">11</a>
@@ -51,8 +50,6 @@
           <!-- /.box-body -->
         </div>
         <!-- /.box -->
-
-        
       </div>
       <!-- /.col -->
       <div class="col-md-9">
@@ -63,11 +60,7 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <i class="fa fa-envelope-o" aria-hidden="true"></i> alexander.pierce@asiantech.vn
-            <hr>
-            <i class="fa fa-mobile"></i>  0905951611
-            <hr>
-            <i class="fa fa-birthday-cake"></i> November 16, 1995
+            <i class="fa fa-envelope-o" aria-hidden="true"></i> {{ $user->email }}
             <hr>
             Joined date: <em>Nov 20, 2017</em>
             <hr>
