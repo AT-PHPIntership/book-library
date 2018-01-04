@@ -6,8 +6,8 @@
     <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Book
-      <small>{{ __('Add book') }}</small>
+      {{ __('Book') }}
+      <small>{{ __('create book') }}</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i>{{ __('admin') }}</a></li>
@@ -52,7 +52,7 @@
               </div>
               <div class="form-group">
                 <label for="price">{{ __('Price') }}</label>
-                <input name="price" type="text" class="form-control" id="status" placeholder="{{ __('Enter status') }}" value="{{ old('price') }}">
+                <input name="price" type="text" class="form-control" id="price" placeholder="{{ __('Enter status') }}" value="{{ old('price') }}">
                 @if($errors->first('price'))
                   <span class="text-danger">{{ $errors->first('price') }}</span>
                 @endif
@@ -60,8 +60,8 @@
               <div class="form-group">
                 <label for="donator">{{ __('Donator') }}</label>
                 <input name="donator_id" type="text" class="form-control" id="donator" placeholder="{{ __('Enter donator') }}" value="{{ old('donate_by') }}" >
-                @if($errors->first('donator'))
-                  <span class="text-danger">{{ $errors->first('donator') }}</span>
+                @if($errors->first('donator_id'))
+                  <span class="text-danger">{{ $errors->first('donator_id') }}</span>
                 @endif
               </div>
               <div class="form-group">
@@ -72,12 +72,8 @@
                 @endif
               </div>
               <div class="form-group">
-                <label for="description">Description</label></br>
-                <textarea name="description" class="textarea" placeholder="{{ __('Description about this book') }}"
-                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                @if($errors->first('description'))
-                  <span class="text-danger">{{ $errors->first('description') }}</span>
-                @endif
+                <label for="description">{{__('Description') }}</label></br>
+                <textarea name="description" id="description" class="textarea" placeholder="{{ __('Description about this book') }}"></textarea>
               </div>
               <div class="form-group">
                 <label for="exampleInputFile">{{ __('Book Image') }}</label>
@@ -90,17 +86,14 @@
 
               <div class="box-footer">
                 <button id="btn-add-book" type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
-                <button type="reset" class="btn btn-warning">{{ __('Clear') }}</button>
+                <button type="reset" class="btn btn-danger">{{ __('Reset') }}</button>
+                <button id="btn-back" type="reset" class="btn btn-warning">{{ __('Back') }}</button>
               </div>
             </form>
           </div>
-          <div class="box body-pad">
         </div>
       </div>
       <!-- /.box -->
-        
-      </div>
-      <!-- /.col-->
     </div>
     <!-- ./row -->
   </section>
