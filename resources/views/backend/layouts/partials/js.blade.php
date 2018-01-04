@@ -24,3 +24,5 @@
 <script src="{{ asset('bower_components/admin-lte/dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('bower_components/admin-lte/dist/js/demo.js') }}"></script>
+
+<script src="{{ asset('js/main.js') }}"></script>
