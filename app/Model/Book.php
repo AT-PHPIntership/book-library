@@ -106,4 +106,5 @@ class Book extends Model
     {
         return $this->borrows->count();
     }
+    const ROW_LIMIT = 10;
 }
