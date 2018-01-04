@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\Model\User;
+use App\Model\Borrowing;
 use App\Model\Rating;
 use App\Model\Donator;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ class Book extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'book';
+    protected $table = 'books';
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +23,7 @@ class Book extends Model
      * @var array
      */
     protected $fillable = [
+        'QRcode',
         'category_id',
         'name',
         'author',
@@ -36,13 +38,13 @@ class Book extends Model
     ];
 
     /**
-     * Relationship hasMany with Post
+     * Relationship morphMany with Post
      *
      * @return array
     */
     public function posts()
     {
-        return $this->hasMany(Post::class);
+        return $this->morphMany(Post::class, 'postable');
     }
 
     /**
@@ -101,5 +103,13 @@ class Book extends Model
             $finalQRcode .= '0';
         }
         return $finalQRcode .= $lastNum;
+    }
+    /* Relationship hasMany with Borrow
+     *
+     * @return array
+    */
+    public function borrowings()
+    {
+        return $this->hasMany(Borrowing::class);
     }
 }
