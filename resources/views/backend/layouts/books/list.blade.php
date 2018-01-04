@@ -10,7 +10,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">{{ __('List of book') }}</h3>
+              <h3 class="box-title">{{ __('dashboard.list_book') }}</h3>
 
               <div class="box-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">
@@ -26,11 +26,11 @@
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover">
                 <tr>
-                  <th>{{ __('No.') }}</th>
-                  <th>{{ __('Name') }}</th>
-                  <th>{{ __('Author') }}</th>
-                  <th>{{ __('Average review score') }}</th>
-                  <th>{{ __('Total borrow') }}</th>
+                  <th>{{ __('dashboard.id_book') }}</th>
+                  <th>{{ __('dashboard.name') }}</th>
+                  <th>{{ __('dashboard.author') }}</th>
+                  <th>{{ __('dashboard.average_review_score') }}</th>
+                  <th>{{ __('dashboard.total_borrow') }}</th>
                 </tr>
                 <tr>
                   <td>183</td>
