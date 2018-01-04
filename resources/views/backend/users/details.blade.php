@@ -5,11 +5,11 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1>User Profile</h1>
+    <h1>{{ __('User Profile') }}</h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
-      <li><a href="#">Users</a></li>
-      <li class="active">User profile</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> {{ __('Admin') }}</a></li>
+      <li><a href="#">{{ __('Users') }}</a></li>
+      <li class="active">{{ __('User Profile') }}</li>
     </ol>
   </section>
   
