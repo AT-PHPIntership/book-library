@@ -5,7 +5,7 @@ namespace App\Model;
 use App\Model\Post;
 use App\Model\Book;
 use App\Model\Borrow;
-use App\Model\Like;
+use App\Model\Favorite;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -18,7 +18,7 @@ class User extends Authenticatable
      *
      * @var string $tabel table name
      */
-    protected $table = 'user';
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -68,28 +68,28 @@ class User extends Authenticatable
      *
      * @return array
     */
-    public function postsLike()
+    public function postsFavorite()
     {
         return $this->belongsToMany(Post::class);
     }
 
     /**
-     * Relationship hasMany with Borrow
+     * Relationship hasMany with Borrowing
      *
      * @return array
     */
-    public function borrows()
+    public function borrowings()
     {
-        return $this->hasMany(Borrow::class);
+        return $this->hasMany(Borrowing::class);
     }
 
     /**
-     * Relationship hasMany with Like
+     * Relationship hasMany with Favorite
      *
      * @return array
     */
-    public function like()
+    public function favorites()
     {
-        return $this->hasMany(Like::class);
+        return $this->hasMany(Favorite::class);
     }
 }

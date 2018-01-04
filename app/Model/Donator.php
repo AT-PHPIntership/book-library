@@ -13,7 +13,7 @@ class Donator extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'donator';
+    protected $table = 'donators';
 
     /**
      * The attributes that are mass assignable.
