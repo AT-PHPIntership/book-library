@@ -27,7 +27,7 @@
             <table id="example2" class="table table-bordered table-hover">
               <thead>
               <tr>
-                <th>No</th>
+                <th>ID</th>
                 <th>{{ __('dashboard.employee_code') }}</th>
                 <th>{{ __('dashboard.employee_name') }}</th>
                 <th>{{ __('dashboard.employee_email') }}</th>
@@ -37,15 +37,19 @@
               </thead>
               <tbody>
               <tr>
-                <td>1</td>
-                <td><a href="{{ url('/admin/users/') }}/<?php echo $user->employee_code; ?>">AT-0308</a></td>
-                <td>Employee 1</td>
-                <td>a@asiantech.vn</td>
-                <td>3</td>
-                <td>5</td>
+              @foreach ($users as $user)
+              <tr>
+                <td>{{ $user-> id}}</td>
+                <td>{{ $user->employee_code }}</td>
+                <td><a href="{{ url('/admin/users/') }}/{{ $user->employee_code }}">{{ $user->name }}</a></td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->total_donated }}</td>
+                <td>{{ $user->total_borrowed }}</td>
               </tr>
               </tbody>
+              @endforeach
             </table>
+            {{ $users->links() }}
           </div>
         </div>
       </div>

@@ -5,11 +5,11 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1>User Profile</h1>
+    <h1>{{ __('User Profile') }}</h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('/admin') }}"><i class="fa fa-dashboard"></i> Admin</a></li>
-      <li><a href="{{ url('/admin/users') }}">Users</a></li>
-      <li class="active">User profile</li>
+      <li><a href="{{ url('/admin') }}"><i class="fa fa-dashboard"></i> {{ __('Admin') }}</a></li>
+      <li><a href="{{ url('/admin/users') }}">{{ __('Users') }}</a></li>
+      <li class="active">{{ __('User profile') }}</li>
     </ol>
   </section>
   
@@ -21,31 +21,31 @@
         <div class="box box-primary">
           <div class="box-body box-profile">
             <img class="profile-user-img img-responsive img-circle" src="{{ $user->avatar_url }}" alt="User profile picture">
-            <h3 class="profile-username text-center">{{ $user->name }}</h3><center><a href=""><small>(edit profile)</small></a></center>
+            <h3 class="profile-username text-center">{{ $user->name }}</h3><center><a href=""><small>({{ __('Edit profile') }})</small></a></center>
             <p class="text-muted text-center">
-              @if ($user->role == 1) admin
-              @else member
+              @if ($user->role == 1) {{ __('admin') }}
+              @else {{ __('member') }}
               @endif
             </p>
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item">
-                <b>Borrowed</b> <a class="pull-right" href="#">11</a>
+                <b>{{ __('Borrowed') }}</b> <a class="pull-right" href="#">11</a>
               </li>
               <li class="list-group-item">
-                <b>Donated</b> <a class="pull-right" href="#">6</a>
+                <b>{{ __('Donated') }}</b> <a class="pull-right" href="#">6</a>
               </li>
               <li class="list-group-item">
-                <b>Borrowing</b> <a class="pull-right" href="#">Basic HTML</a>
+                <b>{{ __('Borrowing') }}</b> <a class="pull-right" href="#">Basic HTML</a>
               </li>
               <li class="list-group-item">
-                <b>Ratings</b> <a class="pull-right" href="#">0</a>
+                <b>{{ __('Ratings') }}</b> <a class="pull-right" href="#">0</a>
               </li>
               <li class="list-group-item">
-                <b>Reviews</b> <a class="pull-right" href="#">0</a>
+                <b>{{ __('Reviews') }}</b> <a class="pull-right" href="#">0</a>
               </li>
             </ul>
 
-            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+            <a href="#" class="btn btn-primary btn-block"><b>{{ __('Follow') }}</b></a>
           </div>
           <!-- /.box-body -->
         </div>
@@ -56,21 +56,21 @@
         <!-- About Me Box -->
         <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title"><strong>About</strong></h3>
+            <h3 class="box-title"><strong>{{ __('About') }}</strong></h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
             <i class="fa fa-envelope-o" aria-hidden="true"></i> {{ $user->email }}
             <hr>
-            Joined date: <em>Nov 20, 2017</em>
+            {{ __('Joined date') }}: <em>{{ date('d-m-Y', strtotime($user->created_at)) }}</em>
             <hr>
-            <i class="fa fa-thumbs-o-up"></i> List Book Liked
+            <i class="fa fa-thumbs-o-up"></i> {{ __('List Book Liked') }}
             <p><small><i>Not selected yet.</i></small></p>
             <hr>
-            <i class="fa fa-heart-o"></i> Favorite Genres
+            <i class="fa fa-heart-o"></i> {{ __('Favorite Genres') }}
             <p><small><i>Not selected yet.</i></small></p>
             <hr>
-            <i class="fa fa-heart-o"></i> Favorite Authors
+            <i class="fa fa-heart-o"></i> {{ __('Favorite Authors') }}
             <p><small><i>Not selected yet.</i></small></p>
           </div>
           <!-- /.box-body -->
