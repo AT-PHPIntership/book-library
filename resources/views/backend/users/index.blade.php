@@ -40,7 +40,7 @@
               @foreach ($users as $user)
               <tr>
                 <td>{{ $user-> id}}</td>
-                <td>{{ $user->employee_code }}</td>
+                <td><a href="/admin/user/show">{{ $user->employee_code }}</a></td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->total_donated }}</td>
