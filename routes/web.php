@@ -11,8 +11,20 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::prefix('admin')->group(function () {
+    Route::get('/', function () {
+        return view('backend.layouts.main');
+    });
+});
+
+
+//Admin 
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
+   Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
+});
+
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
+    Route::resource('books', 'BookController');
 });
 
 //Login
