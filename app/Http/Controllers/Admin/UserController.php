@@ -19,17 +19,17 @@ class UserController extends Controller
     public function index()
     {
         $field = [
-            'user.id',
-            'user.employee_code',
-            'user.name',
-            'user.email',
-            DB::raw('count(distinct(borrow.id)) as total'),
-            DB::raw('count(distinct(donator.id)) as total1'),
+            'users.id',
+            'users.employee_code',
+            'users.name',
+            'users.email',
+            DB::raw('count(distinct(borrowings.id)) as total_borrowed'),
+            DB::raw('count(distinct(donators.id)) as total_donated'),
         ];
-        $users = User::leftJoin('borrow', 'borrow.user_id', '=', 'user.id')
-        ->leftJoin('donator', 'donator.user_id', '=', 'user.id')
+        $users = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
+        ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
         ->select($field)
-        ->groupBy('user.id')
+        ->groupBy('users.id')
         ->get();
         return view('backend.users.index', compact('users'));
     }
