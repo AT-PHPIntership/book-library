@@ -99,8 +99,20 @@ class Book extends Model
      *
      * @return array
     */
+
     public function borrowings()
     {
         return $this->hasMany(Borrowing::class);
     }
+
+    /**
+     * Get total Borrow
+     *
+     * @return array
+     */
+    public function getTotalBorrowAttribute()
+    {
+        return $this->borrowings->count();
+    }
+
 }

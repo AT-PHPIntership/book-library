@@ -31,7 +31,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books  = Book::select()->paginate(Book::ROW_LIMIT);
-        return view('backend.layouts.books.list', compact('books'));
+        $books  = Book::paginate(Book::ROW_LIMIT);
+        return view('backend.books.list', compact('books'));
     }
 }
