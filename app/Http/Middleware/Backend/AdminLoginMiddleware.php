@@ -11,8 +11,9 @@ class AdminLoginMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request request
+     * @param \Closure                 $next    next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
