@@ -38,11 +38,26 @@
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover" id="data-table">
                 <tr>
-                  <th>{{ __('books.numbers_order') }}</th>
-                  <th>{{ __('books.name') }}</th>
-                  <th>{{ __('books.author') }}</th>
-                  <th>{{ __('books.average_review_score') }}</th>
-                  <th>{{ __('books.total_borrow') }}</th>
+                  <th>
+                      {{ __('books.numbers_order') }}
+                      <i class="fa fa-sort" aria-hidden="true" id="sort-number"></i>
+                  </th>
+                  <th>
+                      {{ __('books.name') }}
+                     <i class="fa fa-sort" aria-hidden="true" id="sort-name"></i>
+                  </th>
+                  <th>
+                      {{ __('books.author') }}
+                      <i class="fa fa-sort" aria-hidden="true" id="sort-author"></i>
+                  </th>
+                  <th>
+                      {{ __('books.average_review_score') }}
+                     <i class="fa fa-sort" aria-hidden="true" id="sort-review"></i>
+                  </th>
+                  <th>
+                      {{ __('books.total_borrow') }}
+                     <i class="fa fa-sort" aria-hidden="true" id="sort-borrow"></i>
+                  </th>
                 </tr>
                 <tr>
                   <td>183</td>
