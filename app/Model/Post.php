@@ -6,9 +6,12 @@ use App\Model\Post;
 use App\Model\User;
 use App\Model\Favorite;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+    use SoftDeletes;
+    
     /**
      * Declare table
      *
