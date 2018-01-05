@@ -5,5 +5,5 @@ return [
     'users' => 'USERS',
     'home_page' => 'HOME PAGE',
     'main_navigation' => 'MAIN NAVIGATION',
-    'online'=> 'Online',
+    'online'=> 'Online'
 ];
