@@ -26,7 +26,7 @@
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover">
                 <tr>
-                  <th>{{ __('books.numbers order') }}</th>
+                  <th>{{ __('books.numbers_order') }}</th>
                   <th>{{ __('books.name') }}</th>
                   <th>{{ __('books.author') }}</th>
                   <th>{{ __('books.average_review_score') }}</th>
