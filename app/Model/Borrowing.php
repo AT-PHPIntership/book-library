@@ -6,14 +6,14 @@ use App\Model\User;
 use App\Model\Book;
 use Illuminate\Database\Eloquent\Model;
 
-class Borrow extends Model
+class Borrowing extends Model
 {
     /**
      * Declare table
      *
      * @var string $tabel table name
      */
-    protected $table = 'borrows';
+    protected $table = 'borrowings';
 
     /**
      * The attributes that are mass assignable.
