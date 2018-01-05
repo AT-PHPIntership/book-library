@@ -3,7 +3,7 @@
 namespace App\Model;
 
 use App\Model\User;
-use App\Model\Borrow;
+use App\Model\Borrowing;
 use App\Model\Rating;
 use App\Model\Donator;
 use Illuminate\Database\Eloquent\Model;
@@ -92,8 +92,8 @@ class Book extends Model
      *
      * @return array
     */
-    public function borrows()
+    public function borrowings()
     {
-        return $this->hasMany(Borrow::class);
+        return $this->hasMany(Borrowing::class);
     }
 }
