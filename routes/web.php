@@ -11,8 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::prefix('admin')->group(function () {
+    Route::get('/', function () {
+        return view('backend.layouts.main');
+    });
 });
 
 //Login
@@ -23,6 +25,6 @@ Route::post('/logout', 'Admin\LoginController@logout')->name('logout');
 //Admin 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
    Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
+   Route::resource('books', 'BookController');
    Route::resource('/', 'HomeController');   
 });
-

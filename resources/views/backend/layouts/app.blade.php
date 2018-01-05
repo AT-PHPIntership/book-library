@@ -8,7 +8,11 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+<<<<<<< HEAD
     <title>{{ __('AsianTech Book Library') }}</title>
+=======
+    <title>{{ __('login.library') }}</title>
+>>>>>>> master
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -20,7 +24,11 @@
                 <div class="navbar-header">
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
+<<<<<<< HEAD
                         {{ __('AsianTech Book Library') }}
+=======
+                        {{ __('login.library') }}
+>>>>>>> master
                     </a>
                 </div>
 
@@ -45,7 +53,11 @@
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
+<<<<<<< HEAD
                                             {{__('Logout')}}
+=======
+                                            {{__('login.logout')}}
+>>>>>>> master
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
