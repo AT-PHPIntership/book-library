@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Model\User;
-use App\Model\Donator;
-use App\Model\Brorrow;
 
 class UserController extends Controller
 {
