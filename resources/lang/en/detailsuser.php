@@ -15,5 +15,4 @@ return [
     'list_book_liked' => 'List Book Liked',
     'favorite_genres' => 'Favorite Genres',
     'favorite_authors' => 'Favorite Authors',
-
 ];
