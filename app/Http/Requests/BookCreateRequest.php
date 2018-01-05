@@ -29,7 +29,7 @@ class BookCreateRequest extends FormRequest
             'category_id' => 'required|numeric',
             'price' => 'required|numeric',
             'donator_id' => 'required|exists:users,employee_code',
-            'year' => 'required|numeric',
+            'year' => 'required|digits:4|integer|min:1900|max:'.(date('Y')+1),
             'description' => 'required|string',
             'image'=> 'image|max:10240',
         ];
