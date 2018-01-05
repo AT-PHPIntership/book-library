@@ -37,13 +37,28 @@ class UserController extends Controller
   /**
    * Display detail of user.
    *
-   * @param int $id id of user
+   * @param string $employeeCode employeeCode of user
    *
    * @return \Illuminate\Http\Response
    */
-    public function show($id)
+    public function show($employeeCode)
     {
-        $user = DB::table('users')->where('employee_code', $id)->first();
-        return view('backend.users.details', compact('user'));
+        $field = [
+            'users.employee_code',
+            'users.name',
+            'users.email',
+            'users.role',
+            'users.created_at',
+            'users.avatar_url',
+            DB::raw('count(distinct(borrowings.id)) as sum_borrowed'),
+            DB::raw('count(distinct(donators.id)) as sum_donated'),
+            DB::raw('count(distinct(ratings.id)) as sum_ratings'),
+        ];
+        $user = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
+        ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
+        ->leftJoin('ratings', 'ratings.user_id', '=', 'users.id')
+        ->select($field)
+        ->groupBy('users.id');
+        return view('backend.users.shows', compact('user'));
     }
 }
