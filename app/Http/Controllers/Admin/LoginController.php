@@ -65,22 +65,21 @@ class LoginController extends Controller
         }
         
         # Check status API response
-        if ($portalResponse->meta->status == 'successfully') {
+        if ($portalResponse->meta->status == config('define.success')) {
             $userResponse = $portalResponse->data->user;
             # Collect user data from response
             $user = [
                 'employee_code' => $userResponse->employee_code,
                 'email' => $request->email,
             ];
-            
             # Get user from database OR create User
-            $user = User::firstOrNew($user);
+            $user = User::updateOrCreate($user);
             # Update user info
             $user->name = $userResponse->name;
             $user->team = $userResponse->teams[0]->name;
             $user->avatar_url = $userResponse->avatar_url;
             $user->access_token = $userResponse->access_token;
-            $date = date(config('define.datetime_format'), strtotime($userResponse->expires_at));
+            $date = date(config('define.datetime_format'), strtotime($userResponse->expires_at));            
             $user->expires_at = $date;
             # Save User, update token
             $user->save();
