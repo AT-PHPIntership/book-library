@@ -2,10 +2,12 @@
 return [
     'title' => 'BOOK',
     'edit_book' => 'Edit book',
-    'admin' => 'Admin',
     'book' => 'Book',
     'edit' => 'Edit',
     'enter_name' => 'Enter book name',
+    'create_book' => 'Create book',
+    'admin' => 'Admin',
+    'create' => 'Create',
     'category' => 'Category',
     'author' => 'Author',
     'enter_author' => 'Enter author',
