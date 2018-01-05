@@ -35,10 +35,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * Value paginate of row
-     */
-
-    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
