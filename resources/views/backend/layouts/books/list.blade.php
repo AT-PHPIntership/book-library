@@ -1,5 +1,5 @@
 @extends('backend.layouts.main')
-@section('title', __('List book'))
+@section('title',__("books.title_book"))
 @section('content')
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -10,7 +10,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">{{ __('dashboard.list_book') }}</h3>
+              <h3 class="box-title">{{ __('books.list_book') }}</h3>
 
               <div class="box-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">

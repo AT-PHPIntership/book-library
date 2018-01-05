@@ -1,5 +1,6 @@
 <?php
 return [
+    'title_book' => 'List of book',
     'list_book' => 'List of book',
     'numbers_order' => 'No.',
     'name' => 'Name',
