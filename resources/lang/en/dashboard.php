@@ -1,6 +1,6 @@
 <?php
 return [
-    'categories' => 'CATEGORIES',
+  'categories' => 'CATEGORIES',
     'books' => 'BOOKS',
     'users' => 'USERS',
     'home_page' => 'HOME PAGE',
@@ -12,5 +12,6 @@ return [
     'employee_name' => 'Name',
     'employee_email' => 'Email',
     'total_donated' => 'Total donated books',
-    'total_borrowed' => 'Total borrowed books'
+    'total_borrowed' => 'Total borrowed books',
+    'user_title' => 'Users'
 ];
