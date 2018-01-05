@@ -37,7 +37,6 @@ class User extends Authenticatable
     /**
      * Value paginate of row
      */
-    const ROW_LIMIT = 10;
 
     /**
      * The attributes that should be hidden for arrays.
