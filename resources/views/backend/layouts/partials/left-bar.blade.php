@@ -26,7 +26,7 @@
         </a>
       </li>
       <li>
-        <a href='{!! url('/admin/users'); !!}'>
+        <a href='{{ route('users.index') }}'>
           <i class="fa fa-male" aria-hidden="true"></i>
           <span>{{ __('dashboard.users') }}</span>
         </a>
