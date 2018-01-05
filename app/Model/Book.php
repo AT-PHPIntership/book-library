@@ -17,7 +17,7 @@ class Book extends Model
      * @var string $tabel table name
      */
     protected $table = 'books';
-    CONST  ROW_LIMIT = 10;
+    const ROW_LIMIT = 10;
 
     /**
      * The attributes that are mass assignable.
@@ -93,18 +93,15 @@ class Book extends Model
     {
         return $this->hasMany(Rating::class);
     }
-
     /**
      * Relationship hasMany with Borrow
      *
      * @return array
     */
-
     public function borrowings()
     {
         return $this->hasMany(Borrowing::class);
     }
-
     /**
      * Get total Borrow
      *
@@ -114,5 +111,4 @@ class Book extends Model
     {
         return $this->borrowings->count();
     }
-
 }
