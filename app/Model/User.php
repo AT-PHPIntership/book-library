@@ -92,4 +92,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Favorite::class);
     }
+
+    /**
+     * Value of pagination
+     */
+    const ROW_LIMIT = 10;
+
+    /**
+     * Value of role
+     *
+     * @type array
+     */
+    public static $role = [
+        'admin' => 1,
+        'user' => 0,
+    ];
 }
