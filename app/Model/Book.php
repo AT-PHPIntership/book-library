@@ -104,7 +104,8 @@ class Book extends Model
         }
         return $finalQRcode .= $lastNum;
     }
-    /* Relationship hasMany with Borrow
+    /**
+     * Relationship hasMany with Borrow
      *
      * @return array
     */
