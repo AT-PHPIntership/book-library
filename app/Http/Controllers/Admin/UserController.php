@@ -7,7 +7,6 @@ use App\Model\User;
 use DB;
 use App\Http\Controllers\Controller;
 
-
 class UserController extends Controller
 {
   /**
