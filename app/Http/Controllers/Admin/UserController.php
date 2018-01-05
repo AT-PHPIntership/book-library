@@ -28,7 +28,7 @@ class UserController extends Controller
         ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
         ->select($field)
         ->groupBy('users.id')
-        ->paginate(User::ROW_LIMIT);
+        ->paginate(config('page_length.row_limit'));
         return view('backend.users.index', compact('users'));
     }
 
