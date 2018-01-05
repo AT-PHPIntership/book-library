@@ -1,6 +1,6 @@
 <?php
 return [
-    'categories' => 'CATEGORIES',
+  'categories' => 'CATEGORIES',
     'books' => 'BOOKS',
     'users' => 'USERS',
     'home_page' => 'HOME PAGE',
