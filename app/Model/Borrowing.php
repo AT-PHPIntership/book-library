@@ -5,9 +5,12 @@ namespace App\Model;
 use App\Model\User;
 use App\Model\Book;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Borrowing extends Model
 {
+    use SoftDeletes;
+    
     /**
      * Declare table
      *
