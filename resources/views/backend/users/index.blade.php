@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title','{{ __("dashboard.user_title") }}')
+@section('title',__('user.user_title'))
 
 @section('content')
 
