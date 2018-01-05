@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Model\Donator;
 
-class DonatorTableSeeder extends Seeder
+class DonatorsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,7 +12,7 @@ class DonatorTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('donator')->insert([
+        DB::table('donators')->insert([
             ['user_id' => null,
             'employee_code' => 'AT-00011',
             'email' => 'abc.nguyen@asiantech.vn',

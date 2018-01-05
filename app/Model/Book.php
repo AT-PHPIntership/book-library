@@ -2,8 +2,8 @@
 
 namespace App\Model;
 
-use App\Model\Book;
 use App\Model\User;
+
 use App\Model\Borrowing;
 use App\Model\Rating;
 use App\Model\Donator;
@@ -16,8 +16,8 @@ class Book extends Model
      *
      * @var string $tabel table name
      */
-    const ROW_LIMIT = 10;
-    protected $table = 'book';
+    protected $table = 'books';
+    CONST  ROW_LIMIT = 10;
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +25,7 @@ class Book extends Model
      * @var array
      */
     protected $fillable = [
+
         'QRcode',
         'category_id',
         'name',
@@ -32,6 +33,8 @@ class Book extends Model
         'year',
         'price',
         'description',
+        'donate_by',
+
         'donator_id',
         'avg_rating',
         'total_rating',
@@ -40,12 +43,14 @@ class Book extends Model
     ];
 
     /**
+     * Relationship hasMany with Post
      * Relationship morphMany with Post
      *
      * @return array
     */
     public function posts()
     {
+        return $this->hasMany(Post::class);
         return $this->morphMany(Post::class, 'postable');
     }
 
@@ -94,18 +99,8 @@ class Book extends Model
      *
      * @return array
     */
-    public function borrows()
+    public function borrowings()
     {
-        return $this->hasMany(Borrow::class);
-    }
-
-    /**
-     * Get total Borrow
-     *
-     * @return array
-    */
-    public function getTotalBorrowAttribute()
-    {
-        return $this->borrows->count();
+        return $this->hasMany(Borrowing::class);
     }
 }
