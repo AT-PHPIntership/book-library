@@ -22,7 +22,7 @@
         <div class="box box-info">
           <!-- /.box-header -->
           <div class="box-body pad">
-            <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data">
               {{csrf_field()}}
               <div class="form-group">
                 <label for="name">Name</label>
@@ -32,7 +32,7 @@
                 @endif
               </div>
               <div class="form-group">
-                <label for="name">{{ __('book.category') }}</label>
+                <label for="category">{{ __('book.category') }}</label>
                 <select name="category_id" id="category">
                 </select>
               </div>
@@ -67,6 +67,10 @@
               <div class="form-group">
                 <label for="description">{{__('book.description') }}</label></br>
                 <textarea class="ckeditor" id="description" placeholder=""></textarea>
+                @if($errors->first('description'))
+                  <span class="text-danger">{{ $errors->first('description') }}</span>
+                @endif
+              </div>
               <div class="form-group">
                 <label for="image">{{ __('book.image') }}</label>
                 <input name="image" type="file" id="image">
