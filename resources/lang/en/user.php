@@ -1,4 +1,4 @@
-<?php 
+<?php
 return [
   'list_users' => 'List Users',
   'users_table' => 'Users List Table',
