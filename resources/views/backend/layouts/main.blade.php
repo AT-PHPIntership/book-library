@@ -25,7 +25,6 @@
   <link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  
   <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
