@@ -1,5 +1,5 @@
 @extends('backend.layouts.main')
-@section('title',__("books.title_book"))
+@section('title',__('books.title_book'))
 @section('content')
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -13,7 +13,7 @@
               <h3 class="box-title">{{ __('books.list_book') }}</h3>
 
               <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
+                <div class="input-group input-group-sm">
                   <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
                   <div class="input-group-btn">
