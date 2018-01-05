@@ -7,5 +7,6 @@ return [
   'employee_email' => 'Email',
   'total_donated' => 'Total donated books',
   'total_borrowed' => 'Total borrowed books',
-  'user_title' => 'Users'
+  'user_title' => 'Users',
+  'role' => 'Role'
 ];
