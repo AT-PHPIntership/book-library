@@ -43,7 +43,7 @@ class LoginController extends Controller
      * Handle a login request to the application.
      *
      * @param App\Http\Requests\Backend\LoginRequest $request request
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
     public function login(LoginRequest $request)
@@ -79,7 +79,7 @@ class LoginController extends Controller
             $user->team = $userResponse->teams[0]->name;
             $user->avatar_url = $userResponse->avatar_url;
             $user->access_token = $userResponse->access_token;
-            $date = date(config('define.datetime_format'), strtotime($userResponse->expires_at));            
+            $date = date(config('define.datetime_format'), strtotime($userResponse->expires_at));
             $user->expires_at = $date;
             # Save User, update token
             $user->save();
@@ -92,7 +92,8 @@ class LoginController extends Controller
     /**
      * Log the user out of the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request request
+     *
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request)
