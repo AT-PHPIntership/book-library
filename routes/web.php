@@ -16,7 +16,6 @@ Route::prefix('admin')->group(function () {
         return view('backend.layouts.main');
     });
 });
-
 //Login
 Auth::routes();
 Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
@@ -28,3 +27,4 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
    Route::resource('books', 'BookController');
    Route::resource('/', 'HomeController');   
 });
+

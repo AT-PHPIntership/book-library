@@ -72,15 +72,13 @@ class LoginController extends Controller
                 'employee_code' => $userResponse->employee_code,
                 'email' => $request->email,
             ];
-            # Get user from database OR create User
+            $teamName = $userResponse->teams[0]->name;
+            # Update user from database OR create User
             $user = User::updateOrCreate($user);
             # Update user info
-            $user->name = $userResponse->name;
-            $user->team = $userResponse->teams[0]->name;
-            $user->avatar_url = $userResponse->avatar_url;
-            $user->access_token = $userResponse->access_token;
             $date = date(config('define.datetime_format'), strtotime($userResponse->expires_at));
             $user->expires_at = $date;
+            $user->role = $user->getRoleByTeam($teamName); 
             # Save User, update token
             $user->save();
             # Set login for user
@@ -104,4 +102,6 @@ class LoginController extends Controller
 
         return redirect('/login');
     }
+
+    
 }

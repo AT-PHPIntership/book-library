@@ -100,6 +100,11 @@ class User extends Authenticatable
     const ROW_LIMIT = 10;
 
     /**
+     * Value of team admin
+     */
+    const ADMIN_TEAM = 'SA';
+
+    /**
      * Value of role
      *
      * @type array
@@ -108,4 +113,14 @@ class User extends Authenticatable
         'admin' => 1,
         'user' => 0,
     ];
+
+    /**
+     * Check admin
+     *
+     * @return string
+    */
+    public function getRoleByTeam($team)
+    {
+        return $team == $this->ADMIN_TEAM ? 1 : 0;
+    }
 }

@@ -23,9 +23,6 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('bower_components/admin-lte/dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
-<<<<<<< Updated upstream
 <script src="{{ asset('bower_components/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('js/main.js') }}"></script>
-=======
-<script src="{{ asset('bower_components/admin-lte/dist/js/demo.js') }}"></script>
->>>>>>> Stashed changes
+
