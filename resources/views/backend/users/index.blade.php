@@ -1,13 +1,13 @@
 @extends('backend.layouts.main')
 
-@section('title','{{ __('dashboard.user_title') }} )
+@section('title',__('user.user_title'))
 
 @section('content')
 
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      {{ __('dashboard.list_users')  }}
+      {{ __('user.list_users')  }}
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i>{{ __('dashboard.home_page')  }}</a></li>
@@ -21,18 +21,18 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">{{ __('dashboard.users_table') }}</h3>
+            <h3 class="box-title">{{ __('user.users_table') }}</h3>
           </div>
           <div class="box-body">
             <table id="example2" class="table table-bordered table-hover">
               <thead>
               <tr>
                 <th>No</th>
-                <th>{{ __('dashboard.employee_code') }}</th>
-                <th>{{ __('dashboard.employee_name') }}</th>
-                <th>{{ __('dashboard.employee_email') }}</th>
-                <th>{{ __('dashboard.total_donated') }}</th>
-                <th>{{ __('dashboard.total_borrowed') }}</th>
+                <th>{{ __('user.employee_code') }}</th>
+                <th>{{ __('user.employee_name') }}</th>
+                <th>{{ __('user.employee_email') }}</th>
+                <th>{{ __('user.total_donated') }}</th>
+                <th>{{ __('user.total_borrowed') }}</th>
               </tr>
               </thead>
               <tbody>
