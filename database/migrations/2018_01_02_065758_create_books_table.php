@@ -32,7 +32,7 @@ class CreateBooksTable extends Migration
             $table->integer('price');            
             $table->string('description');
             $table->string('image');
-            $table->float('avg_rating')->defautl(0.0);
+            $table->float('avg_rating')->default(0.0);
             $table->integer('total_rating')->default(0);
             $table->tinyInteger('status')->default(1)->comment="1: available; 0:borrowed";
             $table->timestamps();

@@ -10,6 +10,19 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
-    Route::resource('books', 'BookController');
+
+Route::prefix('admin')->group(function () {
+    Route::get('/', function () {
+        return view('backend.layouts.main');
+    });
+});
+
+//Login
+Auth::routes();
+Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
+
+//Admin 
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
+   Route::resource('/users', 'UserController', ['except' => ['create', 'store']]);
+   Route::resource('books', 'BookController');
 });
