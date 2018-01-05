@@ -116,6 +116,8 @@ return [
     |
     */
 
+    'exists'               => 'User does not exist',
+
     'attributes' => [],
 
 ];
