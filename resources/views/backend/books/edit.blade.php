@@ -82,7 +82,7 @@
               <div class="box-footer">
                 <button id="btn-add-book" type="submit" class="btn btn-primary">{{ __('book.submit') }}</button>
                 <button type="reset" class="btn btn-danger">{{ __('book.reset') }}</button>
-                <button id="btn-back" type="reset" class="btn btn-warning">{{ __('book.back') }}</button>
+                <a id="btn-back" href="{{ URL::previous() }}" class="btn btn-warning">{{ __('book.back') }}</a>
               </div>
             </form>
           </div>
