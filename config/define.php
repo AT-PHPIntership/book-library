@@ -1,5 +1,6 @@
 <?php
 
 return [
-  'row_limit' => 10,
+    //number of rows per page for pagination
+    'page_length' => 10
 ];
