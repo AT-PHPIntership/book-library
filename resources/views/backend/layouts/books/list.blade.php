@@ -21,9 +21,9 @@
                                 </div>
                                 <div class="form-group col-md-2">
                                     <select id="select_search" class="form-control" name="searchBy" value="{{ old('searchBy') }}">
-                                        <option selected>All</option>
-                                        <option>Author</option>
-                                        <option>Name</option>
+                                        <option selected>{{ __('general.all') }}</option>
+                                        <option>{{ __('books.author') }}</option>
+                                        <option>{{ __('books.name') }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
@@ -64,6 +64,7 @@
                         {{ __('books.total_borrow') }}
                        <i class="fa fa-sort" aria-hidden="true" id="sort-borrow"></i>
                     </th>
+                    <th>{{ __('general.options') }}</th>
                   </tr>
                   <tr>
                     <td>183</td>
