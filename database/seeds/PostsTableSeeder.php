@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
 use Faker\Factory as Faker;
 
-class CommentTableSeeder extends Seeder
+class PostsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,10 +14,12 @@ class CommentTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        $userId = DB::table('user')->pluck('id')->toArray();
+        $userId = DB::table('users')->pluck('id')->toArray();
         $faker = Faker::create();
         for ($i = 0; $i <= 15; $i++) {
-            factory(App\Model\Comment::class, 1)->create(['user_id' => $faker->randomElement($userId)]);            
+            factory(App\Model\Post::class, 1)->create([
+                'user_id' => $faker->randomElement($userId)
+            ]);
         }
         Model::reguard();
     }

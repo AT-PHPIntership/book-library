@@ -4,7 +4,7 @@ use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class BorrowTableSeeder extends Seeder
+class BorrowingsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,11 +14,11 @@ class BorrowTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        $bookId = DB::table('book')->pluck('id')->toArray();
-        $userId = DB::table('user')->pluck('id')->toArray();
+        $bookId = DB::table('books')->pluck('id')->toArray();
+        $userId = DB::table('users')->pluck('id')->toArray();
         $faker = Faker::create();
         for ($i = 0; $i <= 15; $i++) {
-            factory(App\Model\Borrow::class, 1)->create([
+            factory(App\Model\Borrowing::class, 1)->create([
                 'book_id' => $faker->randomElement($bookId),
                 'user_id' => $faker->randomElement($userId)
             ]);

@@ -1,11 +1,10 @@
 <?php
 
-use App\Model\Rating;
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Faker\Factory as Faker;
 
-class RatingTableSeeder extends Seeder
+class FavoritesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,12 +14,12 @@ class RatingTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        $bookId = DB::table('book')->pluck('id')->toArray();
-        $userId = DB::table('user')->pluck('id')->toArray();
+        $postId = DB::table('posts')->pluck('id')->toArray();
+        $userId = DB::table('users')->pluck('id')->toArray();
         $faker = Faker::create();
         for ($i = 0; $i <= 15; $i++) {
-            factory(App\Model\Rating::class, 1)->create([
-                'book_id' => $faker->randomElement($bookId),
+            factory(App\Model\Favorite::class, 1)->create([
+                'post_id' => $faker->randomElement($postId),
                 'user_id' => $faker->randomElement($userId)
             ]);
         }

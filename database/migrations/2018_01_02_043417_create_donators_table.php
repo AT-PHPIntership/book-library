@@ -17,7 +17,7 @@ class CreateDonatorsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')
-                  ->references('id')->on('user')
+                  ->references('id')->on('users')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->string('employee_code', 255);
