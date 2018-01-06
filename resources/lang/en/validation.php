@@ -115,7 +115,6 @@ return [
     | of "email". This simply helps us make messages a little cleaner.
     |
     */
-    'exists'    => 'User does not exists.',
 
     'attributes' => [],
 
