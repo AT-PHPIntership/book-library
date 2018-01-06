@@ -27,7 +27,7 @@
               {{ method_field('PUT') }}
               <div class="form-group">
                 <label for="name">{{ __('book.name') }}</label>
-                <input name="name" type="text" class="form-control" id="name" placeholder="{{ __('book.enter_name') }}" value="{{ old('name') }}">
+                <input name="name" type="text" class="form-control" id="name" placeholder="{{ __('book.enter_name') }}" value="{{ $book->name }}">
                 @if($errors->first('name'))
                   <span class="text-danger">{{ $errors->first('name') }}</span>
                 @endif
@@ -35,39 +35,46 @@
               <div class="form-group">
                 <label for="category">{{ __('book.category') }}</label>
                 <select name="category_id" id="category">
+                  @foreach($categories as $category)
+                    @if($book->category_id == $category->id)
+                      <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                    @else
+                      <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endif
+                  @endforeach
                 </select>
               </div>
               <div class="form-group">
                 <label for="author">{{ __('book.author') }}</label>
-                <input name="author" type="text" class="form-control" id="author" placeholder="{{ __('book.enter_author') }}" value="{{ old('author') }}">
+                <input name="author" type="text" class="form-control" id="author" placeholder="{{ __('book.enter_author') }}" value="{{ $book->author }}">
                 @if($errors->first('author'))
                   <span class="text-danger">{{ $errors->first('author') }}</span>
                 @endif
               </div>
               <div class="form-group">
                 <label for="price">{{ __('book.price') }}</label>
-                <input name="price" type="text" class="form-control" id="price" placeholder="{{ __('book.enter_price') }}" value="{{ old('price') }}">
+                <input name="price" type="text" class="form-control" id="price" placeholder="{{ __('book.enter_price') }}" value="{{ $book->price }}">
                 @if($errors->first('price'))
                   <span class="text-danger">{{ $errors->first('price') }}</span>
                 @endif
               </div>
               <div class="form-group">
                 <label for="donator">{{ __('book.donator') }}</label>
-                <input name="donator_id" type="text" class="form-control" id="donator" placeholder="{{ __('book.enter_donator') }}" value="{{ old('donate_by') }}" >
+                <input name="donator_id" type="text" class="form-control" id="donator" placeholder="{{ __('book.enter_donator') }}" value="{{ $book->donator->employee_code }}" >
                 @if($errors->first('donator_id'))
                   <span class="text-danger">{{ $errors->first('donator_id') }}</span>
                 @endif
               </div>
               <div class="form-group">
                 <label for="year">{{ __('book.year') }}</label>
-                <input name="year" type="text" class="form-control" id="year" placeholder="{{ __('book.enter_year') }}" value="{{ old('year') }}">
+                <input name="year" type="text" class="form-control" id="year" placeholder="{{ __('book.enter_year') }}" value="{{ $book->year }}">
                 @if($errors->first('year'))
                   <span class="text-danger">{{ $errors->first('year') }}</span>
                 @endif
               </div>
               <div class="form-group">
                 <label for="description">{{__('book.description') }}</label></br>
-                <textarea class="ckeditor" id="description" placeholder=""></textarea>
+                <textarea class="ckeditor" id="description" placeholder="">{{ $book->description }}</textarea>
                 @if($errors->first('description'))
                   <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
@@ -77,6 +84,9 @@
                 <input name="image" type="file" id="image">
                 @if($errors->first('image'))
                   <span class="text-danger">{{ $errors->first('image') }}</span>
+                @endif
+                @if(isset($book->image))
+                  <img id="image-display" width="150" height="200" src="{{ $book->image }}" alt="book-img">
                 @endif
               </div>
 
