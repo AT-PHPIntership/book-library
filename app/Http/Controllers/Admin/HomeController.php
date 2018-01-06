@@ -26,6 +26,6 @@ class HomeController extends Controller
     public function index()
     {
         $data['user'] = Auth::user();
-        return view('home', $data);
+        return view('backend.home.index', $data);
     }
 }

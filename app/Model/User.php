@@ -2,16 +2,17 @@
 
 namespace App\Model;
 
-use App\Model\Post;
 use App\Model\Book;
 use App\Model\Borrow;
 use App\Model\Favorite;
-use Illuminate\Notifications\Notifiable;
+use App\Model\Post;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
 
     /**
      * Declare table
@@ -91,5 +92,32 @@ class User extends Authenticatable
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
+    }
+
+    /**
+     * Value of team admin
+     */
+    const ADMIN_TEAM = 'SA';
+
+    /**
+     * Value of role
+     *
+     * @var array
+     */
+    public static $role = [
+        'admin' => 1,
+        'user' => 0,
+    ];
+
+    /**
+     * Check admin
+     *
+     * @param App\Model\User $team return team
+     *
+     * @return string
+    */
+    public function getRoleByTeam($team)
+    {
+        return $team == $this->ADMIN_TEAM ? 1 : 0;
     }
 }

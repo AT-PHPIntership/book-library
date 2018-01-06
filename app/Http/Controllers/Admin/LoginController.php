@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Model\User;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ServerException;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use GuzzleHttp\Exception\ServerException;
+use App\Http\Requests\Backend\LoginRequest;
 
 class LoginController extends Controller
 {
@@ -41,10 +42,11 @@ class LoginController extends Controller
     /**
      * Handle a login request to the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param App\Http\Requests\Backend\LoginRequest $request request
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         # Collect data form request
         $data = $request->except('_token');
@@ -59,28 +61,25 @@ class LoginController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->withErrors(['email' => trans('portal.messages.' . $portalResponse->meta->messages)]);
+                ->withErrors(['message' => trans('portal.messages.' . $portalResponse->meta->messages)]);
         }
         
         # Check status API response
-        if ($portalResponse->meta->status == 'successfully') {
+        if ($portalResponse->meta->status == config('define.success')) {
             $userResponse = $portalResponse->data->user;
             # Collect user data from response
             $user = [
                 'employee_code' => $userResponse->employee_code,
                 'email' => $request->email,
             ];
-            
-            # Get user from database OR create User
-            $user = User::firstOrNew($user);
+            $teamName = $userResponse->teams[0]->name;
+            # Update user from database OR create User
+            $user = User::updateOrCreate($user);
             # Update user info
-            $user->name = $userResponse->name;
-            $user->team = $userResponse->teams[0]->name;
-            $user->avatar_url = $userResponse->avatar_url;
-            $user->access_token = $userResponse->access_token;
-            $user->expires_at = $userResponse->expires_at;
+            $date = date(config('define.datetime_format'), strtotime($userResponse->expires_at));
+            $user->expires_at = $date;
+            $user->role = $user->getRoleByTeam($teamName);
             # Save User, update token
-            dd($user);
             $user->save();
             # Set login for user
             Auth::login($user, $request->filled('remember'));
@@ -91,7 +90,8 @@ class LoginController extends Controller
     /**
      * Log the user out of the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request request
+     *
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request)
@@ -100,6 +100,6 @@ class LoginController extends Controller
 
         $request->session()->invalidate();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }
