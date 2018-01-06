@@ -23,9 +23,10 @@
           <!-- /.box-header -->
           <div class="box-body pad">
             <form action="" method="POST" enctype="multipart/form-data">
-              {{csrf_field()}}
+              {{ csrf_field() }}
+              {{ method_field('PUT') }}
               <div class="form-group">
-                <label for="name">Name</label>
+                <label for="name">{{ __('book.name') }}</label>
                 <input name="name" type="text" class="form-control" id="name" placeholder="{{ __('book.enter_name') }}" value="{{ old('name') }}">
                 @if($errors->first('name'))
                   <span class="text-danger">{{ $errors->first('name') }}</span>
@@ -82,7 +83,7 @@
               <div class="box-footer">
                 <button id="btn-add-book" type="submit" class="btn btn-primary">{{ __('book.submit') }}</button>
                 <button type="reset" class="btn btn-danger">{{ __('book.reset') }}</button>
-                <a id="btn-back" href="{{ URL::previous() }}" class="btn btn-warning">{{ __('book.back') }}</a>
+                <a id="btn-back" href="{{ URL::previous() }}" class="btn btn-default">{{ __('book.back') }}</a>
               </div>
             </form>
           </div>

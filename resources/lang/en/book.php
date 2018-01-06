@@ -4,6 +4,7 @@ return [
     'edit_book' => 'Edit Book',
     'book' => 'Book',
     'edit' => 'Edit',
+    'name' => 'Name',
     'enter_name' => 'Enter book name',
     'create_book' => 'Create book',
     'admin' => 'Admin',
