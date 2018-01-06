@@ -29,19 +29,21 @@
             </p>
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item">
-                <b>{{ __('Borrowed') }}</b> <a class="pull-right" href="#">11</a>
+                <b>{{ __('Borrowed') }}</b> <a class="pull-right" href="#">{{ $user->total_borrowed }}</a>
               </li>
               <li class="list-group-item">
-                <b>{{ __('Donated') }}</b> <a class="pull-right" href="#">6</a>
+                <b>{{ __('Donated') }}</b> <a class="pull-right" href="#">{{ $user->total_donated }}</a>
               </li>
               <li class="list-group-item">
-                <b>{{ __('Borrowing') }}</b> <a class="pull-right" href="#">Basic HTML</a>
+                <b>{{ __('Borrowing') }}</b> 
+                <a class="pull-right" href="#">
+                  @if (isset($borrowing->name)) {{ $borrowing->name }}
+                  @else {{ __('None') }}
+                  @endif
+                </a>
               </li>
               <li class="list-group-item">
-                <b>{{ __('Ratings') }}</b> <a class="pull-right" href="#">0</a>
-              </li>
-              <li class="list-group-item">
-                <b>{{ __('Reviews') }}</b> <a class="pull-right" href="#">0</a>
+                <b>{{ __('Ratings') }}</b> <a class="pull-right" href="#">{{ $user->total_ratings }}</a>
               </li>
             </ul>
 
@@ -62,7 +64,7 @@
           <div class="box-body">
             <i class="fa fa-envelope-o" aria-hidden="true"></i> {{ $user->email }}
             <hr>
-            {{ __('Joined date') }}: <em>{{ date('d-m-Y', strtotime($user->created_at)) }}</em>
+            <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>&nbsp<em>{{ date('d-m-Y', strtotime($user->created_at)) }}</em>
             <hr>
             <i class="fa fa-thumbs-o-up"></i> {{ __('List Book Liked') }}
             <p><small><i>Not selected yet.</i></small></p>
