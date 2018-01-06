@@ -9,6 +9,7 @@ use App\Model\Brorrow;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
+
 class UserController extends Controller
 {
   /**
@@ -18,19 +19,19 @@ class UserController extends Controller
    */
     public function index()
     {
-        $field = [
+        $fields = [
             'users.id',
             'users.employee_code',
             'users.name',
             'users.email',
-            DB::raw('count(distinct(borrowings.id)) as total_borrowed'),
-            DB::raw('count(distinct(donators.id)) as total_donated'),
+            DB::raw('COUNT(DISTINCT(borrowings.id)) AS total_borrowed'),
+            DB::raw('COUNT(DISTINCT(donators.id)) AS total_donated'),
         ];
         $users = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
         ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
-        ->select($field)
+        ->select($fields)
         ->groupBy('users.id')
-        ->paginate(User::ROW_LIMIT);
+        ->paginate(config('define.page_length'));
         return view('backend.users.index', compact('users'));
     }
 

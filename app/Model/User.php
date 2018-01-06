@@ -2,16 +2,17 @@
 
 namespace App\Model;
 
-use App\Model\Post;
 use App\Model\Book;
 use App\Model\Borrow;
 use App\Model\Favorite;
-use Illuminate\Notifications\Notifiable;
+use App\Model\Post;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
 
     /**
      * Declare table
@@ -33,11 +34,6 @@ class User extends Authenticatable
         'avatar_url',
         'role',
     ];
-
-    /**
-     * Value paginate of row
-     */
-    const ROW_LIMIT = 10;
 
     /**
      * The attributes that should be hidden for arrays.
