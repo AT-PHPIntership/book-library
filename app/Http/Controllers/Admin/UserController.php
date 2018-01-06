@@ -51,9 +51,11 @@ class UserController extends Controller
     /**
      * Change role of user when click button.
      *
+     * @param Id $id Id of user changed
+     *
      * @return mixed
      */
-    public function changerole ($id)
+    public function changerole($id)
     {
         // Get old role of user
         $getrole = User::select('role', 'name')->where('id', $id)->first();
@@ -65,11 +67,9 @@ class UserController extends Controller
         // Session Flash
         if ($newrole) {
             session()->flash('notification', 'You have just change the role of <b>'. $getrole->name. '</b> from <b>User</b> to <b>Admin</b>');
-        }else{
+        } else {
             session()->flash('notification', 'You have just change the role of <b>'. $getrole->name. '</b> from <b>Admin</b> to <b>User</b>');
         }
         return redirect()->back();
     }
 }
-
-
