@@ -28,6 +28,8 @@ class BookController extends Controller
     /**
      * Display list book.
      *
+     * @param Request $request request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -45,17 +47,17 @@ class BookController extends Controller
 
         $books = Book::select($columns);
         if ($request->has('search')  || $request->has('searchby')) {
-                switch ($searchBy) {
-                    case 'Author':
-                        $books = $books->where('author', 'like', '%'.$search.'%')->paginate(Book::ROW_LIMIT);
-                        break;
-                    case 'Name':
-                        $books = $books->where('name', 'like', '%'.$search.'%')->paginate(Book::ROW_LIMIT);
-                        break;
-                    default:
-                        $books = $books->where('name', 'like', '%'.$search.'%')
-                        ->orwhere('author', 'like', '%'.$search.'%')->paginate(Book::ROW_LIMIT);
-                        break;
+            switch ($searchBy) {
+                case 'Author':
+                    $books = $books->where('author', 'like', '%'.$search.'%')->paginate(Book::ROW_LIMIT);
+                    break;
+                case 'Name':
+                    $books = $books->where('name', 'like', '%'.$search.'%')->paginate(Book::ROW_LIMIT);
+                    break;
+                default:
+                    $books = $books->where('name', 'like', '%'.$search.'%')
+                    ->orwhere('author', 'like', '%'.$search.'%')->paginate(Book::ROW_LIMIT);
+                    break;
             }
         } else {
             $books = $books->paginate(Book::ROW_LIMIT);

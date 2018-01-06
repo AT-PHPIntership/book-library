@@ -1,4 +1,4 @@
-$('#frm-search').submit(function(e) {
+$('#frm-search').submit(function (e) {
     e.preventDefault();
     alert('hello');
 });
