@@ -22,4 +22,14 @@ class BookController extends Controller
         $categories = Category::select($fields)->get();
         return view('backend.books.create', compact('categories'));
     }
+
+    /**
+     * Display list book.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('backend.layouts.books.list');
+    }
 }
