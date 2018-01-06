@@ -1,6 +1,5 @@
 <?php
 return [
-<<<<<<< HEAD
     'categories'        => 'CATEGORIES',
     'books'             => 'BOOKS',
     'users'             => 'USERS',
