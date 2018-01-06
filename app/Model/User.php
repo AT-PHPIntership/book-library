@@ -95,11 +95,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Value of pagination
-     */
-    const ROW_LIMIT = 10;
-
-    /**
      * Value of team admin
      */
     const ADMIN_TEAM = 'SA';
@@ -107,7 +102,7 @@ class User extends Authenticatable
     /**
      * Value of role
      *
-     * @type array
+     * @var array
      */
     public static $role = [
         'admin' => 1,
@@ -116,6 +111,8 @@ class User extends Authenticatable
 
     /**
      * Check admin
+     *
+     * @param App\Model\User $team return team
      *
      * @return string
     */

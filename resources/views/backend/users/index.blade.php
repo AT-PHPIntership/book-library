@@ -37,15 +37,19 @@
               </thead>
               <tbody>
               <tr>
-                <td>1</td>
-                <td>AT-00001</td>
-                <td>Employee 1</td>
-                <td>a@asiantech.vn</td>
-                <td>3</td>
-                <td>5</td>
+              @foreach ($users as $user)
+              <tr>
+                <td>{{ $user->id }}</td>
+                <td>{{ $user->employee_code }}</td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->total_donated }}</td>
+                <td>{{ $user->total_borrowed }}</td>
               </tr>
               </tbody>
+              @endforeach
             </table>
+            {{ $users->links() }}
           </div>
         </div>
       </div>

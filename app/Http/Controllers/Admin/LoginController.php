@@ -78,7 +78,7 @@ class LoginController extends Controller
             # Update user info
             $date = date(config('define.datetime_format'), strtotime($userResponse->expires_at));
             $user->expires_at = $date;
-            $user->role = $user->getRoleByTeam($teamName); 
+            $user->role = $user->getRoleByTeam($teamName);
             # Save User, update token
             $user->save();
             # Set login for user
@@ -102,6 +102,4 @@ class LoginController extends Controller
 
         return redirect('/login');
     }
-
-    
 }
