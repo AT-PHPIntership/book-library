@@ -36,6 +36,11 @@ class BookEditRequest extends FormRequest
         ];
     }
 
+    /**
+     * Get the validation messages that display into view.
+     *
+     * @return array
+     */
     public function messages()
     {
         return [
