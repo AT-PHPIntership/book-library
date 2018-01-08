@@ -1,9 +1,7 @@
 <?php
 
 namespace App\Model;
-
 use App\Model\User;
-
 use App\Model\Borrowing;
 use App\Model\Rating;
 use App\Model\Donator;
@@ -33,7 +31,6 @@ class Book extends Model
         'price',
         'description',
         'donate_by',
-
         'donator_id',
         'avg_rating',
         'total_rating',
@@ -42,14 +39,12 @@ class Book extends Model
     ];
 
     /**
-     * Relationship hasMany with Post
      * Relationship morphMany with Post
      *
      * @return array
     */
     public function posts()
     {
-        return $this->hasMany(Post::class);
         return $this->morphMany(Post::class, 'postable');
     }
 
@@ -92,6 +87,7 @@ class Book extends Model
     {
         return $this->hasMany(Rating::class);
     }
+
     /**
      * Relationship hasMany with Borrow
      *
