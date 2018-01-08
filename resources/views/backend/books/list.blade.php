@@ -49,6 +49,7 @@
                           <th>{{ __('books.author') }}</th>
                           <th>{{ __('books.average_review_score') }}</th>
                           <th>{{ __('books.total_borrow') }}</th>
+                          <th></th>
                       </tr>
                       @foreach ($books as $book)
                           <tr>
@@ -72,7 +73,7 @@
             <!-- /.box -->
           </div>
         </div>
-        {{ $books->links() }}}
+        {{ $books->links() }}
     </div>
     </section>
     <!-- /.content -->
