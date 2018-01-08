@@ -3,17 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use DB;
 use App\Model\User;
+use App\Model\Donator;
+use App\Model\Brorrow;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of User.
-     *
-     * @return mixed
-     */
+  /**
+   * Display a listing of User.
+   *
+   * @return mixed
+   */
     public function index()
     {
         $fields = [
@@ -32,13 +34,36 @@ class UserController extends Controller
         return view('backend.users.index', compact('users'));
     }
 
-    /**
-     * Display User Detail.
-     *
-     * @return mixed
-     */
-    public function show()
+  /**
+   * Display detail of user.
+   *
+   * @param string $employeeCode employeeCode of user
+   *
+   * @return \Illuminate\Http\Response
+   */
+    public function show($employeeCode)
     {
-        return view('backend.users.show');
+        $fields = [
+          'users.*',
+          DB::raw('count(distinct(borrowings.id)) as total_borrowed'),
+          DB::raw('count(distinct(donators.id)) as total_donated')
+        ];
+
+        $user = User::select($fields)
+        ->leftJoin('borrowings', 'users.id', '=', 'borrowings.user_id')
+        ->leftJoin('donators', 'users.id', '=', 'donators.user_id')
+        ->where('users.employee_Code', '=', $employeeCode)
+        ->groupBy('users.id')
+        ->first();
+
+        $bookBorrowing = DB::table('borrowings')
+        ->Join('books', 'borrowings.book_id', '=', 'books.id')
+        ->Join('users', 'borrowings.user_id', '=', 'users.id')
+        ->select('books.name')
+        ->where('users.employee_Code', '=', $employeeCode)
+        ->whereNull('borrowings.to_date')
+        ->first();
+
+        return view('backend.users.show', compact('user', 'bookBorrowing'));
     }
 }
