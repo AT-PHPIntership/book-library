@@ -97,10 +97,11 @@ class Book extends Model
     {
         return $this->hasMany(Borrowing::class);
     }
+
     /**
      * Get total Borrow
      *
-     * @return init
+     * @return int
      */
     public function getTotalBorrowAttribute()
     {
