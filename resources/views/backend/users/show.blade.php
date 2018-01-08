@@ -1,15 +1,15 @@
 @extends('backend.layouts.main')
-@section('title', __('user.profile_user'))
+@section('title', __('user.user_profile'))
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1>{{ __('user.profile_user') }}</h1>
+    <h1>{{ __('user.user_profile') }}</h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('/admin') }}"><i class="fa fa-dashboard"></i> {{ __('user.admin') }}</a></li>
-      <li><a href="{{ url('/admin/users') }}">{{ __('user.users') }}</a></li>
-      <li class="active">{{ __('user.profile_user') }}</li>
+      <li><a href="{{ route('/admin') }}"><i class="fa fa-dashboard"></i> {{ __('user.admin') }}</a></li>
+      <li><a href="{{ route('/admin/users') }}">{{ __('user.users') }}</a></li>
+      <li class="active">{{ __('user.user_profile') }}</li>
     </ol>
   </section>
   
@@ -20,12 +20,10 @@
         <!-- Profile Image -->
         <div class="box box-primary">
           <div class="box-body box-profile">
-            <img class="profile-user-img img-responsive img-circle" src="{{ $user->avatar_url }}" alt="User profile picture">
+            <img class="profile-user-img img-responsive img-circle" src="{{ $user->avatar_url }}" alt="{{ __('user.user_profile_picture') }}">
             <h3 class="profile-username text-center">{{ $user->name }}</h3><center></center>
             <p class="text-muted text-center">
-              @if ($user->role == 1) {{ __('user.admin') }}
-              @else {{ __('user.member') }}
-              @endif
+              {{ $user->roleName }}
             </p>
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item">
@@ -36,7 +34,7 @@
               </li>
               <li class="list-group-item">
                 <b>{{ __('user.borrowing') }}</b> 
-                @if (isset($borrowing->name)) <a class="pull-right" href="#">{{ $borrowing->name }} </a>
+                @if (isset($bookBorrowing->name)) <a class="pull-right" href="#">{{ $bookBorrowing->name}} </a>
                 @else <span class="pull-right">{{ __('user.none') }}</span>
                 @endif
               </li>
@@ -57,19 +55,19 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <strong><i class="fa fa-user-circle-o margin-r-5"></i> Full name:</strong>
+              <strong><i class="fa fa-user-circle-o margin-r-5"></i>{{ __('fullname') }}:</strong>
 
               <p class="text-muted margin-r-5">{{ $user->name }}</p>
 
               <hr>
 
-              <strong><i class="fa fa-calendar-plus-o margin-r-5"></i> Join dated:</strong>
+              <strong><i class="fa fa-calendar-plus-o margin-r-5"></i>{{ __('join_dated') }}:</strong>
 
               <p class="text-muted margin-r-5">{{ date('d-m-Y', strtotime($user->created_at)) }}</p>
 
               <hr>
 
-              <strong><i class="fa fa-envelope-o margin-r-5"></i> Email</strong>
+              <strong><i class="fa fa-envelope-o margin-r-5"></i>{{ __('email') }}</strong>
 
               <p class="text-muted margin-r-5">{{ $user->email }}</p>
 

@@ -43,27 +43,27 @@ class UserController extends Controller
    */
     public function show($employeeCode)
     {
-        $field = [
+        $fields = [
           'users.*',
           DB::raw('count(distinct(borrowings.id)) as total_borrowed'),
           DB::raw('count(distinct(donators.id)) as total_donated')
         ];
 
-        $user = DB::table('users')
+        $user = User::select($fields)
         ->leftJoin('borrowings', 'users.id', '=', 'borrowings.user_id')
         ->leftJoin('donators', 'users.id', '=', 'donators.user_id')
-        ->select($field)
         ->where('users.employee_Code', '=', $employeeCode)
         ->groupBy('users.id')
         ->first();
 
-        $borrowing = DB::table('borrowings')
+        $bookBorrowing = DB::table('borrowings')
         ->Join('books', 'borrowings.book_id', '=', 'books.id')
         ->Join('users', 'borrowings.user_id', '=', 'users.id')
         ->select('books.name')
         ->where('users.employee_Code', '=', $employeeCode)
         ->whereNull('borrowings.to_date')
         ->first();
-        return view('backend.users.show', compact('user', 'borrowing'));
+
+        return view('backend.users.show', compact('user', 'bookBorrowing'));
     }
 }

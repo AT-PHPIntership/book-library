@@ -20,5 +20,9 @@ return [
   'about' => 'About',
   'joined_date' => 'Joined Date',
   'member' => 'Member',
-  'none' => 'None'
+  'none' => 'None',
+  'user_profile_picture' => 'User profile picture',
+   'fullname' => 'Full name',
+   'join_dated' => 'Join dated',
+   'email' => 'Email',
 ];

@@ -1,4 +1,4 @@
-x@extends('backend.layouts.main')
+@extends('backend.layouts.main')
 
 @section('title',__('user.user_title'))
 
