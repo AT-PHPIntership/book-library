@@ -23,7 +23,6 @@ class Book extends Model
      * @var array
      */
     protected $fillable = [
-
         'QRcode',
         'category_id',
         'name',
@@ -101,7 +100,7 @@ class Book extends Model
     /**
      * Get total Borrow
      *
-     * @return array
+     * @return init
      */
     public function getTotalBorrowAttribute()
     {
