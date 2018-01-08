@@ -33,6 +33,8 @@ class User extends Authenticatable
         'team',
         'avatar_url',
         'role',
+        'access_token',
+        'expires_at'
     ];
 
     /**
@@ -118,6 +120,6 @@ class User extends Authenticatable
     */
     public function getRoleByTeam($team)
     {
-        return $team == $this->ADMIN_TEAM ? 1 : 0;
+        return $team == self::ADMIN_TEAM ? 1 : 0;
     }
 }

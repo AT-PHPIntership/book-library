@@ -17,7 +17,6 @@ Route::prefix('admin')->group(function () {
     });
 });
 //Login
-Auth::routes();
 Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Admin\LoginController@login');
 Route::post('/logout', 'Admin\LoginController@logout')->name('logout');
@@ -25,6 +24,5 @@ Route::post('/logout', 'Admin\LoginController@logout')->name('logout');
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
    Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
    Route::resource('books', 'BookController');
-   Route::resource('/', 'HomeController');   
 });
 
