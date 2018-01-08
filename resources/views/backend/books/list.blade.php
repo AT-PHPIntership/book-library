@@ -49,23 +49,21 @@
                           <th>@sortablelink('author', __('books.author'))</th>
                           <th>@sortablelink('avg_rating', __('books.average_review_score'))</th>
                           <th>@sortablelink('borrowing', __('books.total_borrow'))</th>
-                          <th></th>
+                          <th>{{ __('general.options') }}</th>
                       </tr>
                     @foreach ($books as $book)
                           <tr>
-                              <td>{{ $book->id}}</td>
-                              <td>{{$book->name}}</td>
-                              <td>{{$book->author}}</td>
-                              <td>{{$book->avg_rating}}</td>
-                              <td>{{$book->total_borrow}}</td>
+                              <td>{{ $book->id }}</td>
+                              <td>{{ $book->name }}</td>
+                              <td>{{ $book->author }}</td>
+                              <td>{{ $book->avg_rating }}</td>
+                              <td>{{ $book->total_borrow }}</td>
                               <td align="center">
-                                  <a href="#"
+                                  <a href="{{ route('books.edit', $book->id) }}"
                                      class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                                  <button type="submit" class="btn-custom-option btn btn-delete-item fa fa-trash-o"></button>
                               </td>
                           </tr>
                     @endforeach
-                          </tr>
                   </table>
               </div>
               <!-- /.box-body -->
