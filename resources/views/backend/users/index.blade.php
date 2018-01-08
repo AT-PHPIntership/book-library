@@ -1,4 +1,4 @@
-@extends('backend.layouts.main')
+x@extends('backend.layouts.main')
 
 @section('title',__('user.user_title'))
 
@@ -27,7 +27,7 @@
             <table id="example2" class="table table-bordered table-hover">
               <thead>
               <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>{{ __('user.employee_code') }}</th>
                 <th>{{ __('user.employee_name') }}</th>
                 <th>{{ __('user.employee_email') }}</th>

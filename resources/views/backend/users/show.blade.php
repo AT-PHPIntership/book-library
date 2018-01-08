@@ -1,15 +1,15 @@
 @extends('backend.layouts.main')
-@section('title', __('Add book'))
+@section('title', __('user.profile_user'))
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1>{{ __('User Profile') }}</h1>
+    <h1>{{ __('user.profile_user') }}</h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('/admin') }}"><i class="fa fa-dashboard"></i> {{ __('Admin') }}</a></li>
-      <li><a href="{{ url('/admin/users') }}">{{ __('Users') }}</a></li>
-      <li class="active">{{ __('User profile') }}</li>
+      <li><a href="{{ url('/admin') }}"><i class="fa fa-dashboard"></i> {{ __('user.admin') }}</a></li>
+      <li><a href="{{ url('/admin/users') }}">{{ __('user.users') }}</a></li>
+      <li class="active">{{ __('user.profile_user') }}</li>
     </ol>
   </section>
   
@@ -21,29 +21,29 @@
         <div class="box box-primary">
           <div class="box-body box-profile">
             <img class="profile-user-img img-responsive img-circle" src="{{ $user->avatar_url }}" alt="User profile picture">
-            <h3 class="profile-username text-center">{{ $user->name }}</h3><center><a href=""><small>({{ __('Edit profile') }})</small></a></center>
+            <h3 class="profile-username text-center">{{ $user->name }}</h3><center><a href=""><small>({{ __('user.edit_profile') }})</small></a></center>
             <p class="text-muted text-center">
-              @if ($user->role == 1) {{ __('admin') }}
-              @else {{ __('member') }}
+              @if ($user->role == 1) {{ __('user.admin') }}
+              @else {{ __('user.member') }}
               @endif
             </p>
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item">
-                <b>{{ __('Borrowed') }}</b> <a class="pull-right" href="#">{{ $user->total_borrowed }}</a>
+                <b>{{ __('user.borrowed') }}</b> <a class="pull-right" href="#">{{ $user->total_borrowed }}</a>
               </li>
               <li class="list-group-item">
-                <b>{{ __('Donated') }}</b> <a class="pull-right" href="#">{{ $user->total_donated }}</a>
+                <b>{{ __('user.donated') }}</b> <a class="pull-right" href="#">{{ $user->total_donated }}</a>
               </li>
               <li class="list-group-item">
-                <b>{{ __('Borrowing') }}</b> 
+                <b>{{ __('user.borrowing') }}</b> 
                 <a class="pull-right" href="#">
                   @if (isset($borrowing->name)) {{ $borrowing->name }}
-                  @else {{ __('None') }}
+                  @else {{ __('user.none') }}
                   @endif
                 </a>
               </li>
               <li class="list-group-item">
-                <b>{{ __('Ratings') }}</b> <a class="pull-right" href="#">{{ $user->total_ratings }}</a>
+                <b>{{ __('user.ratings') }}</b> <a class="pull-right" href="#">{{ $user->total_ratings }}</a>
               </li>
             </ul>
 
@@ -58,7 +58,7 @@
         <!-- About Me Box -->
         <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title"><strong>{{ __('About') }}</strong></h3>
+            <h3 class="box-title"><strong>{{ __('user.about') }}</strong></h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
@@ -66,13 +66,13 @@
             <hr>
             <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>&nbsp<em>{{ date('d-m-Y', strtotime($user->created_at)) }}</em>
             <hr>
-            <i class="fa fa-thumbs-o-up"></i> {{ __('List Book Liked') }}
+            <i class="fa fa-thumbs-o-up"></i> {{ __('user.list_book_liked') }}
             <p><small><i>Not selected yet.</i></small></p>
             <hr>
-            <i class="fa fa-heart-o"></i> {{ __('Favorite Genres') }}
+            <i class="fa fa-heart-o"></i> {{ __('user.favorite_genres') }}
             <p><small><i>Not selected yet.</i></small></p>
             <hr>
-            <i class="fa fa-heart-o"></i> {{ __('Favorite Authors') }}
+            <i class="fa fa-heart-o"></i> {{ __('user.favorite_authors') }}
             <p><small><i>Not selected yet.</i></small></p>
           </div>
           <!-- /.box-body -->

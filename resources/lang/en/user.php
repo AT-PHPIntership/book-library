@@ -7,5 +7,22 @@ return [
   'employee_email' => 'Email',
   'total_donated' => 'Total donated books',
   'total_borrowed' => 'Total borrowed books',
-  'user_title' => 'Users'
+  'user_title' => 'Users',
+  'profile_user' => 'Profile User',
+  'admin' => 'Admin',
+  'users' => 'Users',
+  'edit_profile' => 'Edit Profile',
+  'borrowed' => 'Borrowed',
+  'donated' => 'Donated',
+  'borrowing' => 'Borrowing',
+  'ratings' => 'Ratings',
+  'reviews' => 'Reviews',
+  'follow' => 'Follow',
+  'about' => 'About',
+  'joined_date' => 'Joined Date',
+  'list_book_liked' => 'List Book Liked',
+  'favorite_genres' => 'Favorite Genres',
+  'favorite_authors' => 'Favorite Authors',
+  'member' => 'Member',
+  'none' => 'None'
 ];
