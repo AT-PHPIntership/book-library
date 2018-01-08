@@ -3,11 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> {{ __('Admin') }} | @yield('title') </title>
+  <title>{{__('Admin') }} | @yield('title')</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- image -->
-  <link rel="shortcut icon" href="{{ asset('/favicon.png') }}" id="favicon">
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
   <!-- Font Awesome -->
@@ -23,42 +21,34 @@
   <link rel="stylesheet" href="{{ asset('bower_components/morris.js/morris.css') }}">
   <!-- jvectormap -->
   <link rel="stylesheet" href="{{ asset('bower_components/jvectormap/jquery-jvectormap.css') }}">
-  <!-- Date Picker -->
-  <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
-  {{-- css style --}}
-  <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
-  <script type="text/javascript" src="{{asset('bower_components/ckeditor/ckeditor.js')}}"></script>
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   
+  <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+  <div class="wrapper">
+    <!-- start header -->
+    @include('backend.layouts.partials.header')
+    <!-- end header -->
 
-  <!-- begin header -->
-  @include('backend.layout.partials.header')
-  <!-- end header -->
+    <!-- start left-bar -->
+    @include ('backend.layouts.partials.left-bar')
+    <!-- end left-bar -->
 
-  <!-- Left side column. contains the logo and sidebar -->
-  @include('backend.layout.partials.left-bar')
- <!-- end left-bar -->
-
-  <!-- Content Wrapper. Contains page content -->
+    <!-- start content -->
     @yield('content')
-  <!-- /.content-wrapper -->
+    <!-- end content -->
 
-   @include('backend.layout.partials.footer')
+    <!-- start footer -->
+    @include('backend.layouts.partials.footer')
+    <!-- end footer -->
 
-</div>
-<!-- ./wrapper -->
-<script>
-   var baseURL = "{{ url('') }}";
-</script>
- @include('backend.layout.partials.js')
-
+    <!-- start js -->
+    @include('backend.layouts.partials.js')
+    <!-- end js -->
+  </div>
 </body>
 </html>

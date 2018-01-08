@@ -1,6 +1,6 @@
-@extends('backend.layout.main')
+@extends('backend.layouts.main')
 
-@section('title','Home Page')
+@section('title', __('home.title'))
 
 @section('content')
   <!-- Content Wrapper. Contains page content -->
@@ -8,26 +8,26 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        {{ __('Home Page') }}
+        {{ __('home.title') }}
       </h1>
     </section>
 
     <!-- Main content -->
     <section class="content">
       <!-- Small boxes (Stat box) -->
-      {{--  <div class="row">
+      <div class="row">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>{{ $news }}</h3>
+              <h3>150</h3>
 
-              <p>{{ __('News') }}</p>
+              <p>{{ __('home.users') }}</p>
             </div>
             <div class="icon">
-              <i class="ion ion-email-unread"></i>
+              <i class="ion ion-person"></i>
             </div>
-            <a href="" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="#" class="small-box-footer">{{__('home.more_info')}}<i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -35,14 +35,14 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>{{ $places }}</sup></h3>
+              <h3>53<sup style="font-size: 20px">%</sup></h3>
 
-              <p>{{ __('Places') }}</p>
+              <p>{{__('home.books')}}</p>
             </div>
             <div class="icon">
-              <i class="ion ion-android-map"></i>
+              <i class="ion ion-ios-book"></i>
             </div>
-            <a href="" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="#" class="small-box-footer">{{__('home.more_info')}} <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -50,14 +50,14 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>{{ $users }}</h3>
+              <h3>44</h3>
 
-              <p>{{ __('Users') }}</p>
+              <p>{{__('home.categories')}}</p>
             </div>
             <div class="icon">
-              <i class="ion ion-person-add"></i>
+              <i class="ion ion-ios-list"></i>
             </div>
-            <a href="" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="#" class="small-box-footer">{{__('home.more_info')}} <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -65,50 +65,20 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>{{ $categories }}</h3>
+              <h3>65</h3>
 
-              <p>{{ __('Categories') }}</p>
+              <p>{{__('home.donator')}}</p>
             </div>
             <div class="icon">
-              <i class="ion ion-pie-graph"></i>
+              <i class="ion ion-android-contacts"></i>
             </div>
-            <a href="" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="#" class="small-box-footer">{{__('home.more_info')}} <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
-         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-purple">
-            <div class="inner">
-              <h3>{{ $hotels }}</sup></h3>
-
-              <p>{{ __('Hotel') }}</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-android-home"></i>
-            </div>
-            <a href="}" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-          <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-gray">
-            <div class="inner"> 
-              <h3>{{ $bookRoom }}</h3>
-              <p>{{ __('Booking Rooms') }}</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-calendar"></i>
-            </div>
-            <a href="" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-      </div>  --}}
+        <!-- ./col -->
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 <!-- ./wrapper -->
-
 @endsection
