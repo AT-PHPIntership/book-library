@@ -1,11 +1,14 @@
 <?php
 return [
     'title' => 'BOOK',
+    'edit_book' => 'Edit Book',
+    'book' => 'Book',
+    'edit' => 'Edit',
+    'name' => 'Name',
+    'enter_name' => 'Enter book name',
     'create_book' => 'Create book',
     'admin' => 'Admin',
-    'book' => 'Book',
     'create' => 'Create',
-    'enter_name' => 'Enter name',
     'category' => 'Category',
     'author' => 'Author',
     'enter_author' => 'Enter author',
