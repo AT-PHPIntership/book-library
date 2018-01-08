@@ -17,7 +17,6 @@ class Book extends Model
      * @var string $tabel table name
      */
     protected $table = 'books';
-    const ROW_LIMIT = 10;
 
     /**
      * The attributes that are mass assignable.
