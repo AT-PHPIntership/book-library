@@ -31,7 +31,7 @@ class BookController extends Controller
      */
     public function index()
     {
-            $books = Book::with('borrowings')->paginate(config('define.page_length'));
+        $books = Book::with('borrowings')->paginate(config('define.page_length'));
         return view('backend.books.list', compact('books'));
     }
 }
