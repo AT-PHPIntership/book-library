@@ -21,7 +21,7 @@
         <div class="box box-primary">
           <div class="box-body box-profile">
             <img class="profile-user-img img-responsive img-circle" src="{{ $user->avatar_url }}" alt="User profile picture">
-            <h3 class="profile-username text-center">{{ $user->name }}</h3><center><a href=""><small>({{ __('user.edit_profile') }})</small></a></center>
+            <h3 class="profile-username text-center">{{ $user->name }}</h3><center></center>
             <p class="text-muted text-center">
               @if ($user->role == 1) {{ __('user.admin') }}
               @else {{ __('user.member') }}
@@ -36,14 +36,9 @@
               </li>
               <li class="list-group-item">
                 <b>{{ __('user.borrowing') }}</b> 
-                <a class="pull-right" href="#">
-                  @if (isset($borrowing->name)) {{ $borrowing->name }}
-                  @else {{ __('user.none') }}
-                  @endif
-                </a>
-              </li>
-              <li class="list-group-item">
-                <b>{{ __('user.ratings') }}</b> <a class="pull-right" href="#">{{ $user->total_ratings }}</a>
+                @if (isset($borrowing->name)) <a class="pull-right" href="#">{{ $borrowing->name }} </a>
+                @else <span class="pull-right">{{ __('user.none') }}</span>
+                @endif
               </li>
             </ul>
 
@@ -56,28 +51,33 @@
       <!-- /.col -->
       <div class="col-md-9">
         <!-- About Me Box -->
-        <div class="box box-primary">
-          <div class="box-header with-border">
-            <h3 class="box-title"><strong>{{ __('user.about') }}</strong></h3>
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"><strong>{{ __('user.about') }}</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <strong><i class="fa fa-user-circle-o margin-r-5"></i> Full name:</strong>
+
+              <p class="text-muted margin-r-5">{{ $user->name }}</p>
+
+              <hr>
+
+              <strong><i class="fa fa-calendar-plus-o margin-r-5"></i> Join dated:</strong>
+
+              <p class="text-muted margin-r-5">{{ date('d-m-Y', strtotime($user->created_at)) }}</p>
+
+              <hr>
+
+              <strong><i class="fa fa-envelope-o margin-r-5"></i> Email</strong>
+
+              <p class="text-muted margin-r-5">{{ $user->email }}</p>
+
+              <hr>
+            </div>
+            <!-- /.box-body -->
           </div>
-          <!-- /.box-header -->
-          <div class="box-body">
-            <i class="fa fa-envelope-o" aria-hidden="true"></i> {{ $user->email }}
-            <hr>
-            <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>&nbsp<em>{{ date('d-m-Y', strtotime($user->created_at)) }}</em>
-            <hr>
-            <i class="fa fa-thumbs-o-up"></i> {{ __('user.list_book_liked') }}
-            <p><small><i>Not selected yet.</i></small></p>
-            <hr>
-            <i class="fa fa-heart-o"></i> {{ __('user.favorite_genres') }}
-            <p><small><i>Not selected yet.</i></small></p>
-            <hr>
-            <i class="fa fa-heart-o"></i> {{ __('user.favorite_authors') }}
-            <p><small><i>Not selected yet.</i></small></p>
-          </div>
-          <!-- /.box-body -->
-        </div>
-        <!-- /.box -->
+          <!-- /.box -->
       </div>
       <!-- /.col -->
     </div>
