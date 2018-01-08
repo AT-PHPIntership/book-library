@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Model;
+
 use App\Model\User;
 use App\Model\Borrowing;
 use App\Model\Rating;
