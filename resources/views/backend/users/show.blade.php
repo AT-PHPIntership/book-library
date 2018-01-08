@@ -7,9 +7,9 @@
   <section class="content-header">
     <h1>{{ __('user.user_profile') }}</h1>
     <ol class="breadcrumb">
-      <li><a href="{{ route('/admin') }}"><i class="fa fa-dashboard"></i> {{ __('user.admin') }}</a></li>
-      <li><a href="{{ route('/admin/users') }}">{{ __('user.users') }}</a></li>
-      <li class="active">{{ __('user.user_profile') }}</li>
+      <li><a href="{{ url('/admin') }}"><i class="fa fa-dashboard"></i> {{ __('user.admin') }}</a></li>
+      <li><a href="{{ url('/admin/users') }}">{{ __('user.users') }}</a></li>
+      <li class="active">{{ __('user.profile_user') }}</li>
     </ol>
   </section>
   
