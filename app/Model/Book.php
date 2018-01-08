@@ -8,9 +8,13 @@ use App\Model\Borrowing;
 use App\Model\Rating;
 use App\Model\Donator;
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Support\Facades\DB;
 
 class Book extends Model
 {
+    use Sortable;
+
     /**
      * Declare table
      *
@@ -110,4 +114,23 @@ class Book extends Model
     {
         return $this->borrowings->count();
     }
+
+
+    /**
+     * Declare table
+     *
+     * @var array $tabel table sort
+     */
+    public $sortable = ['id', 'name', 'author', 'avg_rating', 'borrowing'];
+
+    public function borrowingSortable($query, $direction)
+    {
+        return $query
+            ->select('books.id', 'books.name', 'books.author', 'books.avg_rating', 'borrowings.book_id')
+            ->addselect(DB::raw('count(borrowings.book_id) as borrowing'))
+            ->leftJoin('borrowings','borrowings.book_id', '=', 'books.id')
+            ->groupby('books.id')
+            ->orderBy('borrowing', $direction);
+    }
+
 }

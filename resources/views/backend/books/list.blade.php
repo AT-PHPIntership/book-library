@@ -44,14 +44,14 @@
               <div class="box-body table-responsive no-padding">
                   <table class="table table-hover">
                       <tr>
-                          <th>{{ __('books.numbers_order') }}</th>
-                          <th>{{ __('books.name') }}</th>
-                          <th>{{ __('books.author') }}</th>
-                          <th>{{ __('books.average_review_score') }}</th>
-                          <th>{{ __('books.total_borrow') }}</th>
+                          <th>@sortablelink('id', __('books.numbers_order'))</th>
+                          <th>@sortablelink('name', __('books.name'))</th>
+                          <th>@sortablelink('author', __('books.author'))</th>
+                          <th>@sortablelink('avg_rating', __('books.average_review_score'))</th>
+                          <th>@sortablelink('borrowing', __('books.total_borrow'))</th>
                           <th></th>
                       </tr>
-                      @foreach ($books as $book)
+                    @foreach ($books as $book)
                           <tr>
                               <td>{{ $book->id}}</td>
                               <td>{{$book->name}}</td>
@@ -64,7 +64,7 @@
                                   <button type="submit" class="btn-custom-option btn btn-delete-item fa fa-trash-o"></button>
                               </td>
                           </tr>
-                          @endforeach
+                    @endforeach
                           </tr>
                   </table>
               </div>
@@ -72,8 +72,7 @@
             </div>
             <!-- /.box -->
           </div>
-        </div>
-        {{ $books->links() }}
+      </div>{{ $books->appends(\Request::except('page'))->render()}}
     </div>
     </section>
     <!-- /.content -->
