@@ -67,7 +67,7 @@
               </div>
               <div class="form-group">
                 <label for="description">{{__('book.description') }}</label></br>
-                <textarea class="ckeditor" id="description" placeholder=""></textarea>
+                <textarea class="ckeditor" name="description" id="description" placeholder=""></textarea>
                 @if($errors->first('description'))
                   <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
