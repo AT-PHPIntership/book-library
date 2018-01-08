@@ -2,6 +2,7 @@
 return [
   'list_users' => 'List Users',
   'users_table' => 'Users List Table',
+  'id' => 'ID',
   'employee_code' => 'Employee code',
   'employee_name' => 'Name',
   'employee_email' => 'Email',
