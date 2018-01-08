@@ -51,16 +51,16 @@
                   <td>{{ $user->total_borrowed }}</td>
                   @if (session()->get('team') == 'SA')
                   <td>
-                    <a style="width: 70px"
+                    <a 
                     @if ($user->team == 'SA')
                     disabled
                     @endif
 
-                    class= 
+                    class=" width-70 
                     @if ($user->role)
-                    "btn btn-success" >Admin
+                    btn btn-success" >Admin
                     @else
-                    "btn btn-danger" >User
+                    btn btn-danger" >User
                     @endif
                   </a>
                 </td>
