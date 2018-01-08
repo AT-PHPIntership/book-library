@@ -33,7 +33,7 @@
           <table id="example2" class="table table-bordered table-hover">
             <thead>
               <tr>
-                <th>No</th>
+                <th>{{ __('user.id') }}</th>
                 <th>{{ __('user.employee_code') }}</th>
                 <th>{{ __('user.employee_name') }}</th>
                 <th>{{ __('user.employee_email') }}</th>
