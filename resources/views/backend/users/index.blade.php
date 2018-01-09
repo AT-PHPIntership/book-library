@@ -47,7 +47,7 @@
                 <td>{{ $user->total_borrowed }}</td>
                 @if (session()->get('team') == app\Model\User::SA)
                 <td>
-                  <a 
+                  <a id="role-{{$user->id}}"
                   @if ($user->team == app\Model\User::SA)
                     disabled
                   @endif
@@ -72,4 +72,32 @@
 </div>
 <!-- /.content -->
 </div>
+@endsection
+@section('javascript')
+  <script type="text/javascript">
+    $classbtn = document.getElementsByClassName('btn');
+    for (let $eachbtn of $classbtn) {
+      if($eachbtn.getAttribute('disabled') !== '') {
+        $eachbtn.addEventListener('click', function () {
+          let $id = $eachbtn.getAttribute('id').slice(5);
+          $.ajax({
+            type:'GET',
+            url: '/admin/users/changeRole/' + $id,
+            data:{
+            },
+            success: function(data){
+              $btnRole = document.getElementById('role-' + $id);
+              if (data.user.role === 0) {
+                $btnRole.innerHTML = "{{ __('user.user') }}";
+                $btnRole.setAttribute('class', 'width-70 btn btn-danger');
+              } else {
+                $btnRole.innerHTML = "{{ __('user.admin') }}";
+                $btnRole.setAttribute('class', 'width-70 btn btn-success');
+              }
+            }
+          });
+        });
+      };
+    }
+  </script>
 @endsection
