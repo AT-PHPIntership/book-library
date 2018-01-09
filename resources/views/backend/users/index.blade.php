@@ -18,11 +18,6 @@
     <div class="row">
       <div class="col-xs-12">
         <div class="box">
-        @php
-          if(session('notification')!=null){
-          echo "<div class=\"text-center btn-success my-4\"><h3>".session()->get('notification')."</h3></div>";
-        }
-        @endphp
         <div class="box-header">
           <h3 class="box-title">{{ __('user.users_table') }}</h3>
         </div>
@@ -36,7 +31,7 @@
                 <th>{{ __('user.employee_email') }}</th>
                 <th>{{ __('user.total_donated') }}</th>
                 <th>{{ __('user.total_borrowed') }}</th>
-                @if (session()->get('team') == 'SA')
+                @if (session()->get('team') == app\Model\User::SA)
                 <th>{{ __('user.role') }}</th>
                 @endif
               </tr>
@@ -58,9 +53,9 @@
                   @endif
                     class=" width-70 
                   @if ($user->role)
-                    btn btn-success" >Admin
+                    btn btn-success"> {{ __('user.admin') }}
                   @else
-                    btn btn-danger" >User
+                    btn btn-danger">{{ __('user.user') }}
                   @endif
                   </a>
                 </td>
