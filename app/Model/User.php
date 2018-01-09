@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model;
 
 use App\Model\Book;
@@ -13,12 +14,14 @@ class User extends Authenticatable
 {
     use Notifiable, SoftDeletes;
     const ROOT_ADMIN = 1;
+
     /**
      * Declare table
      *
      * @var string $tabel table name
      */
     protected $table = 'users';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,6 +35,7 @@ class User extends Authenticatable
         'avatar_url',
         'role',
     ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -40,6 +44,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
     /**
      * Relationship hasMany with Post
      *
@@ -49,6 +54,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
     /**
      * Relationship belongsToMany with Book
      *
@@ -58,6 +64,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Book::class);
     }
+
     /**
      * Relationship belongsToMany with Book
      *
@@ -67,6 +74,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Post::class);
     }
+
     /**
      * Relationship hasMany with Borrowing
      *
@@ -76,6 +84,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Borrowing::class);
     }
+
     /**
      * Relationship hasMany with Favorite
      *
@@ -85,6 +94,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Favorite::class);
     }
+    
     /**
      * Get Role user
      *
