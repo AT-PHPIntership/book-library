@@ -12,9 +12,9 @@
 */
 
 Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return view('backend.layouts.main');
-    });
+	Route::get('/', function () {
+		return view('backend.layouts.main');
+	});
 });
 //Login
 Auth::routes();
@@ -22,7 +22,7 @@ Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
 
 //Admin
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
-    Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
-    Route::resource('books', 'BookController');
+	Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
+	Route::resource('books', 'BookController');
+	Route::get('users/changerole/{id}', 'UserController@changerole');
 });
-
