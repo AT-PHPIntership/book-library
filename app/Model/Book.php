@@ -7,12 +7,9 @@ use App\Model\Borrowing;
 use App\Model\Rating;
 use App\Model\Donator;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
-    use SoftDeletes;
-    
     /**
      * Declare table
      *
@@ -33,6 +30,7 @@ class Book extends Model
         'year',
         'price',
         'description',
+        'donate_by',
         'donator_id',
         'avg_rating',
         'total_rating',
@@ -98,5 +96,15 @@ class Book extends Model
     public function borrowings()
     {
         return $this->hasMany(Borrowing::class);
+    }
+
+    /**
+     * Get total Borrow
+     *
+     * @return int
+     */
+    public function getTotalBorrowAttribute()
+    {
+        return $this->borrowings->count();
     }
 }
