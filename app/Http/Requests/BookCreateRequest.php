@@ -44,7 +44,7 @@ class BookCreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'donator_id.exists' => 'User with does not exists',
+            'employee_code.exists' => 'User does not exists',
         ];
     }
 }
