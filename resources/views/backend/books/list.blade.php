@@ -42,7 +42,7 @@
             <div class="box">
               <!-- /.box-header -->
               <div class="box-body table-responsive no-padding">
-                  <table class="table table-hover">
+                  <table class="table table-hover" id="table-content">
                       <tr>
                           <th>{{ __('books.numbers_order') }}</th>
                           <th>{{ __('books.name') }}</th>
