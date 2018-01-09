@@ -127,7 +127,7 @@ class Book extends Model
             return $newQRcode .= $lastNum;
         }
     }
-
+    
     /**
      * Relationship hasMany with Borrow
      *
