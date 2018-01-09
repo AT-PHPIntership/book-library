@@ -22,15 +22,10 @@ $factory->define(App\Model\User::class, function (Faker $faker) {
     $team = ['PHP', 'SA', 'QC', 'Adroid', 'IOS'];
     return [
         'employee_code' => 'AT-' . $faker->unique()->randomNumber(3),
-        'name'                  => $faker->name,
+        'name'                   => $faker->name,
         'email'                  => $faker->safeEmail,
         'team'                   => $team[array_rand($team)],
-        'role'                     => rand(0, 1),
-    ];
-});
-
-$factory->define(App\Model\Donator::class, function (Faker $faker) {
-    return [
+        'role'                   => rand(0, 1),
     ];
 });
 
@@ -85,4 +80,12 @@ $factory->define(App\Model\QrCode::class, function (Faker $faker) {
     return [
         'status' => rand(0,1),
     ];
+});
+
+$factory->define(App\Model\Donator::class, function (Faker $faker) {
+    $team = ['PHP', 'SA', 'QC', 'BO', 'Android', 'IOS', 'FE', 'Ruby'];
+    return array(
+        'employee_code' => 'AT-' . rand(10000, 99999),
+        'email' => $faker->name.'@asiantech.vn',
+    );
 });
