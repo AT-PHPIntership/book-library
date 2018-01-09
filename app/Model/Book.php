@@ -43,6 +43,20 @@ class Book extends Model
     ];
 
     /**
+     * Declare table sort
+     *
+     * @var array $sortable table sort
+     */
+    public $sortable = ['id', 'name', 'author', 'avg_rating'];
+
+    /**
+     * Declare table sort
+     *
+     * @var string $sortableAs
+     */
+    protected $sortableAs = ['borrowings_count'];
+
+    /**
      * Relationship morphMany with Post
      *
      * @return array
@@ -111,19 +125,4 @@ class Book extends Model
     {
         return $this->borrowings->count();
     }
-
-
-    /**
-     * Declare table sort
-     *
-     * @var array $sortable table sort
-     */
-    public $sortable = ['id', 'name', 'author', 'avg_rating'];
-
-    /**
-     * Declare table sort
-     *
-     * @var string $sortableAs
-     */
-    protected $sortableAs = ['borrowings_count'];
 }
