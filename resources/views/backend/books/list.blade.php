@@ -44,14 +44,14 @@
               <div class="box-body table-responsive no-padding">
                   <table class="table table-hover" id="table-content">
                       <tr>
-                          <th>{{ __('books.numbers_order') }}</th>
-                          <th>{{ __('books.name') }}</th>
-                          <th>{{ __('books.author') }}</th>
-                          <th>{{ __('books.average_review_score') }}</th>
-                          <th>{{ __('books.total_borrow') }}</th>
-                          <th></th>
+                          <th>@sortablelink('id', __('books.numbers_order'))</th>
+                          <th>@sortablelink('name', __('books.name'))</th>
+                          <th>@sortablelink('author', __('books.author'))</th>
+                          <th>@sortablelink('avg_rating', __('books.average_review_score'))</th>
+                          <th>@sortablelink('borrowings_count', __('books.total_borrow'))</th>
+                          <th>{{ __('general.options') }}</th>
                       </tr>
-                      @foreach ($books as $book)
+                    @foreach ($books as $book)
                           <tr>
                               <td>{{ $book->id }}</td>
                               <td>{{ $book->name }}</td>
@@ -63,15 +63,14 @@
                                      class= "btn-edit-{{ $book->id }} fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
                               </td>
                           </tr>
-                      @endforeach
+                    @endforeach
                   </table>
               </div>
               <!-- /.box-body -->
             </div>
             <!-- /.box -->
           </div>
-        </div>
-        {{ $books->links() }}
+      </div>{{ $books->appends(\Request::except('page'))->render()}}
     </div>
     </section>
     <!-- /.content -->
