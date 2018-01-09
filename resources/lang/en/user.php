@@ -9,7 +9,7 @@ return [
   'total_donated' => 'Total donated books',
   'total_borrowed' => 'Total borrowed books',
   'user_title' => 'Users',
-  'role' => 'Role'
+  'role' => 'Role',
   'profile_user' => 'Profile User',
   'admin' => 'Admin',
   'users' => 'Users',
@@ -27,4 +27,6 @@ return [
   'fullname' => 'Full name',
   'join_dated' => 'Join dated',
   'email' => 'Email',
+  'user' => 'User',
+  'admin' => 'Admin',
 ];
