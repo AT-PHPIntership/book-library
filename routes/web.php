@@ -24,5 +24,4 @@ Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 	Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
 	Route::resource('books', 'BookController');
-	Route::get('users/changerole/{id}', 'UserController@changerole');
 });
