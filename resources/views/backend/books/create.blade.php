@@ -67,6 +67,9 @@
               <div class="form-group">
                 <label for="description">{{__('book.description') }}</label></br>
                 <textarea class="ckeditor" id="description" placeholder="{{ __('book.description') }}"></textarea>
+                @if($errors->first('description'))
+                  <span class="text-danger">{{ $errors->first('description') }}</span>
+                @endif
               <div class="form-group">
                 <label for="exampleInputFile">{{ __('book.image') }}</label>
                 <input name="image" type="file" id="exampleInputFile">
