@@ -45,50 +45,28 @@
                   <table class="table table-hover">
                       <thead>
                           <tr>
-                              <th>{{ __('books.numbers_order') }}</th>
-                              <th>{{ __('books.name') }}</th>
-                              <th>{{ __('books.author') }}</th>
-                              <th>{{ __('books.average_review_score') }}</th>
-                              <th>{{ __('books.total_borrow') }}</th>
+                              <th>@sortablelink('id', __('books.numbers_order'))</th>
+                              <th>@sortablelink('name', __('books.name'))</th>
+                              <th>@sortablelink('author', __('books.author'))</th>
+                              <th>@sortablelink('avg_rating', __('books.average_review_score'))</th>
+                              <th>@sortablelink('borrowings_count', __('books.total_borrow'))</th>
+                              <th>{{ __('general.options') }}</th>
                           </tr>
                       </thead>
-                      <tbody id="data-book">
-                        @foreach ($books as $book)
-                        <tr>
-                            <td>{{$book->id}}</td>
-                            <td>{{$book->name}}</td>
-                            <td>{{$book->author}}</td>
-                            <td>{{$book->avg_rating}}</td>
-                            <td>{{$book->total_borrow}}</td>
-                            <td align="center">
-                                <a href="#"
-                                   class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                                <button type="submit" class="btn-custom-option btn btn-delete-item fa fa-trash-o"></button>
-                            </td>
-                        </tr>
-                        @endforeach
                       </tbody>
-                      <tr>
-                          <th>@sortablelink('id', __('books.numbers_order'))</th>
-                          <th>@sortablelink('name', __('books.name'))</th>
-                          <th>@sortablelink('author', __('books.author'))</th>
-                          <th>@sortablelink('avg_rating', __('books.average_review_score'))</th>
-                          <th>@sortablelink('borrowings_count', __('books.total_borrow'))</th>
-                          <th>{{ __('general.options') }}</th>
-                      </tr>
-                    @foreach ($books as $book)
-                          <tr>
-                              <td>{{ $book->id }}</td>
-                              <td>{{ $book->name }}</td>
-                              <td>{{ $book->author }}</td>
-                              <td>{{ $book->avg_rating }}</td>
-                              <td>{{ $book->total_borrow }}</td>
-                              <td align="center">
-                                  <a href="{{ route('books.edit', $book->id) }}"
-                                     class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                              </td>
-                          </tr>
-                    @endforeach
+                        @foreach ($books as $book)
+                              <tr>
+                                  <td>{{ $book->id }}</td>
+                                  <td>{{ $book->name }}</td>
+                                  <td>{{ $book->author }}</td>
+                                  <td>{{ $book->avg_rating }}</td>
+                                  <td>{{ $book->total_borrow }}</td>
+                                  <td align="center">
+                                      <a href="{{ route('books.edit', $book->id) }}"
+                                         class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
+                                  </td>
+                              </tr>
+                        @endforeach
                   </table>
               </div>
               <!-- /.box-body -->
