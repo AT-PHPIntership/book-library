@@ -1,9 +1,6 @@
 @extends('backend.layouts.main')
-
 @section('title',__('user.user_title'))
-
 @section('content')
-
 
 <div class="content-wrapper">
   <section class="content-header">
@@ -21,7 +18,7 @@
     <div class="row">
       <div class="col-xs-12">
         <div class="box">
-          @php
+        @php
           if(session('notification')!=null){
           echo "<div class=\"text-center btn-success my-4\"><h3>".session()->get('notification')."</h3></div>";
         }
@@ -58,8 +55,6 @@
                   <a 
                   @if ($user->team == 'SA')
                     disabled
-                  @else
-                    href="/admin/users/changerole/{{$user->id}}"
                   @endif
                     class=" width-70 
                   @if ($user->role)
@@ -71,16 +66,15 @@
                 </td>
                 @endif
               @endforeach
-            </tr>
-          </tbody>
-        </table>
-        {{ $users->links() }}
+              </tr>
+            </tbody>
+          </table>
+          {{ $users->links() }}
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 </div>
-
 <!-- /.content -->
 </div>
 @endsection
