@@ -29,7 +29,7 @@ class BookCreateRequest extends FormRequest
             'author' => 'required',
             'category_id' => 'required|numeric',
             'price' => 'required|numeric',
-            'donator_id' => 'required|exists:users,employee_code',
+            'employee_code' => 'required|exists:users,employee_code',
             'year' => 'required|digits:4|integer|min:1900|max:'.(Carbon::now()->year+1),
             'description' => 'required|string',
             'image'=> 'image|max:10240',
