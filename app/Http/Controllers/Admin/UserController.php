@@ -55,8 +55,8 @@ class UserController extends Controller
         ->first();
 
         $bookBorrowing = DB::table('borrowings')
-        ->Join('books', 'borrowings.book_id', '=', 'books.id')
-        ->Join('users', 'borrowings.user_id', '=', 'users.id')
+        ->join('books', 'borrowings.book_id', '=', 'books.id')
+        ->join('users', 'borrowings.user_id', '=', 'users.id')
         ->select('books.name')
         ->where('users.employee_Code', '=', $employeeCode)
         ->whereNull('borrowings.to_date')
