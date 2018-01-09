@@ -50,5 +50,9 @@
     @include('backend.layouts.partials.js')
     <!-- end js -->
   </div>
+  
+  <!-- start js -->
+  @yield('javascript')
+  <!-- end js -->
 </body>
 </html>
