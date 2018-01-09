@@ -28,7 +28,7 @@ class BookCreateRequest extends FormRequest
             'name' => 'required|min:8',
             'author' => 'required',
             'category_id' => 'required|numeric',
-            'price' => 'required|numeric|exists:books,price',
+            'price' => 'required|numeric',
             'donator_id' => 'required|exists:users,employee_code',
             'year' => 'required|digits:4|integer|min:1900|max:'.(Carbon::now()->year+1),
             'description' => 'required|string',
