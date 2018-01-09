@@ -42,8 +42,8 @@ class LoginTest extends DuskTestCase
                     ->type('email', 'an.nguyen@asiantech.vn')
                     ->type('password', 'Annguyen735') 
                     ->press('Login')
-                    // ->assertSee('Home Page')
-                    // ->assertPathIs('/admin');
+                    ->assertSee('Admin Management')
+                    ->assertPathIs('/admin');
         });
     }
 
