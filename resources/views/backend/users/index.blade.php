@@ -65,8 +65,8 @@
                   </a>
                 </td>
                 @endif
-              @endforeach
               </tr>
+              @endforeach
             </tbody>
           </table>
           {{ $users->links() }}
