@@ -26,8 +26,9 @@ class UserController extends Controller
             DB::raw('COUNT(DISTINCT(borrowings.id)) AS total_borrowed'),
             DB::raw('COUNT(DISTINCT(donators.id)) AS total_donated'),
         ];
+        
         // Virtual Session
-        session(['team'=> 'SA']);
+        session(['team' => 'SA']);
 
         $users = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
         ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
