@@ -3,21 +3,23 @@
 namespace App\Model;
 
 use App\Model\User;
-
 use App\Model\Borrowing;
 use App\Model\Rating;
 use App\Model\Donator;
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Support\Facades\DB;
 
 class Book extends Model
 {
+    use Sortable;
+
     /**
      * Declare table
      *
      * @var string $tabel table name
      */
     protected $table = 'books';
-    const ROW_LIMIT = 10;
 
     /**
      * The attributes that are mass assignable.
@@ -25,7 +27,6 @@ class Book extends Model
      * @var array
      */
     protected $fillable = [
-
         'QRcode',
         'category_id',
         'name',
@@ -34,7 +35,6 @@ class Book extends Model
         'price',
         'description',
         'donate_by',
-
         'donator_id',
         'avg_rating',
         'total_rating',
@@ -43,14 +43,26 @@ class Book extends Model
     ];
 
     /**
-     * Relationship hasMany with Post
+     * Declare table sort
+     *
+     * @var array $sortable table sort
+     */
+    public $sortable = ['id', 'name', 'author', 'avg_rating'];
+
+    /**
+     * Declare table sort
+     *
+     * @var string $sortableAs
+     */
+    protected $sortableAs = ['borrowings_count'];
+
+    /**
      * Relationship morphMany with Post
      *
      * @return array
     */
     public function posts()
     {
-        return $this->hasMany(Post::class);
         return $this->morphMany(Post::class, 'postable');
     }
 
@@ -93,6 +105,7 @@ class Book extends Model
     {
         return $this->hasMany(Rating::class);
     }
+
     /**
      * Relationship hasMany with Borrow
      *
@@ -102,10 +115,11 @@ class Book extends Model
     {
         return $this->hasMany(Borrowing::class);
     }
+
     /**
      * Get total Borrow
      *
-     * @return array
+     * @return int
      */
     public function getTotalBorrowAttribute()
     {
