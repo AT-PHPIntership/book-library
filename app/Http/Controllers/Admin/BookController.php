@@ -49,18 +49,21 @@ class BookController extends Controller
         if ($request->has('search')  || $request->has('searchby')) {
             switch ($searchBy) {
                 case 'Author':
-                    $books = $books->where('author', 'like', '%'.$search.'%')->paginate(Book::ROW_LIMIT);
+                    $books = $books->where('author', 'like', '%'.$search.'%')
+                    ->with('borrowings')->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
                     break;
                 case 'Name':
-                    $books = $books->where('name', 'like', '%'.$search.'%')->paginate(Book::ROW_LIMIT);
+                    $books = $books->where('name', 'like', '%'.$search.'%')->with('borrowings')
+                    ->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
                     break;
                 default:
                     $books = $books->where('name', 'like', '%'.$search.'%')
-                    ->orwhere('author', 'like', '%'.$search.'%')->paginate(Book::ROW_LIMIT);
+                    ->orwhere('author', 'like', '%'.$search.'%')
+                    ->with('borrowings')->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
                     break;
             }
         } else {
-            $books = $books->paginate(Book::ROW_LIMIT);
+            $books = $books->with('borrowings')->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
         }
         return view('backend.books.list', compact('books'));
     }
