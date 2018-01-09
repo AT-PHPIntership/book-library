@@ -7,16 +7,14 @@
   <section class="content-header">
     <h1>
       {{ __('book.title') }}
-      <small>{{ __('book.create_book') }}</small>
+      <small>{{ __('book.edit_book') }}</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-book"></i>{{ __('book.admin') }}</a></li>
       <li><a href="#">{{ __('book.book') }}</a></li>
-      <li class="active">{{ __('book.create') }}</li>
+      <li class="active">{{ __('book.edit') }}</li>
     </ol>
   </section>
-  <!-- show message response -->
-  @include('flash::message')
     <!-- Main content -->
   <section class="content">
     <div class="row">
@@ -24,24 +22,19 @@
         <div class="box box-info">
           <!-- /.box-header -->
           <div class="box-body pad">
-            <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
-              {{csrf_field()}}
+            <form action="" method="POST" enctype="multipart/form-data">
+              {{ csrf_field() }}
+              {{ method_field('PUT') }}
               <div class="form-group">
-                <label for="name">Name</label>
+                <label for="name">{{ __('book.name') }}</label>
                 <input name="name" type="text" class="form-control" id="name" placeholder="{{ __('book.enter_name') }}" value="{{ old('name') }}">
                 @if($errors->first('name'))
                   <span class="text-danger">{{ $errors->first('name') }}</span>
                 @endif
               </div>
               <div class="form-group">
-                <label for="name">{{ __('book.category') }}</label>
+                <label for="category">{{ __('book.category') }}</label>
                 <select name="category_id" id="category">
-                @foreach($categories as $category)
-                  @if($category->id == 1)
-                    @continue;
-                  @endif
-                  <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
                 </select>
               </div>
               <div class="form-group">
@@ -74,15 +67,14 @@
               </div>
               <div class="form-group">
                 <label for="description">{{__('book.description') }}</label></br>
-                <textarea name="description" id="description" class="ckeditor" placeholder="{{ __('Description about this book') }}"></textarea>
+                <textarea class="ckeditor" name="description" id="description" placeholder=""></textarea>
                 @if($errors->first('description'))
                   <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
               </div>
               <div class="form-group">
-                <label for="exampleInputFile">{{ __('book.image') }}</label>
-                <input name="image" type="file" id="exampleInputFile">
-                <p class="help-block">{{ __('Only upload image with maximum 10mb') }}</p>
+                <label for="image">{{ __('book.image') }}</label>
+                <input name="image" type="file" id="image">
                 @if($errors->first('image'))
                   <span class="text-danger">{{ $errors->first('image') }}</span>
                 @endif

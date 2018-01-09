@@ -7,9 +7,13 @@ use App\Model\Borrowing;
 use App\Model\Rating;
 use App\Model\Donator;
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Support\Facades\DB;
 
 class Book extends Model
 {
+    use Sortable;
+
     /**
      * Declare table
      *
@@ -30,12 +34,27 @@ class Book extends Model
         'year',
         'price',
         'description',
+        'donate_by',
         'donator_id',
         'avg_rating',
         'total_rating',
         'image',
         'status'
     ];
+
+    /**
+     * Declare table sort
+     *
+     * @var array $sortable table sort
+     */
+    public $sortable = ['id', 'name', 'author', 'avg_rating'];
+
+    /**
+     * Declare table sort
+     *
+     * @var string $sortableAs
+     */
+    protected $sortableAs = ['borrowings_count'];
 
     /**
      * Relationship morphMany with Post
@@ -88,28 +107,44 @@ class Book extends Model
     }
 
     /**
-     * Relationship hasMany with Rating
+     * Geneterate a new qrcode
      *
      * @return string
     */
     public function generateQRcode()
     {
-        $qrCodes = self::select('QRcode')->orderby('QRcode', 'desc')->limit(1)->get();
-        $qrIndex = explode('-', $qrCodes);
-        $lastNum = filter_var($qrIndex[1], FILTER_SANITIZE_NUMBER_INT) + 1;
+        $qrCode = self::select('QRcode')->orderby('QRcode', 'desc')->limit(1)->first();
+        if ($qrCode == null) {
+            return config('define.default_qrCode');
+        } else {
+            $qrIndex = explode('-', $qrCode);
+            $lastNum = filter_var($qrIndex[1], FILTER_SANITIZE_NUMBER_INT) + 1;
 
-        $finalQRcode = 'BAT-';
-        for ($i = 0, $length = 6 - strlen($lastNum); $i < $length; $i++) {
-            $finalQRcode .= '0';
+            $newQRcode = 'BAT-';
+            for ($i = 0, $length = config('define.qrCode_length') - strlen($lastNum); $i < $length; $i++) {
+                $newQRcode .= '0';
+            }
+            return $newQRcode .= $lastNum;
         }
-        return $finalQRcode .= $lastNum;
     }
-    /* Relationship hasMany with Borrow
+
+    /**
+     * Relationship hasMany with Borrow
      *
      * @return array
     */
     public function borrowings()
     {
         return $this->hasMany(Borrowing::class);
+    }
+
+    /**
+     * Get total Borrow
+     *
+     * @return int
+     */
+    public function getTotalBorrowAttribute()
+    {
+        return $this->borrowings->count();
     }
 }
