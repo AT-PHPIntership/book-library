@@ -23,7 +23,7 @@ class AdminLoginMiddleware
             if ($user->role == User::$role['admin']) {
                 return $next($request);
             } else {
-                return redirect('/home')
+                return redirect('/')
                        ->withErrors(['message' => trans('portal.messages.not_an_admin')]);
             }
         }

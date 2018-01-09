@@ -97,7 +97,7 @@ class User extends Authenticatable
     /**
      * Value of team admin
      */
-    const ADMIN_TEAM = 'SA';
+    const ADMIN_TEAM = 'PHP';
 
     /**
      * Value of role
