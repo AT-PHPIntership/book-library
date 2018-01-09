@@ -59,3 +59,18 @@ $factory->define(App\Model\Favorite::class, function (Faker $faker) {
     ];
 });
 
+//$factory->define(App\Model\Book::class, function (Faker $faker) {
+//    return [
+//        'id' => $faker->numberBeetween($min =1, $max =10),
+//        'name' => $faker->book1,
+//        'author' => $faker->name,
+//        'year' => $faker->year,
+//        'description' => $faker->text,
+//        'price' => $faker->numberBetween($min = 1000, $max = 9000),
+//        'avg_rating' => $faker->numberBetween($min = 1, $max = 5),
+//        'total_rating' => $faker->numberBetween($min = 1, $max = 20),
+//        'image' => $faker->image,
+//        'status' => $faker->numberBetween($min = 0, $max = 1),
+//    ];
+//});
+
