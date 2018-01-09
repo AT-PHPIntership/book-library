@@ -14,6 +14,7 @@ class User extends Authenticatable
 {
     use Notifiable, SoftDeletes;
 
+    const ROOT_ADMIN = 1;
     /**
      * Declare table
      *
@@ -121,5 +122,15 @@ class User extends Authenticatable
     public function getRoleByTeam($team)
     {
         return $team == self::ADMIN_TEAM ? 1 : 0;
+    }
+    
+    /**
+     * Get Role user
+     *
+     * @return array
+    */
+    public function getRoleNameAttribute()
+    {
+        return $this->role == self::ROOT_ADMIN ? __('user.admin') : __('user.member');
     }
 }

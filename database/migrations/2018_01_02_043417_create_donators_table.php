@@ -34,6 +34,8 @@ class CreateDonatorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('donator');
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        Schema::dropIfExists('donators');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }

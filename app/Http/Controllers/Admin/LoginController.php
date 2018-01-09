@@ -55,6 +55,33 @@ class LoginController extends Controller
             $client = new Client();
             $portal = $client->post(config('portal.base_url_api') . config('portal.end_point.login'), ['form_params' => $data]);
             $portalResponse = json_decode($portal->getBody()->getContents());
+
+            # Check status API response
+            if ($portalResponse->meta->status == config('define.success')) {
+                $userResponse = $portalResponse->data->user;
+                # Collect user data from response
+                $teamName = $userResponse->teams[0]->name;
+                $date = date(config('define.datetime_format'), strtotime($userResponse->expires_at));
+                $userRole = new User();
+                $userCondition = [
+                    'employee_code' => $userResponse->employee_code,
+                    'email' => $request->email,
+                ];
+                $user = [
+                    'name' => $userResponse->name,
+                    'team' => $teamName,
+                    'access_token' => $userResponse->access_token,
+                    'expired_at' => $date,
+                    'role' => $userRole->getRoleByTeam($teamName),
+                    'avatar_url' => $userResponse->avatar_url
+                ];
+                # Update user from database OR create User
+                $user = User::updateOrCreate($userCondition, $user);
+                # Set login for user
+                Auth::login($user, $request->filled('remember'));
+                dd($user);
+                return redirect("/admin");
+            }
         } catch (ServerException $e) {
             # Catch errors from Portal
             $portalResponse = json_decode($e->getResponse()->getBody()->getContents());
@@ -62,32 +89,8 @@ class LoginController extends Controller
                 ->back()
                 ->withInput()
                 ->withErrors(['message' => trans('portal.messages.' . $portalResponse->meta->messages)]);
-        }
-        
-        # Check status API response
-        if ($portalResponse->meta->status == config('define.success')) {
-            $userResponse = $portalResponse->data->user;
-            # Collect user data from response
-            $teamName = $userResponse->teams[0]->name;
-            $date = date(config('define.datetime_format'), strtotime($userResponse->expires_at));
-            $userRole = new User();
-            $userCondition = [
-                'employee_code' => $userResponse->employee_code,
-                'email' => $request->email,
-            ];
-            $user = [
-                'name' => $userResponse->name,
-                'team' => $teamName,
-                'access_token' => $userResponse->access_token,
-                'expired_at' => $date,
-                'role' => $userRole->getRoleByTeam($teamName),
-                'avatar_url' => $userResponse->avatar_url
-            ];
-            # Update user from database OR create User
-            $user = User::updateOrCreate($userCondition, $user);
-            # Set login for user
-            Auth::login($user, $request->filled('remember'));
-            return redirect("/admin");
+        } catch (Exception $e) {
+            echo  $e->getMessage();
         }
     }
     
