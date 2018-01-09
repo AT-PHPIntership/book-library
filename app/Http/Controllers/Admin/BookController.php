@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Book;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookCreateRequest;
 use App\Model\Category;
-use App\Model\Book;
 use App\Model\User;
 use App\Model\Donator;
 
@@ -54,7 +54,7 @@ class BookController extends Controller
         $book->QRcode = $book->generateQRcode();
 
         //save new donator
-        $user = User::where('employee_code', $request->donator_id)->first();
+        $user = User::where('employee_code', $request->employee_code)->first();
         $donatorData = [
             'user_id' => $user->id,
             'employee_code' => $user->employee_code,
@@ -71,5 +71,15 @@ class BookController extends Controller
             flash(__('Create failure'))->error();
             return redirect()->back()->withInput();
         }
+    }
+    /**
+     * Display list book.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $books  = Book::with('borrowings')->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+        return view('backend.books.list', compact('books'));
     }
 }
