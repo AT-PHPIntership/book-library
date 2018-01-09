@@ -7,12 +7,13 @@ use App\Model\Borrowing;
 use App\Model\Rating;
 use App\Model\Donator;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Support\Facades\DB;
 
 class Book extends Model
 {
-    use SoftDeletes;
-    
+    use Sortable;
+
     /**
      * Declare table
      *
@@ -33,12 +34,27 @@ class Book extends Model
         'year',
         'price',
         'description',
+        'donate_by',
         'donator_id',
         'avg_rating',
         'total_rating',
         'image',
         'status'
     ];
+
+    /**
+     * Declare table sort
+     *
+     * @var array $sortable table sort
+     */
+    public $sortable = ['id', 'name', 'author', 'avg_rating'];
+
+    /**
+     * Declare table sort
+     *
+     * @var string $sortableAs
+     */
+    protected $sortableAs = ['borrowings_count'];
 
     /**
      * Relationship morphMany with Post
@@ -98,5 +114,15 @@ class Book extends Model
     public function borrowings()
     {
         return $this->hasMany(Borrowing::class);
+    }
+
+    /**
+     * Get total Borrow
+     *
+     * @return int
+     */
+    public function getTotalBorrowAttribute()
+    {
+        return $this->borrowings->count();
     }
 }
