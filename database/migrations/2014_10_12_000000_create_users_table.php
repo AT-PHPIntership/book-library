@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar_url')->nullable();
             $table->tinyInteger('role')->default(0)->comment="1: admin; 0:user";            
             $table->string('access_token')->nullable();
-            $table->datetime('expired_at')->nullable();
+            $table->datetime('expires_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
