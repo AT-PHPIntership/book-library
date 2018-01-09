@@ -72,6 +72,7 @@ class BookController extends Controller
             return redirect()->back()->withInput();
         }
     }
+    
     /**
      * Display list book.
      *
