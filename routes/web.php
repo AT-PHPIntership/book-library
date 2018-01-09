@@ -24,6 +24,5 @@ Route::post('/logout', 'Admin\LoginController@logout')->name('logout');
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
    Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
    Route::resource('books', 'BookController');
-   Route::resource('/', 'HomeController');   
 });
 

@@ -68,19 +68,23 @@ class LoginController extends Controller
         if ($portalResponse->meta->status == config('define.success')) {
             $userResponse = $portalResponse->data->user;
             # Collect user data from response
-            $user = [
+            $teamName = $userResponse->teams[0]->name;
+            $date = date(config('define.datetime_format'), strtotime($userResponse->expires_at));
+            $userRole = new User();
+            $userCondition = [
                 'employee_code' => $userResponse->employee_code,
                 'email' => $request->email,
             ];
-            $teamName = $userResponse->teams[0]->name;
+            $user = [
+                'name' => $userResponse->name,
+                'team' => $teamName,
+                'access_token' => $userResponse->access_token,
+                'expires_at' => $date,
+                'role' => $userRole->getRoleByTeam($teamName),
+                'avatar_url' => $userResponse->avatar_url
+            ];
             # Update user from database OR create User
-            $user = User::updateOrCreate($user);
-            # Update user info
-            $date = date(config('define.datetime_format'), strtotime($userResponse->expires_at));
-            $user->expires_at = $date;
-            $user->role = $user->getRoleByTeam($teamName);
-            # Save User, update token
-            $user->save();
+            $user = User::updateOrCreate($userCondition, $user);
             # Set login for user
             Auth::login($user, $request->filled('remember'));
             return redirect("/admin");
