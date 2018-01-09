@@ -45,10 +45,10 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->total_donated }}</td>
                 <td>{{ $user->total_borrowed }}</td>
-                @if (session()->get('team') == 'SA')
+                @if (session()->get('team') == app\Model\User::SA)
                 <td>
                   <a 
-                  @if ($user->team == 'SA')
+                  @if ($user->team == app\Model\User::SA)
                     disabled
                   @endif
                     class=" width-70 
