@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Book;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Category;
@@ -30,6 +31,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        return view('backend.layouts.books.list');
+        $books = Book::with('borrowings')->paginate(config('define.page_length'));
+        return view('backend.books.list', compact('books'));
     }
 }
