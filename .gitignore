@@ -13,3 +13,4 @@ yarn-error.log
 storage/debugbar/
 .env.dusk.local
 /public/bower_components
+phpunit.dusk.xml
