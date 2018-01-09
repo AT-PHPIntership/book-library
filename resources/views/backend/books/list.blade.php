@@ -1,6 +1,28 @@
 @extends('backend.layouts.main')
 @section('title',__('books.title_book'))
 @section('content')
+
+<!-- Modal -->
+<div id="confirmDelete" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <h3>Confirm</h3>
+        <p>Do you want to delete this book ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -58,9 +80,10 @@
                               <td>{{ $book->author }}</td>
                               <td>{{ $book->avg_rating }}</td>
                               <td>{{ $book->total_borrow }}</td>
-                              <td align="center">
-                                  <a href="{{ route('books.edit', $book->) }}"
+                              <td>
+                                  <a href="{{ route('books.edit', $book->id) }}"
                                      class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
+                                  <i class="btn btn-danger btn-lg fa fa-trash-o" data-toggle="modal" data-target="#confirmDelete"></i>
                               </td>
                           </tr>
                       @endforeach
