@@ -8,6 +8,7 @@ use App\Http\Requests\BookCreateRequest;
 use App\Model\Category;
 use App\Model\Book;
 use App\Model\User;
+use App\Model\Donator;
 
 class BookController extends Controller
 {
@@ -51,9 +52,18 @@ class BookController extends Controller
         }
         //save generate qrcode
         $book->QRcode = $book->generateQRcode();
-        //save donator id
-        $book->donator_id = User::where('employee_code', $request->donator_id)->get()[0]['id'];
+
+        //save new donator
+        $user = User::where('employee_code', $request->donator_id)->first();
+        $donatorData = [
+            'user_id' => $user->id,
+            'employee_code' => $user->employee_code,
+            'email' => $user->email,
+        ];
+        $donator = Donator::firstOrCreate($donatorData);
+        $book->donator_id = $donator->id;
         $result = $book->save();
+
         if ($result) {
             flash(__('Create success'))->success();
             return redirect()->route('books.create');
