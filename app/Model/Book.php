@@ -114,27 +114,16 @@ class Book extends Model
 
 
     /**
-     * Declare table
+     * Declare table sort
      *
-     * @var array $tabel table sort
+     * @var array $sortable table sort
      */
-    public $sortable = ['id', 'name', 'author', 'avg_rating', 'borrowing'];
+    public $sortable = ['id', 'name', 'author', 'avg_rating'];
 
     /**
-     * Total Borrowing Book for SortTable
+     * Declare table sort
      *
-     * @param Object $query     query sortable
-     * @param String $direction desc or asc
-     *
-     * @return mixed
+     * @var string $sortableAs
      */
-    public function borrowingSortable($query, $direction)
-    {
-        return $query
-            ->select('books.id', 'books.name', 'books.author', 'books.avg_rating', 'borrowings.book_id')
-            ->addselect(DB::raw('count(borrowings.book_id) as borrowing'))
-            ->leftJoin('borrowings', 'borrowings.book_id', '=', 'books.id')
-            ->groupby('books.id')
-            ->orderBy('borrowing', $direction);
-    }
+    protected $sortableAs = ['borrowings_count'];
 }

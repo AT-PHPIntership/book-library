@@ -48,7 +48,7 @@
                           <th>@sortablelink('name', __('books.name'))</th>
                           <th>@sortablelink('author', __('books.author'))</th>
                           <th>@sortablelink('avg_rating', __('books.average_review_score'))</th>
-                          <th>@sortablelink('borrowing', __('books.total_borrow'))</th>
+                          <th>@sortablelink('borrowings_count', __('books.total_borrow'))</th>
                           <th>{{ __('general.options') }}</th>
                       </tr>
                     @foreach ($books as $book)
