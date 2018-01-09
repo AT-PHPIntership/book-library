@@ -11,11 +11,6 @@
 |
 */
 
-Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return view('backend.layouts.main');
-    });
-});
 //Login
 Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Admin\LoginController@login');

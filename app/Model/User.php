@@ -34,7 +34,7 @@ class User extends Authenticatable
         'avatar_url',
         'role',
         'access_token',
-        'expires_at'
+        'expired_at'
     ];
 
     /**

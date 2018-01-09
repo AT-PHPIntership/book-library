@@ -79,7 +79,7 @@ class LoginController extends Controller
                 'name' => $userResponse->name,
                 'team' => $teamName,
                 'access_token' => $userResponse->access_token,
-                'expires_at' => $date,
+                'expired_at' => $date,
                 'role' => $userRole->getRoleByTeam($teamName),
                 'avatar_url' => $userResponse->avatar_url
             ];
