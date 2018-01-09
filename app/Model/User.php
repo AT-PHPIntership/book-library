@@ -13,7 +13,14 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable, SoftDeletes;
+
     const ROOT_ADMIN = 1;
+
+    const SA = 'SA';
+
+    const ADMIN = 'Admin';
+
+    const USER = 'User';
 
     /**
      * Declare table
