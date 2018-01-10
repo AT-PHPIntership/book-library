@@ -23,10 +23,8 @@ return [
     'submit' => 'Submit',
     'reset' => 'Reset',
     'back' => 'Back',
-    'confirm_title' => [
-        'confirm' => 'Confirm',
+    'confirm' => [
+        'title' => 'Confirm',
         'delete' => 'Do you want to delete this book'
-    ],
-    'ok' => 'OK',
-    'close' => 'Close'
+    ]
 ];
