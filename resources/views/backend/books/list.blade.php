@@ -86,7 +86,7 @@
                               <td align="center">
                                   <a href="{{ route('books.edit', $book->id) }}"
                                      class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                                  <i class="btn btn-danger btn-lg fa fa-trash-o "></i>
+                                  <i class="btn btn-danger btn-lg fa fa-trash-o"></i>
                               </td>
                           </tr>
                     @endforeach
