@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoriesTable extends Migration
+class ChangeExpiresAtColsUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name',100);
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->renameColumn('expires_at', 'expired_at');
         });
     }
 
@@ -27,8 +25,8 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        Schema::dropIfExists('categories');
-        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        Schema::table('users', function (Blueprint $table) {
+            $table->renameColumn('expired_at', 'expires_at');
+        });
     }
 }
