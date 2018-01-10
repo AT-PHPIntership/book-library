@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBorrowingsTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateBorrowingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('borrowings', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('book_id')->unsigned();
-            $table->foreign('book_id')
-                  ->references('id')->on('books')
+            $table->integer('post_id')->unsigned();
+            $table->foreign('post_id')
+                  ->references('id')->on('posts')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->integer('user_id')->unsigned();
@@ -25,8 +25,8 @@ class CreateBorrowingsTable extends Migration
                   ->references('id')->on('users')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->datetime('from_date');
-            $table->datetime('to_date')->nullable();
+            $table->string('content');
+            $table->tinyInteger('parent_id')->unsigned()->nullable()->comment="id parent comment";            
             $table->timestamps();
             $table->softDeletes();
         });
@@ -39,6 +39,6 @@ class CreateBorrowingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('borrowings');
+        Schema::dropIfExists('comments');
     }
 }

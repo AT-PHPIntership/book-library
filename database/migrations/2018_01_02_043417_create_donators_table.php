@@ -20,8 +20,9 @@ class CreateDonatorsTable extends Migration
                   ->references('id')->on('users')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->string('employee_code', 255);
-            $table->string('email', 100);
+            $table->string('employee_code', 100)->nullable();
+            $table->string('email', 100)->nullable();
+            $table->string('name', 100)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -34,6 +35,8 @@ class CreateDonatorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('donator');
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        Schema::dropIfExists('donators');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }
