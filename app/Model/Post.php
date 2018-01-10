@@ -2,13 +2,16 @@
 
 namespace App\Model;
 
-use App\Model\Post;
 use App\Model\User;
+use App\Model\Comment;
 use App\Model\Favorite;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+    use SoftDeletes;
+    
     /**
      * Declare table
      *
@@ -26,26 +29,17 @@ class Post extends Model
         'user_id',
         'type',
         'content',
+        'image'
     ];
-
-    /**
-     * Get all of the owning postable models
-     *
-     * @return array
-    */
-    public function postable()
-    {
-        return $this->morphTo();
-    }
     
     /**
-     * Relationship belongsTo with User
+     * Relationship morphMany with Favorite
      *
      * @return array
     */
-    public function posts()
+    public function favorites()
     {
-        return $this->morphMany(Post::class, 'postable');
+        return $this->morphMany(Favorite::class, 'favoritable');
     }
 
     /**
@@ -69,12 +63,12 @@ class Post extends Model
     }
 
     /**
-     * Relationship hasMany with Favorite
+     * Relationship hasMany with Comment
      *
      * @return array
     */
-    public function favorites()
+    public function comments()
     {
-        return $this->hasMany(Favorite::class);
+        return $this->hasMany(Comment::class);
     }
 }

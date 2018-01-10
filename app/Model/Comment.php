@@ -2,12 +2,13 @@
 
 namespace App\Model;
 
+use App\Model\Post;
 use App\Model\User;
-use App\Model\Book;
+use App\Model\Favorite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Borrowing extends Model
+class Comment extends Model
 {
     use SoftDeletes;
     
@@ -16,7 +17,7 @@ class Borrowing extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'borrowings';
+    protected $table = 'comments';
 
     /**
      * The attributes that are mass assignable.
@@ -24,20 +25,20 @@ class Borrowing extends Model
      * @var array
      */
     protected $fillable = [
-        'book_id',
+        'post_id',
         'user_id',
-        'from_date',
-        'to_date',
+        'content',
+        'parent_id',
     ];
 
     /**
-     * Relationship belongsTo with Book
+     * Relationship belongsTo with Post
      *
      * @return array
     */
-    public function books()
+    public function post()
     {
-        return $this->belongsTo(Book::class, 'book_id');
+        return $this->belongsTo(Post::class, 'post_id');
     }
     
     /**
@@ -45,8 +46,18 @@ class Borrowing extends Model
      *
      * @return array
     */
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Relationship morphMany with Favorite
+     *
+     * @return array
+    */
+    public function favorites()
+    {
+        return $this->morphMany(Favorite::class, 'favoritable');
     }
 }
