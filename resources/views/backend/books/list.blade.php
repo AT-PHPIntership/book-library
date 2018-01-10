@@ -12,12 +12,12 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body text-center">
-        <h3>Confirm</h3>
-        <p>Do you want to delete this book ?</p>
+        <h3>{{ __('book.confirm') }}</h3>
+        <p>{{ __('book.do_you_want_to_delete_this_book') }} ?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('book.ok') }}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('book.close') }}</button>
       </div>
     </div>
     <!-- end content--> 
@@ -86,7 +86,7 @@
                               <td align="center">
                                   <a href="{{ route('books.edit', $book->id) }}"
                                      class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                                  <i class="btn btn-danger btn-lg fa fa-trash-o"></i>
+                                  <i class="btn btn-danger btn-lg fa fa-trash-o " data-toggle="modal" data-target="#confirmDelete"></i>
                               </td>
                           </tr>
                     @endforeach
