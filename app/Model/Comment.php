@@ -4,16 +4,19 @@ namespace App\Model;
 
 use App\Model\Post;
 use App\Model\User;
+use App\Model\Favorite;
 use Illuminate\Database\Eloquent\Model;
 
-class Favorite extends Model
+class Comment extends Model
 {
+    use SoftDeletes;
+    
     /**
      * Declare table
      *
      * @var string $tabel table name
      */
-    protected $table = 'favorites';
+    protected $table = 'comments';
 
     /**
      * The attributes that are mass assignable.
@@ -21,27 +24,39 @@ class Favorite extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id',
         'post_id',
+        'user_id',
+        'content',
+        'parent_id',
     ];
+
+    /**
+     * Relationship belongsTo with Post
+     *
+     * @return array
+    */
+    public function post()
+    {
+        return $this->belongsTo(Post::class, 'post_id');
+    }
     
     /**
      * Relationship belongsTo with User
      *
      * @return array
     */
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
     /**
-     * Get all of the owning favoritable models
+     * Relationship morphMany with Favorite
      *
      * @return array
     */
-    public function favoritable()
+    public function favorites()
     {
-        return $this->morphTo();
+        return $this->morphMany(Favorite::class, 'favoritable');
     }
 }
