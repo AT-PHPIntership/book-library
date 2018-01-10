@@ -21,9 +21,15 @@ class UserController extends Controller
             'users.employee_code',
             'users.name',
             'users.email',
+            'users.team',
+            'users.role',
             DB::raw('COUNT(DISTINCT(borrowings.id)) AS total_borrowed'),
             DB::raw('COUNT(DISTINCT(donators.id)) AS total_donated'),
         ];
+        
+        // Virtual Session
+        session(['team' => 'SA']);
+
         $users = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
         ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
         ->select($fields)
@@ -35,10 +41,33 @@ class UserController extends Controller
     /**
      * Display User Detail.
      *
+     * @param string $employeeCode employeeCode of user
+     *
      * @return mixed
      */
-    public function show()
+    public function show($employeeCode)
     {
-        return view('backend.users.show');
+        $fields = [
+            'users.*',
+            DB::raw('count(distinct(borrowings.id)) as total_borrowed'),
+            DB::raw('count(distinct(donators.id)) as total_donated')
+        ];
+
+        $user = User::select($fields)
+        ->leftJoin('borrowings', 'users.id', '=', 'borrowings.user_id')
+        ->leftJoin('donators', 'users.id', '=', 'donators.user_id')
+        ->where('users.employee_Code', '=', $employeeCode)
+        ->groupBy('users.id')
+        ->first();
+
+        $bookBorrowing = DB::table('borrowings')
+        ->join('books', 'borrowings.book_id', '=', 'books.id')
+        ->join('users', 'borrowings.user_id', '=', 'users.id')
+        ->select('books.name')
+        ->where('users.employee_Code', '=', $employeeCode)
+        ->whereNull('borrowings.to_date')
+        ->first();
+
+        return view('backend.users.show', compact('user', 'bookBorrowing'));
     }
 }
