@@ -1,10 +1,10 @@
 <?php
 
-use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Faker\Factory as Faker;
 
-class FavoritesTableSeeder extends Seeder
+class QRCodesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,10 +14,10 @@ class FavoritesTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        $userId = DB::table('users')->pluck('id')->toArray();
+        $qrCode = DB::table('books')->pluck('QRcode')->toArray();
         $faker = Faker::create();
-        factory(App\Model\Favorite::class, 25)->create([
-            'user_id' => $faker->randomElement($userId)
+        factory(App\Model\QrCode::class, 16)->create([
+            'QRcode' => $faker->randomElement($qrCode),
         ]);
         Model::reguard();
     }
