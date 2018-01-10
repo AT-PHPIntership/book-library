@@ -7,9 +7,13 @@ use App\Model\Borrowing;
 use App\Model\Rating;
 use App\Model\Donator;
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Support\Facades\DB;
 
 class Book extends Model
 {
+    use Sortable;
+
     /**
      * Declare table
      *
@@ -30,6 +34,7 @@ class Book extends Model
         'year',
         'price',
         'description',
+        'donate_by',
         'donator_id',
         'avg_rating',
         'total_rating',
@@ -38,13 +43,28 @@ class Book extends Model
     ];
 
     /**
+     * Relationship morphMany with Favorite
+     * Declare table sort
+     *
+     * @var array $sortable table sort
+     */
+    public $sortable = ['id', 'name', 'author', 'avg_rating'];
+
+    /**
+     * Declare table sort
+     *
+     * @var string $sortableAs
+     */
+    protected $sortableAs = ['borrowings_count'];
+
+    /**
      * Relationship morphMany with Post
      *
      * @return array
-    */
-    public function posts()
+     */
+    public function favorites()
     {
-        return $this->morphMany(Post::class, 'postable');
+        return $this->morphMany(Favorite::class, 'favoritable');
     }
 
     /**
@@ -88,12 +108,42 @@ class Book extends Model
     }
 
     /**
-     * Relationship hasMany with Borrow
+     * Relationship hasMany with Borrowing
      *
      * @return array
     */
     public function borrowings()
     {
         return $this->hasMany(Borrowing::class);
+    }
+
+    /**
+     * Relationship hasMany with Post
+     *
+     * @return array
+    */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+    
+    /**
+     * Get total Borrow
+     *
+     * @return int
+     */
+    public function getTotalBorrowAttribute()
+    {
+        return $this->borrowings->count();
+    }
+
+    /**
+     * Relationship hasOne with Book
+     *
+     * @return array
+    */
+    public function qrcode()
+    {
+        return $this->hasOne(QRcode::class);
     }
 }

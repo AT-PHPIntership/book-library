@@ -5,9 +5,12 @@ namespace App\Model;
 use App\Model\Book;
 use App\Model\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Donator extends Model
 {
+    use SoftDeletes;
+    
     /**
      * Declare table
      *
@@ -24,6 +27,7 @@ class Donator extends Model
         'user_id',
         'employee_code',
         'email',
+        'name',
     ];
 
     /**
