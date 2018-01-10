@@ -54,19 +54,28 @@
                           </tr>
                       </thead>
                       </tbody>
-                        @foreach ($books as $book)
-                              <tr>
-                                  <td>{{ $book->id }}</td>
-                                  <td>{{ $book->name }}</td>
-                                  <td>{{ $book->author }}</td>
-                                  <td>{{ $book->avg_rating }}</td>
-                                  <td>{{ $book->total_borrow }}</td>
-                                  <td align="center">
-                                      <a href="{{ route('books.edit', $book->id) }}"
-                                         class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                                  </td>
-                              </tr>
-                        @endforeach
+                        @if (count($books) > 0)
+                            @foreach ($books as $book)
+                                  <tr>
+                                      <td>{{ $book->id }}</td>
+                                      <td>{{ $book->name }}</td>
+                                      <td>{{ $book->author }}</td>
+                                      <td>{{ $book->avg_rating }}</td>
+                                      <td>{{ $book->total_borrow }}</td>
+                                      <td align="center">
+                                          <a href="{{ route('books.edit', $book->id) }}"
+                                             class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
+                                      </td>
+                                  </tr>
+                            @endforeach
+                        @else
+                            <tr class="h1 .text-muted" align="center">
+                                <td colspan="6">
+                                    Not Found Book
+                                </td>
+                            </tr>
+                        @endif
+
                   </table>
               </div>
               <!-- /.box-body -->
