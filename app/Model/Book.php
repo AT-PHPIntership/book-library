@@ -41,13 +41,13 @@ class Book extends Model
     ];
 
     /**
-     * Relationship morphMany with Post
+     * Relationship morphMany with Favorite
      *
      * @return array
     */
-    public function posts()
+    public function favorites()
     {
-        return $this->morphMany(Post::class, 'postable');
+        return $this->morphMany(Favorite::class, 'favoritable');
     }
 
     /**
@@ -91,12 +91,22 @@ class Book extends Model
     }
 
     /**
-     * Relationship hasMany with Borrow
+     * Relationship hasMany with Borrowing
      *
      * @return array
     */
     public function borrowings()
     {
         return $this->hasMany(Borrowing::class);
+    }
+
+    /**
+     * Relationship hasMany with Post
+     *
+     * @return array
+    */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 }

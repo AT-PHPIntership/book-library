@@ -27,6 +27,7 @@ class Donator extends Model
         'user_id',
         'employee_code',
         'email',
+        'name',
     ];
 
     /**
