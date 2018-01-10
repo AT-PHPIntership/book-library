@@ -22,5 +22,9 @@ return [
     'image' => 'Image',
     'submit' => 'Submit',
     'reset' => 'Reset',
-    'back' => 'Back'
+    'back' => 'Back',
+    'confirm' => 'Confirm',
+    'do_you_want_to_delete_this_book' => 'Do you want to delete this book',
+    'ok' => 'OK',
+    'close' => 'Close'
 ];
