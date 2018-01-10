@@ -12,8 +12,8 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body text-center">
-        <h3>{{ __('book.confirm') }}</h3>
-        <p>{{ __('book.do_you_want_to_delete_this_book') }} ?</p>
+        <h3>{{ __('book.confirm_title.confirm') }}</h3>
+        <p>{{ __('book.confirm_title.delete') }} ?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('book.ok') }}</button>
