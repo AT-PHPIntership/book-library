@@ -20,9 +20,14 @@ class CreatePostsTable extends Migration
                   ->references('id')->on('users')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->integer('postable_id')->unsigned();
-            $table->string('postable_type', 30);
+            $table->integer('book_id')->unsigned();
+            $table->foreign('book_id')
+                  ->references('id')->on('books')
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
+            $table->string('type', 30)->comment="review || find || status";
             $table->string('content');
+            $table->string('image')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -35,6 +40,8 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         Schema::dropIfExists('posts');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }
