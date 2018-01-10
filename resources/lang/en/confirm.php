@@ -1,5 +1,5 @@
 <?php
 return [
-	'ok' => 'OK',
-	'close' => 'Close'
+    'ok' => 'OK',
+    'close' => 'Close'
 ];
