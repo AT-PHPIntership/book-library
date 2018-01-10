@@ -6,7 +6,7 @@
     <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      {{ __('book.create_title') }}
+      {{ __('book.title') }}
       <small>{{ __('book.create_book') }}</small>
     </h1>
     <ol class="breadcrumb">
@@ -51,10 +51,10 @@
                 @endif
               </div>
               <div class="form-group">
-                <label for="donator">{{ __('book.donator') }}</label>
-                <input name="donator_id" type="text" class="form-control" id="donator" placeholder="{{ __('book.enter_donator') }}" value="{{ old('donate_by') }}" >
-                @if($errors->first('donator_id'))
-                  <span class="text-danger">{{ $errors->first('donator_id') }}</span>
+                <label for="employee_code">{{ __('book.donator') }}</label>
+                <input name="employee_code" type="text" class="form-control" id="employee_code" placeholder="{{ __('book.enter_employee_code') }}" value="{{ old('employee_code') }}" >
+                @if($errors->first('employee_code'))
+                  <span class="text-danger">{{ $errors->first('employee_code') }}</span>
                 @endif
               </div>
               <div class="form-group">
@@ -67,6 +67,9 @@
               <div class="form-group">
                 <label for="description">{{__('book.description') }}</label></br>
                 <textarea class="ckeditor" id="description" placeholder="{{ __('book.description') }}"></textarea>
+                @if($errors->first('description'))
+                  <span class="text-danger">{{ $errors->first('description') }}</span>
+                @endif
               <div class="form-group">
                 <label for="exampleInputFile">{{ __('book.image') }}</label>
                 <input name="image" type="file" id="exampleInputFile">
@@ -78,7 +81,7 @@
               <div class="box-footer">
                 <button id="btn-add-book" type="submit" class="btn btn-primary">{{ __('book.submit') }}</button>
                 <button type="reset" class="btn btn-danger">{{ __('book.reset') }}</button>
-                <button id="btn-back" type="reset" class="btn btn-warning">{{ __('book.back') }}</button>
+                <a id="btn-back" href="{{ URL::previous() }}" class="btn btn-default">{{ __('book.back') }}</a>
               </div>
             </form>
           </div>

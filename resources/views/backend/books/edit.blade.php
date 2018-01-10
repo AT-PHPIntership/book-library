@@ -52,10 +52,10 @@
                 @endif
               </div>
               <div class="form-group">
-                <label for="donator">{{ __('book.donator') }}</label>
-                <input name="donator_id" type="text" class="form-control" id="donator" placeholder="{{ __('book.enter_donator') }}" value="{{ old('donate_by') }}" >
-                @if($errors->first('donator_id'))
-                  <span class="text-danger">{{ $errors->first('donator_id') }}</span>
+                <label for="employee_code">{{ __('book.donator') }}</label>
+                <input name="employee_code" type="text" class="form-control" id="employee_code" placeholder="{{ __('book.enter_employee_code') }}" value="{{ old('employee_code') }}" >
+                @if($errors->first('employee_code'))
+                  <span class="text-danger">{{ $errors->first('employee_code') }}</span>
                 @endif
               </div>
               <div class="form-group">
