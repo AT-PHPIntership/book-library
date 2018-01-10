@@ -14,6 +14,14 @@ class User extends Authenticatable
 {
     use Notifiable, SoftDeletes;
 
+    const ROOT_ADMIN = 1;
+
+    const SA = 'SA';
+
+    const ADMIN = 'Admin';
+
+    const USER = 'User';
+
     /**
      * Declare table
      *
@@ -92,5 +100,15 @@ class User extends Authenticatable
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
+    }
+    
+    /**
+     * Get Role user
+     *
+     * @return array
+    */
+    public function getRoleNameAttribute()
+    {
+        return $this->role == self::ROOT_ADMIN ? __('user.admin') : __('user.member');
     }
 }
