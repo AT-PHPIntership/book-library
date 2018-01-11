@@ -156,13 +156,14 @@ class Book extends Model
      * Scope search by name
      *
      * @param Model  $query  query
-     * @param String $search search
+     * @param String $name   name
+     * @param String $author author
      *
      * @return mixed
      */
-    public function scopeSearchNameAuthor($query, $search)
+    public function scopeSearchNameAuthor($query, $name, $author)
     {
-        return $query->where('name', 'like', '%'.$search.'%')
-        ->orWhere('author', 'like', '%'.$search.'%');
+        return $query->where('name', 'like', '%'.$name.'%')
+        ->orWhere('author', 'like', '%'.$author.'%');
     }
 }
