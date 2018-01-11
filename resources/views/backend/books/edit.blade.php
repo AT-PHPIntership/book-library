@@ -36,7 +36,9 @@
                 <label for="category">{{ __('book.category') }}</label>
                 <select name="category_id" id="category">
                   @foreach($categories as $category)
-                    @if($book->category_id == $category->id)
+                    @if($category->id == config('define.default_category'))
+                      continue;
+                    @elseif($book->category_id == $category->id)
                       <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
                     @else
                       <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -59,10 +61,10 @@
                 @endif
               </div>
               <div class="form-group">
-                <label for="donator">{{ __('book.donator') }}</label>
-                <input name="donator_id" type="text" class="form-control" id="donator" placeholder="{{ __('book.enter_donator') }}" value="{{ $book->donator->employee_code }}" >
-                @if($errors->first('donator_id'))
-                  <span class="text-danger">{{ $errors->first('donator_id') }}</span>
+                <label for="employee_code">{{ __('book.donator') }}</label>
+                <input name="employee_code" type="text" class="form-control" id="employee_code" placeholder="{{ __('book.enter_employee_code') }}" value="{{ $book->donator->employee_code }}" >
+                @if($errors->first('employee_code'))
+                  <span class="text-danger">{{ $errors->first('employee_code') }}</span>
                 @endif
               </div>
               <div class="form-group">
@@ -74,7 +76,7 @@
               </div>
               <div class="form-group">
                 <label for="description">{{__('book.description') }}</label></br>
-                <textarea class="ckeditor" id="description" placeholder="">{{ $book->description }}</textarea>
+                <textarea class="ckeditor" name="description" id="description" placeholder="">{{ $book->description }}</textarea>
                 @if($errors->first('description'))
                   <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
@@ -86,13 +88,13 @@
                   <span class="text-danger">{{ $errors->first('image') }}</span>
                 @endif
                 @if(isset($book->image))
-                  <img id="image-display" width="150" height="200" src="{{ $book->image }}" alt="book-img">
+                  <img id="image-display" width="150" height="200" src="{{ config('image.books.path_upload').$book->image }}" alt="no-image">
                 @endif
               </div>
 
               <div class="box-footer">
                 <button id="btn-add-book" type="submit" class="btn btn-primary">{{ __('book.submit') }}</button>
-                <button type="reset" class="btn btn-danger">{{ __('book.reset') }}</button>
+                <button id="btn-reset" type="reset" class="btn btn-danger">{{ __('book.reset') }}</button>
                 <a id="btn-back" href="{{ URL::previous() }}" class="btn btn-default">{{ __('book.back') }}</a>
               </div>
             </form>
