@@ -4,6 +4,9 @@ A few sentences describing the overall goals of the pull request's commits.
 - Product Backlog ID: PBI-1
 - Task ID: TI-1
 
+## Reference Isuees
+`#{issue_id}`
+
 ## Migrations
 YES | NO
 
