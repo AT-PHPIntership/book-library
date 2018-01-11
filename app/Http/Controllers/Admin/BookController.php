@@ -34,4 +34,8 @@ class BookController extends Controller
         $books  = Book::with('borrowings')->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
         return view('backend.books.list', compact('books'));
     }
+    public function edit()
+    {
+        return view('backend.books.edit');
+    }
 }
