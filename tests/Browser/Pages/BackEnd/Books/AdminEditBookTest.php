@@ -44,14 +44,17 @@ class AdminEditBookTest extends DuskTestCase
      *
      * @return void
      */
-    public function testEditbutton()
-    {
-        $this->makeData();
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/admin/books')
-                ->resize(1200, 900)
-                ->assertSee('LIST OF BOOK')
-                ->click('#table-content tbody tr td .btn-edit-1');
-        });
-    }
+//    public function testEditbutton()
+//    {
+//        $this->makeData();
+//        $this->browse(function (Browser $browser) {
+//            $browser->visit('/admin/books')
+//                ->resize(1200, 900)
+//                ->assertSee('LIST OF BOOK')
+//                ->click('#table-content tbody tr td .btn-edit-1')
+//                ->assertPathIs('/admin/books/1/edit')
+//                ->assertSee('Edit Book');
+//
+//        });
+//    }
 }
