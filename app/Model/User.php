@@ -14,25 +14,16 @@ class User extends Authenticatable
 {
     use Notifiable, SoftDeletes;
 
-<<<<<<< HEAD
-=======
     /**
      * Value of root admin
      */
->>>>>>> master
     const ROOT_ADMIN = 1;
-
-    const SA = 'SA';
-
-    const ADMIN = 'Admin';
-
-    const USER = 'User';
 
     /**
      * Value of SA
      */
     const SA = 'SA';
-
+    
     /**
      * Value of ADMIN
      */
@@ -112,7 +103,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Borrowing::class);
     }
-
+    
     /**
      * Relationship hasMany with Favorite
      *
