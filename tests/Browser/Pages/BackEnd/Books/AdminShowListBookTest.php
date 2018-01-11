@@ -70,9 +70,9 @@ class AdminShowListBookTest extends DuskTestCase
             $page = $browser->visit('/admin/books')
                             ->resize(1200, 900)
                             ->click('.pagination li:nth-child(3) a');
-            $browser->assertQueryStringHas('page', 2);
             $elements = $page->elements('#table-content tbody tr');
             $this->assertCount(5, $elements);
+            $browser->assertQueryStringHas('page', 2);
             $this->assertNotNull($browser->element('.pagination'));
         });
     }
