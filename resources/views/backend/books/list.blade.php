@@ -1,6 +1,31 @@
 @extends('backend.layouts.main')
 @section('title',__('books.title_book'))
 @section('content')
+
+<!-- Modal -->
+<div id="confirmDelete" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <h3>{{ __('book.confirm.title') }}</h3>
+        <p>{{ __('book.confirm.delete') }} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+      </div>
+    </div>
+    <!-- end content-->
+
+  </div>
+</div>
+<!-- end modal-->
+
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -42,8 +67,7 @@
             <div class="box">
               <!-- /.box-header -->
               <div class="box-body table-responsive no-padding">
-                  <table class="table table-hover" id="table-content">
-                      <thead>
+                  <table class="table table-hover">
                       <tr>
                           <th>@sortablelink('id', __('books.numbers_order'))</th>
                           <th>@sortablelink('name', __('books.name'))</th>
@@ -52,8 +76,6 @@
                           <th>@sortablelink('borrowings_count', __('books.total_borrow'))</th>
                           <th>{{ __('general.options') }}</th>
                       </tr>
-                      </thead>
-                      <tbody>
                     @foreach ($books as $book)
                           <tr>
                               <td>{{ $book->id }}</td>
@@ -63,11 +85,10 @@
                               <td>{{ $book->total_borrow }}</td>
                               <td align="center">
                                   <a href="{{ route('books.edit', $book->id) }}"
-                                     class= "btn-edit-{{ $book->id }} fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
+                                     class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
                               </td>
                           </tr>
                     @endforeach
-                      </tbody>
                   </table>
               </div>
               <!-- /.box-body -->
