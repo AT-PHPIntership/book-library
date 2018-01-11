@@ -5,7 +5,7 @@ A few sentences describing the overall goals of the pull request's commits.
 - Task ID: TI-1
 
 ## Reference Isuees
-`#{issue_id}`
+#{issue_id}
 
 ## Migrations
 YES | NO
