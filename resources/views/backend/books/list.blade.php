@@ -1,6 +1,31 @@
 @extends('backend.layouts.main')
 @section('title',__('books.title_book'))
 @section('content')
+
+<!-- Modal -->
+<div id="confirmDelete" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <h3>{{ __('book.confirm.title') }}</h3>
+        <p>{{ __('book.confirm.delete') }} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+      </div>
+    </div>
+    <!-- end content-->
+
+  </div>
+</div>
+<!-- end modal-->
+
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -21,9 +46,9 @@
                                 </div>
                                 <div class="form-group col-md-2">
                                     <select id="select_search" class="form-control" name="searchby" value="{{ Request::get('searchby') }}">
-                                        <option selected>{{ __('general.all') }}</option>
-                                        <option>{{ __('books.author') }}</option>
-                                        <option>{{ __('books.name') }}</option>
+                                        <option value="{{ __('general.all') }}">{{ __('general.all') }}</option>
+                                        <option value="{{ __('books.author') }}">{{ __('books.author') }}</option>
+                                        <option value="{{ __('books.name') }}">{{ __('books.name') }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
@@ -42,18 +67,15 @@
             <div class="box">
               <!-- /.box-header -->
               <div class="box-body table-responsive no-padding">
-                  <table class="table table-hover">
-                      <thead>
-                          <tr>
-                              <th>@sortablelink('id', __('books.numbers_order'))</th>
-                              <th>@sortablelink('name', __('books.name'))</th>
-                              <th>@sortablelink('author', __('books.author'))</th>
-                              <th>@sortablelink('avg_rating', __('books.average_review_score'))</th>
-                              <th>@sortablelink('borrowings_count', __('books.total_borrow'))</th>
-                              <th>{{ __('general.options') }}</th>
-                          </tr>
-                      </thead>
-                      </tbody>
+                  <table class="table table-hover" id="table-book">
+                      <tr>
+                          <th>@sortablelink('id', __('books.numbers_order'))</th>
+                          <th>@sortablelink('name', __('books.name'))</th>
+                          <th>@sortablelink('author', __('books.author'))</th>
+                          <th>@sortablelink('avg_rating', __('books.average_review_score'))</th>
+                          <th>@sortablelink('borrowings_count', __('books.total_borrow'))</th>
+                          <th>{{ __('general.options') }}</th>
+                      </tr>
                         @if (count($books) > 0)
                             @foreach ($books as $book)
                                   <tr>
@@ -61,29 +83,28 @@
                                       <td>{{ $book->name }}</td>
                                       <td>{{ $book->author }}</td>
                                       <td>{{ $book->avg_rating }}</td>
-                                      <td>{{ $book->total_borrow }}</td>
+                                      <td>{{ $book->borrowings_count }}</td>
                                       <td align="center">
                                           <a href="{{ route('books.edit', $book->id) }}"
                                              class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
+                                          <i class="btn btn-danger btn-lg fa fa-trash-o"></i>
                                       </td>
                                   </tr>
                             @endforeach
                         @else
-                            <tr class="h1 .text-muted" align="center">
-                                <td colspan="6">
-                                    Not Found Book
+                            <tr>
+                                <td align="center" colspan="6">
+                                    <p class="text-info h1">Sorry, the page you are looking for could not be found.</p>
                                 </td>
                             </tr>
                         @endif
-
                   </table>
               </div>
               <!-- /.box-body -->
             </div>
             <!-- /.box -->
           </div>
-      </div>
-      {{ $books->appends(\Request::except('page'))->render()}}
+      </div>{{ $books->appends(\Request::except('page'))->render()}}
     </div>
     </section>
     <!-- /.content -->

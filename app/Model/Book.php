@@ -125,4 +125,44 @@ class Book extends Model
     {
         return $this->borrowings->count();
     }
+
+    /**
+     * Scope search by name
+     *
+     * @param Model  $query  query
+     * @param String $search search
+     *
+     * @return mixed
+     */
+    public function scopeSearchName($query, $search)
+    {
+        return $query->where('name', 'like', '%'.$search.'%');
+    }
+
+    /**
+     * Scope search by name
+     *
+     * @param Model  $query  query
+     * @param String $search search
+     *
+     * @return mixed
+     */
+    public function scopeSearchAuthor($query, $search)
+    {
+        return $query->where('author', 'like', '%'.$search.'%');
+    }
+
+    /**
+     * Scope search by name
+     *
+     * @param Model  $query  query
+     * @param String $search search
+     *
+     * @return mixed
+     */
+    public function scopeSearchNameAuthor($query, $search)
+    {
+        return $query->where('name', 'like', '%'.$search.'%')
+        ->orWhere('author', 'like', '%'.$search.'%');
+    }
 }
