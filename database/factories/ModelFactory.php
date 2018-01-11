@@ -71,7 +71,10 @@ $factory->define(App\Model\Favorite::class, function (Faker $faker) {
 });
 
 $factory->define(App\Model\Donator::class, function (Faker $faker) {
-    return [
-    ];
+    $team = ['PHP', 'SA', 'QC', 'BO', 'Android', 'IOS', 'FE', 'Ruby'];
+    return array(
+        'employee_code' => 'AT-' . rand(10000, 99999),
+        'email' => $faker->name.'@asiantech.vn',
+    );
 });
 

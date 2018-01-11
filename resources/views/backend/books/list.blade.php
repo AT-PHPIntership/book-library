@@ -43,6 +43,7 @@
               <!-- /.box-header -->
               <div class="box-body table-responsive no-padding">
                   <table class="table table-hover" id="table-content">
+                      <thead>
                       <tr>
                           <th>@sortablelink('id', __('books.numbers_order'))</th>
                           <th>@sortablelink('name', __('books.name'))</th>
@@ -51,6 +52,8 @@
                           <th>@sortablelink('borrowings_count', __('books.total_borrow'))</th>
                           <th>{{ __('general.options') }}</th>
                       </tr>
+                      </thead>
+                      <tbody>
                     @foreach ($books as $book)
                           <tr>
                               <td>{{ $book->id }}</td>
@@ -64,6 +67,7 @@
                               </td>
                           </tr>
                     @endforeach
+                      </tbody>
                   </table>
               </div>
               <!-- /.box-body -->

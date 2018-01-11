@@ -18,7 +18,7 @@
         </span>
       </div>
     </form>
-    <ul class="sidebar-menu" data-widget="tree">
+    <ul id="sidebar" class="sidebar-menu" data-widget="tree">
       <li class="header">{{ __('dashboard.main_navigation') }}</li>
       <li>
         <a href="">
@@ -32,7 +32,7 @@
         </a>
       </li>
       <li>
-        <a href="#">
+        <a href="{{ route('books.index') }}" dusk="user_link">
           <i class="fa fa-book" aria-hidden="true"></i>
           <span>{{ __('dashboard.books') }}</span>
         </a>
