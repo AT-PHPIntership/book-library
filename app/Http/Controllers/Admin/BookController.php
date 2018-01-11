@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
+use App\Model\Book;
 use App\Http\Controllers\Controller;
 use App\Model\Category;
-use App\Model\Book;
 
 class BookController extends Controller
 {
@@ -31,11 +30,12 @@ class BookController extends Controller
      */
     public function index()
     {
-        return view('backend.layouts.books.list');
+        $books  = Book::with('borrowings')->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+        return view('backend.books.list', compact('books'));
     }
 
     /**
-     * Show the form for edit book.
+     * Show the form with book data for edit book.
      *
      * @param int $id book
      *
