@@ -34,9 +34,6 @@ class BookController extends Controller
      */
     public function index(Request $request)
     {
-        $name = $request->name;
-        $author  = $request->author;
-
         $columns = [
             'id',
             'name',
@@ -44,34 +41,24 @@ class BookController extends Controller
             'avg_rating',
             'total_rating'
         ];
+
         $books = Book::select($columns);
-        if ($request->has('name')  || $request->has('author')) {
-            if ($name && $author) {
-                $books = $books->searchnameauthor($name, $author)->with('borrowings')->withCount('borrowings')
-                ->sortable()
-                ->paginate(config('define.page_length'));
-            } else {
-                if ($name) {
-                    $books = $books->searchname($name)->with('borrowings')->withCount('borrowings')
-                    ->sortable()
-                    ->paginate(config('define.page_length'));
-                }
-                if ($author) {
-                    $books = $books->searchauthor($author)->with('borrowings')->withCount('borrowings')
-                    ->sortable()
-                    ->paginate(config('define.page_length'));
-                }
-            }
-            if ($name == "" && $author == "") {
-                $books = $books->with('borrowings')->withCount('borrowings')
-                ->sortable()
-                ->paginate(config('define.page_length'));
-            }
+        $conditions = [];
+        if ($request->name && $request->author)
+        {
+            $books = Book::where('name', 'like', '%' . $request->name . '%')
+            ->Orwhere('author', 'like', '%' . $request->author . '%');
         } else {
-            $books = $books->with('borrowings')->withCount('borrowings')
-            ->sortable()
-            ->paginate(config('define.page_length'));
+            if( $request->name) {
+                $conditions[] = ['name', 'like', '%' . $request->name . '%'];
+            }
+            if( $request->author) {
+                $conditions[] = ['author', 'like', '%' . $request->author . '%'];
+            }
         }
+        $books = Book::select($columns)->where($conditions)->with('borrowings')->withCount('borrowings')
+        ->sortable()
+        ->paginate(config('define.page_length'));
 
         return view('backend.books.list', compact('books'));
     }
