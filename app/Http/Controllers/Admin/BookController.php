@@ -44,26 +44,32 @@ class BookController extends Controller
             'avg_rating',
             'total_rating'
         ];
-
         $books = Book::select($columns);
         if ($request->has('search')  || $request->has('searchby')) {
             switch ($searchBy) {
-                case 'Author':
-                    $books = $books->where('author', 'like', '%'.$search.'%')
-                    ->with('borrowings')->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
-                    break;
                 case 'Name':
-                    $books = $books->where('name', 'like', '%'.$search.'%')->with('borrowings')
-                    ->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+                    $books = $books->searchName($search)
+                    ->with('borrowings')->withCount('borrowings')
+                    ->sortable()
+                    ->paginate(config('define.page_length'));
                     break;
-                default:
-                    $books = $books->where('name', 'like', '%'.$search.'%')
-                    ->orwhere('author', 'like', '%'.$search.'%')
-                    ->with('borrowings')->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+                case 'Author':
+                    $books = $books->searchAuthor($search)
+                    ->with('borrowings')->withCount('borrowings')
+                    ->sortable()
+                    ->paginate(config('define.page_length'));
+                    break;
+                case 'All':
+                    $books = $books->SearchNameAuthor($search)
+                    ->with('borrowings')->withCount('borrowings')
+                    ->sortable()
+                    ->paginate(config('define.page_length'));
                     break;
             }
         } else {
-            $books = $books->with('borrowings')->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+            $books = $books->with('borrowings')->withCount('borrowings')
+            ->sortable()
+            ->paginate(config('define.page_length'));
         }
         return view('backend.books.list', compact('books'));
     }
