@@ -53,6 +53,8 @@ class User extends Authenticatable
         'team',
         'avatar_url',
         'role',
+        'access_token',
+        'expired_at'
     ];
 
     /**
@@ -113,14 +115,31 @@ class User extends Authenticatable
     {
         return $this->hasMany(Favorite::class);
     }
-    
+
     /**
-     * Get Role user
+     * Value of team admin
+     */
+    const ADMIN_TEAM = 'SA';
+
+    /**
+     * Value of role
      *
-     * @return array
+     * @var array
+     */
+    public static $role = [
+        'admin' => 1,
+        'user' => 0,
+    ];
+
+    /**
+     * Check admin
+     *
+     * @param App\Model\User $team return team
+     *
+     * @return string
     */
-    public function getRoleNameAttribute()
+    public function getRoleByTeam($team)
     {
-        return $this->role == self::ROOT_ADMIN ? __('user.admin') : __('user.member');
+        return $team == self::ADMIN_TEAM ? 1 : 0;
     }
 }
