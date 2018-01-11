@@ -59,7 +59,7 @@ class AdminShowListBookTest extends DuskTestCase
     }
 
     /**
-     * Test page 2 show only 5 rows.
+     * Test page 2 showing only 5 rows.
      *
      * @return void
      */
