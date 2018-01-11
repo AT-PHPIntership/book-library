@@ -1,6 +1,6 @@
-<?php
-
-return [
-    //number of rows per page for pagination
+<?php 
+  return [
+    'datetime_format' => 'Y-m-d h:i:s',
+    'success' => 'successfully',
     'page_length' => 10
-];
+  ];

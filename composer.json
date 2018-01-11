@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "doctrine/dbal": "^2.6",
         "fideloper/proxy": "~3.3",
         "kyslik/column-sortable": "^5.5",
         "laravel/framework": "5.5.*",
@@ -15,6 +16,7 @@
         "barryvdh/laravel-debugbar": "@stable",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
+        "guzzlehttp/guzzle": "~6.0",
         "laravel/dusk": "^2.0",
         "mockery/mockery": "~1.0",
         "phpmd/phpmd": "@stable",

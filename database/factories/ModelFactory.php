@@ -12,6 +12,17 @@ use Faker\Generator as Faker;
 |
 */
 
+$factory->define(App\Model\User::class, function (Faker $faker) {
+    $team = ['PHP', 'SA', 'QC', 'BO', 'Android', 'IOS', 'FE', 'Ruby'];
+    return [
+        'employee_code' => 'AT-' . rand(10000, 99999),
+        'name'                  => $faker->name,
+        'email'                  => $faker->name.'@asiantech.vn',
+        'team'                   => $team[array_rand($team)],
+        'role'                     => rand(0, 1),
+    ];
+ });
+
 $factory->define(App\Model\Category::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
@@ -59,3 +70,10 @@ $factory->define(App\Model\Favorite::class, function (Faker $faker) {
     ];
 });
 
+$factory->define(App\Model\Donator::class, function (Faker $faker) {
+    $team = ['PHP', 'SA', 'QC', 'BO', 'Android', 'IOS', 'FE', 'Ruby'];
+    return [
+        'employee_code' => 'AT-' . rand(10000, 99999),
+        'email'                  => $faker->name.'@asiantech.vn',
+    ];
+});
