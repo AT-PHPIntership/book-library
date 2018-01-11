@@ -32,7 +32,7 @@ class UserController extends Controller
 
         $users = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
         ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
-        ->leftJoin('books','donators.id', 'books.donator_id') 
+        ->leftJoin('books', 'donators.id', 'books.donator_id')
         ->select($fields)
         ->groupBy('users.id')
         ->paginate(config('define.page_length'));
