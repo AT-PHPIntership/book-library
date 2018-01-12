@@ -14,10 +14,12 @@ class QRCodesTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        $qrCode = DB::table('books')->pluck('QRcode')->toArray();
+        $bookId = DB::table('books')->pluck('id')->toArray();
         $faker = Faker::create();
         factory(App\Model\QrCode::class, 16)->create([
-            'QRcode' => $faker->randomElement($qrCode),
+            'book_id' => $faker->randomElement($bookId),
+            'code_id' => $faker->unique()->randomNumber(4),
+            'prefix' => 'BAT-'
         ]);
         Model::reguard();
     }

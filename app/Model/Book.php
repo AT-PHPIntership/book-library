@@ -3,12 +3,13 @@
 namespace App\Model;
 
 use App\Model\User;
-use App\Model\Borrowing;
 use App\Model\Rating;
+use App\Model\QrCode;
 use App\Model\Donator;
-use Illuminate\Database\Eloquent\Model;
-use Kyslik\ColumnSortable\Sortable;
+use App\Model\Borrowing;
 use Illuminate\Support\Facades\DB;
+use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
@@ -27,14 +28,12 @@ class Book extends Model
      * @var array
      */
     protected $fillable = [
-        'QRcode',
         'category_id',
         'name',
         'author',
         'year',
         'price',
         'description',
-        'donate_by',
         'donator_id',
         'avg_rating',
         'total_rating',
@@ -144,6 +143,6 @@ class Book extends Model
     */
     public function qrcode()
     {
-        return $this->hasOne(QRcode::class);
+        return $this->hasOne(QrCode::class);
     }
 }

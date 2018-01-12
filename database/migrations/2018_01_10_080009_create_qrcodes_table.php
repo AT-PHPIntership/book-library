@@ -15,11 +15,13 @@ class CreateQrcodesTable extends Migration
     {
         Schema::create('qrcodes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('QRcode');
-            $table->foreign('QRcode')
-                  ->references('QRcode')->on('books')
+            $table->integer('book_id')->unsigned();
+            $table->foreign('book_id')
+                  ->references('id')->on('books')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
+            $table->string('prefix');
+            $table->integer('code_id');
             $table->tinyInteger('status')->default(0)->comment="0: printed, 1:will print";
             $table->timestamps();
             $table->softDeletes();

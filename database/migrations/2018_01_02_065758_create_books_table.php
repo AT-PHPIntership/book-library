@@ -15,7 +15,6 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('QRcode')->unique();
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')
                   ->references('id')->on('categories')
