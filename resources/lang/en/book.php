@@ -15,12 +15,16 @@ return [
     'price' => 'Price',
     'enter_price' => 'Enter price',
     'donator' => 'Donator',
-    'enter_donator' => 'Enter donator',
+    'enter_employee_code' => 'Enter employee id',
     'year' => 'Year',
     'enter_year' => 'Enter year',
     'description' => 'Description',
     'image' => 'Image',
     'submit' => 'Submit',
     'reset' => 'Reset',
-    'back' => 'Back'
+    'back' => 'Back',
+    'confirm' => [
+        'title' => 'Confirm',
+        'delete' => 'Do you want to delete this book'
+    ]
 ];
