@@ -50,7 +50,7 @@ class BookController extends Controller
             $books = $books->searchauthor($request->author);
         }
 
-        $books = $books->with('borrowings')->withCount('borrowings')
+        $books = $books->withCount('borrowings')
             ->sortable()
             ->paginate(config('define.page_length'));
         return view('backend.books.list', compact('books'));

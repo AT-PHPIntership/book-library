@@ -27,6 +27,6 @@ return [
         'title' => 'Confirm',
         'delete' => 'Do you want to delete this book'
     ],
-    'common' => 'Sorry, Not Be Found.'
+    'not_found' => 'Sorry, Not be found.'
 
 ];
