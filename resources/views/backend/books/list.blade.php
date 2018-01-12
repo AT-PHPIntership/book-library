@@ -42,10 +42,10 @@
                                     <span class="h3 text-uppercase">{{ __('books.list_book') }}</span>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <input type="text" class="form-control" id="search-name" name="name" placeholder="Enter Name..." value="{{ Request::get('name')}}">
+                                    <input type="text" class="form-control" id="search-name" name="name" placeholder="{{ __('general.enter_name')}}" value="{{ Request::get('name')}}">
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <input type="text" class="form-control" id="search-author" name="author" placeholder="Enter Author..." value="{{ Request::get('author')}}">
+                                    <input type="text" class="form-control" id="search-author" name="author" placeholder="{{ __('general.enter_author')}}" value="{{ Request::get('author')}}">
                                 </div>
                                 <div class="form-group col-md-1">
                                     <button type="submit" class="btn btn-default" ><i class="fa fa-search"></i></button>
@@ -94,7 +94,7 @@
                       @else
                           <tr>
                               <td align="center" colspan="6">
-                                  <p class="text-info h1">{{ __('book.common')}}</p>
+                                  <p class="text-info h1">{{ __('book.not_found')}}</p>
                                   <a href="{{ route('books.index')}}" class="btn btn-default text-info">{{ __('general.comeback')}}</a>
                               </td>
                           </tr>

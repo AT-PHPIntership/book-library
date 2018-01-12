@@ -129,8 +129,8 @@ class Book extends Model
     /**
      * Scope search book by name
      *
-     * @param Model  $query query of Model
-     * @param String $name  name
+     * @param \Illuminate\Database\Eloquent\Builder $query query of Model
+     * @param String                                $name  name
      *
      * @return mixed
      */
@@ -142,8 +142,8 @@ class Book extends Model
     /**
      * Scope search book by author
      *
-     * @param Model  $query  query of Model
-     * @param String $author author
+     * @param \Illuminate\Database\Eloquent\Builder $query  query of Model
+     * @param String                                $author author
      *
      * @return mixed
      */
