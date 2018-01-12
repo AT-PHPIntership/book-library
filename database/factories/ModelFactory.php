@@ -71,7 +71,7 @@ $factory->define(App\Model\Rating::class, function (Faker $faker) {
 $factory->define(App\Model\Favorite::class, function (Faker $faker) {
     return [
         'favoritable_id' => rand(1,15),
-        'favoritable_type' => $faker->randomElement(['book', 'commnet', 'post'])
+        'favoritable_type' => $faker->randomElement(['books', 'comments', 'posts'])
     ];
 });
 
