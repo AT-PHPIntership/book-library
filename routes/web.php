@@ -11,18 +11,13 @@
 |
 */
 
-Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return view('backend.layouts.main');
-    });
-});
 //Login
 Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Admin\LoginController@login');
 Route::post('/logout', 'Admin\LoginController@logout')->name('logout');
-//Admin 
+//Admin
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
-   Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
-   Route::resource('books', 'BookController');
+    Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
+    Route::get('/', 'HomeController@index');
+    Route::resource('books', 'BookController');
 });
-

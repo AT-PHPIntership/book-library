@@ -1,6 +1,14 @@
 .help-block {
   color: red;
 }
+h1 {
+  text-align: center;
+  color: green;
+}
 #btn-back {
   float: right;
 }
+.width-70 {
+	width: 70px;
+}
+

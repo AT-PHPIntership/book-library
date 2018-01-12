@@ -27,8 +27,11 @@ class Post extends Model
     protected $fillable = [
         'book_id',
         'user_id',
+        'postable_id',
+        'postable_type',
         'type',
         'content',
+        'image'
     ];
 
     /**

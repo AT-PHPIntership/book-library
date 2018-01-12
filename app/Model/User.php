@@ -15,6 +15,26 @@ class User extends Authenticatable
     use Notifiable, SoftDeletes;
 
     /**
+     * Value of root admin
+     */
+    const ROOT_ADMIN = 1;
+
+    /**
+     * Value of SA
+     */
+    const SA = 'PHP';
+
+    /**
+     * Value of ADMIN
+     */
+    const ADMIN = 'Admin';
+
+    /**
+     * Value of USER
+     */
+    const USER = 'User';
+
+    /**
      * Declare table
      *
      * @var string $tabel table name
@@ -34,7 +54,7 @@ class User extends Authenticatable
         'avatar_url',
         'role',
         'access_token',
-        'expires_at'
+        'expired_at'
     ];
 
     /**
@@ -120,6 +140,16 @@ class User extends Authenticatable
     */
     public function getRoleByTeam($team)
     {
-        return $team == self::ADMIN_TEAM ? 1 : 0;
+        return $team == self::SA ? 1 : 0;
+    }
+
+    /**
+     * Get Role user
+     *
+     * @return array
+    */
+    public function getRoleNameAttribute()
+    {
+        return $this->role == self::ROOT_ADMIN ? __('user.admin') : __('user.member');
     }
 }
