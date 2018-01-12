@@ -22,10 +22,10 @@ $factory->define(App\Model\User::class, function (Faker $faker) {
     $team = ['PHP', 'SA', 'QC', 'Adroid', 'IOS'];
     return [
         'employee_code' => 'AT-' . $faker->unique()->randomNumber(3),
-        'name'                  => $faker->name,
-        'email'                  => $faker->safeEmail,
-        'team'                   => $team[array_rand($team)],
-        'role'                     => rand(0, 1),
+        'name'          => $faker->name,
+        'email'         => $faker->safeEmail,
+        'team'          => $team[array_rand($team)],
+        'role'          => rand(0, 1),
     ];
 });
 
@@ -36,28 +36,28 @@ $factory->define(App\Model\Donator::class, function (Faker $faker) {
 
 $factory->define(App\Model\Book::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'author' => $faker->name,
-        'year' => $faker->year,
-        'description' => $faker->text,
-        'price' => $faker->numberBetween($min = 1000, $max = 9000),
-        'avg_rating' => $faker->numberBetween($min = 1, $max = 5),
+        'name'         => $faker->name,
+        'author'       => $faker->name,
+        'year'         => $faker->year,
+        'description'  => $faker->text,
+        'price'        => $faker->numberBetween($min = 1000, $max = 9000),
+        'avg_rating'   => $faker->numberBetween($min = 1, $max = 5),
         'total_rating' => $faker->numberBetween($min = 1, $max = 20),
-        'image' => $faker->image,
-        'status' => $faker->numberBetween($min = 0, $max = 1),
+        'image'        => $faker->image,
+        'status'       => $faker->numberBetween($min = 0, $max = 1),
     ];
 });
 
 $factory->define(App\Model\Borrowing::class, function (Faker $faker) {
     return [
         'from_date' => $faker->datetime,
-        'to_date' => $faker->datetime,
+        'to_date'   => $faker->datetime,
     ];
 });
 
 $factory->define(App\Model\Post::class, function (Faker $faker) {
     return [
-        'type' => rand(1, 3),
+        'type'    => rand(1, 3),
         'content' => $faker->text
     ];
 });
@@ -70,8 +70,8 @@ $factory->define(App\Model\Rating::class, function (Faker $faker) {
 
 $factory->define(App\Model\Favorite::class, function (Faker $faker) {
     return [
-        'favoritable_id' => rand(1,15),
-        'favoritable_type' => $faker->randomElement(['book', 'commnet', 'post'])
+        'favoritable_id'   => rand(1,15),
+        'favoritable_type' => $faker->randomElement(['books', 'comments', 'posts'])
     ];
 });
 
