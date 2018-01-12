@@ -41,24 +41,18 @@ class BookController extends Controller
             'avg_rating',
             'total_rating'
         ];
-
         $books = Book::select($columns);
-        $conditions = [];
-        if ($request->name && $request->author) {
-            $books = Book::where('name', 'like', '%' . $request->name . '%')
-            ->Orwhere('author', 'like', '%' . $request->author . '%');
-        } else {
-            if ($request->name) {
-                $conditions[] = ['name', 'like', '%' . $request->name . '%'];
-            }
-            if ($request->author) {
-                $conditions[] = ['author', 'like', '%' . $request->author . '%'];
-            }
-        }
-        $books = Book::select($columns)->where($conditions)->with('borrowings')->withCount('borrowings')
-        ->sortable()
-        ->paginate(config('define.page_length'));
 
+        if ($request->name) {
+            $books = $books->searchname($request->name);
+        }
+        if ($request->author) {
+            $books = $books->searchauthor($request->author);
+        }
+
+        $books = $books->with('borrowings')->withCount('borrowings')
+            ->sortable()
+            ->paginate(config('define.page_length'));
         return view('backend.books.list', compact('books'));
     }
 }
