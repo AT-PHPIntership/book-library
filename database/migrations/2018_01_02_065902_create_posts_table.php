@@ -25,7 +25,7 @@ class CreatePostsTable extends Migration
                   ->references('id')->on('books')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->string('type', 30)->comment="review || find || status";
+            $table->tinyInteger('type')->comment="1. review || 2. find || 3. status";
             $table->string('content');
             $table->string('image')->nullable();
             $table->timestamps();

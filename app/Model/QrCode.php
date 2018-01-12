@@ -23,7 +23,9 @@ class QrCode extends Model
      * @var array
      */
     protected $fillable = [
-        'QRcode',
+        'book_id',
+        'prefix',
+        'code_id',
         'status',
     ];
 

@@ -21,9 +21,9 @@ $factory->define(App\Model\Category::class, function (Faker $faker) {
 $factory->define(App\Model\User::class, function (Faker $faker) {
     $team = ['PHP', 'SA', 'QC', 'Adroid', 'IOS'];
     return [
-        'employee_code' => 'AT-' . rand(10000, 99999),
+        'employee_code' => 'AT-' . $faker->unique()->randomNumber(3),
         'name'                  => $faker->name,
-        'email'                  => $faker->name.'@asiantech.vn',
+        'email'                  => $faker->safeEmail,
         'team'                   => $team[array_rand($team)],
         'role'                     => rand(0, 1),
     ];
@@ -36,7 +36,6 @@ $factory->define(App\Model\Donator::class, function (Faker $faker) {
 
 $factory->define(App\Model\Book::class, function (Faker $faker) {
     return [
-        'QRcode' => $faker->ean13,
         'name' => $faker->name,
         'author' => $faker->name,
         'year' => $faker->year,
@@ -58,7 +57,7 @@ $factory->define(App\Model\Borrowing::class, function (Faker $faker) {
 
 $factory->define(App\Model\Post::class, function (Faker $faker) {
     return [
-        'type' => $faker->randomElement(['Review', 'Find', 'Status']),
+        'type' => rand(1, 3),
         'content' => $faker->text
     ];
 });

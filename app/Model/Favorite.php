@@ -22,7 +22,8 @@ class Favorite extends Model
      */
     protected $fillable = [
         'user_id',
-        'post_id',
+        'favoritable_id',
+        'favoritable_type',
     ];
     
     /**
