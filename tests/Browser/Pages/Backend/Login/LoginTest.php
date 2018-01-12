@@ -15,37 +15,37 @@ class LoginTest extends DuskTestCase
      *
      * @return void
      */
-    public function testValidationLogin()
-    {
-        $this->browse(function (Browser $browser) {
-            $browser->logout();
-            $a = $browser->visit('login')
-                    ->press('Login')
-                    ->assertSee('The email field is required.')
-                    ->assertSee('The password field is required.')
-                    ->assertPathIs('/login');
-        });
-    }
+    // public function testValidationLogin()
+    // {
+    //     $this->browse(function (Browser $browser) {
+    //         $browser->logout();
+    //         $a = $browser->visit('login')
+    //                 ->press('Login')
+    //                 ->assertSee('The email field is required.')
+    //                 ->assertSee('The password field is required.')
+    //                 ->assertPathIs('/login');
+    //     });
+    // }
 
     /**
      * Test Login success if account admin.
      *
      * @return void
      */
-    // public function testAdminLoginSuccess()
-    // {   
-    //     $this->browse(function (Browser $browser)  {
-    //         $browser->logout();
-    //         $browser->visit('/login')
-    //                 ->assertSee('Login')
-    //                 ->assertPathIs('/login')
-    //                 ->type('email', 'an.nguyen@asiantech.vn')
-    //                 ->type('password', 'Annguyen735') 
-    //                 ->press('Login')
-    //                 ->assertSee('Admin Management')
-    //                 ->assertPathIs('/admin');
-    //     });
-    // }
+    public function testAdminLoginSuccess()
+    {   
+        $this->browse(function (Browser $browser)  {
+            $browser->logout();
+            $browser->visit('/login')
+                    ->assertSee('Login')
+                    ->assertPathIs('/login')
+                    ->type('email', 'an.nguyen@asiantech.vn')
+                    ->type('password', 'Annguyen735') 
+                    ->press('Login')
+                    ->assertSee('Admin Management')
+                    ->assertPathIs('/admin');
+        });
+    }
 
     /**
      * Test Login success if account user.

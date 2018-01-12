@@ -29,9 +29,24 @@ $factory->define(App\Model\Category::class, function (Faker $faker) {
     ];
 });
 
+$factory->define(App\Model\User::class, function (Faker $faker) {
+    $team = ['PHP', 'SA', 'QC', 'Adroid', 'IOS'];
+    return [
+        'employee_code' => 'AT-' . $faker->unique()->randomNumber(3),
+        'name'                  => $faker->name,
+        'email'                  => $faker->safeEmail,
+        'team'                   => $team[array_rand($team)],
+        'role'                     => rand(0, 1),
+    ];
+});
+
+$factory->define(App\Model\Donator::class, function (Faker $faker) {
+    return [
+    ];
+});
+
 $factory->define(App\Model\Book::class, function (Faker $faker) {
     return [
-        'QRcode' => $faker->ean13,
         'name' => $faker->name,
         'author' => $faker->name,
         'year' => $faker->year,
@@ -53,8 +68,7 @@ $factory->define(App\Model\Borrowing::class, function (Faker $faker) {
 
 $factory->define(App\Model\Post::class, function (Faker $faker) {
     return [
-        'postable_id' => $faker->numberBetween($min = 1, $max = 10),        
-        'postable_type' => $faker->randomElement(['Review', 'Find', 'Status']),
+        'type' => rand(1, 3),
         'content' => $faker->text
     ];
 });
@@ -67,6 +81,19 @@ $factory->define(App\Model\Rating::class, function (Faker $faker) {
 
 $factory->define(App\Model\Favorite::class, function (Faker $faker) {
     return [
+        'favoritable_id' => rand(1,15),
+        'favoritable_type' => $faker->randomElement(['book', 'commnet', 'post'])
     ];
 });
 
+$factory->define(App\Model\Comment::class, function (Faker $faker) {
+    return [
+        'content' => $faker->text
+    ];
+});
+
+$factory->define(App\Model\QrCode::class, function (Faker $faker) {
+    return [
+        'status' => rand(0,1),
+    ];
+});

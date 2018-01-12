@@ -2,10 +2,6 @@
 
 namespace App\Model;
 
-use App\Model\Book;
-use App\Model\Borrow;
-use App\Model\Favorite;
-use App\Model\Post;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -117,11 +113,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Value of team admin
-     */
-    const ADMIN_TEAM = 'PHP';
-
-    /**
      * Value of role
      *
      * @var array
@@ -143,6 +134,16 @@ class User extends Authenticatable
         return $team == self::SA ? 1 : 0;
     }
 
+    /**
+     * Relationship hasMany with Comment
+     *
+     * @return array
+    */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+    
     /**
      * Get Role user
      *
