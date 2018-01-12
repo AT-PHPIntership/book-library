@@ -27,7 +27,7 @@
               {{ method_field('PUT') }}
               <div class="form-group">
                 <label for="name">{{ __('book.name') }}</label>
-                <input name="name" type="text" class="form-control" id="name" placeholder="{{ __('book.enter_name') }}" value="{{ $book->name }}">
+                <input name="name" type="text" class="form-control" id="name" placeholder="{{ __('book.enter_name') }}" value="{{ old('name', $book->name) }}">
                 @if($errors->first('name'))
                   <span class="text-danger">{{ $errors->first('name') }}</span>
                 @endif
@@ -36,9 +36,9 @@
                 <label for="category">{{ __('book.category') }}</label>
                 <select name="category_id" id="category">
                   @foreach($categories as $category)
-                    @if($category->id == config('define.default_category'))
+                    @if($category->id == App\Model\Book::DEFAULT_CATEGORY)
                       continue;
-                    @elseif($book->category_id == $category->id)
+                    @elseif(old('category_id', $book->category_id) == $category->id)
                       <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
                     @else
                       <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -48,28 +48,28 @@
               </div>
               <div class="form-group">
                 <label for="author">{{ __('book.author') }}</label>
-                <input name="author" type="text" class="form-control" id="author" placeholder="{{ __('book.enter_author') }}" value="{{ $book->author }}">
+                <input name="author" type="text" class="form-control" id="author" placeholder="{{ __('book.enter_author') }}" value="{{ old('author', $book->author) }}">
                 @if($errors->first('author'))
                   <span class="text-danger">{{ $errors->first('author') }}</span>
                 @endif
               </div>
               <div class="form-group">
                 <label for="price">{{ __('book.price') }}</label>
-                <input name="price" type="text" class="form-control" id="price" placeholder="{{ __('book.enter_price') }}" value="{{ $book->price }}">
+                <input name="price" type="text" class="form-control" id="price" placeholder="{{ __('book.enter_price') }}" value="{{ old('price', $book->price) }}">
                 @if($errors->first('price'))
                   <span class="text-danger">{{ $errors->first('price') }}</span>
                 @endif
               </div>
               <div class="form-group">
                 <label for="employee_code">{{ __('book.donator') }}</label>
-                <input name="employee_code" type="text" class="form-control" id="employee_code" placeholder="{{ __('book.enter_employee_code') }}" value="{{ $book->donator->employee_code }}" >
+                <input name="employee_code" type="text" class="form-control" id="employee_code" placeholder="{{ __('book.enter_employee_code') }}" value="{{ old('employee_code', $book->donator->employee_code) }}" >
                 @if($errors->first('employee_code'))
                   <span class="text-danger">{{ $errors->first('employee_code') }}</span>
                 @endif
               </div>
               <div class="form-group">
                 <label for="year">{{ __('book.year') }}</label>
-                <input name="year" type="text" class="form-control" id="year" placeholder="{{ __('book.enter_year') }}" value="{{ $book->year }}">
+                <input name="year" type="text" class="form-control" id="year" placeholder="{{ __('book.enter_year') }}" value="{{ old('year', $book->year) }}">
                 @if($errors->first('year'))
                   <span class="text-danger">{{ $errors->first('year') }}</span>
                 @endif
