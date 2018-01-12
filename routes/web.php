@@ -11,6 +11,7 @@
 |
 */
 
+
 //Login
 Auth::routes();
 Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
@@ -21,4 +22,3 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::get('/', 'HomeController@index')->name('home.index');
     Route::resource('books', 'BookController');
 });
-

@@ -1,13 +1,15 @@
 <?php
 return [
   'list_users' => 'List Users',
-  'users_table' => 'Users List Table',
+  'users_table' => 'List Users Table',
+  'id' => 'ID',
   'employee_code' => 'Employee code',
   'employee_name' => 'Name',
   'employee_email' => 'Email',
   'total_donated' => 'Total donated books',
   'total_borrowed' => 'Total borrowed books',
   'user_title' => 'Users',
+  'role' => 'Role',
   'profile_user' => 'Profile User',
   'admin' => 'Admin',
   'users' => 'Users',
@@ -25,4 +27,6 @@ return [
   'fullname' => 'Full name',
   'join_dated' => 'Join dated',
   'email' => 'Email',
+  'user' => 'User',
+  'admin' => 'Admin',
 ];
