@@ -22,7 +22,7 @@
         <div class="box box-info">
           <!-- /.box-header -->
           <div class="box-body pad">
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('books.update', $book->id) }}" method="POST" enctype="multipart/form-data">
               {{ csrf_field() }}
               {{ method_field('PUT') }}
               <div class="form-group">
@@ -59,10 +59,10 @@
                 @endif
               </div>
               <div class="form-group">
-                <label for="donator">{{ __('book.donator') }}</label>
-                <input name="donator_id" type="text" class="form-control" id="donator" placeholder="{{ __('book.enter_donator') }}" value="{{ $book->donator->employee_code }}" >
-                @if($errors->first('donator_id'))
-                  <span class="text-danger">{{ $errors->first('donator_id') }}</span>
+                <label for="employee_code">{{ __('book.donator') }}</label>
+                <input name="employee_code" type="text" class="form-control" id="employee_code" placeholder="{{ __('book.enter_employee_code') }}" value="{{ old('employee_code') }}" >
+                @if($errors->first('employee_code'))
+                  <span class="text-danger">{{ $errors->first('employee_code') }}</span>
                 @endif
               </div>
               <div class="form-group">
@@ -74,7 +74,7 @@
               </div>
               <div class="form-group">
                 <label for="description">{{__('book.description') }}</label></br>
-                <textarea class="ckeditor" id="description" placeholder="">{{ $book->description }}</textarea>
+                <textarea class="ckeditor" name="description" id="description" placeholder="">{{ $book->description }}</textarea>
                 @if($errors->first('description'))
                   <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
