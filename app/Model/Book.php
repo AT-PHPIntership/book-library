@@ -3,12 +3,13 @@
 namespace App\Model;
 
 use App\Model\User;
-use App\Model\Borrowing;
 use App\Model\Rating;
+use App\Model\QrCode;
 use App\Model\Donator;
-use Illuminate\Database\Eloquent\Model;
-use Kyslik\ColumnSortable\Sortable;
+use App\Model\Borrowing;
 use Illuminate\Support\Facades\DB;
+use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
@@ -27,14 +28,12 @@ class Book extends Model
      * @var array
      */
     protected $fillable = [
-        'QRcode',
         'category_id',
         'name',
         'author',
         'year',
         'price',
         'description',
-        'donate_by',
         'donator_id',
         'avg_rating',
         'total_rating',
@@ -43,6 +42,7 @@ class Book extends Model
     ];
 
     /**
+     * Relationship morphMany with Favorite
      * Declare table sort
      *
      * @var array $sortable table sort
@@ -60,10 +60,10 @@ class Book extends Model
      * Relationship morphMany with Post
      *
      * @return array
-    */
-    public function posts()
+     */
+    public function favorites()
     {
-        return $this->morphMany(Post::class, 'postable');
+        return $this->morphMany(Favorite::class, 'favoritable');
     }
 
     /**
@@ -107,13 +107,23 @@ class Book extends Model
     }
 
     /**
-     * Relationship hasMany with Borrow
+     * Relationship hasMany with Borrowing
      *
      * @return array
     */
     public function borrowings()
     {
         return $this->hasMany(Borrowing::class);
+    }
+
+    /**
+     * Relationship hasMany with Post
+     *
+     * @return array
+    */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 
     /**
@@ -150,5 +160,15 @@ class Book extends Model
     public function scopeSearchAuthor($query, $author)
     {
         return $query->where('author', 'LIKE', '%'.$author.'%');
+    }
+
+    /**
+     * Relationship hasOne with Book
+     *
+     * @return array
+    */
+    public function qrcode()
+    {
+        return $this->hasOne(QrCode::class);
     }
 }
