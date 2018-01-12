@@ -36,7 +36,7 @@
                     <div class="box-header">
                         <!-- add form search and select for book -->
                         <!-- start -->
-                        <form action="{{ url('admin/books') }}" method="GET" id="frm-search">
+                        <form action="{{ route('books.index') }}" method="GET" id="frm-search">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <span class="h3 text-uppercase">{{ __('books.list_book') }}</span>
@@ -94,8 +94,8 @@
                       @else
                           <tr>
                               <td align="center" colspan="6">
-                                  <p class="text-info h1">{{ __('book.message')}}</p>
-                                  <a href="{{ url('admin/books')}}" class="btn btn-default text-info">ComeBack</a>
+                                  <p class="text-info h1">{{ __('book.common')}}</p>
+                                  <a href="{{ route('books.index')}}" class="btn btn-default text-info">ComeBack</a>
                               </td>
                           </tr>
                       @endif
