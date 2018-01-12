@@ -132,7 +132,7 @@ class Book extends Model
      * @param \Illuminate\Database\Eloquent\Builder $query query of Model
      * @param String                                $name  name
      *
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeSearchName($query, $name)
     {
@@ -145,7 +145,7 @@ class Book extends Model
      * @param \Illuminate\Database\Eloquent\Builder $query  query of Model
      * @param String                                $author author
      *
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeSearchAuthor($query, $author)
     {
