@@ -21,26 +21,35 @@
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">{{ __('dashboard.main_navigation') }}</li>
       <li>
-        <a href="">
+        <a href="{{ route('home.index') }}">
           <i class="fa fa-home" aria-hidden="true"></i> <span>{{ __('dashboard.home_page') }}</span>
         </a>
       </li>
       <li>
-        <a href='{{ route('users.index') }}'>
+        <a href="{{ route('users.index') }}">
           <i class="fa fa-male" aria-hidden="true"></i>
           <span>{{ __('dashboard.users') }}</span>
+          <span class="pull-right-container">
+              <small class="label pull-right bg-blue">{{ getCount('users') }}</small>
+          </span>
         </a>
       </li>
       <li>
-        <a href="#">
+        <a href="{{route('books.index')}}">
           <i class="fa fa-book" aria-hidden="true"></i>
           <span>{{ __('dashboard.books') }}</span>
+          <span class="pull-right-container">
+              <small class="label pull-right bg-green">{{ getCount('books') }}</small>
+          </span>
         </a>
       </li>
       <li>
         <a href="#">
           <i class="fa fa-list" aria-hidden="true"></i>
           <span>{{ __('dashboard.categories') }}</span>
+          <span class="pull-right-container">
+              <small class="label pull-right bg-orange">{{ getCount('categories') }}</small>
+          </span>
         </a>
       </li>
     </ul>
