@@ -44,15 +44,14 @@ class BookController extends Controller
 
         $books = Book::select($columns);
         $conditions = [];
-        if ($request->name && $request->author)
-        {
+        if ($request->name && $request->author) {
             $books = Book::where('name', 'like', '%' . $request->name . '%')
             ->Orwhere('author', 'like', '%' . $request->author . '%');
         } else {
-            if( $request->name) {
+            if ($request->name) {
                 $conditions[] = ['name', 'like', '%' . $request->name . '%'];
             }
-            if( $request->author) {
+            if ($request->author) {
                 $conditions[] = ['author', 'like', '%' . $request->author . '%'];
             }
         }
