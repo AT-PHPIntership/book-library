@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostsTable extends Migration
+class CreateQrcodesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,16 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('qrcodes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')
-                  ->references('id')->on('users')
-                  ->onUpdate('cascade')
-                  ->onDelete('cascade');
             $table->integer('book_id')->unsigned();
             $table->foreign('book_id')
                   ->references('id')->on('books')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->tinyInteger('type')->comment="1. review || 2. find || 3. status";
-            $table->string('content');
-            $table->string('image')->nullable();
+            $table->string('prefix');
+            $table->integer('code_id');
+            $table->tinyInteger('status')->default(0)->comment="0: printed, 1:will print";
             $table->timestamps();
             $table->softDeletes();
         });
@@ -40,8 +35,6 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        Schema::dropIfExists('posts');
-        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        Schema::dropIfExists('qrcodes');
     }
 }
