@@ -1,9 +1,8 @@
-<?php 
+<?php
 
 use App\Model\User;
 use App\Model\Book;
 use App\Model\Category;
-
 
 if (!function_exists('getCount')) {
   
@@ -14,13 +13,20 @@ if (!function_exists('getCount')) {
    *
    * @return float
    */
-  function getCount($name)
-  {
-      $count = [
-          'users' => User::count(),
-          'books' => Book::count(),
-          'categories' => Category::count()
-        ];
-      return $count[$name];
-  }
+    function getCount($name)
+    {
+        $count = '';
+        switch ($name) {
+            case 'users':
+                $count = User::count();
+                break;
+            case 'books':
+                $count = Book::count();
+                break;
+            default:
+                $count = Category::count();
+                break;
+        }
+        return $count;
+    }
 }
