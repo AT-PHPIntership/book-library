@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Pages\Backend\Users;
 
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
@@ -16,11 +16,26 @@ class AdminShowDetailUserTest extends DuskTestCase
      */
     public function testRouteShowDetailUser()
     {
-        $this->browse(function (Browser $browser) {
+        $user = User::find(1);
+        $this->browse(function (Browser $browser) use ($user) {
             $browser->visit('/admin/users')
-                ->assertSee('List Users')
-                ->click('@href-detailpage')
-                ->assertSee('Profile User');
+                ->click('#username')
+                ->assertPathIs('/admin/users/' . $user->employee_code);
+        });
+    }
+
+    /**
+     * Test layout of detail User Page.
+     *
+     * @return void
+     */
+    public function testLayoutDetailUser()
+    {
+        $user = User::find(1);
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->visit('/admin/users/' . $user->employee_code)
+                ->assertSee('Profile User')
+                ->assertSee('About');
         });
     }
 
@@ -29,7 +44,7 @@ class AdminShowDetailUserTest extends DuskTestCase
      *
      * @return void
      */
-    public function testShowUser()
+    public function testShowDetailUser()
     {
         $user = User::find(1);
         $this->browse(function (Browser $browser) use ($user) {
