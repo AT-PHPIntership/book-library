@@ -18,7 +18,7 @@ class User extends Authenticatable
     /**
      * Value of SA
      */
-    const SA = 'PHP';
+    const SA = 'SA';
 
     /**
      * Value of ADMIN
@@ -113,7 +113,6 @@ class User extends Authenticatable
     }
 
     /**
-<<<<<<< HEAD
      * Value of role
      *
      * @var array
@@ -135,7 +134,7 @@ class User extends Authenticatable
         return $team == self::SA ? 1 : 0;
     }
 
-=======
+    /**
      * Relationship hasMany with Comment
      *
      * @return array
@@ -145,7 +144,6 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
     
->>>>>>> master
     /**
      * Get Role user
      *
