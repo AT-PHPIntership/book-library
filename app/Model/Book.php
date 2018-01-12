@@ -28,14 +28,12 @@ class Book extends Model
      * @var array
      */
     protected $fillable = [
-        'QRcode',
         'category_id',
         'name',
         'author',
         'year',
         'price',
         'description',
-        'donate_by',
         'donator_id',
         'avg_rating',
         'total_rating',
