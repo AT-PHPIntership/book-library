@@ -125,4 +125,30 @@ class Book extends Model
     {
         return $this->borrowings->count();
     }
+
+    /**
+     * Scope search book by name
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query query of Model
+     * @param String                                $name  name
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearchName($query, $name)
+    {
+        return $query->where('name', 'LIKE', '%'.$name.'%');
+    }
+
+    /**
+     * Scope search book by author
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query  query of Model
+     * @param String                                $author author
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearchAuthor($query, $author)
+    {
+        return $query->where('author', 'LIKE', '%'.$author.'%');
+    }
 }
