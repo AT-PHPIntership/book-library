@@ -22,7 +22,8 @@ class Favorite extends Model
      */
     protected $fillable = [
         'user_id',
-        'post_id',
+        'favoritable_id',
+        'favoritable_type',
     ];
     
     /**
@@ -36,12 +37,12 @@ class Favorite extends Model
     }
 
     /**
-     * Relationship belongsTo with Post
+     * Get all of the owning favoritable models
      *
      * @return array
     */
-    public function posts()
+    public function favoritable()
     {
-        return $this->belongsTo(Post::class, 'post_id');
+        return $this->morphTo();
     }
 }

@@ -15,7 +15,6 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('QRcode');
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')
                   ->references('id')->on('categories')
@@ -30,9 +29,9 @@ class CreateBooksTable extends Migration
             $table->string('author');
             $table->string('year');            
             $table->integer('price');            
-            $table->string('description');
+            $table->longText('description');
             $table->string('image');
-            $table->float('avg_rating')->defautl(0.0);
+            $table->float('avg_rating')->default(0.0);
             $table->integer('total_rating')->default(0);
             $table->tinyInteger('status')->default(1)->comment="1: available; 0:borrowed";
             $table->timestamps();

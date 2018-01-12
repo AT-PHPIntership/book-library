@@ -26,7 +26,7 @@ class CreateBorrowingsTable extends Migration
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->datetime('from_date');
-            $table->datetime('to_date');
+            $table->datetime('to_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
