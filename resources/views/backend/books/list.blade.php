@@ -95,7 +95,7 @@
                           <tr>
                               <td align="center" colspan="6">
                                   <p class="text-info h1">{{ __('book.common')}}</p>
-                                  <a href="{{ route('books.index')}}" class="btn btn-default text-info">ComeBack</a>
+                                  <a href="{{ route('books.index')}}" class="btn btn-default text-info">{{ __('general.comeback')}}</a>
                               </td>
                           </tr>
                       @endif
