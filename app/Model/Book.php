@@ -16,9 +16,8 @@ class Book extends Model
 
     /**
      * Default value of category
-     * 
      */
-    const DEFAULT_CATEGORY = 1; 
+    const DEFAULT_CATEGORY = 1;
     /**
      * Declare table
      *
