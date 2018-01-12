@@ -1,6 +1,31 @@
 @extends('backend.layouts.main')
 @section('title',__('books.title_book'))
 @section('content')
+
+<!-- Modal -->
+<div id="confirmDelete" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <h3>{{ __('book.confirm.title') }}</h3>
+        <p>{{ __('book.confirm.delete') }} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+      </div>
+    </div>
+    <!-- end content--> 
+
+  </div>
+</div>
+<!-- end modal-->
+
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -61,6 +86,7 @@
                               <td align="center">
                                   <a href="{{ route('books.edit', $book->id) }}"
                                      class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
+                                  <i class="btn btn-danger btn-lg fa fa-trash-o"></i>
                               </td>
                           </tr>
                     @endforeach
