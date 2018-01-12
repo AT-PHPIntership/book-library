@@ -79,7 +79,6 @@ class LoginController extends Controller
                 $user = User::updateOrCreate($userCondition, $user);
                 # Set login for user
                 Auth::login($user, $request->filled('remember'));
-                dd($user);
                 return redirect("/admin");
             }
         } catch (ServerException $e) {

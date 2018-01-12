@@ -14,7 +14,26 @@ class User extends Authenticatable
 {
     use Notifiable, SoftDeletes;
 
+    /**
+     * Value of root admin
+     */
     const ROOT_ADMIN = 1;
+
+    /**
+     * Value of SA
+     */
+    const SA = 'PHP';
+
+    /**
+     * Value of ADMIN
+     */
+    const ADMIN = 'Admin';
+
+    /**
+     * Value of USER
+     */
+    const USER = 'User';
+
     /**
      * Declare table
      *
@@ -98,11 +117,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Value of team admin
-     */
-    const ADMIN_TEAM = 'SA';
-
-    /**
      * Value of role
      *
      * @var array
@@ -121,9 +135,9 @@ class User extends Authenticatable
     */
     public function getRoleByTeam($team)
     {
-        return $team == self::ADMIN_TEAM ? 1 : 0;
+        return $team == self::SA ? 1 : 0;
     }
-    
+
     /**
      * Get Role user
      *
