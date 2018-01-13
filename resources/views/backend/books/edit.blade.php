@@ -54,7 +54,7 @@
                 @endif
               </div>
               <div class="form-group">
-                <label for="price">{{ __('book.price') }}abx</label>
+                <label for="price">{{ __('book.price') }}</label>
                 <input name="price" type="text" class="form-control" id="price" placeholder="{{ __('book.enter_price') }}" value="{{ old('price', $book->price) }}">
                 @if($errors->first('price'))
                   <span class="text-danger">{{ $errors->first('price') }}</span>
