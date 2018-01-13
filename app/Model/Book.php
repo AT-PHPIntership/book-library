@@ -112,7 +112,7 @@ class Book extends Model
     }
     
     /**
-     * Relationship hasMany with Borrow
+     * Relationship hasMany with Borrowing
      *
      * @return array
     */
