@@ -57,6 +57,10 @@
                 </div>
             </div>
         </div>
+
+        <!-- show message response -->
+        @include('flash::message')
+
         <!-- /.row -->
         <div class="row">
           <div class="col-md-10">
