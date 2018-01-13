@@ -38,11 +38,7 @@
                   @if($category->id == App\Model\Book::DEFAULT_CAGEGORY)
                     @continue;
                   @endif
-                  @if(old('category_id') == $category->id)
-                    <option selected value="{{ $category->id }}">{{ $category->name }}</option>
-                  @else
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                  @endif
+                  <option value="{{ $category->id }}" {{ (old('category_id') == $category->id) ? 'selected' : '' }}>{{ $category->name }}</option>
                 @endforeach
                 </select>
               </div>
