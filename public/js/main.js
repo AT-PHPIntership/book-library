@@ -12,7 +12,7 @@ $(document).ready(function() {
       reader.readAsDataURL(this.files[0]);
     }
   })
-  //stop display image when press reset button
+  //stop display image when press reset
   $('#btn-reset').click(function() {
     $('#image-display').attr('src', '');
   })
