@@ -35,10 +35,14 @@
                 <label for="name">{{ __('book.category') }}</label>
                 <select name="category_id" id="category">
                 @foreach($categories as $category)
-                  @if($category->id == 1)
+                  @if($category->id == App\Model\Book::DEFAULT_CAGEGORY)
                     @continue;
                   @endif
-                  <option value="{{ $category->id }}">{{ $category->name }}</option>
+                  @if(old('category_id') == $category->id)
+                    <option selected value="{{ $category->id }}">{{ $category->name }}</option>
+                  @else
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                  @endif
                 @endforeach
                 </select>
               </div>
