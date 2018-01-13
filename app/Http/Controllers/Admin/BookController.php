@@ -63,6 +63,7 @@ class BookController extends Controller
                 'user_id' => $user->id,
                 'employee_code' => $user->employee_code,
                 'email' => $user->email,
+                'name' => $user->name,
             ];
         }
         $donator = Donator::updateOrCreate(['employee_code' => $request->employee_code], $donatorData);
