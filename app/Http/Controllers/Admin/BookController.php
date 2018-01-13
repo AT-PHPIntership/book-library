@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Model\Book;
+use \Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Category;
 use Illuminate\Pagination\Paginator;
@@ -58,17 +59,16 @@ class BookController extends Controller
     /**
      * Show the form with book data for edit book.
      *
-     * @param int $id book
+     * @param int $book pass book object
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Book $book)
     {
         $categoryFields = [
             'id',
             'name'
         ];
-        $book = Book::findOrFail($id);
         $categories = Category::select($categoryFields)->get();
         return view('backend.books.edit', compact('book', 'categories'));
     }
