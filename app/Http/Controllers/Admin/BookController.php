@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Model\Book;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Category;
 use Illuminate\Pagination\Paginator;
@@ -54,5 +53,23 @@ class BookController extends Controller
             ->sortable()
             ->paginate(config('define.page_length'));
         return view('backend.books.list', compact('books'));
+    }
+
+    /**
+     * Show the form with book data for edit book.
+     *
+     * @param int $id book
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $categoryFields = [
+            'id',
+            'name'
+        ];
+        $book = Book::findOrFail($id);
+        $categories = Category::select($categoryFields)->get();
+        return view('backend.books.edit', compact('book', 'categories'));
     }
 }
