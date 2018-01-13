@@ -15,7 +15,7 @@
       <li class="active">{{ __('book.create') }}</li>
     </ol>
   </section>
-    <!-- Main content -->
+  <!-- Main content -->
   <section class="content">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
@@ -34,6 +34,12 @@
               <div class="form-group">
                 <label for="name">{{ __('book.category') }}</label>
                 <select name="category_id" id="category">
+                @foreach($categories as $category)
+                  @if($category->id == 1)
+                    @continue;
+                  @endif
+                  <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
                 </select>
               </div>
               <div class="form-group">
@@ -66,13 +72,14 @@
               </div>
               <div class="form-group">
                 <label for="description">{{__('book.description') }}</label></br>
-                <textarea class="ckeditor" id="description" placeholder="{{ __('book.description') }}"></textarea>
+                <textarea name="description" class="ckeditor" id="description" placeholder="{{ __('book.description') }}">{{ old('description') }}</textarea>
                 @if($errors->first('description'))
                   <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
               <div class="form-group">
                 <label for="exampleInputFile">{{ __('book.image') }}</label>
                 <input name="image" type="file" id="exampleInputFile">
+                <p class="help-block">{{ __('Only upload image with maximum 10mb') }}</p>
                 @if($errors->first('image'))
                   <span class="text-danger">{{ $errors->first('image') }}</span>
                 @endif
