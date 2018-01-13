@@ -16,6 +16,11 @@ class Book extends Model
     use Sortable;
 
     /**
+     * Default category value
+     */
+    const DEFAULT_CAGEGORY = 1;
+
+    /**
      * Declare table
      *
      * @var string $tabel table name
