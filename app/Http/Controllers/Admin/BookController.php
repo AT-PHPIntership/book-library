@@ -59,7 +59,7 @@ class BookController extends Controller
     /**
      * Show the form with book data for edit book.
      *
-     * @param int $book pass book object
+     * @param App\Model\Book $book pass book object
      *
      * @return \Illuminate\Http\Response
      */
