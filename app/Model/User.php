@@ -2,10 +2,6 @@
 
 namespace App\Model;
 
-use App\Model\Book;
-use App\Model\Borrow;
-use App\Model\Favorite;
-use App\Model\Post;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -14,12 +10,24 @@ class User extends Authenticatable
 {
     use Notifiable, SoftDeletes;
 
+    /**
+     * Value of root admin
+     */
     const ROOT_ADMIN = 1;
 
+    /**
+     * Value of SA
+     */
     const SA = 'SA';
 
+    /**
+     * Value of ADMIN
+     */
     const ADMIN = 'Admin';
 
+    /**
+     * Value of USER
+     */
     const USER = 'User';
 
     /**
@@ -100,6 +108,16 @@ class User extends Authenticatable
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
+    }
+
+    /**
+     * Relationship hasMany with Comment
+     *
+     * @return array
+    */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
     
     /**

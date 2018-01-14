@@ -7,6 +7,7 @@ return [
     'no_image'         => '/images/default/no-image.png',
     'no_user_image'    => 'images/default/profile.png',
     'books'            => [
-        'path_upload' => 'images/books/',
+        'path_upload'  => 'images/books/',
+        'no_image_name'=> 'no-image',
     ]
 ];

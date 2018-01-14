@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookCreateRequest;
 use App\Model\Category;
+use Illuminate\Pagination\Paginator;
 use App\Model\User;
 use App\Model\Donator;
+use App\Model\QrCode;
 
 class BookController extends Controller
 {
@@ -42,31 +44,50 @@ class BookController extends Controller
             $image = $request->image;
             $name = config('image.name_prefix') . "-" . $image->hashName();
             $folder = config('image.books.path_upload');
-            $image->move($folder, $name);
+            $saveImageResult = $image->move($folder, $name);
 
-            $path = $folder . $name;
-            $book->image = $path;
+            $book->image = $name;
         } else {
-            $path = config('image.no_image');
-            $book->image = $path;
+            $book->image = config('image.books.no_image_name');
+            $saveImageResult = true;
         }
-        //save generate qrcode
-        $book->QRcode = $book->generateQRcode();
 
         //save new donator
         $user = User::where('employee_code', $request->employee_code)->first();
-        $donatorData = [
-            'user_id' => $user->id,
-            'employee_code' => $user->employee_code,
-            'email' => $user->email,
-        ];
-        $donator = Donator::firstOrCreate($donatorData);
+        if ($user === null) {
+            $donatorData = [
+                'employee_code' => $request->employee_code,
+            ];
+        } else {
+            $donatorData = [
+                'user_id' => $user->id,
+                'employee_code' => $user->employee_code,
+                'email' => $user->email,
+                'name' => $user->name,
+            ];
+        }
+        $donator = Donator::updateOrCreate(['employee_code' => $request->employee_code], $donatorData);
         $book->donator_id = $donator->id;
+
         $result = $book->save();
 
-        if ($result) {
+        //save new qrcode
+        $lastestCodeId = QrCode::select('code_id')->orderby('code_id', 'desc')->first();
+        if ($lastestCodeId === null) {
+            $lastestCodeId = QrCode::DEFAULT_CODE_ID;
+        } else {
+            $lastestCodeId = $lastestCodeId->code_id + 1;
+        }
+        $book->qrcode()->save(
+            new QrCode([
+                'prefix' => QrCode::QRCODE_PREFIX,
+                'code_id'=> $lastestCodeId,
+            ])
+        );
+
+        if ($result && $saveImageResult) {
             flash(__('Create success'))->success();
-            return redirect()->route('books.create');
+            return redirect()->route('books.index');
         } else {
             flash(__('Create failure'))->error();
             return redirect()->back()->withInput();
@@ -76,11 +97,31 @@ class BookController extends Controller
     /**
      * Display list book.
      *
+     * @param Request $request request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $books  = Book::with('borrowings')->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+        $columns = [
+            'id',
+            'name',
+            'author',
+            'avg_rating',
+            'total_rating'
+        ];
+        $books = Book::select($columns);
+
+        if ($request->name) {
+            $books = $books->searchname($request->name);
+        }
+        if ($request->author) {
+            $books = $books->searchauthor($request->author);
+        }
+
+        $books = $books->withCount('borrowings')
+            ->sortable()
+            ->paginate(config('define.page_length'));
         return view('backend.books.list', compact('books'));
     }
 }

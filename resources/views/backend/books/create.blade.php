@@ -15,9 +15,7 @@
       <li class="active">{{ __('book.create') }}</li>
     </ol>
   </section>
-  <!-- show message response -->
-  @include('flash::message')
-    <!-- Main content -->
+  <!-- Main content -->
   <section class="content">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
@@ -37,10 +35,10 @@
                 <label for="name">{{ __('book.category') }}</label>
                 <select name="category_id" id="category">
                 @foreach($categories as $category)
-                  @if($category->id == 1)
+                  @if($category->id == App\Model\Book::DEFAULT_CAGEGORY)
                     @continue;
                   @endif
-                  <option value="{{ $category->id }}">{{ $category->name }}</option>
+                  <option value="{{ $category->id }}" {{ (old('category_id') == $category->id) ? 'selected' : '' }}>{{ $category->name }}</option>
                 @endforeach
                 </select>
               </div>
@@ -74,7 +72,7 @@
               </div>
               <div class="form-group">
                 <label for="description">{{__('book.description') }}</label></br>
-                <textarea name="description" class="ckeditor" id="description" placeholder="{{ __('book.description') }}"></textarea>
+                <textarea name="description" class="ckeditor" id="description" placeholder="{{ __('book.description') }}">{{ old('description') }}</textarea>
                 @if($errors->first('description'))
                   <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
