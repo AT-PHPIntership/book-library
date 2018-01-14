@@ -37,12 +37,9 @@
                 <select name="category_id" id="category">
                   @foreach($categories as $category)
                     @if($category->id == App\Model\Book::DEFAULT_CATEGORY)
-                      continue;
-                    @elseif(old('category_id', $book->category_id) == $category->id)
-                      <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
-                    @else
-                      <option value="{{ $category->id }}">{{ $category->name }}</option>
+                      @continue;
                     @endif
+                    <option value="{{ $category->id }}" {{ (old('category_id', $book->category->id) == $category->id) ? 'selected' : '' }}>{{ $category->name }}</option>
                   @endforeach
                 </select>
               </div>
