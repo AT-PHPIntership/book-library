@@ -2,12 +2,13 @@
 
 namespace App\Model;
 
-use App\Model\Book;
+use App\Model\Post;
 use App\Model\User;
+use App\Model\Favorite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Donator extends Model
+class Comment extends Model
 {
     use SoftDeletes;
     
@@ -16,7 +17,7 @@ class Donator extends Model
      *
      * @var string $tabel table name
      */
-    protected $table = 'donators';
+    protected $table = 'comments';
 
     /**
      * The attributes that are mass assignable.
@@ -24,20 +25,20 @@ class Donator extends Model
      * @var array
      */
     protected $fillable = [
+        'post_id',
         'user_id',
-        'employee_code',
-        'email',
-        'name',
+        'content',
+        'parent_id',
     ];
 
     /**
-     * Relationship hasMany with Book
+     * Relationship belongsTo with Post
      *
      * @return array
     */
-    public function books()
+    public function post()
     {
-        return $this->hasMany(Book::class);
+        return $this->belongsTo(Post::class, 'post_id');
     }
     
     /**
@@ -48,5 +49,15 @@ class Donator extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Relationship morphMany with Favorite
+     *
+     * @return array
+    */
+    public function favorites()
+    {
+        return $this->morphMany(Favorite::class, 'favoritable');
     }
 }
