@@ -20,7 +20,7 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>{{getCount('users')}}</h3>
+              <h3>{{getCount(App\Model\User::class)}}</h3>
 
               <p>{{ __('home.users') }}</p>
             </div>
@@ -35,7 +35,7 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>{{getCount('books')}}</h3>
+              <h3>{{getCount(App\Model\Book::class)}}</h3>
 
               <p>{{__('home.books')}}</p>
             </div>
@@ -50,12 +50,27 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>{{getCount('categories')}}</h3>
+              <h3>{{getCount(App\Model\Category::class)}}</h3>
 
               <p>{{__('home.categories')}}</p>
             </div>
             <div class="icon">
               <i class="ion ion-ios-list"></i>
+            </div>
+            <a href="" class="small-box-footer">{{__('home.more_info')}} <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-purple">
+            <div class="inner">
+              <h3>{{getCount(App\Model\Post::class)}}</h3>
+
+              <p>{{__('home.posts')}}</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-ios-bookmarks"></i>
             </div>
             <a href="" class="small-box-footer">{{__('home.more_info')}} <i class="fa fa-arrow-circle-right"></i></a>
           </div>

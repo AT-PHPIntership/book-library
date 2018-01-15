@@ -2,6 +2,7 @@
 
 use App\Model\User;
 use App\Model\Book;
+use App\Model\Post;
 use App\Model\Category;
 
 if (!function_exists('getCount')) {
@@ -20,14 +21,16 @@ if (!function_exists('getCount')) {
          *
          * @param int $count count table
          */
-        
         $count = 0;
         switch ($name) {
-            case config('define.count_num.users'):
+            case User::class:
                 $count = User::count();
                 break;
-            case config('define.count_num.books'):
+            case Book::class:
                 $count = Book::count();
+                break;
+            case Post::class:
+                $count = Post::count();
                 break;
             default:
                 $count = Category::count();
