@@ -45,13 +45,13 @@
                   <td>{{ $user->email }}</td>
                   <td>{{ $user->total_donated }}</td>
                   <td>{{ $user->total_borrowed }}</td>
-                  @if (session()->get('team') == app\Model\User::SA)
+                  @if (session()->get('team') == App\Model\User::SA)
                   <td>
                     <a 
                     @if ($user->team == app\Model\User::SA)
                       disabled
                     @endif
-                      class=" width-70 
+                      class=" width-70
                     @if ($user->role)
                       btn btn-success"> {{ __('user.admin') }}
                     @else
@@ -72,5 +72,4 @@
   </section>
 </div>
 <!-- /.content -->
-</div>
 @endsection
