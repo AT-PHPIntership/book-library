@@ -19,6 +19,6 @@ Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
 //Admin
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
-    Route::get('/', 'HomeController@index');
+    Route::get('/', 'HomeController@index')->name('home.index');
     Route::resource('books', 'BookController');
 });
