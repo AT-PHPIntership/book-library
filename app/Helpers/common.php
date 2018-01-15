@@ -15,17 +15,22 @@ if (!function_exists('getCount')) {
    */
     function getCount($name)
     {
-        $count = '';
+        /**
+         * Response count
+         *
+         * @param int $count count table
+         */
+        
+        $count = 0;
         switch ($name) {
-            case 'users':
+            case config('define.count_num.users'):
                 $count = User::count();
                 break;
-            case 'books':
+            case config('define.count_num.books'):
                 $count = Book::count();
                 break;
             default:
                 $count = Category::count();
-                break;
         }
         return $count;
     }
