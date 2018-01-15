@@ -1,5 +1,8 @@
 <?php
 
+use App\Model\Book;
+use App\Model\Post;
+use App\Model\Comment;
 use Faker\Generator as Faker;
 /*
 |--------------------------------------------------------------------------
@@ -49,9 +52,12 @@ $factory->define(App\Model\Book::class, function (Faker $faker) {
 });
 
 $factory->define(App\Model\Borrowing::class, function (Faker $faker) {
+    $startingDate = $faker->dateTimeBetween('-2 months', '+6 days');
+    $endingDate   = $faker->dateTimeBetween('-1 weeks', 'now');
+
     return [
-        'from_date' => $faker->datetime,
-        'to_date'   => $faker->datetime,
+        'from_date' => $startingDate,
+        'to_date'   => $endingDate,
     ];
 });
 
@@ -71,7 +77,7 @@ $factory->define(App\Model\Rating::class, function (Faker $faker) {
 $factory->define(App\Model\Favorite::class, function (Faker $faker) {
     return [
         'favoritable_id'   => rand(1,15),
-        'favoritable_type' => $faker->randomElement(['books', 'comments', 'posts'])
+        'favoritable_type' => $faker->randomElement([Book::class, Comment::class, Post::class])
     ];
 });
 
