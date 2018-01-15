@@ -30,7 +30,7 @@
           <i class="fa fa-male" aria-hidden="true"></i>
           <span>{{ __('dashboard.users') }}</span>
           <span class="pull-right-container">
-              <small class="label pull-right bg-blue">{{ getCount('users') }}</small>
+              <small class="label pull-right bg-blue">{{ getCount(App\Model\User::class) }}</small>
           </span>
         </a>
       </li>
@@ -39,7 +39,7 @@
           <i class="fa fa-book" aria-hidden="true"></i>
           <span>{{ __('dashboard.books') }}</span>
           <span class="pull-right-container">
-              <small class="label pull-right bg-green">{{ getCount('books') }}</small>
+              <small class="label pull-right bg-green">{{ getCount(App\Model\Book::class) }}</small>
           </span>
         </a>
       </li>
@@ -48,7 +48,16 @@
           <i class="fa fa-list" aria-hidden="true"></i>
           <span>{{ __('dashboard.categories') }}</span>
           <span class="pull-right-container">
-              <small class="label pull-right bg-orange">{{ getCount('categories') }}</small>
+              <small class="label pull-right bg-orange">{{ getCount(App\Model\Category::class) }}</small>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="fa fa-list" aria-hidden="true"></i>
+          <span>{{ __('dashboard.posts') }}</span>
+          <span class="pull-right-container">
+              <small class="label pull-right bg-purple">{{ getCount(App\Model\Post::class) }}</small>
           </span>
         </a>
       </li>
