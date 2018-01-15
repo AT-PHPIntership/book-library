@@ -54,7 +54,7 @@ class BookController extends Controller
 
         //save new donator
         $user = User::where('employee_code', $request->employee_code)->first();
-        if ($user === null) {
+        if (empty($user)) {
             $donatorData = [
                 'employee_code' => $request->employee_code,
             ];
@@ -73,7 +73,7 @@ class BookController extends Controller
 
         //save new qrcode
         $lastestCodeId = QrCode::select('code_id')->orderby('code_id', 'desc')->first();
-        if ($lastestCodeId === null) {
+        if (empty($lastestCodeId)) {
             $lastestCodeId = QrCode::DEFAULT_CODE_ID;
         } else {
             $lastestCodeId = $lastestCodeId->code_id + 1;
