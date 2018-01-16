@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Model\User;
 use GuzzleHttp\Client;
+use App\Rules\ATEmail;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Exception\ServerException;
@@ -57,7 +59,7 @@ class LoginController extends Controller
             $portalResponse = json_decode($portal->getBody()->getContents());
 
             # Check status API response
-            if ($portalResponse->meta->status == config('define.success')) {
+            if ($portalResponse->meta->code == Response::HTTP_OK) {
                 $userResponse = $portalResponse->data->user;
                 # Collect user data from response
                 $teamName = $userResponse->teams[0]->name;
@@ -90,7 +92,10 @@ class LoginController extends Controller
                 ->withInput()
                 ->withErrors(['message' => trans('portal.messages.' . $portalResponse->meta->messages)]);
         } catch (Exception $e) {
-            echo  $e->getMessage();
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['message' => $e->getMessage()]);
         }
     }
     
