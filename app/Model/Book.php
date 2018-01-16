@@ -16,10 +16,9 @@ class Book extends Model
     use Sortable;
 
     /**
-     * Default category value
+     * Default value of category
      */
-    const DEFAULT_CAGEGORY = 1;
-
+    const DEFAULT_CATEGORY = 1;
     /**
      * Declare table
      *
