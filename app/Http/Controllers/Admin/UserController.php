@@ -70,22 +70,4 @@ class UserController extends Controller
 
         return view('backend.users.show', compact('user', 'bookBorrowing'));
     }
-
-    /**
-     * Change role of user.
-     *
-     * @param int $id id of user
-     *
-     * @return mixed
-     */
-    public function changeRole($id)
-    {
-        $getUser = User::findOrFail($id);
-        $newRole = 1 - $getUser->role;
-        $getUser->update(['role' => $newRole]);
-        $data = [
-            'user' => $getUser,
-        ];
-        return response()->json($data);
-    }
 }
