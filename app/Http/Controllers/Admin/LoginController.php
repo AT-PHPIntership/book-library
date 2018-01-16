@@ -72,9 +72,11 @@ class LoginController extends Controller
                     'team' => $teamName,
                     'access_token' => $userResponse->access_token,
                     'expired_at' => $date,
-                    'role' => $userRole->getRoleByTeam($teamName),
                     'avatar_url' => $userResponse->avatar_url
                 ];
+                if($teamName == User::SA) {
+                    $user['role'] = User::ROOT_ADMIN;                    
+                }
                 # Update user from database OR create User
                 $user = User::updateOrCreate($userCondition, $user);
                 # Set login for user

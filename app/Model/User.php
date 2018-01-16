@@ -113,18 +113,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Check admin
-     *
-     * @param App\Model\User $team return team
-     *
-     * @return string
-    */
-    public function getRoleByTeam($team)
-    {
-        return $team == self::SA ? 1 : 0;
-    }
-
-    /**
      * Relationship hasMany with Comment
      *
      * @return array
