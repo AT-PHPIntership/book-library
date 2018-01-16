@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Pages\Backend\Login;
 
+use App\Model\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -27,14 +28,16 @@ class LoginTest extends DuskTestCase
     //     });
     // }
 
-    /**
-     * Test Login success if account admin.
-     *
-     * @return void
-     */
+    
     public function testAdminLoginSuccess()
     {   
-        $this->browse(function (Browser $browser)  {
+        $this->browse(function (Browser $browser)
+        {
+            factory(User::class, 1)->create([
+                'email' => 'an.nguyen@asiantech.vn',
+                'employee_code' => 'ATI0274',
+                'role' => 1
+            ]);
             $browser->logout();
             $browser->visit('/login')
                     ->assertSee('Login')
@@ -62,8 +65,7 @@ class LoginTest extends DuskTestCase
     //                 ->type('email', 'an.nguyen@asiantech.vn')
     //                 ->type('password', 'Annguyen735') 
     //                 ->press('Login')
-    //                 ->assertSee('Sorry');
-    //                 // ->assertPathIs('/');
+    //                 ->assertPathIs('/');
     //     });
     // }
 
@@ -76,6 +78,17 @@ class LoginTest extends DuskTestCase
         return [
             ['an@gmail.com', '', 'The password field is required.'],
             ['', '123123', 'The email field is required.'],
+        ];
+    }
+
+    /**
+     * Acount Login
+     *
+     */
+    public function accountLogin()
+    {
+        return [
+            ['an.nguyen@asiantech.vn', 'Annguyen735'],
         ];
     }
 

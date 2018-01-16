@@ -24,6 +24,9 @@
         "squizlabs/php_codesniffer": "2.*"
     },
     "autoload": {
+        "files": [
+            "app/Helpers/common.php"
+        ],
         "classmap": [
             "database/seeds",
             "database/factories"

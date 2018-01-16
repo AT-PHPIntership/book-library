@@ -18,7 +18,7 @@ class User extends Authenticatable
     /**
      * Value of SA
      */
-    const SA = 'PHP';
+    const SA = 'SA';
 
     /**
      * Value of ADMIN
@@ -111,16 +111,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Favorite::class);
     }
-
-    /**
-     * Value of role
-     *
-     * @var array
-     */
-    public static $role = [
-        'admin' => 1,
-        'user' => 0,
-    ];
 
     /**
      * Check admin
