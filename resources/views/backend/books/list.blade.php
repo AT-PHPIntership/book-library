@@ -104,11 +104,13 @@
               <!-- /.box-body -->
             </div>
             <!-- /.box -->
-          </div>
-      </div>{{ $books->appends(\Request::except('page'))->appends(['name' => Request::get('name'), 'author' => Request::get('author')])->render()}}
+            @if($books instanceof \Illuminate\Pagination\Paginator)
+                {{ $books->appends(\Request::except('page'))->appends(['name' => Request::get('name'), 'author' => Request::get('author')])->render()}}
+            @endif
+      </div>
     </div>
-    </section>
     <!-- /.content -->
   </div>
+</div>
   <!-- /.content-wrapper -->
 @endsection

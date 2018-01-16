@@ -87,7 +87,7 @@
             <div class="icon">
               <i class="ion ion-android-contacts"></i>
             </div>
-            <a href="{{ route('users.index') }}" class="small-box-footer">{{__('home.more_info')}} <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ route('users.index', ['filter' => 'donator', 'limit' => '5']) }}" class="small-box-footer top-donator">{{__('home.more_info')}} <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -102,7 +102,7 @@
             <div class="icon">
               <i class="ion ion-heart"></i>
             </div>
-            <a href="{{ route('books.index') }}" class="small-box-footer">{{__('home.more_info')}} <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ route('books.index', ['filter' => 'borrowed', 'limit' => '10']) }}" class="small-box-footer">{{__('home.more_info')}} <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->

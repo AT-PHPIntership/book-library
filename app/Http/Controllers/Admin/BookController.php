@@ -28,7 +28,7 @@ class BookController extends Controller
     /**
      * Display list book.
      *
-     * @param Request $request request
+     * @param Request $request request request
      *
      * @return \Illuminate\Http\Response
      */
@@ -41,6 +41,8 @@ class BookController extends Controller
             'avg_rating',
             'total_rating'
         ];
+        $filter = $request->input('filter');
+        $limit = $request->input('limit');
         $books = Book::select($columns);
 
         if ($request->name) {
@@ -50,9 +52,16 @@ class BookController extends Controller
             $books = $books->searchauthor($request->author);
         }
 
-        $books = $books->withCount('borrowings')
-            ->sortable()
-            ->paginate(config('define.page_length'));
+        if ($filter == 'borrowed' && $limit == 10) {
+            $books = $books->withCount('borrowings')
+                    ->orderBy('borrowings_count', 'DESC')
+                    ->limit($limit)
+                    ->get();
+        } else {
+            $books = $books->withCount('borrowings')
+                    ->sortable()
+                    ->paginate(config('define.page_length'));
+        }
         return view('backend.books.list', compact('books'));
     }
 }

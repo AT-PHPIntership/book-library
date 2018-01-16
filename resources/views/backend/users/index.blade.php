@@ -21,7 +21,7 @@
           <div class="box-header">
             <h3 class="box-title">{{ __('user.users_table') }}</h3>
           </div>
-          <div class="box-body">
+          <div class="box-body" id="abc">
             <table id="example2" class="table table-bordered table-hover">
               <thead>
                 <tr>
@@ -64,7 +64,9 @@
                 @endforeach
               </tbody>
             </table>
-            {{ $users->links() }}
+            @if($users instanceof \Illuminate\Pagination\Paginator)
+              {{  $users ->links() }}
+            @endif
           </div>
         </div>
       </div>
