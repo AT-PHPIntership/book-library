@@ -16,6 +16,10 @@ class Book extends Model
     use Sortable;
 
     /**
+     * Default value of category
+     */
+    const DEFAULT_CATEGORY = 1;
+    /**
      * Declare table
      *
      * @var string $tabel table name
@@ -137,6 +141,16 @@ class Book extends Model
     }
 
     /**
+     * Relationship hasOne with Book
+     *
+     * @return array
+    */
+    public function qrcode()
+    {
+        return $this->hasOne(QrCode::class);
+    }
+
+    /**
      * Scope search book by name
      *
      * @param \Illuminate\Database\Eloquent\Builder $query query of Model
@@ -160,15 +174,5 @@ class Book extends Model
     public function scopeSearchAuthor($query, $author)
     {
         return $query->where('author', 'LIKE', '%'.$author.'%');
-    }
-
-    /**
-     * Relationship hasOne with Book
-     *
-     * @return array
-    */
-    public function qrcode()
-    {
-        return $this->hasOne(QrCode::class);
     }
 }
