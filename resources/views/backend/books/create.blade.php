@@ -32,12 +32,9 @@
                 @endif
               </div>
               <div class="form-group">
-                <label for="name">{{ __('book.category') }}</label>
+                <label for="name">{{ __('book.category') }}</label></br>
                 <select name="category_id" id="category">
                 @foreach($categories as $category)
-                  @if($category->id == App\Model\Book::DEFAULT_CAGEGORY)
-                    @continue;
-                  @endif
                   <option value="{{ $category->id }}" {{ (old('category_id') == $category->id) ? 'selected' : '' }}>{{ $category->name }}</option>
                 @endforeach
                 </select>
@@ -78,12 +75,13 @@
                 @endif
               <div class="form-group">
                 <label for="exampleInputFile">{{ __('book.image') }}</label>
-                <input name="image" type="file" id="exampleInputFile">
+                <input id="image" name="image" type="file" id="exampleInputFile">
                 <p class="help-block">{{ __('Only upload image with maximum 10mb') }}</p>
                 @if($errors->first('image'))
                   <span class="text-danger">{{ $errors->first('image') }}</span>
                 @endif
               </div>
+              <img id="image-display" width="150" height="200">
 
               <div class="box-footer">
                 <button id="btn-add-book" type="submit" class="btn btn-primary">{{ __('book.submit') }}</button>
