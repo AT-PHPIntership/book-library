@@ -90,9 +90,9 @@ class BookController extends Controller
     {
         $bookData = $request->except('_token', '_method', 'image');
         // save image path, move image to directory
-        if ($request->hasFile('image') && ($book->image != config('image.books.no_image_name'))) {
+        if ($request->hasFile('image')) {
             $oldPath = config('image.books.path_upload') . $book->image;
-            if (File::exists($oldPath)) {
+            if (File::exists($oldPath) && ($book->image != config('image.books.no_image_name'))) {
                 File::delete($oldPath);
             }
             $image = $request->image;
@@ -118,7 +118,6 @@ class BookController extends Controller
         }
         $donator = Donator::updateOrCreate(['employee_code' => $request->employee_code], $donatorData);
         $bookData['donator_id'] = $donator->id;
-
         $result = $book->update($bookData);
 
         if ($result) {
