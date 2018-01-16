@@ -82,7 +82,7 @@
                   <span class="text-danger">{{ $errors->first('image') }}</span>
                 @endif
                 @if(isset($book->image))
-                  <img id="image-display" width="150" height="200" src="{{ config('image.books.path_upload').$book->image }}" alt="no-image">
+                  <img id="image-display" width="150" height="200" src="{{ '/' . config('image.books.path_upload') . $book->image }}" alt="no-image">
                 @endif
               </div>
 
