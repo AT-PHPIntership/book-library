@@ -6,6 +6,7 @@ use App\Model\Book;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Category;
+use Illuminate\Pagination\Paginator;
 use DB;
 
 class BookController extends Controller
@@ -18,8 +19,8 @@ class BookController extends Controller
     public function create()
     {
         $fields = [
-        'id',
-        'name'
+            'id',
+            'name'
         ];
         $categories = Category::select($fields)->get();
         return view('backend.books.create', compact('categories'));
@@ -28,17 +29,36 @@ class BookController extends Controller
     /**
      * Display list book with filter ( if have ).
      *
-     * @param Request $request filter if have
+     * @param Request $request request
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-      
-        $uid = $request->uid;
-        $filter = $request->filter;
+        $columns = [
+            'id',
+            'name',
+            'author',
+            'avg_rating',
+            'total_rating'
+        ];
+        $books = Book::select($columns);
+
+        if ($request->name) {
+            $books = $books->searchname($request->name);
+        }
+        if ($request->author) {
+            $books = $books->searchauthor($request->author);
+        }
+
+        $books = $books->withCount('borrowings')
+            ->sortable()
+            ->paginate(config('define.page_length'));
       
         if ($request->has('uid') && $request->has('filter')) {
+            $uid = $request->uid;
+            $filter = $request->filter;
+
             if ($filter == "donated") {
                 $books = Book::whereHas('donator', function ($query) use ($uid) {
                     $query->where('user_id', '=', $uid);
@@ -50,8 +70,25 @@ class BookController extends Controller
             }
         } else {
             $books  = Book::with('borrowings')->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
-        };
+        }
 
         return view('backend.books.list', compact('books'));
+    }
+
+    /**
+     * Show the form with book data for edit book.
+     *
+     * @param App\Model\Book $book pass book object
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Book $book)
+    {
+        $categoryFields = [
+            'id',
+            'name'
+        ];
+        $categories = Category::select($categoryFields)->where('id', '<>', Book::DEFAULT_CATEGORY)->get();
+        return view('backend.books.edit', compact('book', 'categories'));
     }
 }

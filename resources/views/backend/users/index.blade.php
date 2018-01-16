@@ -8,8 +8,8 @@
       {{ __('user.list_users')  }}
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i>{{ __('dashboard.home_page')  }}</a></li>
-      <li class="active">{{ __('dashboard.users') }}</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i>{{ __('user.admin')  }}</a></li>
+      <li class="active">{{ __('user.users') }}</li>
     </ol>
   </section>
 
@@ -18,10 +18,11 @@
     <div class="row">
       <div class="col-xs-12">
         <div class="box">
-        <div class="box-header">
-          <h3 class="box-title">{{ __('user.users_table') }}</h3>
-        </div>
-        <div class="box-body">
+
+          <div class="box-header">
+            <h3 class="box-title">{{ __('user.users_table') }}</h3>
+          </div>
+         <div class="box-body">
           <table id="example2" class="table table-bordered table-hover">
             <thead>
               <tr>
@@ -50,26 +51,26 @@
                   <a 
                   @if ($user->team == app\Model\User::SA)
                     disabled
+                    @endif
+                      class=" width-70
+                    @if ($user->role)
+                      btn btn-success"> {{ __('user.admin') }}
+                    @else
+                      btn btn-danger">{{ __('user.user') }}
+                    @endif
+                    </a>
+                  </td>
                   @endif
-                    class=" width-70 
-                  @if ($user->role)
-                    btn btn-success"> {{ __('user.admin') }}
-                  @else
-                    btn btn-danger">{{ __('user.user') }}
-                  @endif
-                  </a>
-                </td>
-                @endif
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
-          {{ $users->links() }}
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+            {{ $users->links() }}
+          </div>
         </div>
       </div>
     </div>
   </section>
 </div>
 <!-- /.content -->
-</div>
 @endsection
