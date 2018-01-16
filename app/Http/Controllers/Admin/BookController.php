@@ -55,4 +55,21 @@ class BookController extends Controller
             ->paginate(config('define.page_length'));
         return view('backend.books.list', compact('books'));
     }
+
+    /**
+     * Show the form with book data for edit book.
+     *
+     * @param App\Model\Book $book pass book object
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Book $book)
+    {
+        $categoryFields = [
+            'id',
+            'name'
+        ];
+        $categories = Category::select($categoryFields)->where('id', '<>', Book::DEFAULT_CATEGORY)->get();
+        return view('backend.books.edit', compact('book', 'categories'));
+    }
 }
