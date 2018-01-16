@@ -16,9 +16,11 @@ class FavoritesTableSeeder extends Seeder
         Model::unguard();
         $userId = DB::table('users')->pluck('id')->toArray();
         $faker = Faker::create();
-        factory(App\Model\Favorite::class, 25)->create([
-            'user_id' => $faker->randomElement($userId)
-        ]);
+        for ($i = 0; $i <= 25; $i++) {
+            factory(App\Model\Favorite::class, 1)->create([
+                'user_id' => $faker->randomElement($userId)
+            ]);
+        }
         Model::reguard();
     }
 }
