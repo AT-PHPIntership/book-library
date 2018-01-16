@@ -28,23 +28,11 @@ class BookEditRequest extends FormRequest
             'name' => 'required|min:8',
             'author' => 'required',
             'category_id' => 'required|numeric',
-            'price' => 'required|numeric|exists:books,price',
-            'donator_id' => 'required|exists:users,employee_code',
+            'price' => 'required|numeric',
+            'employee_code' => 'required',
             'year' => 'required|digits:4|integer|min:1900|max:'.(Carbon::now()->year+1),
             'description' => 'required|string',
             'image'=> 'image|max:10240',
-        ];
-    }
-
-    /**
-     * Get the validation messages that display into view.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'donator_id.exists' => 'User does not exists',
         ];
     }
 }
