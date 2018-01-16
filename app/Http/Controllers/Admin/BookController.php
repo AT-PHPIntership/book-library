@@ -98,7 +98,7 @@ class BookController extends Controller
             $image = $request->image;
             $name = config('image.name_prefix') . "-" . $image->hashName();
             $folder = config('image.books.path_upload');
-            $image->move($folder, $name);
+            $saveImageResult = $image->move($folder, $name);
             $bookData['image'] = $name;
         }
 
@@ -120,7 +120,7 @@ class BookController extends Controller
         $bookData['donator_id'] = $donator->id;
         $result = $book->update($bookData);
 
-        if ($result) {
+        if ($result && $saveImageResult) {
             flash(__('Edit success'))->success();
             return redirect()->route('books.index');
         } else {
