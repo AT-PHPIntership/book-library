@@ -6,7 +6,7 @@ use App\Model\Book;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Category;
-use App\Http\Requests\BookEditRequest;
+use Illuminate\Pagination\Paginator;
 
 class BookController extends Controller
 {
@@ -28,29 +28,48 @@ class BookController extends Controller
     /**
      * Display list book.
      *
+     * @param Request $request request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $books  = Book::with('borrowings')->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+        $columns = [
+            'id',
+            'name',
+            'author',
+            'avg_rating',
+            'total_rating'
+        ];
+        $books = Book::select($columns);
+
+        if ($request->name) {
+            $books = $books->searchname($request->name);
+        }
+        if ($request->author) {
+            $books = $books->searchauthor($request->author);
+        }
+
+        $books = $books->withCount('borrowings')
+            ->sortable()
+            ->paginate(config('define.page_length'));
         return view('backend.books.list', compact('books'));
     }
 
     /**
-     * Show the form for edit book.
+     * Show the form with book data for edit book.
      *
-     * @param int $id book
+     * @param App\Model\Book $book pass book object
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Book $book)
     {
         $categoryFields = [
             'id',
             'name'
         ];
-        $book = Book::findOrFail($id);
-        $categories = Category::select($categoryFields)->get();
+        $categories = Category::select($categoryFields)->where('id', '<>', Book::DEFAULT_CATEGORY)->get();
         return view('backend.books.edit', compact('book', 'categories'));
     }
 }
