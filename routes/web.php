@@ -11,13 +11,12 @@
 |
 */
 
-
 //Login
-Auth::routes();
 Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
-
+Route::post('/login', 'Admin\LoginController@login');
+Route::post('/logout', 'Admin\LoginController@logout')->name('logout');
 //Admin
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
     Route::get('/', 'HomeController@index')->name('home.index');
     Route::resource('books', 'BookController');

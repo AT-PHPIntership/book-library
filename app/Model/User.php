@@ -49,6 +49,8 @@ class User extends Authenticatable
         'team',
         'avatar_url',
         'role',
+        'access_token',
+        'expired_at'
     ];
 
     /**
