@@ -27,7 +27,6 @@ class BookEditRequest extends FormRequest
         return [
             'name' => 'required|min:8',
             'author' => 'required',
-            'category_id' => 'required|numeric',
             'price' => 'required|numeric',
             'employee_code' => 'required',
             'year' => 'required|digits:4|integer|min:1900|max:'.(Carbon::now()->year+1),
