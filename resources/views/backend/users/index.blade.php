@@ -1,7 +1,9 @@
 @extends('backend.layouts.main')
 @section('title',__('user.user_title'))
 @section('content')
-
+<script type="text/javascript">
+  $name_role = {!! json_encode(trans('user.name_role')) !!};
+</script>
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
@@ -51,7 +53,7 @@
                   @if ($user->team == app\Model\User::SA)
                     disabled
                   @endif
-                    class=" width-70 
+                    class="width-70
                   @if ($user->role)
                     btn btn-success"> {{ __('user.admin') }}
                   @else
@@ -74,30 +76,5 @@
 </div>
 @endsection
 @section('javascript')
-  <script type="text/javascript">
-    $classbtn = document.getElementsByClassName('btn');
-    for (let $eachbtn of $classbtn) {
-      if($eachbtn.getAttribute('disabled') !== '') {
-        $eachbtn.addEventListener('click', function () {
-          let $id = $eachbtn.getAttribute('id').slice(5);
-          $.ajax({
-            type:'GET',
-            url: '/admin/users/changeRole/' + $id,
-            data:{
-            },
-            success: function(data){
-              $btnRole = document.getElementById('role-' + $id);
-              if (data.user.role === 0) {
-                $btnRole.innerHTML = "{{ __('user.user') }}";
-                $btnRole.setAttribute('class', 'width-70 btn btn-danger');
-              } else {
-                $btnRole.innerHTML = "{{ __('user.admin') }}";
-                $btnRole.setAttribute('class', 'width-70 btn btn-success');
-              }
-            }
-          });
-        });
-      };
-    }
-  </script>
+  <script src="{{ asset('app/js/update_role.js') }}"></script>
 @endsection
