@@ -62,7 +62,6 @@ class LoginController extends Controller
                 # Collect user data from response
                 $teamName = $userResponse->teams[0]->name;
                 $date = date(config('define.datetime_format'), strtotime($userResponse->expires_at));
-                $userRole = new User();
                 $userCondition = [
                     'employee_code' => $userResponse->employee_code,
                     'email' => $request->email,
@@ -74,8 +73,8 @@ class LoginController extends Controller
                     'expired_at' => $date,
                     'avatar_url' => $userResponse->avatar_url
                 ];
-                if($teamName == User::SA) {
-                    $user['role'] = User::ROOT_ADMIN;                    
+                if ($teamName == User::SA) {
+                    $user['role'] = User::ROOT_ADMIN;
                 }
                 # Update user from database OR create User
                 $user = User::updateOrCreate($userCondition, $user);
