@@ -100,6 +100,8 @@ class BookController extends Controller
             $folder = config('image.books.path_upload');
             $saveImageResult = $image->move($folder, $name);
             $bookData['image'] = $name;
+        } else {
+            $saveImageResult = true;
         }
 
         //save new donator
