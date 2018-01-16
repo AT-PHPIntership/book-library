@@ -12,9 +12,11 @@ class UserController extends Controller
     /**
      * Display a listing of User.
      *
+     *@param Request $request request request
+     *
      * @return mixed
      */
-    public function index()
+    public function index(Request $request)
     {
         $fields = [
             'users.id',
@@ -30,12 +32,27 @@ class UserController extends Controller
         // Virtual Session
         session(['team' => 'SA']);
 
-        $users = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
-        ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
-        ->leftJoin('books', 'donators.id', 'books.donator_id')
-        ->select($fields)
-        ->groupBy('users.id')
-        ->paginate(config('define.page_length'));
+        // get value filter and limit on url
+        $filter = $request->input('filter');
+        $limit = $request->input('limit');
+        if ($filter == 'donator' && $limit == 5) {
+            $users = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
+            ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
+            ->leftJoin('books', 'donators.id', 'books.donator_id')
+            ->select($fields)
+            ->orderby('total_donated', 'DESC')
+            ->groupBy('users.id')
+            ->limit($limit)
+            ->get();
+        } else {
+            $users = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
+            ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
+            ->leftJoin('books', 'donators.id', 'books.donator_id')
+            ->select($fields)
+            ->groupBy('users.id')
+            ->paginate(config('define.page_length'));
+        }
+        
         return view('backend.users.index', compact('users'));
     }
 

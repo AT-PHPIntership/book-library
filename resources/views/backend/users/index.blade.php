@@ -64,7 +64,9 @@
                 @endforeach
               </tbody>
             </table>
-            {{ $users->links() }}
+            @if($users instanceof \Illuminate\Pagination\Paginator)
+              {{  $users ->links() }}
+            @endif
           </div>
         </div>
       </div>
