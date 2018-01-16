@@ -25,6 +25,8 @@ class AdminLoginMiddleware
             }
             return redirect('/home')
                 ->withErrors(['message' => trans('portal.messages.not_an_admin')]);
+        } else {
+            return redirect('/login');
         }
     }
 }

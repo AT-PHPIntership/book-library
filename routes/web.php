@@ -18,6 +18,6 @@ Route::post('/logout', 'Admin\LoginController@logout')->name('logout');
 //Admin
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
-    Route::get('/', 'HomeController@index');
+    Route::get('/', 'HomeController@index')->name('home.index');
     Route::resource('books', 'BookController');
 });
