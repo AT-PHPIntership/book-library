@@ -116,15 +116,13 @@ class SearchBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->resize(1200,1600)
-                    ->screenshot(1)
                     ->assertSee('LIST OF BOOK')
                     ->assertInputValue('name', '')
                     ->assertInputValue('author', '')
                     ->assertVisible('.btn.btn-default .fa.fa-search')
-                    ->click('#submit');
-
-            $url = $this->get('/admin/books?name=&author=');
-            $url->assertStatus(200);
+                    ->click('#submit')
+                    ->assertQueryStringHas('name', '')
+                    ->assertQueryStringHas('author', '');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(10, $elements);
         });
