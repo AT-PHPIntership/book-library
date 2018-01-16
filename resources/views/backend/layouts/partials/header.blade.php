@@ -27,7 +27,12 @@
                 <a href="#" class="btn btn-default btn-flat">{{__('Profile')}}</a>
               </div>
               <div class="pull-right">
-                <a href="#" class="btn btn-default btn-flat">{{__('Log out')}}</a>
+                <form action="{{ route('logout') }}" method="POST">
+                    {{csrf_field()}}
+                    <button type="submit" name="logout" class="btn btn-default btn-flat">
+                      {{__('Log out')}}
+                    </button>
+                  </form>
               </div>
             </li>
           </ul>
