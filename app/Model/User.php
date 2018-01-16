@@ -113,16 +113,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Value of role
-     *
-     * @var array
-     */
-    public static $role = [
-        'admin' => 1,
-        'user' => 0,
-    ];
-
-    /**
      * Check admin
      *
      * @param App\Model\User $team return team
