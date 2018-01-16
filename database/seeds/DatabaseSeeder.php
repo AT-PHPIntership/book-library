@@ -19,5 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PostsTableSeeder::class);
         $this->call(FavoritesTableSeeder::class);
         $this->call(RatingsTableSeeder::class);
+        $this->call(QRCodesTableSeeder::class);
+        $this->call(CommentsTableSeeder::class);
     }
 }
