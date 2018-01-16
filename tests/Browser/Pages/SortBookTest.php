@@ -18,7 +18,7 @@ class SortBookTest extends DuskTestCase
     use DatabaseMigrations;
 
     /**
-     * A Dusk test example.
+     * A Data test example.
      *
      * @return void
      */
@@ -59,12 +59,28 @@ class SortBookTest extends DuskTestCase
     }
 
     /**
+     * A User with role 1 test example.
+     *
+     * @return void
+     */
+    public function userLogin()
+    {
+        factory(User::class, 1)->create([
+            'employee_code' => 'ATI0285',
+            'name'          => 'Luan Le T.',
+            'email'         => 'luan.le@asiantech.vn',
+            'team'          => 'PHP',
+            'role'          => 1,
+        ]);
+    }
+    /**
     * A Dusk test sort by Name Asc
     *
     * @return void
     */
     public function testSortNameAsc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -93,6 +109,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortNamePaginateAsc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -121,6 +138,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortNameDesc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -149,6 +167,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortNamePaginateDesc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -178,6 +197,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAuthorAsc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -207,6 +227,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAuthorPaginateAsc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -235,6 +256,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAuthorDesc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -266,6 +288,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAuthorPaginateDesc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -294,6 +317,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAvgRatingAsc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -323,6 +347,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAvgRatingPaginateAsc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -351,6 +376,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAvgRatingDesc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -380,6 +406,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAvgRatingPaginateDesc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -408,6 +435,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortTotalBorrowingAsc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -442,6 +470,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortTotalBorrowingPaginateAsc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -476,6 +505,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortTotalBorrowingDesc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -511,6 +541,7 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortTotalBorrowingPaginateDesc()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
