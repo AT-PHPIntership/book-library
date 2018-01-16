@@ -12,10 +12,8 @@ $(document).ready(function() {
       reader.readAsDataURL(this.files[0]);
     }
   })
-});
-// refresh file input after reload page
-$(window).on('load', function(){
-  if($('#image').val() != null) {
-    $('#image').val('');
-  }
+  //stop display image when press reset
+  $('#btn-reset').click(function() {
+    $('#image-display').attr('src', '');
+  })
 });
