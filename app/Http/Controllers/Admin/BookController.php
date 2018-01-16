@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Book;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Category;
-use App\Model\Book;
 use App\Model\User;
 use App\Model\Donator;
 use App\Http\Requests\BookEditRequest;
 use File;
+use Illuminate\Pagination\Paginator;
+use App\Model\QrCode;
 
 class BookController extends Controller
 {
@@ -31,36 +33,65 @@ class BookController extends Controller
     /**
      * Display list book.
      *
+     * @param Request $request request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('backend.layouts.books.list');
+        $columns = [
+            'id',
+            'name',
+            'author',
+            'avg_rating',
+            'total_rating'
+        ];
+        $books = Book::select($columns);
+
+        if ($request->name) {
+            $books = $books->searchname($request->name);
+        }
+        if ($request->author) {
+            $books = $books->searchauthor($request->author);
+        }
+
+        $books = $books->withCount('borrowings')
+            ->sortable()
+            ->paginate(config('define.page_length'));
+        return view('backend.books.list', compact('books'));
     }
 
     /**
-     * Show the form for edit book.
+     * Show the form with book data for edit book.
      *
-     * @param int $id book
+     * @param App\Model\Book $book pass book object
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Book $book)
     {
         $categoryFields = [
             'id',
             'name'
         ];
-        $book = Book::findOrFail($id);
-        $categories = Category::select($categoryFields)->get();
+        $categories = Category::select($categoryFields)->where('id', '<>', Book::DEFAULT_CATEGORY)->get();
         return view('backend.books.edit', compact('book', 'categories'));
     }
 
-    public function update(BookEditRequest $request, $id) {
-        $book = Book::findOrFail($id);
+    /**
+     * Save data book edited.
+     *
+     * @param App\Http\Requests\BookEditRequest $request book edit information
+     * @param App\Model\Book                    $book    pass book object
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update(BookEditRequest $request, Book $book)
+    {
+        $bookData = $request->except('_token', '_method', 'image');
         // save image path, move image to directory
-        if (isset($request->image)) {
-            $oldPath = $book->image;
+        if ($request->hasFile('image') && ($book->image != config('image.books.no_image_name'))) {
+            $oldPath = config('image.books.path_upload') . $book->image;
             if (File::exists($oldPath)) {
                 File::delete($oldPath);
             }
@@ -68,9 +99,7 @@ class BookController extends Controller
             $name = config('image.name_prefix') . "-" . $image->hashName();
             $folder = config('image.books.path_upload');
             $image->move($folder, $name);
-
-            $newPath = $folder . $name;
-            $book->image = $newPath;
+            $bookData['image'] = $name;
         }
 
         //save new donator
@@ -88,30 +117,9 @@ class BookController extends Controller
             ];
         }
         $donator = Donator::updateOrCreate(['employee_code' => $request->employee_code], $donatorData);
-        $book->donator_id = $donator->id;
+        $bookData['donator_id'] = $donator->id;
 
-        $book->name = $request->name;
-        $book->author = $request->author;
-        $book->category_id = $request->category_id;
-        $book->year = $request->year;
-        $book->price = $request->price;
-        $book->description = $request->description;
-
-        $result = $book->save();
-
-        //save new qrcode
-        $lastestCodeId = QrCode::select('code_id')->orderby('code_id', 'desc')->first();
-        if (empty($lastestCodeId)) {
-            $lastestCodeId = QrCode::DEFAULT_CODE_ID;
-        } else {
-            $lastestCodeId = $lastestCodeId->code_id + 1;
-        }
-        $book->qrcode()->save(
-            new QrCode([
-                'prefix' => QrCode::QRCODE_PREFIX,
-                'code_id'=> $lastestCodeId,
-            ])
-        );
+        $result = $book->update($bookData);
 
         if ($result) {
             flash(__('Edit success'))->success();

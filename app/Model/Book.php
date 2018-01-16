@@ -3,16 +3,22 @@
 namespace App\Model;
 
 use App\Model\User;
-use App\Model\Borrowing;
 use App\Model\Rating;
+use App\Model\QrCode;
 use App\Model\Donator;
+use App\Model\Borrowing;
+use Illuminate\Support\Facades\DB;
+use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
-    use SoftDeletes;
-    
+    use Sortable;
+
+    /**
+     * Default value of category
+     */
+    const DEFAULT_CATEGORY = 1;
     /**
      * Declare table
      *
@@ -26,7 +32,6 @@ class Book extends Model
      * @var array
      */
     protected $fillable = [
-        'QRcode',
         'category_id',
         'name',
         'author',
@@ -41,13 +46,28 @@ class Book extends Model
     ];
 
     /**
+     * Relationship morphMany with Favorite
+     * Declare table sort
+     *
+     * @var array $sortable table sort
+     */
+    public $sortable = ['id', 'name', 'author', 'avg_rating'];
+
+    /**
+     * Declare table sort
+     *
+     * @var string $sortableAs
+     */
+    protected $sortableAs = ['borrowings_count'];
+
+    /**
      * Relationship morphMany with Post
      *
      * @return array
-    */
-    public function posts()
+     */
+    public function favorites()
     {
-        return $this->morphMany(Post::class, 'postable');
+        return $this->morphMany(Favorite::class, 'favoritable');
     }
 
     /**
@@ -91,12 +111,68 @@ class Book extends Model
     }
 
     /**
-     * Relationship hasMany with Borrow
+     * Relationship hasMany with Borrowing
      *
      * @return array
     */
     public function borrowings()
     {
         return $this->hasMany(Borrowing::class);
+    }
+
+    /**
+     * Relationship hasMany with Post
+     *
+     * @return array
+    */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+    
+    /**
+     * Get total Borrow
+     *
+     * @return int
+     */
+    public function getTotalBorrowAttribute()
+    {
+        return $this->borrowings->count();
+    }
+
+    /**
+     * Relationship hasOne with Book
+     *
+     * @return array
+    */
+    public function qrcode()
+    {
+        return $this->hasOne(QrCode::class);
+    }
+
+    /**
+     * Scope search book by name
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query query of Model
+     * @param String                                $name  name
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearchName($query, $name)
+    {
+        return $query->where('name', 'LIKE', '%'.$name.'%');
+    }
+
+    /**
+     * Scope search book by author
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query  query of Model
+     * @param String                                $author author
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearchAuthor($query, $author)
+    {
+        return $query->where('author', 'LIKE', '%'.$author.'%');
     }
 }
