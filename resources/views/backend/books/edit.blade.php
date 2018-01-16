@@ -36,9 +36,6 @@
                 <label for="category">{{ __('book.category') }}</label>
                 <select name="category_id" id="category">
                   @foreach($categories as $category)
-                    @if($category->id == App\Model\Book::DEFAULT_CATEGORY)
-                      @continue;
-                    @endif
                     <option value="{{ $category->id }}" {{ (old('category_id', $book->category->id) == $category->id) ? 'selected' : '' }}>{{ $category->name }}</option>
                   @endforeach
                 </select>

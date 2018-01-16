@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Model\Book;
-use \Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Category;
 use Illuminate\Pagination\Paginator;
@@ -69,7 +69,7 @@ class BookController extends Controller
             'id',
             'name'
         ];
-        $categories = Category::select($categoryFields)->get();
+        $categories = Category::select($categoryFields)->where('id', '<>', Book::DEFAULT_CATEGORY)->get();
         return view('backend.books.edit', compact('book', 'categories'));
     }
 }
