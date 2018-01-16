@@ -49,6 +49,8 @@ class User extends Authenticatable
         'team',
         'avatar_url',
         'role',
+        'access_token',
+        'expired_at'
     ];
 
     /**
@@ -108,6 +110,28 @@ class User extends Authenticatable
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
+    }
+
+    /**
+     * Value of role
+     *
+     * @var array
+     */
+    public static $role = [
+        'admin' => 1,
+        'user' => 0,
+    ];
+
+    /**
+     * Check admin
+     *
+     * @param App\Model\User $team return team
+     *
+     * @return string
+    */
+    public function getRoleByTeam($team)
+    {
+        return $team == self::SA ? 1 : 0;
     }
 
     /**
