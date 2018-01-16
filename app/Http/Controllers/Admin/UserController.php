@@ -24,7 +24,7 @@ class UserController extends Controller
             'users.team',
             'users.role',
             DB::raw('COUNT(DISTINCT(borrowings.id)) AS total_borrowed'),
-            DB::raw('COUNT(DISTINCT(donators.id)) AS total_donated'),
+            DB::raw('COUNT(DISTINCT(books.id)) AS total_donated'),
         ];
         
         // Virtual Session
@@ -32,6 +32,7 @@ class UserController extends Controller
 
         $users = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
         ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
+        ->leftJoin('books', 'donators.id', 'books.donator_id')
         ->select($fields)
         ->groupBy('users.id')
         ->paginate(config('define.page_length'));
