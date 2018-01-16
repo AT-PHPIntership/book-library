@@ -66,17 +66,34 @@ class SearchBookTest extends DuskTestCase
     }
 
     /**
+    * A User with role 1 test example.
+    *
+    * @return void
+    */
+    public function userLogin()
+    {
+        factory(User::class, 1)->create([
+           'employee_code' => 'ATI0285',
+           'name'          => 'Luan Le T.',
+           'email'         => 'luan.le@asiantech.vn',
+           'team'          => 'PHP',
+           'role'          => 1,
+        ]);
+    }
+
+    /**
      * A Dusk test looking input search name, author and button search
      *
      * @return void
      */
     public function testSeeInputSearch()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
-            $browser->visit('/admin/books')
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/books')
                     ->resize(1200,1600)
-                    ->screenshot(1)
                     ->assertSee('LIST OF BOOK')
                     ->assertInputValue('name', '')
                     ->assertInputValue('author', '')
@@ -93,9 +110,11 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSearchInputNull()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
-            $browser->visit('/admin/books')
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->screenshot(1)
                     ->assertSee('LIST OF BOOK')
@@ -118,9 +137,11 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSearchNameHasValue()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
-            $browser->visit('/admin/books')
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->assertSee('LIST OF BOOK')
                     ->type('name', 'JavaScript')
@@ -141,9 +162,11 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSearchAuthorHasValue()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
-            $browser->visit('/admin/books')
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertInputValue('name', '')
@@ -164,9 +187,11 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSearchNameAuthorHasValue()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
-            $browser->visit('/admin/books')
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->assertSee('LIST OF BOOK')
                     ->type('name', 'JavaScript')
@@ -188,9 +213,11 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSearchNameAuthorHasValueIncorrect()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
-            $browser->visit('/admin/books')
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->assertSee('LIST OF BOOK')
                     ->type('name', 'Mysql')
@@ -210,9 +237,11 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSearchNameCorrectAndAuthorIncorrect()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
-            $browser->visit('/admin/books')
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->assertSee('LIST OF BOOK')
                     ->type('name', 'JavaScript')
@@ -232,9 +261,11 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSearchNameInCorrectAndAuthorCorrect()
     {
+        $this->userLogin();
         $this->makeData();
         $this->browse(function (Browser $browser) {
-            $browser->visit('/admin/books')
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->assertSee('LIST OF BOOK')
                     ->type('name', 'Mysql')
