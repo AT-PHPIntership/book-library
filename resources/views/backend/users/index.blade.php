@@ -50,10 +50,10 @@
                   @if (session()->get('team') == App\Model\User::SA)
                   <td>
                     <a id="role-{{$user->id}}"
-                    @if ($user->team == app\Model\User::SA)
+                    @if ($user->team == App\Model\User::SA)
                       disabled
                     @endif
-                      class=" width-70
+                      class="update width-70
                     @if ($user->role)
                       btn btn-success"> {{ __('user.admin') }}
                     @else
