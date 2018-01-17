@@ -176,7 +176,7 @@ class BookController extends Controller
         $bookData = $request->except('_token', '_method', 'image');
         // save image path, move image to directory
         if ($request->hasFile('image')) {
-            $oldImage= config('image.books.path_upload') . $book->image;
+            $oldImage = config('image.books.path_upload') . $book->image;
             $notDefaultImage = ($book->image != config('image.books.no_image_name'));
             $image = $request->image;
             $name = config('image.name_prefix') . "-" . $image->hashName();
@@ -200,22 +200,29 @@ class BookController extends Controller
         $donator = Donator::updateOrCreate(['employee_code' => $request->employee_code], $donatorData);
         $bookData['donator_id'] = $donator->id;
 
-        if ($book->update($bookData)) {
-            if ($request->hasFile('image')) {
-                if (File::exists($oldImage) && $notDefaultImage) {
-                    File::delete($oldImage);
-                }
-                $folder = config('image.books.path_upload');
-                if ($image->move($folder, $name)) {
-                    $result = true;
+        DB::beginTransaction();
+        try {
+            if ($book->update($bookData)) {
+                if ($request->hasFile('image')) {
+                    if (File::exists($oldImage) && $notDefaultImage) {
+                        File::delete($oldImage);
+                    }
+                    $folder = config('image.books.path_upload');
+                    if ($image->move($folder, $name)) {
+                        $result = true;
+                    } else {
+                        $result = false;
+                    }
                 } else {
-                    $result = false;
+                    $result = true;
                 }
+                DB::commit();
             } else {
-                $result = true;
+                $result = false;
             }
-        } else {
+        } catch (\Exception $e) {
             $result = false;
+            DB::rollBack();
         }
 
         if ($result) {
