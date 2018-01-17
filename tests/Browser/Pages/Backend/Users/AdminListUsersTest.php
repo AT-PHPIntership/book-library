@@ -63,13 +63,13 @@ class AdminListUsersTest extends DuskTestCase
         $numberUser = 12;
         $this->makeUserLogin();
         $this->makeData($numberUser);
-        $this->browse(function (Browser $browser) use ($numberUser){
+        $this->browse(function (Browser $browser) use ($numberUser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/users')
                     ->assertSee('List Users');
             $elements = $browser->elements('.pagination li');
             $numberPage = count($elements) - 2;
-            $this->assertTrue($numberPage == ceil($numberUser/(config('define.page_length'))));
+            $this->assertTrue($numberPage == ceil($numberUser / (config('define.page_length'))));
         });
     }
 
@@ -90,7 +90,7 @@ class AdminListUsersTest extends DuskTestCase
                     ->assertQueryStringHas('page', 2);
             $numberUser = 12;
             $elements = $browser->elements('#example2 tbody tr');
-            $this->assertCount($numberUser%(config('define.page_length')), $elements); 
+            $this->assertCount($numberUser % (config('define.page_length')), $elements); 
         });
     }
 
