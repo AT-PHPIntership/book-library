@@ -18,24 +18,25 @@
     <div class="row">
       <div class="col-xs-12">
         <div class="box">
+
           <div class="box-header">
             <h3 class="box-title">{{ __('user.users_table') }}</h3>
           </div>
-          <div class="box-body">
-            <table id="example2" class="table table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th>{{ __('user.id') }}</th>
-                  <th>{{ __('user.employee_code') }}</th>
-                  <th>{{ __('user.employee_name') }}</th>
-                  <th>{{ __('user.employee_email') }}</th>
-                  <th>{{ __('user.total_donated') }}</th>
-                  <th>{{ __('user.total_borrowed') }}</th>
-                  @if (session()->get('team') == app\Model\User::SA)
-                  <th>{{ __('user.role') }}</th>
-                  @endif
-                </tr>
-              </thead>
+         <div class="box-body">
+          <table id="example2" class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>{{ __('user.id') }}</th>
+                <th>{{ __('user.employee_code') }}</th>
+                <th>{{ __('user.employee_name') }}</th>
+                <th>{{ __('user.employee_email') }}</th>
+                <th>{{ __('user.total_donated') }}</th>
+                <th>{{ __('user.total_borrowed') }}</th>
+                @if (session()->get('team') == app\Model\User::SA)
+                <th>{{ __('user.role') }}</th>
+                @endif
+              </tr>
+            </thead>
               <tbody>
                 @foreach ($users as $user)
                 <tr>
@@ -43,8 +44,8 @@
                   <td>{{ $user->employee_code }}</td>
                   <td><a href="{{ route('users.show', ['employeeCode' => $user->employee_code])}}">{{ $user->name }} </a></td>
                   <td>{{ $user->email }}</td>
-                  <td>{{ $user->total_donated }}</td>
-                  <td>{{ $user->total_borrowed }}</td>
+                  <td><a href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::DONATED]) }}">{{ $user->total_donated }}</td>
+                  <td><a href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::BORROWED]) }}">{{ $user->total_borrowed }}</td>
                   @if (session()->get('team') == App\Model\User::SA)
                   <td>
                     <a 
