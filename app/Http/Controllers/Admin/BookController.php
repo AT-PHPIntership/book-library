@@ -91,9 +91,9 @@ class BookController extends Controller
         $bookData = $request->except('_token', '_method', 'image');
         // save image path, move image to directory
         if ($request->hasFile('image')) {
-            $oldPath = config('image.books.path_upload') . $book->image;
-            if (File::exists($oldPath) && ($book->image != config('image.books.no_image_name'))) {
-                File::delete($oldPath);
+            $oldImage= config('image.books.path_upload') . $book->image;
+            if (File::exists($oldImage) && ($book->image != config('image.books.no_image_name'))) {
+                File::delete($oldImage);
             }
             $image = $request->image;
             $name = config('image.name_prefix') . "-" . $image->hashName();
@@ -124,7 +124,7 @@ class BookController extends Controller
 
         if ($result && $saveImageResult) {
             flash(__('Edit success'))->success();
-            return redirect()->route('books.index');
+            return redirect('/admin/books');
         } else {
             flash(__('Edit failure'))->error();
             return redirect()->back()->withInput();
