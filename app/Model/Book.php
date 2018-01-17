@@ -26,6 +26,11 @@ class Book extends Model
     const DONATED = 'donated';
 
     /**
+     * Default value of filter type books is borrowed books
+     */
+    const BORROWED = 'borrowed';
+
+    /**
      * Declare table
      *
      * @var string $tabel table name
