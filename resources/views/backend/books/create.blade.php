@@ -15,7 +15,7 @@
       <li class="active">{{ __('book.create') }}</li>
     </ol>
   </section>
-    <!-- Main content -->
+  <!-- Main content -->
   <section class="content">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
@@ -32,8 +32,11 @@
                 @endif
               </div>
               <div class="form-group">
-                <label for="name">{{ __('book.category') }}</label>
+                <label for="name">{{ __('book.category') }}</label></br>
                 <select name="category_id" id="category">
+                @foreach($categories as $category)
+                  <option value="{{ $category->id }}" {{ (old('category_id') == $category->id) ? 'selected' : '' }}>{{ $category->name }}</option>
+                @endforeach
                 </select>
               </div>
               <div class="form-group">
@@ -66,21 +69,23 @@
               </div>
               <div class="form-group">
                 <label for="description">{{__('book.description') }}</label></br>
-                <textarea class="ckeditor" id="description" placeholder="{{ __('book.description') }}"></textarea>
+                <textarea name="description" class="ckeditor" id="description" placeholder="{{ __('book.description') }}">{{ old('description') }}</textarea>
                 @if($errors->first('description'))
                   <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
               <div class="form-group">
                 <label for="exampleInputFile">{{ __('book.image') }}</label>
-                <input name="image" type="file" id="exampleInputFile">
+                <input id="image" name="image" type="file" id="exampleInputFile">
+                <p class="help-block">{{ __('Only upload image with maximum 10mb') }}</p>
                 @if($errors->first('image'))
                   <span class="text-danger">{{ $errors->first('image') }}</span>
                 @endif
               </div>
+              <img id="image-display" width="150" height="200">
 
               <div class="box-footer">
                 <button id="btn-add-book" type="submit" class="btn btn-primary">{{ __('book.submit') }}</button>
-                <button type="reset" class="btn btn-danger">{{ __('book.reset') }}</button>
+                <button id="btn-reset" type="reset" class="btn btn-danger">{{ __('book.reset') }}</button>
                 <a id="btn-back" href="{{ URL::previous() }}" class="btn btn-default">{{ __('book.back') }}</a>
               </div>
             </form>
