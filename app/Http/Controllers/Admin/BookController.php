@@ -173,61 +173,48 @@ class BookController extends Controller
      */
     public function update(BookEditRequest $request, Book $book)
     {
-        $bookData = $request->except('_token', '_method', 'image');
-        // save image path, move image to directory
-        if ($request->hasFile('image')) {
-            $oldImage = config('image.books.path_upload') . $book->image;
-            $notDefaultImage = ($book->image != config('image.books.no_image_name'));
-            $image = $request->image;
-            $name = config('image.name_prefix') . "-" . $image->hashName();
-            $bookData['image'] = $name;
-        }
-
-        //save new donator
-        $user = User::where('employee_code', $request->employee_code)->first();
-        if (empty($user)) {
-            $donatorData = [
-                'employee_code' => $request->employee_code,
-            ];
-        } else {
-            $donatorData = [
-                'user_id' => $user->id,
-                'employee_code' => $user->employee_code,
-                'email' => $user->email,
-                'name' => $user->name,
-            ];
-        }
-        $donator = Donator::updateOrCreate(['employee_code' => $request->employee_code], $donatorData);
-        $bookData['donator_id'] = $donator->id;
-
         DB::beginTransaction();
         try {
-            if ($book->update($bookData)) {
-                if ($request->hasFile('image')) {
-                    if (File::exists($oldImage) && $notDefaultImage) {
-                        File::delete($oldImage);
-                    }
-                    $folder = config('image.books.path_upload');
-                    if ($image->move($folder, $name)) {
-                        $result = true;
-                    } else {
-                        $result = false;
-                    }
-                } else {
-                    $result = true;
+            $bookData = $request->except('_token', '_method', 'image');
+            // save image path, move image to directory
+            if ($request->hasFile('image')) {
+                $oldPath = config('image.books.path_upload') . $book->image;
+                if (File::exists($oldPath) && ($book->image != config('image.books.no_image_name'))) {
+                    File::delete($oldPath);
                 }
-                DB::commit();
+                $image = $request->image;
+                $name = config('image.name_prefix') . "-" . $image->hashName();
+                $folder = config('image.books.path_upload');
+                $saveImageResult = $image->move($folder, $name);
+                $bookData['image'] = $name;
             } else {
-                $result = false;
+                $saveImageResult = true;
             }
+            //save new donator
+            $user = User::where('employee_code', $request->employee_code)->first();
+            if (empty($user)) {
+                $donatorData = [
+                    'employee_code' => $request->employee_code,
+                ];
+            } else {
+                $donatorData = [
+                    'user_id' => $user->id,
+                    'employee_code' => $user->employee_code,
+                    'email' => $user->email,
+                    'name' => $user->name,
+                ];
+            }
+            $donator = Donator::updateOrCreate(['employee_code' => $request->employee_code], $donatorData);
+            $bookData['donator_id'] = $donator->id;
+            $result = $book->update($bookData);
+            DB::commit();
         } catch (\Exception $e) {
-            $result = false;
             DB::rollBack();
+            $result = false;
         }
-
-        if ($result) {
+        if ($result && $saveImageResult) {
             flash(__('Edit success'))->success();
-            return redirect('/admin/books');
+            return redirect()->route('books.index');
         } else {
             flash(__('Edit failure'))->error();
             return redirect()->back()->withInput();
