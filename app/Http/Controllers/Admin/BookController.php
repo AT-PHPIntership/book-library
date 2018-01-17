@@ -173,13 +173,9 @@ class BookController extends Controller
         // save image path, move image to directory
         if ($request->hasFile('image')) {
             $oldImage= config('image.books.path_upload') . $book->image;
-            if (File::exists($oldImage) && ($book->image != config('image.books.no_image_name'))) {
-                File::delete($oldImage);
-            }
+            $notDefaultImage = ($book->image != config('image.books.no_image_name'));
             $image = $request->image;
             $name = config('image.name_prefix') . "-" . $image->hashName();
-            $folder = config('image.books.path_upload');
-            $saveImageResult = $image->move($folder, $name);
             $bookData['image'] = $name;
         } else {
             $saveImageResult = true;
@@ -201,9 +197,26 @@ class BookController extends Controller
         }
         $donator = Donator::updateOrCreate(['employee_code' => $request->employee_code], $donatorData);
         $bookData['donator_id'] = $donator->id;
-        $result = $book->update($bookData);
 
-        if ($result && $saveImageResult) {
+        if ($book->update($bookData)) {
+            if ($request->hasFile('image')) {
+                if (File::exists($oldImage) && $notDefaultImage) {
+                    File::delete($oldImage);
+                }
+                $folder = config('image.books.path_upload');
+                if ($image->move($folder, $name)) {
+                    $result = true;
+                } else {
+                    $result = false;
+                }
+            } else {
+                $result = true;
+            }
+        } else {
+            $result = false;
+        }
+
+        if ($result) {
             flash(__('Edit success'))->success();
             return redirect('/admin/books');
         } else {
