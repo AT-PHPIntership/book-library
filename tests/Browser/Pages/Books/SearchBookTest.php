@@ -22,7 +22,7 @@ class SearchBookTest extends DuskTestCase
      *
      * @return void
      */
-    public function makeData()
+    public function makeData($row)
     {
         $faker = Faker::create();
 
@@ -37,9 +37,9 @@ class SearchBookTest extends DuskTestCase
         ]);
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
-        for ($i = 0; $i <= 16; $i++)
+        for ($i = 0; $i <= $row; $i++)
         {
-            factory(Book::class, 1)->create([
+            factory(Book::class,1)->create([
                 'category_id' => $faker->randomElement($categoryIds),
                 'donator_id' => $faker->randomElement($donatorIds),
                 'name' => $faker->sentence(rand(2,5)),
@@ -55,7 +55,7 @@ class SearchBookTest extends DuskTestCase
         ]);
 
         $bookIds = DB::table('books')->pluck('id')->toArray();
-        for ($i = 0; $i <= 16; $i++)
+        for ($i = 0; $i <= $row; $i++)
         {
             $borrowing = factory(Borrowing::class, 1)->create([
                 'book_id' =>  $faker->randomElement($bookIds),
@@ -85,7 +85,7 @@ class SearchBookTest extends DuskTestCase
     public function testSeeInputSearch()
     {
         $this->userLogin();
-        $this->makeData();
+        $this->makeData(6);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
@@ -95,7 +95,7 @@ class SearchBookTest extends DuskTestCase
                     ->assertInputValue('author', '')
                     ->assertVisible('.btn.btn-default .fa.fa-search');
             $elements = $browser->elements('#table-book tbody tr');
-            $this->assertCount(10, $elements);
+            $this->assertCount(8, $elements);
         });
     }
 
@@ -107,7 +107,7 @@ class SearchBookTest extends DuskTestCase
     public function testSearchInputNull()
     {
         $this->userLogin();
-        $this->makeData();
+        $this->makeData(16);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
@@ -132,7 +132,7 @@ class SearchBookTest extends DuskTestCase
     public function testSearchNameHasValue()
     {
         $this->userLogin();
-        $this->makeData();
+        $this->makeData(16);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
@@ -157,7 +157,7 @@ class SearchBookTest extends DuskTestCase
     public function testSearchAuthorHasValue()
     {
         $this->userLogin();
-        $this->makeData();
+        $this->makeData(16);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
@@ -182,7 +182,7 @@ class SearchBookTest extends DuskTestCase
     public function testSearchNameAuthorHasValue()
     {
         $this->userLogin();
-        $this->makeData();
+        $this->makeData(16);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
@@ -208,7 +208,7 @@ class SearchBookTest extends DuskTestCase
     public function testSearchNameAuthorHasValueIncorrect()
     {
         $this->userLogin();
-        $this->makeData();
+        $this->makeData(16);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
@@ -232,7 +232,7 @@ class SearchBookTest extends DuskTestCase
     public function testSearchNameCorrectAndAuthorIncorrect()
     {
         $this->userLogin();
-        $this->makeData();
+        $this->makeData(16);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
@@ -256,7 +256,7 @@ class SearchBookTest extends DuskTestCase
     public function testSearchNameInCorrectAndAuthorCorrect()
     {
         $this->userLogin();
-        $this->makeData();
+        $this->makeData(16);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
