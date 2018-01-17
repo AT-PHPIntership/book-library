@@ -45,7 +45,7 @@ class AdminShowListBookTest extends DuskTestCase
      */
     public function makeUser(){
         $faker = Faker::create();
-        factory(User::class, 1)->create([
+        factory(User::class)->create([
             'role' => 1
         ]);
     }
@@ -57,14 +57,13 @@ class AdminShowListBookTest extends DuskTestCase
      */
     public function testShowListBook()
     {
-        $this->makeUser(1);
+        $this->makeUser();
         $this->makeListOfBook(10);
         $this->browse(function (Browser $browser) {
         $browser->loginAs(User::find(1))
                 ->visit('/admin/books/')
                 ->resize(1200, 900)
                 ->assertTitle('Admin | List of book')
-                ->assertSee('LIST OF BOOK')
                 ->screenshot('sample-screenshot');
         $elements = $browser->elements('#table-book tbody tr');
         $this->assertCount(10, $elements);
@@ -79,7 +78,7 @@ class AdminShowListBookTest extends DuskTestCase
      */
     public function testShowPageList()
     {
-        $this->makeUser(1);
+        $this->makeUser();
         $this->makeListOfBook(15);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
@@ -102,7 +101,7 @@ class AdminShowListBookTest extends DuskTestCase
      */
     public function testEmptyPage()
     {
-        $this->makeUser(1);
+        $this->makeUser();
         $this->browse(function (Browser $browser) {
         $browser->loginAs(User::find(1))
                 ->visit('/admin/books')
