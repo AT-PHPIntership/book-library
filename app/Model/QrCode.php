@@ -21,6 +21,16 @@ class QrCode extends Model
     const QRCODE_PREFIX = 'ABT';
     
     /**
+     * Default code_id of qrcode
+     */
+    const DEFAULT_CODE_ID = 1;
+
+    /**
+     * QrCode prefix
+     */
+    const QRCODE_PREFIX = 'ABT';
+
+    /**
      * Declare table
      *
      * @var string $tabel table name
