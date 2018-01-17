@@ -62,7 +62,6 @@ class SearchBookTest extends DuskTestCase
                 'user_id' =>  $faker->randomElement($userIds),
             ]);
         }
-
     }
 
     /**
@@ -73,9 +72,6 @@ class SearchBookTest extends DuskTestCase
     public function userLogin()
     {
         factory(User::class, 1)->create([
-           'employee_code' => 'ATI0285',
-           'name'          => 'Luan Le T.',
-           'email'         => 'luan.le@asiantech.vn',
            'team'          => 'PHP',
            'role'          => 1,
         ]);
