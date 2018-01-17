@@ -84,8 +84,8 @@
                                 <td>{{ $book->avg_rating }}</td>
                                 <td>{{ $book->borrowings_count }}</td>
                                 <td align="center">
-                                    <i href="{{ route('books.edit', $book) }}"
-                                       class= "btn {{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center "></i>
+                                    <a href="{{ route('books.edit', $book) }}"
+                                       class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center "></a>
                                     <i class="btn btn-danger btn-lg fa fa-trash-o"></i>
                                 </td>
                             </tr>
