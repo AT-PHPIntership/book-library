@@ -30,8 +30,9 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="container">
-        <div class="row">
-            <div class="col-md-10">
+        <section class="content">
+         <div class="row">
+             <div class="col-md-11">
                 <div class="box">
                     <div class="box-header">
                         <!-- add form search and select for book -->
@@ -59,7 +60,7 @@
         </div>
         <!-- /.row -->
         <div class="row">
-          <div class="col-md-10">
+          <div class="col-md-11">
             <div class="box">
               <!-- /.box-header -->
               <div class="box-body table-responsive no-padding">
@@ -84,8 +85,8 @@
                                 <td>{{ $book->avg_rating }}</td>
                                 <td>{{ $book->borrowings_count }}</td>
                                 <td align="center">
-                                    <a href="{{ route('books.edit', $book) }}"
-                                       class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
+                                    <i href="{{ route('books.edit', $book) }}"
+                                       class= "btn-edit {{ $book->id }} fa fa-pencil-square-o btn-custom-option pull-left-center"></i>
                                     <i class="btn btn-danger btn-lg fa fa-trash-o"></i>
                                 </td>
                             </tr>
@@ -106,8 +107,8 @@
             <!-- /.box -->
           </div>
       </div>{{ $books->appends(\Request::except('page'))->appends(['name' => Request::get('name'), 'author' => Request::get('author')])->render()}}
+        </section>
     </div>
-    </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

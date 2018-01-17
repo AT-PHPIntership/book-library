@@ -27,9 +27,6 @@ return [
   'fullname' => 'Full name',
   'join_dated' => 'Join dated',
   'email' => 'Email',
-<<<<<<< HEAD
-=======
   'user' => 'User',
   'admin' => 'Admin',
->>>>>>> master
 ];
