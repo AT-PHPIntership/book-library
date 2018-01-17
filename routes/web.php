@@ -21,3 +21,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('/', 'HomeController@index')->name('home.index');
     Route::resource('books', 'BookController');
 });
+
+Route::delete('/admin/delete/{id}/books', 'Api\\BookController@destroy');
