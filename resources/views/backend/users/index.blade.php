@@ -44,8 +44,8 @@
                 <td>{{ $user->employee_code }}</td>
                 <td><a href="{{ route('users.show', ['employeeCode' => $user->employee_code])}}">{{ $user->name }} </a></td>
                 <td>{{ $user->email }}</td>
-                <td><a href="{{ route('books.index',['uid' => $user->id, 'filter' => 'donated']) }}">{{ $user->total_donated }}</a></td>
-                <td><a href="{{ route('books.index',['uid' => $user->id, 'filter' => 'borrowed']) }}">{{ $user->total_borrowed }}</a></td>
+                <td><a class="donated bookuser" id="donator-id" href="{{ route('books.index',['uid' => $user->id, 'filter' => 'donated']) }}">{{ $user->total_donated }}</a></td>
+                <td><a class="borrowed bookuser" href="{{ route('books.index',['uid' => $user->id, 'filter' => 'borrowed']) }}">{{ $user->total_borrowed }}</a></td>
                 @if (session()->get('team') == app\Model\User::SA)
                 <td>
                   <a 
