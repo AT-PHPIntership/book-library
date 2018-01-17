@@ -109,7 +109,7 @@ class Book extends Model
     {
         return $this->hasMany(Rating::class);
     }
-
+    
     /**
      * Relationship hasMany with Borrowing
      *
