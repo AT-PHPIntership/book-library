@@ -29,7 +29,7 @@
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-        <section class="content">
+      <section class="content">
          <div class="row">
              <div class="col-md-12">
                 <div class="box">
@@ -106,9 +106,7 @@
             <!-- /.box -->
           </div>
       </div>{{ $books->appends(\Request::except('page'))->appends(['name' => Request::get('name'), 'author' => Request::get('author')])->render()}}
-    </div>
     </section>
-    <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 @endsection
