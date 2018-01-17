@@ -79,31 +79,41 @@ class EditButtonShowBookTest extends DuskTestCase
      */
     public function testShowCorrectNameOfEachLabel()
     {
-//        $this->makeUser(1);
+        $this->makeUser(1);
 //        $this->makeListOfBook(1);
-        $Books->state(Book::class, 'phutran', [
-            'name' => 'phustory',
-            'category' => 'action',
-            'author' => 'phu tran',
-            'price' => '2000',
+        factory(Donator::class)->create([
+            'id' => '1',
             'employee_code' => 'AT-0001',
-            'year' => '2000',
         ]);
+        factory(Category::class)->create([
+            'id' => '10',
+            'name' => 'action',
+        ]);
+        factory(Book::class)->create([
+            'name' => 'tranvietphu',
+            'author' => 'phu',
+            'category_id' => '10',
+            'donator_id' => '1',
+            'price' => '10001',
+            'year' => '2000',
+            'description' => 'abcd',
+            'image' => 'no-image',
+        ]);
+
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                 ->visit('/admin/books/1/edit')
                 ->assertSee('Edit Book')
-                ->assertSeeIn($book->name)
                 ->resize(1200, 900)
                 ->screenshot('sample-screenshot');
-//            $elements = $browser->elements('.form-group');
-//            $this->assertCount(8, $elements);
-//            $browser->assertQueryStringHasor',author);
-//            $browser->assertHasQueryStringParameter($author);
-//            $browser->assertInputValue($autauthorhor);
-//            $browser->assertValue(author);
-//            $elements = $browser->elements('.form-group');
-//            $this->assertInputValue(name, $elements);
+            $browser->assertInputValue('name', 'tranvietphu')
+                    ->assertInputValue('author','phu')
+                    ->assertInputValue('price','10001')
+                    ->assertInputValue('year','2000')
+                    ->assertInputValue('employee_code','AT-0001')
+                    ->assertSelected('category_id','10')
+                    ->assertInputValue('description','abcd')
+                    ->assertInputValue('image','no-image.png');
         });
     }
 }
