@@ -29,7 +29,6 @@ class BookCreateTest extends DuskTestCase
                     ->visit('/admin/books/create')
                     ->resize(900, 2000)
                     ->press('Submit')
-                    ->assertPathIs('/admin/books/create')
                     ->assertSee('The name field is required')
                     ->assertSee('The author field is required')
                     ->assertSee('The price field is required')
@@ -78,8 +77,7 @@ class BookCreateTest extends DuskTestCase
             $browser->press('Submit');
                 
             foreach($messages as $message) {
-                $browser->assertPathIs('/admin/books/create')
-                        ->assertSee($message);
+                $browser->assertSee($message);
             }
         });
     }
@@ -107,7 +105,6 @@ class BookCreateTest extends DuskTestCase
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
                 
             $browser->press('Submit')
-                    ->assertPathIs('/admin/books')
                     ->assertSee('Create success');
         });
     }
@@ -126,7 +123,6 @@ class BookCreateTest extends DuskTestCase
                     ->resize(900, 2000)
                     ->clickLink('Back')
                     ->pause(1000)
-                    ->assertPathIs('/admin')
                     ->assertSee('Home Page');
         });
     }
