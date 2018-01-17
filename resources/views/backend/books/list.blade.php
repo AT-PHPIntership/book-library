@@ -49,7 +49,7 @@
                         <form action="{{ route('books.index') }}" method="GET" id="frm-search">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <a class="btn btn-success" href="{{ route('books.create') }}">Add Book</a>
+                                    <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('book.add_book') }}</a>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <input type="text" class="form-control" id="search-name" name="name" placeholder="{{ __('general.enter_name')}}" value="{{ Request::get('name')}}">
@@ -99,7 +99,7 @@
                                 <td>{{ $book->borrowings_count }}</td>
                                 <td align="center">
                                     <a href="{{ route('books.edit', $book) }}"
-                                       class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center "></a>
+                                       class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
                                     <i class="btn btn-danger btn-lg fa fa-trash-o"></i>
                                 </td>
                             </tr>

@@ -7,4 +7,5 @@ return [
     'author' => 'Author',
     'average_review_score' => 'Average review score',
     'total_borrow' => 'Total borrow',
+    'add_book' => 'Add Book',
 ];

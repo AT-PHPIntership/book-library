@@ -28,7 +28,7 @@ class AdminShowListBookTest extends DuskTestCase
         factory(User::class, 10)->create();
         $userIds = DB::table('users')->pluck('id')->toArray();
         factory(Donator::class, 10)->create([
-            'user_id' => $faker->randomElement($userIds)
+            'user_id' => $faker->unique()->randomElement($userIds)
         ]);
         $categoryIds = DB::table('categories')->pluck('id')->toArray();
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
@@ -44,7 +44,6 @@ class AdminShowListBookTest extends DuskTestCase
      * @return void
      */
     public function makeUser(){
-        $faker = Faker::create();
         factory(User::class)->create([
             'role' => 1
         ]);
