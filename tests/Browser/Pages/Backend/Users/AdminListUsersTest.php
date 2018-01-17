@@ -82,11 +82,11 @@ class AdminListUsersTest extends DuskTestCase
         $this->makeData(11);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/users?page=2');
+                    ->visit('/admin/users?page=2')
+                    ->assertSee('List Users')
+                    ->assertQueryStringHas('page', 2);
             $elements = $browser->elements('#example2 tbody tr');
             $this->assertCount(2, $elements); 
-            $browser->assertPathIs('/admin/users');
-            $browser->assertQueryStringHas('page', 2);
         });
     }
 
