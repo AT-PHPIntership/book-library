@@ -11,18 +11,14 @@ class AdminShowDetailUserTest extends DuskTestCase
 {
     use DatabaseMigrations;
     /**
-    * A User with role 1 test example.
-    *
-    * @return void
-    */
+     * A User with role 1 test example.
+     *
+     * @return void
+     */
     public function userLogin()
     {
         factory(User::class, 1)->create([
-           'employee_code' => 'ATI0308',
-           'name'          => 'Nghia Vo V.',
-           'email'         => 'nghia.vo@asiantech.vn',
-           'team'          => 'PHP',
-           'role'          => 1,
+            'role' => '1', 
         ]);
     }
 
@@ -31,18 +27,18 @@ class AdminShowDetailUserTest extends DuskTestCase
      *
      * @return void
      */
-
     public function testRouteShowDetailUser()
-    {
-        $this->userLogin();
-        $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
-                ->visit('/admin/users')
-                ->assertSee('List Users')
-                ->click('#username')
-                ->visit('admin/users/ATI0308')
-                ->assertSee('Profile User');
-        });
+    {          
+            $this->userLogin();
+            $user = User::find(1);
+            $this->browse(function (Browser $browser) use ($user) {
+                $browser->loginAs($user)
+                    ->visit('/admin/users')
+                    ->assertSee('List Users')
+                    ->click('.username')
+                    ->visit('admin/users/'.$user->employee_code)
+                    ->assertSee('Profile User');
+            });
     }
     
     /**
