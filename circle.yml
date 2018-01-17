@@ -46,4 +46,4 @@ test:
     # laravel dusk
     - php artisan dusk
     # Copy screenshots
-    - cp -R tests/Browser/screenshots $CIRCLE_ARTIFACTS/screenshots
+    # - cp -R tests/Browser/screenshots $CIRCLE_ARTIFACTS/screenshots
