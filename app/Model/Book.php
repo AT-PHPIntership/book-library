@@ -19,6 +19,12 @@ class Book extends Model
      * Default value of category
      */
     const DEFAULT_CATEGORY = 1;
+
+    /**
+     * Default value of filter type books is donated books
+     */
+    const DONATED = 'donated';
+
     /**
      * Declare table
      *
@@ -109,7 +115,7 @@ class Book extends Model
     {
         return $this->hasMany(Rating::class);
     }
-
+    
     /**
      * Relationship hasMany with Borrowing
      *
