@@ -185,10 +185,8 @@ class BookController extends Controller
                 $image = $request->image;
                 $name = config('image.name_prefix') . "-" . $image->hashName();
                 $folder = config('image.books.path_upload');
-                $saveImageResult = $image->move($folder, $name);
+                $image->move($folder, $name);
                 $bookData['image'] = $name;
-            } else {
-                $saveImageResult = true;
             }
             //save new donator
             $user = User::where('employee_code', $request->employee_code)->first();
@@ -206,16 +204,13 @@ class BookController extends Controller
             }
             $donator = Donator::updateOrCreate(['employee_code' => $request->employee_code], $donatorData);
             $bookData['donator_id'] = $donator->id;
-            $result = $book->update($bookData);
+            $book->update($bookData);
             DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            $result = false;
-        }
-        if ($result && $saveImageResult) {
+
             flash(__('Edit success'))->success();
             return redirect()->route('books.index');
-        } else {
+        } catch (\Exception $e) {
+            DB::rollBack();
             flash(__('Edit failure'))->error();
             return redirect()->back()->withInput();
         }
