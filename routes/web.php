@@ -24,4 +24,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 });
 
 //Api for Ajax
-Route::put('/admin/users/{id}/roles', 'Api\\UserController@roles');
+Route::group(['prefix' => 'admin', 'namespace' => 'Api'], function () {
+    Route::put('users/{id}/roles', 'UserController@roles');
+});
