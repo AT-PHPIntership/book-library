@@ -74,3 +74,9 @@
 </div>
 <!-- /.content -->
 @endsection
+@section('script')
+    <script type="text/javascript" src="{{ asset('app/js/user.js') }}"></script>
+    <script type="text/javascript">
+        UserComponent.changeRole();
+    </script>
+@endsection
