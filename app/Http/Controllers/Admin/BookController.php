@@ -7,11 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookCreateRequest;
 use App\Model\Category;
+use Illuminate\Pagination\Paginator;
+use DB;
 use App\Model\User;
 use App\Model\Donator;
 use App\Http\Requests\BookEditRequest;
 use File;
-use Illuminate\Pagination\Paginator;
 use App\Model\QrCode;
 
 class BookController extends Controller
@@ -97,7 +98,7 @@ class BookController extends Controller
     }
     
     /**
-     * Display list book.
+     *  * Display list book with filter ( if have ).
      *
      * @param Request $request request
      *
@@ -124,6 +125,20 @@ class BookController extends Controller
         $books = $books->withCount('borrowings')
             ->sortable()
             ->paginate(config('define.page_length'));
+      
+        if ($request->has('uid') && $request->has('filter')) {
+            $uid = $request->uid;
+            $filter = $request->filter;
+
+            if ($filter == Book::DONATED) {
+                $books = Book::whereHas('donator', function ($query) use ($uid) {
+                    $query->where('user_id', '=', $uid);
+                })->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+            }
+        } else {
+            $books  = Book::with('borrowings')->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+        }
+
         return view('backend.books.list', compact('books'));
     }
 
