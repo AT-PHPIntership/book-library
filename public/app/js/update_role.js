@@ -1,4 +1,4 @@
-$classbtn = document.getElementsByClassName('btn');
+$classbtn = document.getElementsByClassName('update');
 for (let $eachbtn of $classbtn) {
   if($eachbtn.getAttribute('disabled') !== '') {
     $eachbtn.addEventListener('click', function () {
@@ -14,10 +14,10 @@ for (let $eachbtn of $classbtn) {
           $btnRole = document.getElementById('role-' + $id);
           if (data.user.role === 0) {
             $btnRole.innerHTML = $name_role.user;
-            $btnRole.setAttribute('class', 'width-70 btn btn-danger');
+            $btnRole.setAttribute('class', 'update width-70 btn btn-danger');
           } else {
             $btnRole.innerHTML = $name_role.admin;
-            $btnRole.setAttribute('class', 'width-70 btn btn-success');
+            $btnRole.setAttribute('class', 'update width-70 btn btn-success');
           }
         }
       });
