@@ -4,6 +4,6 @@ return [
     'name_prefix'      => date('Y-m-d'),
     'books'            => [
         'path_upload'  => 'images/books/',
-        'no_image_name'=> 'no-image',
+        'no_image_name'=> 'no-image.png',
     ]
 ];

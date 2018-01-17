@@ -37,20 +37,20 @@
                 @endif
               </tr>
             </thead>
-            <tbody>
-              @foreach ($users as $user)
-              <tr>
-                <td>{{ $user->id }}</td>
-                <td>{{ $user->employee_code }}</td>
-                <td><a href="{{ route('users.show', ['employeeCode' => $user->employee_code])}}">{{ $user->name }} </a></td>
-                <td>{{ $user->email }}</td>
-                <td><a href="{{ route('books.index',['uid' => $user->id, 'filter' => 'donated']) }}">{{ $user->total_donated }}</a></td>
-                <td><a href="{{ route('books.index',['uid' => $user->id, 'filter' => 'borrowed']) }}">{{ $user->total_borrowed }}</a></td>
-                @if (session()->get('team') == app\Model\User::SA)
-                <td>
-                  <a 
-                  @if ($user->team == app\Model\User::SA)
-                    disabled
+              <tbody>
+                @foreach ($users as $user)
+                <tr>
+                  <td>{{ $user->id }}</td>
+                  <td>{{ $user->employee_code }}</td>
+                  <td><a href="{{ route('users.show', ['employeeCode' => $user->employee_code])}}">{{ $user->name }} </a></td>
+                  <td>{{ $user->email }}</td>
+                  <td><a href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::DONATED]) }}">{{ $user->total_donated }}</td>
+                  <td><a href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::BORROWED]) }}">{{ $user->total_borrowed }}</td>
+                  @if (session()->get('team') == App\Model\User::SA)
+                  <td>
+                    <a 
+                    @if ($user->team == app\Model\User::SA)
+                      disabled
                     @endif
                       class=" width-70
                     @if ($user->role)
