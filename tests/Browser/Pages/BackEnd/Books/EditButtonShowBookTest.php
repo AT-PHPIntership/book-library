@@ -79,11 +79,11 @@ class EditButtonShowBookTest extends DuskTestCase
      */
     public function testShowCorrectNameOfEachLabel()
     {
-        $Books->state(App\Book::class, 'phutran', [
+//        $this->makeUser(1);
+//        $this->makeListOfBook(1);
+        $Books->state(Book::class, 'phutran', [
             'name' => 'phustory',
             'category' => 'action',
-//            'category_id' => 'action',
-//            'donator_id' => '1',
             'author' => 'phu tran',
             'price' => '2000',
             'employee_code' => 'AT-0001',
@@ -93,10 +93,11 @@ class EditButtonShowBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                 ->visit('/admin/books/1/edit')
                 ->assertSee('Edit Book')
+                ->assertSeeIn($book->name)
                 ->resize(1200, 900)
                 ->screenshot('sample-screenshot');
-            $elements = $browser->elements('.form-group');
-            $this->assertCount(8, $elements);
+//            $elements = $browser->elements('.form-group');
+//            $this->assertCount(8, $elements);
 //            $browser->assertQueryStringHasor',author);
 //            $browser->assertHasQueryStringParameter($author);
 //            $browser->assertInputValue($autauthorhor);
