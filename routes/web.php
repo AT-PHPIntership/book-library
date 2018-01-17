@@ -22,4 +22,4 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::resource('books', 'BookController');
 });
 
-Route::delete('/admin/delete/{id}/books', 'Api\\BookController@destroy');
+// Route::delete('/admin/delete/{id}/books', 'Api\\BookController@destroy');
