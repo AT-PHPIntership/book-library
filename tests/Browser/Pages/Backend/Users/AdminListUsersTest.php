@@ -105,8 +105,8 @@ class AdminListUsersTest extends DuskTestCase
         factory(User::class, $row)->create();
         $userIds = DB::table('users')->pluck('id')->toArray();
 
-        factory(Donator::class, 2)->create([
-            'user_id' => $faker->randomElement($userIds)
+        $donator = factory(Donator::class, 2)->create([
+            'user_id' => $faker->unique()->randomElement($userIds)
         ]);
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
@@ -123,7 +123,7 @@ class AdminListUsersTest extends DuskTestCase
     }
     public function makeUserLogin()
     {
-        factory(User::class, 1)->create([
+        factory(User::class)->create([
             'role' => 1
         ]);
     }
