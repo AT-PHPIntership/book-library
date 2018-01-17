@@ -72,11 +72,11 @@ class BookController extends Controller
         $result = $book->save();
 
         //save new qrcode
-        $lastestCodeId = QrCode::select('code_id')->withTrashed()->orderby('code_id', 'desc')->first();
-        if (empty($lastestCodeId)) {
+        $lastestQRCode = QrCode::select('code_id')->withTrashed()->orderby('code_id', 'desc')->first();
+        if (empty($lastestQRCode)) {
             $lastestCodeId = QrCode::DEFAULT_CODE_ID;
         } else {
-            $lastestCodeId = $lastestCodeId->code_id + 1;
+            $lastestCodeId = $lastestQRCode->code_id + 1;
         }
         $book->qrcode()->save(
             new QrCode([
