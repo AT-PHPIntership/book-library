@@ -22,11 +22,14 @@ class BookCreateTest extends DuskTestCase
      */
     public function testValidate()
     {
+        $this->fakeUser();
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))->screenshot('a')
-                    ->visit('admin/books/create')
-                    ->resize(900, 1200)
+            $browser->loginAs(User::find(1))
+                    ->visit('admin')
+                    ->visit('/admin/books/create')
+                    ->resize(900, 2000)
                     ->press('Submit')
+                    ->assertPathIs('/admin/books/create')
                     ->assertSee('The name field is required')
                     ->assertSee('The author field is required')
                     ->assertSee('The price field is required')
@@ -57,10 +60,11 @@ class BookCreateTest extends DuskTestCase
      */
     public function testCreateBookValidation($name, $category_id, $author, $price, $donator_id, $year, $description, $image,$messages)
     {
+        $this->fakeUser();
         $this->browse(function (Browser $browser) use ($name, $category_id, $author, $price, $donator_id, $year, $description, $image,$messages) {
 
-            $browser->loginAs(User::find(1))
-                    ->visit('admin/books/create')
+            $browser->loginAs(User::find(1))->screenshot('login')
+                    ->visit('/admin/books/create')
                     ->type('name', $name)
                     ->select('category_id', $category_id)
                     ->type('author', $author)
@@ -74,7 +78,8 @@ class BookCreateTest extends DuskTestCase
             $browser->press('Submit');
                 
             foreach($messages as $message) {
-                $browser->assertSee($message);
+                $browser->assertPathIs('/admin/books/create')
+                        ->assertSee($message);
             }
         });
     }
@@ -87,10 +92,11 @@ class BookCreateTest extends DuskTestCase
     public function testCreateBookSuccess()
     {
         $this->browse(function (Browser $browser) {
+            $this->fakeUser();
             $category = factory(Category::class, 10)->create()->get(1);
             $browser->loginAs(User::find(1))
                     ->visit('admin/books/create')
-                    ->resize(900, 1200)
+                    ->resize(900, 2000)
                     ->type('name', 'Example Book')
                     ->select('category_id', $category->name)
                     ->type('author', 'Example Author')
@@ -101,6 +107,7 @@ class BookCreateTest extends DuskTestCase
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
                 
             $browser->press('Submit')
+                    ->assertPathIs('/admin/books')
                     ->assertSee('Create success');
         });
     }
@@ -111,12 +118,16 @@ class BookCreateTest extends DuskTestCase
      * @return void
      */
     public function testPressBackButton() {
+        $this->fakeUser();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
+                    ->visit('admin')
                     ->visit('admin/books/create')
-                    ->resize(900, 1200)
+                    ->resize(900, 2000)
                     ->clickLink('Back')
-                    ->assertPathIs('/admin/books');
+                    ->pause(1000)
+                    ->assertPathIs('/admin')
+                    ->assertSee('Home Page');
         });
     }
 
@@ -126,12 +137,13 @@ class BookCreateTest extends DuskTestCase
      * @return void
      */
     public function testPressResetButton() {
+        $this->fakeUser();
         $this->browse(function (Browser $browser) {
             $category = factory(Category::class, 10)->create()->get(7);
 
             $browser->loginAs(User::find(1))
                     ->visit('admin/books/create')
-                    ->resize(900, 1200)
+                    ->resize(900, 2000)
                     ->type('name', 'Example Book')
                     ->select('category_id', $category->name)
                     ->type('author', 'Example Author')
@@ -181,5 +193,21 @@ class BookCreateTest extends DuskTestCase
      */
     public function fakeNotImage() {
         return UploadedFile::fake()->create('image.pdf');
+    }
+
+    /**
+     * Adding user for testing
+     * 
+     * @return void
+     */
+    public function fakeUser() {
+        $user = [
+            'employee_code' => 'AT0286',
+            'name'          => 'Anh Ngo Q.',
+            'email'         => 'anh.ngo@asiantech.vn',
+            'team'          => 'PHP',
+            'role'          => 1,
+        ];
+        $user = factory(User::class, 1)->create($user);
     }
 }
