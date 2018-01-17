@@ -177,8 +177,6 @@ class BookController extends Controller
             $image = $request->image;
             $name = config('image.name_prefix') . "-" . $image->hashName();
             $bookData['image'] = $name;
-        } else {
-            $saveImageResult = true;
         }
 
         //save new donator
