@@ -29,42 +29,42 @@ class LoginTest extends DuskTestCase
     }
 
     
-    public function testAdminLoginSuccess()
-    {   
-        $this->browse(function (Browser $browser)
-        {
-            $this->makeDataLogin(1);
-            $browser->logout();
-            $browser->visit('/login')
-                    ->assertSee('Login')
-                    ->assertPathIs('/login')
-                    ->type('email', 'an.nguyen@asiantech.vn')
-                    ->type('password', 'Annguyen735') 
-                    ->press('Login')
-                    ->assertSee('Admin Management')
-                    ->assertPathIs('/admin');
-        });
-    }
+    // public function testAdminLoginSuccess()
+    // {   
+    //     $this->browse(function (Browser $browser)
+    //     {
+    //         $this->makeDataLogin(1);
+    //         $browser->logout();
+    //         $browser->visit('/login')
+    //                 ->assertSee('Login')
+    //                 ->assertPathIs('/login')
+    //                 ->type('email', 'an.nguyen@asiantech.vn')
+    //                 ->type('password', 'Annguyen735') 
+    //                 ->press('Login')
+    //                 ->assertSee('Admin Management')
+    //                 ->assertPathIs('/admin');
+    //     });
+    // }
 
     /**
      * Test Login success if account user.
      *
      * @return void
      */
-    public function testUserLoginSuccess()
-    {
-        $this->makeDataLogin(0);   
-        $this->browse(function (Browser $browser)  {
-            $browser->logout();
-            $browser->visit('/login')
-                    ->assertSee('Login')
-                    ->assertPathIs('/login')
-                    ->type('email', 'an.nguyen@asiantech.vn')
-                    ->type('password', 'Annguyen735') 
-                    ->press('Login')
-                    ->assertPathIs('/');
-        });
-    }
+    // public function testUserLogin()
+    // {
+    //     $this->makeDataLogin(0);   
+    //     $this->browse(function (Browser $browser)  {
+    //         $browser->logout();
+    //         $browser->visit('/login')
+    //                 ->assertSee('Login')
+    //                 ->assertPathIs('/login')
+    //                 ->type('email', 'an.nguyen@asiantech.vn')
+    //                 ->type('password', 'Annguyen735') 
+    //                 ->press('Login')
+    //                 ->assertSee('You are NOT an Administrator');
+    //     });
+    // }
 
     /**
      * List case for Test Validation Login
@@ -116,17 +116,17 @@ class LoginTest extends DuskTestCase
         });
     }
     
-    /**
-     * Make data for test.
-     *
-     * @return void
-     */
-    public function makeDataLogin($role)
-    {   
-        factory(User::class, 1)->create([
-            'email' => 'an.nguyen@asiantech.vn',
-            'employee_code' => 'ATI0274',
-            'role' => $role
-        ]);
-    }
+    // /**
+    //  * Make data for test.
+    //  *
+    //  * @return void
+    //  */
+    // public function makeDataLogin($role)
+    // {   
+    //     factory(User::class, 1)->create([
+    //         'email' => 'an.nguyen@asiantech.vn',
+    //         'employee_code' => 'ATI0274',
+    //         'role' => $role
+    //     ]);
+    // }
 }
