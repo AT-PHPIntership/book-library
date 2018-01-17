@@ -41,14 +41,15 @@ class AdminListUsersTest extends DuskTestCase
      */
     public function testShowRecord()
     {
+        $numberUser = 12;
         $this->makeUserLogin();
-        $this->makeData(12);
+        $this->makeData($numberUser);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/users')
                     ->assertSee('List Users');
             $elements = $browser->elements('#example2 tbody tr');
-            $this->assertCount(10, $elements);
+            $this->assertCount(config('define.page_length'), $elements);
         });
     }
 
@@ -59,15 +60,16 @@ class AdminListUsersTest extends DuskTestCase
      */
     public function testPagination()
     {
+        $numberUser = 12;
         $this->makeUserLogin();
-        $this->makeData(12);
-        $this->browse(function (Browser $browser) {
+        $this->makeData($numberUser);
+        $this->browse(function (Browser $browser) use ($numberUser){
             $browser->loginAs(User::find(1))
                     ->visit('/admin/users')
                     ->assertSee('List Users');
             $elements = $browser->elements('.pagination li');
-            $number_page = count($elements) - 2;
-            $this->assertTrue($number_page == 2);
+            $numberPage = count($elements) - 2;
+            $this->assertTrue($numberPage == ceil($numberUser/(config('define.page_length'))));
         });
     }
 
@@ -78,15 +80,17 @@ class AdminListUsersTest extends DuskTestCase
      */
     public function testListUsersPagination()
     {
+        $numberUser = 11;
         $this->makeUserLogin();
-        $this->makeData(11);
+        $this->makeData($numberUser);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/users?page=2')
                     ->assertSee('List Users')
                     ->assertQueryStringHas('page', 2);
+            $numberUser = 12;
             $elements = $browser->elements('#example2 tbody tr');
-            $this->assertCount(2, $elements); 
+            $this->assertCount($numberUser%(config('define.page_length')), $elements); 
         });
     }
 
@@ -121,6 +125,12 @@ class AdminListUsersTest extends DuskTestCase
             'user_id' => $faker->randomElement($userIds),
         ]);
     }
+
+    /**
+     * Make user to login
+     *
+     * @return void
+     */
     public function makeUserLogin()
     {
         factory(User::class)->create([
