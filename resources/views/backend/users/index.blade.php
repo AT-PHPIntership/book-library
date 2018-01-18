@@ -76,5 +76,9 @@
 <!-- /.content -->
 @endsection
 @section('script')
-  <script src="{{ asset('app/js/update_role.js') }}"></script>
+  <script src="{{ asset('app/js/user.js') }}">
+  </script>
+  <script>
+    $new_user.update_role();
+  </script>
 @endsection
