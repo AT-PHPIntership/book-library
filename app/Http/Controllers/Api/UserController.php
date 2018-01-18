@@ -22,9 +22,9 @@ class UserController extends Controller
         if ($user->team !== User::SA) {
             $newRole = 1 - $user->role;
             $user->update(['role' => $newRole]);
-            $data = [
-                'user' => $user,
-            ];
+            $data = $newRole;
+        } else {
+            $data = -1;
         }
         return response()->json($data);
     }
