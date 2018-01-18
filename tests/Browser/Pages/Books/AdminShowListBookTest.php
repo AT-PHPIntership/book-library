@@ -32,7 +32,7 @@ class AdminShowListBookTest extends DuskTestCase
         ]);
         $categoryIds = DB::table('categories')->pluck('id')->toArray();
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
-            factory(Book::class, $rows)->create([
+        factory(Book::class, $rows)->create([
             'category_id' => $faker->randomElement($categoryIds),
             'donator_id' => $faker->randomElement($donatorIds),
         ]);
