@@ -56,13 +56,13 @@
             <!-- /.box-header -->
             <div class="box-body">
               <strong><i class="fa fa-user-circle-o margin-r-5"></i>{{ __('fullname') }}:</strong>
-              <p class="text-muted margin-r-5">{{ $user->name }}</p>
+              <p class="text-muted margin-r-5 username">{{ $user->name }}</p>
               <hr>
               <strong><i class="fa fa-calendar-plus-o margin-r-5"></i>{{ __('join_dated') }}:</strong>
-              <p class="text-muted margin-r-5">{{ date('d-m-Y', strtotime($user->created_at)) }}</p>
+              <p class="text-muted margin-r-5 join_date">{{ date('d-m-Y', strtotime($user->created_at)) }}</p>
               <hr>
               <strong><i class="fa fa-envelope-o margin-r-5"></i>{{ __('email') }}</strong>
-              <p class="text-muted margin-r-5">{{ $user->email }}</p>
+              <p class="text-muted margin-r-5 email">{{ $user->email }}</p>
               <hr>
             </div>
             <!-- /.box-body -->

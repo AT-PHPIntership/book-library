@@ -17,7 +17,7 @@ class AdminShowDetailUserTest extends DuskTestCase
      */
     public function userLogin()
     {
-        factory(User::class, 1)->create([
+        return factory(User::class)->create([
             'role' => '1', 
         ]);
     }
@@ -29,16 +29,15 @@ class AdminShowDetailUserTest extends DuskTestCase
      */
     public function testRouteShowDetailUser()
     {          
-            $this->userLogin();
-            $user = User::find(1);
-            $this->browse(function (Browser $browser) use ($user) {
-                $browser->loginAs($user)
-                    ->visit('/admin/users')
-                    ->assertSee('List Users')
-                    ->click('.username')
-                    ->visit('admin/users/'.$user->employee_code)
-                    ->assertSee('Profile User');
-            });
+        $user = $this->userLogin();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user)
+                ->visit('/admin/users')
+                ->assertSee('List Users')
+                ->click('.username')
+                ->visit('admin/users/'.$user->employee_code)
+                ->assertSee('Profile User');
+        });
     }
     
     /**
@@ -48,10 +47,9 @@ class AdminShowDetailUserTest extends DuskTestCase
      */
     public function testLayoutDetailUser()
     {
-        $this->userLogin();
-        $user = User::find(1);
+        $user = $this->userLogin();
         $this->browse(function (Browser $browser) use ($user) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($user)
                 ->visit('/admin/users/' . $user->employee_code)
                 ->assertSee('Profile User')
                 ->assertSee('Follow')
@@ -72,13 +70,13 @@ class AdminShowDetailUserTest extends DuskTestCase
      */
     public function testShowDetailUser()
     {
-        $this->userLogin();
-        $user = User::find(1);
+        $user = $this->userLogin();
         $this->browse(function (Browser $browser) use ($user) {
-            $browser->loginAs(User::find(1))
-                ->visit('/admin/users/' . $user->employee_code)
-                ->assertSee($user->name)
-                ->assertSee($user->email);
+            $browser->loginAs($user)
+                ->visit('/admin/users/' . $user->employee_code);
+                $this->assertTrue($browser->text('.username') === $user->name);
+                $this->assertTrue($browser->text('.email') === $user->email);
+                $this->assertTrue($browser->text('.join_date') === date('d-m-Y', strtotime($user->created_at)));
         });
     }
 }
