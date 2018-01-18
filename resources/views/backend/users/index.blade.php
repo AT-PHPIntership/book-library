@@ -54,11 +54,11 @@
                     @if ($user->team == App\Model\User::SA)
                       disabled
                     @endif
-                      class="btn-change-role width-70
+                      class="btn-change-role width-70 btn
                     @if ($user->role)
-                      btn btn-success"> {{ __('user.admin') }}
+                      btn-success"> {{ __('user.admin') }}
                     @else
-                      btn btn-danger">{{ __('user.user') }}
+                      btn-danger">{{ __('user.user') }}
                     @endif
                     </a>
                   </td>
