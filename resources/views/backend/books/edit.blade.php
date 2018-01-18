@@ -19,12 +19,15 @@
   <section class="content">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
+        <!-- show message response -->
+        @include('flash::message')
         <div class="box box-info">
           <!-- /.box-header -->
           <div class="box-body pad">
             <form action="{{ route('books.update', $book) }}" method="POST" enctype="multipart/form-data">
               {{ csrf_field() }}
               {{ method_field('PUT') }}
+              <input type="hidden" name="redirect_back" value="{{ URL::previous() }}" >
               <div class="form-group">
                 <label for="name">{{ __('book.name') }}</label>
                 <input name="name" type="text" class="form-control" id="name" placeholder="{{ __('book.enter_name') }}" value="{{ old('name', $book->name) }}">

@@ -207,8 +207,9 @@ class BookController extends Controller
             $book->update($bookData);
             DB::commit();
 
+            $backUrl = $request->redirect_back;
             flash(__('Edit success'))->success();
-            return redirect()->route('books.index');
+            return redirect()->to($backUrl);
         } catch (\Exception $e) {
             DB::rollBack();
             flash(__('Edit failure'))->error();
