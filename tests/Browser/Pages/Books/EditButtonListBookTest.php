@@ -17,7 +17,7 @@ class EditButtonShowBookTest extends DuskTestCase
 {
     use DatabaseMigrations;
     /**
-     * Create virtual database
+     * Create virtual listbook database.
      *
      * @return void
      */
@@ -28,7 +28,7 @@ class EditButtonShowBookTest extends DuskTestCase
         factory(User::class, 10)->create();
         $userIds = DB::table('users')->pluck('id')->toArray();
         factory(Donator::class, 10)->create([
-            'user_id' => $faker->randomElement($userIds)
+            'user_id' => $faker->unique()->randomElement($userIds)
         ]);
         $categoryIds = DB::table('categories')->pluck('id')->toArray();
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
@@ -39,7 +39,7 @@ class EditButtonShowBookTest extends DuskTestCase
     }
 
     /**
-     * Create virtual database
+     * Create virtual user database.
      *
      * @return void
      */
