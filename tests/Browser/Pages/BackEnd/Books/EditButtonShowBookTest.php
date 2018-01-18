@@ -83,28 +83,39 @@ class EditButtonShowBookTest extends DuskTestCase
         $donator = factory(Donator::class)->create([
             'employee_code' => 'AT-0001',
         ]);
-        $category = factory(Category::class)->create([
-        ]);
-        $book = factory(Book::class)->create([
-            'category_id' => $category->id,
-            'donator_id' => $donator->id,
+//        $categories = factory(Category::class)->create([
+//            'name' => 'abcd',
+//        ]);
+        factory(Category::class)->create([
+            'name' => 'abcd',
+            'id' => '10'
         ]);
 
-        $this->browse(function (Browser $browser) use ($book) {
+        $book = factory(Book::class)->create([
+//            'category_id' => $categories->id,
+            'category_id' => '10',
+            'donator_id' => $donator->id,
+            'image' => 'no-image.png',
+        ]);
+
+        $this->browse(function (Browser $browser) use ($book,$categories) {
             $browser->loginAs(User::find(1))
                 ->visit('/admin/books/1/edit')
                 ->assertSee('Edit Book')
-                ->resize(1200, 900)
+                ->resize(900, 1600)
+//                ->select('category_id')
+//                ->selected(category_id)
                 ->screenshot('sample-screenshot');
             $browser->assertInputValue('name', $book->name)
                     ->assertInputValue('author', $book->author)
                     ->assertInputValue('price', $book->price)
                     ->assertInputValue('year', $book->year)
                     ->assertInputValue('employee_code','AT-0001')
-                    ->assertInputValue('category_id',$book->id);
-//                    ->assertSelected('category_id','10')
+//                    ->assertSeeIn('category_id',$categories->name);
+//                    ->assertSeeIn('category_id','10');
+                    ->assertSelected('category_id','10');
 //                    ->assertInputValue('description','abcd')
-//                    ->assertSourceHas('image','/images/books/no-image.pngs');
+//                    ->assertSourceHas('no-immage.png');
         });
     }
 }
