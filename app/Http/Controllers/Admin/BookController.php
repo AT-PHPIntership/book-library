@@ -11,6 +11,8 @@ use Illuminate\Pagination\Paginator;
 use DB;
 use App\Model\User;
 use App\Model\Donator;
+use App\Http\Requests\BookEditRequest;
+use File;
 use App\Model\QrCode;
 
 class BookController extends Controller
@@ -161,6 +163,60 @@ class BookController extends Controller
         return view('backend.books.edit', compact('book', 'categories'));
     }
 
+
+    /**
+     * Save data book edited.
+     *
+     * @param App\Http\Requests\BookEditRequest $request book edit information
+     * @param App\Model\Book                    $book    pass book object
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update(BookEditRequest $request, Book $book)
+    {
+        DB::beginTransaction();
+        try {
+            $bookData = $request->except('_token', '_method', 'image');
+            // save image path, move image to directory
+            if ($request->hasFile('image')) {
+                $oldPath = config('image.books.path_upload') . $book->image;
+                if (File::exists($oldPath) && ($book->image != config('image.books.no_image_name'))) {
+                    File::delete($oldPath);
+                }
+                $image = $request->image;
+                $name = config('image.name_prefix') . "-" . $image->hashName();
+                $folder = config('image.books.path_upload');
+                $image->move($folder, $name);
+                $bookData['image'] = $name;
+            }
+            //save new donator
+            $user = User::where('employee_code', $request->employee_code)->first();
+            if (empty($user)) {
+                $donatorData = [
+                    'employee_code' => $request->employee_code,
+                ];
+            } else {
+                $donatorData = [
+                    'user_id' => $user->id,
+                    'employee_code' => $user->employee_code,
+                    'email' => $user->email,
+                    'name' => $user->name,
+                ];
+            }
+            $donator = Donator::updateOrCreate(['employee_code' => $request->employee_code], $donatorData);
+            $bookData['donator_id'] = $donator->id;
+            $book->update($bookData);
+            DB::commit();
+
+            flash(__('Edit success'))->success();
+            return redirect()->route('books.index');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            flash(__('Edit failure'))->error();
+            return redirect()->back()->withInput();
+        }
+    }
+
     /**
      * Show the form with book data for edit book.
      *
@@ -171,10 +227,15 @@ class BookController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-
-        $book = Book::find($id)->delete();
-        if ($request->ajax()) {
-            return response()->json(['book'=> $book], 200);
+        DB::beginTransaction();
+        try {
+            $book = Book::find($id)->delete();
+            if ($request->ajax()) {
+                return response()->json(['book'=> $book], 200);
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
         }
     }
 }
