@@ -83,7 +83,7 @@ class SortBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->clickLink('Name')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-asc');
             $books = Book::orderBy('name', 'ASC')->limit(10)->get();
@@ -111,7 +111,7 @@ class SortBookTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books?sort=name&order=asc&page=2')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-asc');
 
@@ -141,7 +141,7 @@ class SortBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books?sort=name&order=asc')
                     ->clickLink('Name')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-desc');
             $books = Book::orderBy('name', 'DESC')->limit(10)->get();
@@ -169,7 +169,7 @@ class SortBookTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books?sort=name&order=desc&page=2')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-desc')
                     ->screenShot(1);
@@ -200,7 +200,7 @@ class SortBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->clickLink('Author')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-asc');
 
@@ -229,7 +229,7 @@ class SortBookTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books?sort=author&order=asc&page=2')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-asc');
 
@@ -259,7 +259,7 @@ class SortBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books?sort=author&order=asc')
                     ->clickLink('Author')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-desc');
 
@@ -290,7 +290,7 @@ class SortBookTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books?sort=author&order=desc&page=2')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-desc');
 
@@ -320,7 +320,7 @@ class SortBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->clickLink('Average review score')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-asc');
 
@@ -349,7 +349,7 @@ class SortBookTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books?sort=avg_rating&order=asc&page=2')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-asc');
 
@@ -379,7 +379,7 @@ class SortBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books?sort=avg_rating&order=asc')
                     ->clickLink('Average review score')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-desc');
 
@@ -408,7 +408,7 @@ class SortBookTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books?sort=avg_rating&order=desc&page=2')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-desc');
 
@@ -438,7 +438,7 @@ class SortBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->clickLink('Total borrow')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-asc');
 
@@ -472,7 +472,7 @@ class SortBookTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books?sort=borrowings_count&order=asc&page=2')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-asc');
 
@@ -508,7 +508,7 @@ class SortBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books?sort=borrowings_count&order=asc')
                     ->clickLink('Total borrow')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-desc');
 
@@ -543,7 +543,7 @@ class SortBookTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books?sort=borrowings_count&order=desc&page=2')
-                    ->resize(900, 1200)
+                    ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-desc');
 
