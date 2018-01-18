@@ -1,7 +1,6 @@
 @extends('backend.layouts.main')
 @section('title',__('books.title_book'))
 @section('content')
-
 <!-- Modal -->
 <div id="confirmDelete" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -16,8 +15,12 @@
         <p>{{ __('book.confirm.delete') }} ?</p>
       </div>
       <div class="modal-footer">
+      {{--  <form id="#form-delete" method="POST">
+      {{csrf_field()}}
+      {{ method_field('DELETE')}}  --}}
         <button id="ok" type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+      {{--  </form>  --}}
       </div>
     </div>
     <!-- end content-->
