@@ -14,4 +14,9 @@ h1 {
 #image-display {
   display: block;
 }
-
+.box {
+    padding-top: 10px;
+}
+#submit {
+    margin-left: -30px;
+}
