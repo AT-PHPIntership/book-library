@@ -130,7 +130,7 @@ class BookController extends Controller
             if ($filter == Book::DONATED) {
                 $books = Book::whereHas('donator', function ($query) use ($uid) {
                     $query->where('user_id', '=', $uid);
-                })->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+                })->withCount('donator')->sortable()->paginate(config('define.page_length'));
             } elseif ($filter == Book::BORROWED) {
                 $books = Book::whereHas('borrowings', function ($query) use ($uid) {
                     $query->where('user_id', '=', $uid);
