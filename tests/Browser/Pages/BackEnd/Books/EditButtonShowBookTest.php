@@ -80,22 +80,14 @@ class EditButtonShowBookTest extends DuskTestCase
     public function testShowCorrectNameOfEachLabel()
     {
         $this->makeUser(1);
-//        $this->makeListOfBook(1);
         $donator = factory(Donator::class)->create([
             'employee_code' => 'AT-0001',
         ]);
         $category = factory(Category::class)->create([
-//            'name' => 'action',
         ]);
         $book = factory(Book::class)->create([
-//            'name' => 'tranvietphu',
-//            'author' => 'phu',
             'category_id' => $category->id,
             'donator_id' => $donator->id,
-//            'price' => '10001',
-//            'year' => '2000',
-//            'description' => 'abcd',
-//            'image' => 'no-image.png',
         ]);
 
         $this->browse(function (Browser $browser) use ($book) {
@@ -104,11 +96,12 @@ class EditButtonShowBookTest extends DuskTestCase
                 ->assertSee('Edit Book')
                 ->resize(1200, 900)
                 ->screenshot('sample-screenshot');
-            $browser->assertInputValue('name', $book->name);
-//                    ->assertInputValue('author','phu')
-//                    ->assertInputValue('price','10001')
-//                    ->assertInputValue('year','2000')
-//                    ->assertInputValue('employee_code','AT-0001')
+            $browser->assertInputValue('name', $book->name)
+                    ->assertInputValue('author', $book->author)
+                    ->assertInputValue('price', $book->price)
+                    ->assertInputValue('year', $book->year)
+                    ->assertInputValue('employee_code','AT-0001')
+                    ->assertInputValue('category_id',$book->id);
 //                    ->assertSelected('category_id','10')
 //                    ->assertInputValue('description','abcd')
 //                    ->assertSourceHas('image','/images/books/no-image.pngs');
