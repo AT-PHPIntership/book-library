@@ -2,7 +2,7 @@
 @section('title',__('user.user_title'))
 @section('content')
 <script type="text/javascript">
-  name_role = {!! json_encode(trans('user.name_role')) !!};
+  nameRole = {!! json_encode(trans('user.name_role')) !!};
 </script>
 <div class="content-wrapper">
   <section class="content-header">

@@ -22,11 +22,11 @@ var user = (function(){
             success: function (data) {
               btnChangeRole = document.getElementById('role-' + id);
               if (data === 0) {
-                btnChangeRole.innerHTML = name_role.user;
+                btnChangeRole.innerHTML = nameRole.user;
                 btnChangeRole.setAttribute('class', 'btn-change-role width-70 btn btn-danger');
               } else {
                 if (data === 1) {
-                  btnChangeRole.innerHTML = name_role.admin;
+                  btnChangeRole.innerHTML = nameRole.admin;
                   btnChangeRole.setAttribute('class', 'btn-change-role width-70 btn btn-success');
                 }
               }
