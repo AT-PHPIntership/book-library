@@ -52,6 +52,7 @@
                   <td>
                     <a id="role-{{$user->id}}"
                     @if ($user->team == App\Model\User::SA)
+                      disabled
                     @endif
                       class="btn-change-role width-70
                     @if ($user->role)
