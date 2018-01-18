@@ -15,12 +15,8 @@
         <p>{{ __('book.confirm.delete') }} ?</p>
       </div>
       <div class="modal-footer">
-      {{--  <form id="#form-delete" method="POST">
-      {{csrf_field()}}
-      {{ method_field('DELETE')}}  --}}
-        <button id="ok" type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
+        <button id="ok" type="button" class="btn btn-danger ok" data-dismiss="modal">{{ __('confirm.ok') }}</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
-      {{--  </form>  --}}
       </div>
     </div>
     <!-- end content-->
@@ -118,7 +114,4 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-@endsection
-@section('script')
-  <script src="{{ asset('app/js/delete_book.js') }}"></script>
 @endsection
