@@ -10,16 +10,19 @@ $('.ok').click(function () {
 		headers: {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		},
-		url: '/admin/books/' + $id,
+		url: $baseURL + '/admin/books/' + $id,
 		data:{
 			_method: 'delete',
 		},
 		success: function ($data) {
-			$tr = $('#delete-' + $id).parent().parent();
-			$tr.attr('style', 'background-color: #aaa');
-			setTimeout(function(){
-				$tr.remove();
-			}, 1000);
+			if ($id == $data.book.id) {
+				$tr = $('#delete-' + $id).parent().parent();
+				$tr.attr('style', 'background-color: #aaa');
+				setTimeout(function(){
+					$tr.remove();
+				}, 1000);
+			}
+			
 		}
 	});
 });

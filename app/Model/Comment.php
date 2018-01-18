@@ -60,4 +60,18 @@ class Comment extends Model
     {
         return $this->morphMany(Favorite::class, 'favoritable');
     }
+    
+    /**
+     * Return the comment configuration array for this model.
+     *
+     * @return array
+    */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($comment) {
+            $comment->favorites()->delete();
+        });
+    }
 }

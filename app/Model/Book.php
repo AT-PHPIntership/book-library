@@ -63,7 +63,7 @@ class Book extends Model
      *
      * @var array $sortable table sort
      */
-    public $sortable = ['id', 'name', 'author', 'avg_rating'];
+    protected $sortable = ['id', 'name', 'author', 'avg_rating'];
 
     /**
      * Declare table sort
@@ -186,5 +186,25 @@ class Book extends Model
     public function scopeSearchAuthor($query, $author)
     {
         return $query->where('author', 'LIKE', '%'.$author.'%');
+    }
+
+    /**
+     * Return the book configuration array for this model.
+     *
+     * @return array
+    */
+    public static function boot()
+    {
+        parent::boot();
+        
+        static::deleting(function ($book) {
+            $book->borrowings()->delete();
+            $book->ratings()->delete();
+            $book->qrcode()->delete();
+            foreach ($book->posts()->get() as $post) {
+                $post->delete();
+            }
+            $book->favorites()->delete();
+        });
     }
 }

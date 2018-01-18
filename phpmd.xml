@@ -9,7 +9,8 @@
 
 
     <rule ref="rulesets/codesize.xml">
-    </rule>
+       <exclude name="TooManyPublicMethods" />
+   </rule>
 
     <rule ref="rulesets/controversial.xml">
     </rule>
