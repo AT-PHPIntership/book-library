@@ -97,7 +97,7 @@ class EditButtonShowBookTest extends DuskTestCase
             'price' => '10001',
             'year' => '2000',
             'description' => 'abcd',
-            'image' => 'no-image',
+            'image' => 'no-image.png',
         ]);
 
         $this->browse(function (Browser $browser) {
@@ -113,7 +113,7 @@ class EditButtonShowBookTest extends DuskTestCase
                     ->assertInputValue('employee_code','AT-0001')
                     ->assertSelected('category_id','10')
                     ->assertInputValue('description','abcd')
-                    ->assertInputValue('image','no-image.png');
+                    ->assertSourceHas('image','/images/books/no-image.pngs');
         });
     }
 }
