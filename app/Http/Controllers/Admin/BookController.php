@@ -114,12 +114,21 @@ class BookController extends Controller
             'total_rating'
         ];
         $books = Book::select($columns);
-
-        if ($request->name) {
-            $books = $books->searchname($request->name);
-        }
-        if ($request->author) {
-            $books = $books->searchauthor($request->author);
+        
+        if ($request->has('search') && $request->has('choose')) {
+            $search = $request->search;
+            $choose = $request->choose;
+            switch ($choose) {
+                case Book::BOOK_NAME:
+                    $books = $books->searchname($search);
+                    break;
+                case Book::BOOK_AUTHOR:
+                    $books = $books->searchauthor($search);
+                    break;
+                case Book::BOOK_ALL:
+                    $books = $books->searchall($search);
+                    break;
+            }
         }
 
         $books = $books->withCount('borrowings')->sortable()->paginate(config('define.page_length'));

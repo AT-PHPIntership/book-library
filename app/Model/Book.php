@@ -31,6 +31,21 @@ class Book extends Model
     const BORROWED = 'borrowed';
 
     /**
+     * Default value of filter type search books is name
+     */
+    const BOOK_NAME = 'name';
+
+    /**
+     * Default value of filter type search books is author
+     */
+    const BOOK_AUTHOR = 'author';
+
+    /**
+     * Default value of filter type search books is author, name
+     */
+    const BOOK_ALL = 'all';
+
+    /**
      * Declare table
      *
      * @var string $tabel table name
@@ -120,7 +135,7 @@ class Book extends Model
     {
         return $this->hasMany(Rating::class);
     }
-    
+
     /**
      * Relationship hasMany with Borrowing
      *
@@ -164,26 +179,40 @@ class Book extends Model
     /**
      * Scope search book by name
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query query of Model
-     * @param String                                $name  name
+     * @param \Illuminate\Database\Eloquent\Builder $query  query of Model
+     * @param String                                $search $search
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSearchName($query, $name)
+    public function scopeSearchName($query, $search)
     {
-        return $query->where('name', 'LIKE', '%'.$name.'%');
+        return $query->where('name', 'LIKE', '%'.$search.'%');
     }
 
     /**
      * Scope search book by author
      *
      * @param \Illuminate\Database\Eloquent\Builder $query  query of Model
-     * @param String                                $author author
+     * @param String                                $search search
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSearchAuthor($query, $author)
+    public function scopeSearchAuthor($query, $search)
     {
-        return $query->where('author', 'LIKE', '%'.$author.'%');
+        return $query->where('author', 'LIKE', '%'.$search.'%');
+    }
+
+    /**
+     * Scope search book by name or author
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query  query of Model
+     * @param String                                $search search
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearchAll($query, $search)
+    {
+        return $query->where('author', 'LIKE', '%'.$search.'%')->orWhere('name', 'LIKE', '%'.$search.'%');
+        ;
     }
 }
