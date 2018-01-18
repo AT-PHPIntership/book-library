@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Carbon\Carbon;
 
-class BookCreateRequest extends FormRequest
+class BookEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,6 @@ class BookCreateRequest extends FormRequest
         return [
             'name' => 'required|min:8',
             'author' => 'required',
-            'category_id' => 'required|numeric',
             'price' => 'required|numeric',
             'employee_code' => 'required',
             'year' => 'required|digits:4|integer|min:1900|max:'.(Carbon::now()->year+1),
