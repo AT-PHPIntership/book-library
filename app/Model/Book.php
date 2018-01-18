@@ -141,7 +141,7 @@ class Book extends Model
     {
         return $this->hasMany(Post::class);
     }
-    
+
     /**
      * Get total Borrow
      *
