@@ -6,27 +6,27 @@ var user = (function(){
   }
 
   // Methods
-  var update_role = function() {
-    $classbtn = document.getElementsByClassName('update');
-    for (let $eachbtn of $classbtn) {
-      if($eachbtn.getAttribute('disabled') !== '') {
-        $eachbtn.addEventListener('click', function () {
-          let $id = $eachbtn.getAttribute('id').slice(5);
+  var updateRole = function() {
+    classBtnChangeRoles = document.getElementsByClassName('btn-change-role');
+    for (let classBtnChangeRole of classBtnChangeRoles) {
+      if (classBtnChangeRole.getAttribute('disabled') !== '') {
+        classBtnChangeRole.addEventListener('click', function () {
+          let id = classBtnChangeRole.getAttribute('id').slice(5);
           token = $('meta[name="csrf_token"]').attr('content');
           $.ajax({
             type:'PUT',
             headers: { 'X-CSRF-TOKEN': token },
-            url: '/admin/users/' + $id + '/roles',
+            url: '/admin/users/' + id + '/roles',
             data:{
             },
             success: function (data) {
-              $btnRole = document.getElementById('role-' + $id);
+              btnChangeRole = document.getElementById('role-' + id);
               if (data.user.role === 0) {
-                $btnRole.innerHTML = $name_role.user;
-                $btnRole.setAttribute('class', 'update width-70 btn btn-danger');
+                btnChangeRole.innerHTML = name_role.user;
+                btnChangeRole.setAttribute('class', 'btn-change-role width-70 btn btn-danger');
               } else {
-                $btnRole.innerHTML = $name_role.admin;
-                $btnRole.setAttribute('class', 'update width-70 btn btn-success');
+                btnChangeRole.innerHTML = name_role.admin;
+                btnChangeRole.setAttribute('class', 'btn-change-role width-70 btn btn-success');
               }
             }
           });
@@ -38,11 +38,11 @@ var user = (function(){
   // Prototype
   user.prototype = {
     constructor: user,
-    update_role :update_role
+    updateRole: updateRole
   }
 
   // Return user;
   return user;
 })();
 
-var $new_user = new user();
+var newUser = new user();
