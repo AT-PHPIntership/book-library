@@ -1,6 +1,6 @@
 <?php
 return [
-    'post_title' => 'Post',
+    'post_title' => 'Posts',
     'list_post' => 'List Posts',
     'admin' => 'Admin',
     'id' => 'ID',
@@ -8,5 +8,5 @@ return [
     'type_post' => 'Type',
     'short_content' => 'Short Content',
     'post_date' => 'Post Date',
-    'total_comment' => 'Toltal Comment'
+    'total_comment' => 'Total Comment'
 ];

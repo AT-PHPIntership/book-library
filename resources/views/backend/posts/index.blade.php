@@ -9,7 +9,7 @@
       {{ __('post.list_post')  }}
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i>{{ __('post.admin')  }}</a></li>
+      <li><a href="{{route('home.index')}}"><i class="fa fa-dashboard"></i>{{ __('post.admin')  }}</a></li>
       <li class="active">{{ __('post.post_title') }}</li>
     </ol>
   </section>
@@ -37,7 +37,7 @@
                 <td>Orion Daugherty</td>
                 <td>Review</td>
                 <td>Incidunt voluptatem officiis esse quis in...</td>
-                <td>1 - 1 - 2018</td>
+                <td>2018-01-16 09:16:58</td>
                 <td>5</td>
               </tr>
               <tr>
@@ -45,7 +45,7 @@
                 <td>Eriberto Stiedemann III</td>
                 <td>Find book</td>
                 <td>Incidunt voluptatem officiis esse quis in...</td>
-                <td>1 - 1 - 2018</td>
+                <td>2018-01-16 09:16:58</td>
                 <td>10</td>
               </tr>
               <tr>
@@ -53,7 +53,7 @@
                 <td>Prof. Pasquale Hintz</td>
                 <td>Status</td>
                 <td>Incidunt voluptatem officiis esse quis in...</td>
-                <td>1 - 1 - 2018</td>
+                <td>2018-01-16 09:16:58</td>
                 <td>3</td>
               </tr>
               <tr>
@@ -61,7 +61,7 @@
                 <td>Orion Daugherty</td>
                 <td>Review</td>
                 <td>Incidunt voluptatem officiis esse quis in...</td>
-                <td>1 - 1 - 2018</td>
+                <td>2018-01-16 09:16:58</td>
                 <td>10</td>
               </tr>
               <tr>
@@ -69,7 +69,7 @@
                 <td>Orion Daugherty</td>
                 <td>Review</td>
                 <td>Incidunt voluptatem officiis esse quis in...</td>
-                <td>1 - 1 - 2018</td>
+                <td>2018-01-16 09:16:58</td>
                 <td>10</td>
               </tr>
             </tbody>
