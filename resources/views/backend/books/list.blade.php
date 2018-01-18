@@ -57,6 +57,10 @@
                 </div>
             </div>
         </div>
+
+        <!-- show message response -->
+        @include('flash::message')
+
         <!-- /.row -->
         <div class="row">
           <div class="col-md-10">
@@ -105,9 +109,9 @@
             </div>
             <!-- /.box -->
           </div>
-      </div>{{ $books->appends(\Request::except('page'))->appends(['name' => Request::get('name'), 'author' => Request::get('author')])->render()}}
+      </div>
+      {{ $books->appends(\Request::except('page'))->appends(['name' => Request::get('name'), 'author' => Request::get('author')])->render()}}
     </div>
-    </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

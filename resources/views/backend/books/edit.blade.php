@@ -22,7 +22,7 @@
         <div class="box box-info">
           <!-- /.box-header -->
           <div class="box-body pad">
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('books.update', $book) }}" method="POST" enctype="multipart/form-data">
               {{ csrf_field() }}
               {{ method_field('PUT') }}
               <div class="form-group">
@@ -70,7 +70,7 @@
               </div>
               <div class="form-group">
                 <label for="description">{{__('book.description') }}</label></br>
-                <textarea class="ckeditor" name="description" id="description" placeholder="">{{ $book->description }}</textarea>
+                <textarea class="ckeditor" name="description" id="description">{{ old('description', $book->description) }}</textarea>
                 @if($errors->first('description'))
                   <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
@@ -81,10 +81,10 @@
                 @if($errors->first('image'))
                   <span class="text-danger">{{ $errors->first('image') }}</span>
                 @endif
-                @if(isset($book->image))
-                  <img id="image-display" width="150" height="200" src="{{ '/' . config('image.books.path_upload') . $book->image }}" alt="no-image">
-                @endif
               </div>
+              @if(isset($book->image))
+                <img id="image-display" width="150" height="200" src="{{ asset(config('image.books.path_upload') . $book->image) }}" alt="no-image">
+              @endif
 
               <div class="box-footer">
                 <button id="btn-add-book" type="submit" class="btn btn-primary">{{ __('book.submit') }}</button>
