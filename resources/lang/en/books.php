@@ -1,7 +1,7 @@
 <?php
 return [
-    'title_book' => 'List of book',
-    'list_book' => 'List of book',
+    'title_book' => 'LIST OF BOOK',
+    'list_book' => 'LIST OF BOOK',
     'numbers_order' => 'No.',
     'name' => 'Name',
     'author' => 'Author',
