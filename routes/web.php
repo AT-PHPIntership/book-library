@@ -20,4 +20,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
     Route::get('/', 'HomeController@index')->name('home.index');
     Route::resource('books', 'BookController');
+    Route::resource('posts', 'PostController');
 });
