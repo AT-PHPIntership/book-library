@@ -47,7 +47,7 @@
                                     <input type="text" class="form-control" id="search-author" name="author" placeholder="{{ __('general.enter_author')}}" value="{{ Request::get('author')}}">
                                 </div>
                                 <div class="form-group col-md-1">
-                                    <button type="submit" class="btn btn-default" ><i class="fa fa-search"></i></button>
+                                    <button type="submit" class="btn btn-default" id="submit"><i class="fa fa-search"></i></button>
                                 </div>
                             </div>
                         </form>
