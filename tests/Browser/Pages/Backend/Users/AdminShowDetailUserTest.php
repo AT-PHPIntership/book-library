@@ -18,7 +18,8 @@ class AdminShowDetailUserTest extends DuskTestCase
     public function userLogin()
     {
         return factory(User::class)->create([
-            'role' => '1', 
+            'role' => '1',
+            'avatar_url' => 'http://172.16.110.17/images/user/avatar/380/sfasfasf.png',
         ]);
     }
 
@@ -77,6 +78,7 @@ class AdminShowDetailUserTest extends DuskTestCase
                 $this->assertTrue($browser->text('.username') === $user->name);
                 $this->assertTrue($browser->text('.email') === $user->email);
                 $this->assertTrue($browser->text('.join_date') === date('d-m-Y', strtotime($user->created_at)));
+                $browser->assertSourceHas('http://172.16.110.17/images/user/avatar/380/sfasfasf.png');
         });
     }
 }
