@@ -10,10 +10,11 @@ use App\Model\Borrowing;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
-    use Sortable;
+    use Sortable, SoftDeletes;
 
     /**
      * Default value of category
