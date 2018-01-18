@@ -109,9 +109,9 @@
             </div>
             <!-- /.box -->
           </div>
-      </div>{{ $books->appends(\Request::except('page'))->appends(['name' => Request::get('name'), 'author' => Request::get('author')])->render()}}
+      </div>
+      {{ $books->appends(\Request::except('page'))->appends(['name' => Request::get('name'), 'author' => Request::get('author')])->render()}}
     </div>
-    </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
