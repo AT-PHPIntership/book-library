@@ -21,12 +21,14 @@ var user = (function(){
             },
             success: function (data) {
               btnChangeRole = document.getElementById('role-' + id);
-              if (data.user.role === 0) {
+              if (data === 0) {
                 btnChangeRole.innerHTML = name_role.user;
                 btnChangeRole.setAttribute('class', 'btn-change-role width-70 btn btn-danger');
               } else {
-                btnChangeRole.innerHTML = name_role.admin;
-                btnChangeRole.setAttribute('class', 'btn-change-role width-70 btn btn-success');
+                if (data === 1) {
+                  btnChangeRole.innerHTML = name_role.admin;
+                  btnChangeRole.setAttribute('class', 'btn-change-role width-70 btn btn-success');
+                }
               }
             }
           });
