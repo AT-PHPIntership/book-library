@@ -19,11 +19,13 @@ class UserController extends Controller
     public function roles($id)
     {
         $user = User::findOrFail($id);
-        $newRole = 1 - $user->role;
-        $user->update(['role' => $newRole]);
-        $data = [
-            'user' => $user,
-        ];
+        if ($user->team !== User::SA) {
+            $newRole = 1 - $user->role;
+            $user->update(['role' => $newRole]);
+            $data = [
+                'user' => $user,
+            ];
+        }
         return response()->json($data);
     }
 }
