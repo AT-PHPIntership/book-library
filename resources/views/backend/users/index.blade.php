@@ -2,7 +2,7 @@
 @section('title',__('user.user_title'))
 @section('content')
 <script type="text/javascript">
-  $name_role = {!! json_encode(trans('user.name_role')) !!};
+  name_role = {!! json_encode(trans('user.name_role')) !!};
 </script>
 <div class="content-wrapper">
   <section class="content-header">
@@ -54,7 +54,7 @@
                     @if ($user->team == App\Model\User::SA)
                       disabled
                     @endif
-                      class="update width-70
+                      class="btn-change-role width-70
                     @if ($user->role)
                       btn btn-success"> {{ __('user.admin') }}
                     @else
@@ -80,6 +80,6 @@
   <script src="{{ asset('app/js/user.js') }}">
   </script>
   <script>
-    $new_user.update_role();
+    newUser.updateRole();
   </script>
 @endsection
