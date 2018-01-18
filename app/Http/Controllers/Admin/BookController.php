@@ -96,7 +96,7 @@ class BookController extends Controller
             return redirect()->back()->withInput();
         }
     }
-    
+
     /**
      *  * Display list book with filter ( if have ).
      *
@@ -122,10 +122,7 @@ class BookController extends Controller
             $books = $books->searchauthor($request->author);
         }
 
-        $books = $books->withCount('borrowings')
-            ->sortable()
-            ->paginate(config('define.page_length'));
-      
+
         if ($request->has('uid') && $request->has('filter')) {
             $uid = $request->uid;
             $filter = $request->filter;
@@ -140,9 +137,10 @@ class BookController extends Controller
                 })->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
             }
         } else {
-            $books  = Book::with('borrowings')->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+            $books = $books->withCount('borrowings')
+                ->sortable()
+                ->paginate(config('define.page_length'));
         }
-
         return view('backend.books.list', compact('books'));
     }
 

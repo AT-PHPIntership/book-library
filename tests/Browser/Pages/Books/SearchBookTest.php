@@ -132,7 +132,7 @@ class SearchBookTest extends DuskTestCase
     public function testSearchNameHasValue()
     {
         $this->userLogin();
-        $this->makeData(16);
+        $this->makeData(15);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
@@ -140,10 +140,10 @@ class SearchBookTest extends DuskTestCase
                     ->assertSee('LIST OF BOOK')
                     ->type('name', 'JavaScript')
                     ->assertInputValue('author', '')
-                    ->assertVisible('.btn.btn-default .fa.fa-search')
+                    ->assertVisible('.btn.btn-default .fa.fa-search')->screenShot(2)
                     ->click('#submit')
                     ->visit('/admin/books?name=JavaScript&author=')
-                    ->assertSee('JavaScript');
+                    ->assertSee('JavaScript')->screenShot(1);
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
         });
