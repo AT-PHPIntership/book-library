@@ -55,22 +55,22 @@ class EditButtonShowBookTest extends DuskTestCase
      *
      * @return void
      */
-//    public function testClickEditButton()
-//    {
-//        $this->makeUser(1);
-//        $this->makeListOfBook(1);
-//        $this->browse(function (Browser $browser) {
-//            $browser->loginAs(User::find(1))
-//                ->visit('/admin/books')
-//                ->click('.btn-edit-1')
-//                ->assertPathIs('/admin/books/1/edit')
-//                ->assertSee('Edit Book')
-//                ->resize(1200, 900)
-//                ->screenshot('sample-screenshot');
-//            $elements = $browser->elements('.form-group');
-//            $this->assertCount(8, $elements);
-//        });
-//    }
+    public function testClickEditButton()
+    {
+        $this->makeUser(1);
+        $this->makeListOfBook(1);
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(User::find(1))
+                ->visit('/admin/books')
+                ->click('.btn-edit-1')
+                ->assertPathIs('/admin/books/1/edit')
+                ->assertSee('Edit Book')
+                ->resize(1200, 900)
+                ->screenshot('sample-screenshot');
+            $elements = $browser->elements('.form-group');
+            $this->assertCount(8, $elements);
+        });
+    }
 
     /**
      * Check input form that show correct name of each label.
@@ -83,39 +83,29 @@ class EditButtonShowBookTest extends DuskTestCase
         $donator = factory(Donator::class)->create([
             'employee_code' => 'AT-0001',
         ]);
-//        $categories = factory(Category::class)->create([
-//            'name' => 'abcd',
-//        ]);
         factory(Category::class)->create([
             'name' => 'abcd',
             'id' => '10'
         ]);
-
         $book = factory(Book::class)->create([
-//            'category_id' => $categories->id,
             'category_id' => '10',
             'donator_id' => $donator->id,
             'image' => 'no-image.png',
         ]);
-
-        $this->browse(function (Browser $browser) use ($book,$categories) {
+        $this->browse(function (Browser $browser) use ($book) {
             $browser->loginAs(User::find(1))
                 ->visit('/admin/books/1/edit')
                 ->assertSee('Edit Book')
                 ->resize(900, 1600)
-//                ->select('category_id')
-//                ->selected(category_id)
                 ->screenshot('sample-screenshot');
             $browser->assertInputValue('name', $book->name)
                     ->assertInputValue('author', $book->author)
                     ->assertInputValue('price', $book->price)
                     ->assertInputValue('year', $book->year)
                     ->assertInputValue('employee_code','AT-0001')
-//                    ->assertSeeIn('category_id',$categories->name);
-//                    ->assertSeeIn('category_id','10');
-                    ->assertSelected('category_id','10');
-//                    ->assertInputValue('description','abcd')
-//                    ->assertSourceHas('no-immage.png');
+                    ->assertSelected('category_id','10')
+                    ->assertInputValue('description',$book->description)
+                    ->assertSourceHas('no-image.png');
         });
     }
 }

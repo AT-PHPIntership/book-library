@@ -29,6 +29,16 @@
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
+      <section class="content-header">
+          <h1>
+              {{ __('books.list_book') }}
+          </h1>
+          <ol class="breadcrumb">
+              <li><a href="#"><i class="fa fa-dashboard"></i>{{ __('book.admin')  }}</a></li>
+              <li class="active">{{ __('book.book') }}</li>
+          </ol>
+      </section>
+
       <section class="content">
          <div class="row">
              <div class="col-md-12">
@@ -39,7 +49,7 @@
                         <form action="{{ route('books.index') }}" method="GET" id="frm-search">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <span class="h3 text-uppercase">{{ __('books.list_book') }}</span>
+                                    <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('books.add_book') }}</a>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <input type="text" class="form-control" id="search-name" name="name" placeholder="{{ __('general.enter_name')}}" value="{{ Request::get('name')}}">
@@ -48,7 +58,7 @@
                                     <input type="text" class="form-control" id="search-author" name="author" placeholder="{{ __('general.enter_author')}}" value="{{ Request::get('author')}}">
                                 </div>
                                 <div class="form-group col-md-1">
-                                    <button type="submit" class="btn btn-default" ><i class="fa fa-search"></i></button>
+                                    <button type="submit" class="btn btn-default" id="submit"><i class="fa fa-search"></i></button>
                                 </div>
                             </div>
                         </form>
@@ -57,6 +67,10 @@
                 </div>
             </div>
         </div>
+
+        <!-- show message response -->
+        @include('flash::message')
+
         <!-- /.row -->
         <div class="row">
           <div class="col-md-12">
@@ -85,7 +99,7 @@
                                 <td>{{ $book->borrowings_count }}</td>
                                 <td align="center">
                                     <a href="{{ route('books.edit', $book) }}"
-                                       class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center "></a>
+                                       class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
                                     <i class="btn btn-danger btn-lg fa fa-trash-o"></i>
                                 </td>
                             </tr>
@@ -100,12 +114,13 @@
                           </tr>
                       @endif
                   </table>
+                  {{ $books->appends(\Request::except('page'))->appends(['name' => Request::get('name'), 'author' => Request::get('author')])->render()}}
               </div>
               <!-- /.box-body -->
             </div>
             <!-- /.box -->
           </div>
-      </div>{{ $books->appends(\Request::except('page'))->appends(['name' => Request::get('name'), 'author' => Request::get('author')])->render()}}
+        </div>
     </section>
   </div>
   <!-- /.content-wrapper -->

@@ -26,8 +26,6 @@ class AdminLoginMiddleware
             Auth::logout($user);
             return redirect('/login')
                 ->withErrors(['message' => trans('portal.messages.not_an_admin')]);
-        } else {
-            return redirect('/login');
         }
         return redirect('/login');
     }

@@ -28,13 +28,12 @@ class AdminShowListBookTest extends DuskTestCase
         factory(User::class, 10)->create();
         $userIds = DB::table('users')->pluck('id')->toArray();
         factory(Donator::class, 10)->create([
-            'user_id' => $faker->randomElement($userIds)
+            'user_id' => $faker->unique()->randomElement($userIds)
         ]);
         $categoryIds = DB::table('categories')->pluck('id')->toArray();
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
-            factory(Book::class, $rows)->create([
-//            'category_id' => $faker->randomElement($categoryIds),
-            'category_id' => 'action',
+        factory(Book::class, $rows)->create([
+            'category_id' => $faker->randomElement($categoryIds),
             'donator_id' => $faker->randomElement($donatorIds),
         ]);
     }
@@ -45,8 +44,7 @@ class AdminShowListBookTest extends DuskTestCase
      * @return void
      */
     public function makeUser(){
-        $faker = Faker::create();
-        factory(User::class, 1)->create([
+        factory(User::class)->create([
             'role' => 1
         ]);
     }
@@ -58,14 +56,13 @@ class AdminShowListBookTest extends DuskTestCase
      */
     public function testShowListBook()
     {
-        $this->makeUser(1);
+        $this->makeUser();
         $this->makeListOfBook(10);
         $this->browse(function (Browser $browser) {
         $browser->loginAs(User::find(1))
                 ->visit('/admin/books/')
-                ->resize(1200, 900)
-                ->assertTitle('Admin | List of book')
-                ->assertSee('LIST OF BOOK')
+                ->resize(900, 1600)
+                ->assertTitle('Admin | LIST OF BOOK')
                 ->screenshot('sample-screenshot');
         $elements = $browser->elements('#table-book tbody tr');
         $this->assertCount(10, $elements);
@@ -80,12 +77,12 @@ class AdminShowListBookTest extends DuskTestCase
      */
     public function testShowPageList()
     {
-        $this->makeUser(1);
+        $this->makeUser();
         $this->makeListOfBook(15);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                             ->visit('/admin/books')
-                            ->resize(1200, 900)
+                            ->resize(900, 1600)
                             ->click('.pagination li:nth-child(3) a')
                             ->screenshot('sample-screenshot');
 
@@ -103,13 +100,13 @@ class AdminShowListBookTest extends DuskTestCase
      */
     public function testEmptyPage()
     {
-        $this->makeUser(1);
+        $this->makeUser();
         $this->browse(function (Browser $browser) {
         $browser->loginAs(User::find(1))
                 ->visit('/admin/books')
-                ->resize(1200, 900)
+                ->resize(900, 1600)
                 ->assertSee('Sorry, Not be found.')
-                ->assertTitle('Admin | List of book');
+                ->assertTitle('Admin | LIST OF BOOK');
         $elements = $browser->elements('#table-book tbody tr');
         $this->assertNull($browser->element('.pagination'));
         });
