@@ -16,7 +16,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function roles($id)
+    public function updateRole($id)
     {
         $user = User::findOrFail($id);
         if ($user->team !== User::SA) {

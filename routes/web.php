@@ -24,5 +24,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
 
 //Api for Ajax
 Route::group(['prefix' => 'admin', 'namespace' => 'Api'], function () {
-    Route::put('users/{id}/roles', 'UserController@roles');
+    Route::put('users/{id}/roles', 'UserController@updateRole');
 });
