@@ -49,7 +49,7 @@
                         <form action="{{ route('books.index') }}" method="GET" id="frm-search">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('book.add_book') }}</a>
+                                    <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('books.add_book') }}</a>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <input type="text" class="form-control" id="search-name" name="name" placeholder="{{ __('general.enter_name')}}" value="{{ Request::get('name')}}">
