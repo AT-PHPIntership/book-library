@@ -71,4 +71,32 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    /**
+     * Custom delete method.
+     *
+     * @return array
+    */
+    public function delete()
+    {
+        $this->boot();
+        parent::delete();
+    }
+
+    /**
+     * Return the post configuration array for this model.
+     *
+     * @return array
+    */
+    public static function boot()
+    {
+        parent::boot();
+        
+        static::deleting(function ($post) {
+            foreach ($post->comments()->get() as $comment) {
+                $comment->delete();
+            }
+            $post->favorites()->delete();
+        });
+    }
 }
