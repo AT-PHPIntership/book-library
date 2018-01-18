@@ -11,4 +11,7 @@ h1 {
 .width-70 {
 	width: 70px;
 }
+#image-display {
+  display: block;
+}
 
