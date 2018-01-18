@@ -163,8 +163,8 @@ class BookController extends Controller
         return view('backend.books.edit', compact('book', 'categories'));
     }
 
+
     /**
-<<<<<<< HEAD
      * Save data book edited.
      *
      * @param App\Http\Requests\BookEditRequest $request book edit information
@@ -227,10 +227,16 @@ class BookController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $book = Book::find($id);
-        $book->delete();
-        if ($request->ajax()) {
-            return response()->json(['book'=> $book], 200);
+        DB::beginTransaction();
+        try {
+            $book = Book::find($id)->delete();
+            dd($book);
+            if ($request->ajax()) {
+                return response()->json(['book'=> $book], 200);
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
         }
     }
 }
