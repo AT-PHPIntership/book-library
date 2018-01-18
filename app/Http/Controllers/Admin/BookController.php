@@ -122,7 +122,7 @@ class BookController extends Controller
             $books = $books->searchauthor($request->author);
         }
 
-
+        $books = $books->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
         if ($request->has('uid') && $request->has('filter')) {
             $uid = $request->uid;
             $filter = $request->filter;
@@ -130,17 +130,14 @@ class BookController extends Controller
             if ($filter == Book::DONATED) {
                 $books = Book::whereHas('donator', function ($query) use ($uid) {
                     $query->where('user_id', '=', $uid);
-                })->withCount('donator')->sortable()->paginate(config('define.page_length'));
+                })->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
             } elseif ($filter == Book::BORROWED) {
                 $books = Book::whereHas('borrowings', function ($query) use ($uid) {
                     $query->where('user_id', '=', $uid);
                 })->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
             }
-        } else {
-            $books = $books->withCount('borrowings')
-                ->sortable()
-                ->paginate(config('define.page_length'));
         }
+
         return view('backend.books.list', compact('books'));
     }
 
