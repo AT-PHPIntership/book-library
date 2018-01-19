@@ -1,5 +1,5 @@
 <header class="main-header">
-  <a href="{{route('home.index')}}" class="logo">
+  <a href="{{ route('home.index') }}" class="logo">
     <span class="logo-mini"><b>A</b>dm</span>
     <span class="logo-lg"><b>{{__('Admin ')}}</b>{{__('Management')}}</span>
   </a>
