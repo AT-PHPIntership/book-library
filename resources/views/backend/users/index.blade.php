@@ -8,7 +8,7 @@
       {{ __('user.list_users')  }}
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i>{{ __('user.admin')  }}</a></li>
+      <li><a href="{{route('home.index') }}"><i class="fa fa-dashboard"></i>{{ __('user.admin')  }}</a></li>
       <li class="active">{{ __('user.users') }}</li>
     </ol>
   </section>
@@ -18,10 +18,6 @@
     <div class="row">
       <div class="col-xs-12">
         <div class="box">
-
-          <div class="box-header">
-            <h3 class="box-title">{{ __('user.users_table') }}</h3>
-          </div>
          <div class="box-body">
           <table id="example2" class="table table-bordered table-hover">
             <thead>
@@ -44,8 +40,8 @@
                   <td>{{ $user->employee_code }}</td>
                   <td><a class="username" href="{{ route('users.show', ['employeeCode' => $user->employee_code])}}">{{ $user->name }} </a></td>
                   <td>{{ $user->email }}</td>
-                  <td><a href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::DONATED]) }}">{{ $user->total_donated }}</td>
-                  <td><a href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::BORROWED]) }}">{{ $user->total_borrowed }}</td>
+                  <td class="text-center" ><a href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::DONATED]) }}">{{ $user->total_donated }}</td>
+                  <td class="text-center" ><a href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::BORROWED]) }}">{{ $user->total_borrowed }}</td>
                   @if (session()->get('team') == App\Model\User::SA)
                   <td>
                     <a 
@@ -65,7 +61,15 @@
                 @endforeach
               </tbody>
             </table>
-            {{ $users->links() }}
+            <!-- .pagination -->
+            <div class="text-center">
+              <nav aria-label="...">
+                <ul class="pagination">
+                  {{ $users->links() }}
+                </ul>
+              </nav>
+            </div>
+            <!-- /.pagination -->
           </div>
         </div>
       </div>
