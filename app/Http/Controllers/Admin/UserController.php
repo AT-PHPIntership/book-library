@@ -59,7 +59,7 @@ class UserController extends Controller
         ->leftJoin('donators', 'users.id', '=', 'donators.user_id')
         ->where('users.employee_Code', '=', $employeeCode)
         ->groupBy('users.id')
-        ->first();
+        ->firstOrFail();
 
         $bookBorrowing = DB::table('borrowings')
         ->join('books', 'borrowings.book_id', '=', 'books.id')
@@ -67,7 +67,7 @@ class UserController extends Controller
         ->select('books.name')
         ->where('users.employee_Code', '=', $employeeCode)
         ->whereNull('borrowings.to_date')
-        ->first();
+        ->firstOrFail();
 
         return view('backend.users.show', compact('user', 'bookBorrowing'));
     }
