@@ -6,7 +6,7 @@ return [
     'edit' => 'Edit',
     'name' => 'Name',
     'enter_name' => 'Enter book name',
-    'create_book' => 'Create book',
+    'create_book' => 'Create Book',
     'admin' => 'Admin',
     'create' => 'Create',
     'category' => 'Category',

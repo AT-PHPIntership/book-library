@@ -1,13 +1,12 @@
 @extends('backend.layouts.main')
-@section('title', __('book.book'))
+@section('title', __('book.create_book'))
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      {{ __('book.title') }}
-      <small>{{ __('book.create_book') }}</small>
+      {{ __('book.create_book') }}
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-book"></i>{{ __('book.admin') }}</a></li>

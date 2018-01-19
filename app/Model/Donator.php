@@ -57,7 +57,7 @@ class Donator extends Model
      *
      * @return int
      */
-    public function updateDonator($employeeCode)
+    public static function updateDonator($employeeCode)
     {
         $user = User::where('employee_code', $employeeCode)->first();
         if (empty($user)) {
