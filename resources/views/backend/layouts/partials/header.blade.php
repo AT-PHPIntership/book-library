@@ -19,7 +19,8 @@
               <img src="{{ Auth::user()->avatar_url }}" class="img-circle" alt="User Image">
               <p>
                 {{ Auth::user()->name }} - {{__('dashboard.web_developer')}}
-                <small>{{__('dashboard.member')}} : {{ date('d-m-Y', strtotime(Auth::user()->created_at)) }}</small>
+                {{-- {{dd(Auth::user()->created_at)}} --}}
+                <small>{{__('dashboard.member')}} : {{ Carbon\Carbon::parse(Auth::user()->created_at)->format('d-m-Y')}}</small>
               </p>
             </li>
             <li class="user-footer">
