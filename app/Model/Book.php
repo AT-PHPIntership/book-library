@@ -19,6 +19,17 @@ class Book extends Model
      * Default value of category
      */
     const DEFAULT_CATEGORY = 1;
+
+    /**
+     * Default value of filter type books is donated books
+     */
+    const DONATED = 'donated';
+
+    /**
+     * Default value of filter type books is borrowed books
+     */
+    const BORROWED = 'borrowed';
+
     /**
      * Declare table
      *
@@ -129,7 +140,7 @@ class Book extends Model
     {
         return $this->hasMany(Post::class);
     }
-    
+
     /**
      * Get total Borrow
      *

@@ -110,7 +110,7 @@ class DisplaysBookDonatedAndBorrowedByUserTest extends DuskTestCase
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/users')->resize(1200,1600)->screenshot(1);  
+                    ->visit('/admin/users');  
             $fields = [
                 'users.id',
                 'users.employee_code',
