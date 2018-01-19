@@ -78,11 +78,11 @@ class SearchBookTest extends DuskTestCase
     }
 
     /**
-     * A Dusk test looking input search name, author and button search
+     * A Dusk test looking input search null with select all
      *
      * @return void
      */
-    public function testSeeInputSearch()
+    public function testSeeInputNullSelectAll()
     {
         $this->userLogin();
         $this->makeData(6);
@@ -91,83 +91,118 @@ class SearchBookTest extends DuskTestCase
                     ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->assertSee('LIST OF BOOK')
-                    ->assertInputValue('name', '')
-                    ->assertInputValue('author', '')
-                    ->assertVisible('.btn.btn-default .fa.fa-search');
+                    ->assertInputValue('search', '')
+                    ->select('choose', 'Name - Author')
+                    ->assertVisible('.btn.btn-info .fa.fa-search')
+                    ->click('.btn.btn-info')
+                    ->visit('/admin/books?search=&choose=all')
+                    ->assertQueryStringHas('search', '')
+                    ->assertQueryStringHas('choose', 'all');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(8, $elements);
         });
     }
 
     /**
-     * A Dusk test when input search name and author null
+     * A Dusk test looking input search null with select name
      *
      * @return void
      */
-    public function testSearchInputNull()
+    public function testSeeInputNullSelectName()
     {
         $this->userLogin();
-        $this->makeData(16);
+        $this->makeData(6);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->assertSee('LIST OF BOOK')
-                    ->assertInputValue('name', '')
-                    ->assertInputValue('author', '')
-                    ->assertVisible('.btn.btn-default .fa.fa-search')
-                    ->click('#submit')
-                    ->assertQueryStringHas('name', '')
-                    ->assertQueryStringHas('author', '');
+                    ->assertInputValue('search', '')
+                    ->select('choose', 'Name')
+                    ->assertVisible('.btn.btn-info .fa.fa-search')
+                    ->click('.btn.btn-info')
+                    ->visit('/admin/books?search=&choose=name')
+                    ->assertQueryStringHas('search', '')
+                    ->assertQueryStringHas('choose', 'name');
             $elements = $browser->elements('#table-book tbody tr');
-            $this->assertCount(10, $elements);
+            $this->assertCount(8, $elements);
         });
     }
 
     /**
-     * A Dusk test when input search name and input author null
+     * A Dusk test looking input search null with select author
      *
      * @return void
      */
-    public function testSearchNameHasValue()
+    public function testSeeInputNullSelectAuthor()
     {
         $this->userLogin();
-        $this->makeData(15);
+        $this->makeData(6);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->assertSee('LIST OF BOOK')
-                    ->type('name', 'JavaScript')
-                    ->assertInputValue('author', '')
-                    ->assertVisible('.btn.btn-default .fa.fa-search')->screenShot(2)
+                    ->assertInputValue('search', '')
+                    ->select('choose', 'Author')
+                    ->assertVisible('.btn.btn-info .fa.fa-search')
+                    ->click('.btn.btn-info')
+                    ->visit('/admin/books?search=&choose=author')
+                    ->assertQueryStringHas('search', '')
+                    ->assertQueryStringHas('choose', 'author');
+            $elements = $browser->elements('#table-book tbody tr');
+            $this->assertCount(8, $elements);
+        });
+    }
+
+    /**
+     * A Dusk test when input search is name and select all
+     *
+     * @return void
+     */
+    public function testSearchNameSelectAll()
+    {
+        $this->userLogin();
+        $this->makeData(8);
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/books')
+                    ->resize(1200,1600)
+                    ->assertSee('LIST OF BOOK')
+                    ->type('search', 'JavaScript')
+                    ->select('choose', 'Name - Author')
+                    ->assertVisible('.btn.btn-info .fa.fa-search')
                     ->click('#submit')
-                    ->visit('/admin/books?name=JavaScript&author=')
-                    ->assertSee('JavaScript')->screenShot(1);
+                    ->visit('/admin/books?search=JavaScript&choose=all')
+                    ->assertQueryStringHas('search', 'JavaScript')
+                    ->assertQueryStringHas('choose', 'all')
+                    ->assertSee('JavaScript');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
         });
     }
 
     /**
-     * A Dusk test when input search author and input name null
+     * A Dusk test when input search is author and select all
      *
      * @return void
      */
-    public function testSearchAuthorHasValue()
+    public function testSearchAuthorSelectAll()
     {
         $this->userLogin();
-        $this->makeData(16);
+        $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->assertSee('LIST OF BOOK')
-                    ->assertInputValue('name', '')
-                    ->type('author', 'Murach')
-                    ->assertVisible('.btn.btn-default .fa.fa-search')
+                    ->type('search', 'Murach')
+                    ->select('choose', 'Name - Author')
+                    ->assertVisible('.btn.btn-info .fa.fa-search')
                     ->click('#submit')
-                    ->visit('/admin/books?name=&author=Murach')
+                    ->visit('/admin/books?search=Murach&choose=all')
+                    ->assertQueryStringHas('search', 'Murach')
+                    ->assertQueryStringHas('choose', 'all')
                     ->assertSee('Murach');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
@@ -175,25 +210,53 @@ class SearchBookTest extends DuskTestCase
     }
 
     /**
-     * A Dusk test when input search author and input name
+     * A Dusk test when input search name and select name
      *
      * @return void
      */
-    public function testSearchNameAuthorHasValue()
+    public function testSearchNameSelectName()
     {
         $this->userLogin();
-        $this->makeData(16);
+        $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->assertSee('LIST OF BOOK')
-                    ->type('name', 'JavaScript')
-                    ->type('author', 'Murach')
-                    ->assertVisible('.btn.btn-default .fa.fa-search')
+                    ->type('search', 'JavaScript')
+                    ->select('choose', 'Name')
+                    ->assertVisible('.btn.btn-info .fa.fa-search')
                     ->click('#submit')
-                    ->visit('/admin/books?name=JavaScript&author=Murach')
-                    ->assertSee('JavaScript')
+                    ->visit('/admin/books?search=JavaScript&choose=name')
+                    ->assertQueryStringHas('search', 'JavaScript')
+                    ->assertQueryStringHas('choose', 'name')
+                    ->assertSee('JavaScript');
+            $elements = $browser->elements('#table-book tbody tr');
+            $this->assertCount(1, $elements);
+        });
+    }
+
+    /**
+     * A Dusk test when input search author and select author
+     *
+     * @return void
+     */
+    public function testSearchAuthorSelectAuthor()
+    {
+        $this->userLogin();
+        $this->makeData(8);
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/books')
+                    ->resize(1200,1600)
+                    ->assertSee('LIST OF BOOK')
+                    ->type('search', 'Murach')
+                    ->select('choose', 'author')
+                    ->assertVisible('.btn.btn-info .fa.fa-search')
+                    ->click('#submit')
+                    ->visit('/admin/books?search=Murach&choose=author')
+                    ->assertQueryStringHas('search', 'Murach')
+                    ->assertQueryStringHas('choose', 'author')
                     ->assertSee('Murach');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
@@ -201,74 +264,80 @@ class SearchBookTest extends DuskTestCase
     }
 
     /**
-     * A Dusk test when input search author incorrect and input name incorrect not found
+     * A Dusk test when input search author or name incorrect with select all
      *
      * @return void
      */
-    public function testSearchNameAuthorHasValueIncorrect()
+    public function testSearchNameAuthorIncorrectSelectAll()
     {
         $this->userLogin();
-        $this->makeData(16);
+        $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->assertSee('LIST OF BOOK')
-                    ->type('name', 'Mysql')
-                    ->type('author', 'Neymar')
-                    ->assertVisible('.btn.btn-default .fa.fa-search')
+                    ->type('search', 'hello')
+                    ->select('choose', 'author')
+                    ->assertVisible('.btn.btn-info .fa.fa-search')
                     ->click('#submit')
-                    ->visit('/admin/books?name=Mysql&author=Neymar')
+                    ->visit('/admin/books?search=hello&choose=all')
                     ->assertSee('Sorry, Not be found.')
                     ->assertSee('ComeBack');
+            $elements = $browser->elements('#table-book tbody tr');
+            $this->assertCount(1, $elements);
         });
     }
 
     /**
-     * A Dusk test when input search name correct and input author incorrect not found
+     * A Dusk test when input search name incorrect with select name
      *
      * @return void
      */
-    public function testSearchNameCorrectAndAuthorIncorrect()
+    public function testSearchNameIncorrectSelectName()
     {
         $this->userLogin();
-        $this->makeData(16);
+        $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->assertSee('LIST OF BOOK')
-                    ->type('name', 'JavaScript')
-                    ->type('author', 'Neymar')
-                    ->assertVisible('.btn.btn-default .fa.fa-search')
+                    ->type('search', 'hello')
+                    ->select('choose', 'name')
+                    ->assertVisible('.btn.btn-info .fa.fa-search')
                     ->click('#submit')
-                    ->visit('/admin/books?name=JavaScript&author=Neymar')
+                    ->visit('/admin/books?search=hello&choose=name')
                     ->assertSee('Sorry, Not be found.')
                     ->assertSee('ComeBack');
+            $elements = $browser->elements('#table-book tbody tr');
+            $this->assertCount(1, $elements);
         });
     }
 
     /**
-     * A Dusk test when input search name incorrect and input author correct not found
+     * A Dusk test when input search author incorrect with select author
      *
      * @return void
      */
-    public function testSearchNameInCorrectAndAuthorCorrect()
+    public function testSearchAuthorIncorrectSelectAuthor()
     {
         $this->userLogin();
-        $this->makeData(16);
+        $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->resize(1200,1600)
                     ->assertSee('LIST OF BOOK')
-                    ->type('name', 'Mysql')
-                    ->type('author', 'Murach')
-                    ->assertVisible('.btn.btn-default .fa.fa-search')
+                    ->type('search', 'hello')
+                    ->select('choose', 'author')
+                    ->assertVisible('.btn.btn-info .fa.fa-search')
                     ->click('#submit')
-                    ->visit('/admin/books?name=Mysql&author=Murach')
+                    ->visit('/admin/books?search=hello&choose=author')
                     ->assertSee('Sorry, Not be found.')
                     ->assertSee('ComeBack');
+            $elements = $browser->elements('#table-book tbody tr');
+            $this->assertCount(1, $elements);
         });
     }
 }
