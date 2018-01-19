@@ -186,4 +186,27 @@ class Book extends Model
     {
         return $query->where('author', 'LIKE', '%'.$author.'%');
     }
+
+    /**
+     * Upload image
+     *
+     * @param App\Http\Requests\BookEditRequest $request request
+     * @param App\Model\Book                    $book    book
+     *
+     * @return String
+     */
+    public function uploadImage($request, $book = null)
+    {
+        $image = $request->image;
+        $name = config('image.name_prefix') . "-" . $image->hashName();
+        $folder = config('image.books.path_upload');
+        $uploadSuccess = $image->move($folder, $name);
+        if ($uploadSuccess && $book !== null) {
+            $oldImage = config('image.books.path_upload') . $book->image;
+            if (\File::exists($oldImage) && ($book->image != config('image.books.no_image_name'))) {
+                \File::delete($oldImage);
+            }
+        }
+        return $name;
+    }
 }

@@ -48,4 +48,23 @@ class QrCode extends Model
     {
         return $this->hasOne(Book::class);
     }
+
+    /**
+     * Generate new QrCode for new book
+     *
+     * @return App\Model\Book
+    */
+    public static function generateQRCode()
+    {
+        $lastestQRCode = self::select('code_id')->withTrashed()->orderby('code_id', 'desc')->first();
+        if (empty($lastestQRCode)) {
+            $lastestCodeId = QrCode::DEFAULT_CODE_ID;
+        } else {
+            $lastestCodeId = $lastestQRCode->code_id + 1;
+        }
+        return new self([
+            'prefix' => QrCode::QRCODE_PREFIX,
+            'code_id'=> $lastestCodeId,
+        ]);
+    }
 }

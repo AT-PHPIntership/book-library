@@ -27,4 +27,12 @@ $(document).ready(function() {
   $('#btn-reset').click(function() {
     $('#image-display').attr('src', '');
   })
+
+  //datapicker option
+  $('.date-own').datepicker({
+    viewMode: "years", 
+    minViewMode: 2,
+    autoclose: true,
+    format: 'yyyy',
+  });
 });
