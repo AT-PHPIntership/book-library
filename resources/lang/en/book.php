@@ -27,6 +27,13 @@ return [
         'title' => 'Confirm',
         'delete' => 'Do you want to delete this book'
     ],
-    'not_found' => 'Sorry, Not be found.'
-
+    'not_found' => 'Sorry, Not be found.',
+    'message' => [
+        'create_success' => 'Create Success',
+        'create_fail' => 'Create Fail',
+        'edit_success' => 'Edit Success',
+        'edit_fail'    => 'Edit fail',
+        'err_upload_image' => '. Cannot upload image',
+        'err_long_data'    => '. Invalid or unsuitable size data',
+    ],
 ];

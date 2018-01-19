@@ -14,6 +14,8 @@ use App\Model\Donator;
 use App\Http\Requests\BookEditRequest;
 use File;
 use App\Model\QrCode;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Illuminate\Database\QueryException;
 
 class BookController extends Controller
 {
@@ -41,58 +43,34 @@ class BookController extends Controller
      */
     public function store(BookCreateRequest $request)
     {
-        $book = new Book($request->toArray());
-        // save image path, move image to directory
-        if (isset($request->image)) {
-            $image = $request->image;
-            $name = config('image.name_prefix') . "-" . $image->hashName();
-            $folder = config('image.books.path_upload');
-            $saveImageResult = $image->move($folder, $name);
-
-            $book->image = $name;
-        } else {
-            $book->image = config('image.books.no_image_name');
-            $saveImageResult = true;
-        }
-
-        //save new donator
-        $user = User::where('employee_code', $request->employee_code)->first();
-        if (empty($user)) {
-            $donatorData = [
-                'employee_code' => $request->employee_code,
-            ];
-        } else {
-            $donatorData = [
-                'user_id' => $user->id,
-                'employee_code' => $user->employee_code,
-                'email' => $user->email,
-                'name' => $user->name,
-            ];
-        }
-        $donator = Donator::updateOrCreate(['employee_code' => $request->employee_code], $donatorData);
-        $book->donator_id = $donator->id;
-
-        $result = $book->save();
-
-        //save new qrcode
-        $lastestQRCode = QrCode::select('code_id')->withTrashed()->orderby('code_id', 'desc')->first();
-        if (empty($lastestQRCode)) {
-            $lastestCodeId = QrCode::DEFAULT_CODE_ID;
-        } else {
-            $lastestCodeId = $lastestQRCode->code_id + 1;
-        }
-        $book->qrcode()->save(
-            new QrCode([
-                'prefix' => QrCode::QRCODE_PREFIX,
-                'code_id'=> $lastestCodeId,
-            ])
-        );
-
-        if ($result && $saveImageResult) {
-            flash(__('Create success'))->success();
+        DB::beginTransaction();
+        try {
+            $book = new Book($request->toArray());
+            // save image path, move image to directory
+            if (isset($request->image)) {
+                $book->image = $book->uploadImage($request);
+            } else {
+                $book->image = config('image.books.no_image_name');
+            }
+            //save new donator, save book
+            $donator = new Donator();
+            $book->donator_id = $donator->updateDonator($request->employee_code);
+            $book->save();
+            //save new qrcode
+            $book->qrcode()->save(QrCode::generateQRCode());
+            DB::commit();
+            flash(__('book.message.create_success'))->success();
             return redirect()->route('books.index');
-        } else {
-            flash(__('Create failure'))->error();
+        } catch (FileException $e) {
+            $errMessage = __('book.message.create_fail') . __('book.message.err_upload_image');
+        } catch (QueryException $e) {
+            $errMessage = __('book.message.create_fail') . __('book.message.err_long_data');
+        } catch (\Exception $e) {
+            $errMessage = __('book.message.create_fail');
+        }
+        if (isset($errMessage)) {
+            DB::rollBack();
+            flash($errMessage)->error();
             return redirect()->back()->withInput();
         }
     }
@@ -149,18 +127,24 @@ class BookController extends Controller
     /**
      * Show the form with book data for edit book.
      *
-     * @param App\Model\Book $book pass book object
+     * @param App\Model\Book          $book    pass book object
+     * @param Illuminate\Http\Request $request request
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Book $book)
+    public function edit(Book $book, Request $request)
     {
         $categoryFields = [
             'id',
             'name'
         ];
+        if (!empty($request->input('page'))) {
+            $backPath = $request->input('page');
+        } else {
+            $backPath = config('define.list_book_path');
+        }
         $categories = Category::select($categoryFields)->where('id', '<>', Book::DEFAULT_CATEGORY)->get();
-        return view('backend.books.edit', compact('book', 'categories'));
+        return view('backend.books.edit', compact('book', 'categories', 'backPath'));
     }
 
     /**
@@ -178,41 +162,26 @@ class BookController extends Controller
             $bookData = $request->except('_token', '_method', 'image');
             // save image path, move image to directory
             if ($request->hasFile('image')) {
-                $oldPath = config('image.books.path_upload') . $book->image;
-                if (File::exists($oldPath) && ($book->image != config('image.books.no_image_name'))) {
-                    File::delete($oldPath);
-                }
-                $image = $request->image;
-                $name = config('image.name_prefix') . "-" . $image->hashName();
-                $folder = config('image.books.path_upload');
-                $image->move($folder, $name);
-                $bookData['image'] = $name;
+                $bookData['image'] = $book->uploadImage($request, $book);
             }
             //save new donator
-            $user = User::where('employee_code', $request->employee_code)->first();
-            if (empty($user)) {
-                $donatorData = [
-                    'employee_code' => $request->employee_code,
-                ];
-            } else {
-                $donatorData = [
-                    'user_id' => $user->id,
-                    'employee_code' => $user->employee_code,
-                    'email' => $user->email,
-                    'name' => $user->name,
-                ];
-            }
-            $donator = Donator::updateOrCreate(['employee_code' => $request->employee_code], $donatorData);
-            $bookData['donator_id'] = $donator->id;
+            $donator = new Donator();
+            $bookData['donator_id'] = $donator->updateDonator($request->employee_code);
+            
             $book->update($bookData);
             DB::commit();
-
-            $backUrl = $request->redirect_back;
-            flash(__('Edit success'))->success();
-            return redirect()->to($backUrl);
+            flash(__('book.message.edit_success'))->success();
+            return redirect()->to($request->back_path);
+        } catch (FileException $e) {
+            $errMessage = __('book.message.edit_fail') . __('book.message.err_upload_image');
+        } catch (QueryException $e) {
+            $errMessage = __('book.message.edit_fail') . __('book.message.err_long_data');
         } catch (\Exception $e) {
+            $errMessage = __('book.message.edit_fail');
+        }
+        if (isset($errMessage)) {
             DB::rollBack();
-            flash(__('Edit failure'))->error();
+            flash($errMessage)->error();
             return redirect()->back()->withInput();
         }
     }

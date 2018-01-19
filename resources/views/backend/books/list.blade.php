@@ -13,7 +13,7 @@
       </div>
       <div class="modal-body text-center">
         <h3>{{ __('book.confirm.title') }}</h3>
-        <p>{{ __('book.confirm.delete') }} ?</p>
+        <p>{{ __('book.confirm.delete') }}</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
@@ -88,7 +88,7 @@
                                 <td>{{ $book->avg_rating }}</td>
                                 <td>{{ $book->borrowings_count }}</td>
                                 <td align="center">
-                                    <a href="{{ route('books.edit', $book) }}"
+                                    <a href="{{ route('books.edit', ['book' => $book, 'page' => $_SERVER['REQUEST_URI']]) }}"
                                        class= "btn-edit fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
                                     <i class="btn btn-danger btn-lg fa fa-trash-o"></i>
                                 </td>
