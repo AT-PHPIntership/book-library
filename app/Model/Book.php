@@ -213,6 +213,5 @@ class Book extends Model
     public function scopeSearchAll($query, $search)
     {
         return $query->where('author', 'LIKE', '%'.$search.'%')->orWhere('name', 'LIKE', '%'.$search.'%');
-        ;
     }
 }

@@ -55,7 +55,7 @@
                                     <input type="text" class="form-control" id="search-book" name="search" placeholder="{{ __('general.enter_name')}}" value="{{ Request::get('search')}}">
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <select class="form-control" id="filter-search" name="choose">
+                                    <select class="form-control" id="choose-search" name="choose">
                                         @foreach (__('general.search') as $key => $value)
                                             <option value="{{ $key }}" {{ $key == Request::get('choose') ? 'selected' : '' }}>{{ $value }}</option>
                                         @endforeach
