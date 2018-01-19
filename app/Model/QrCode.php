@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class QrCode extends Model
 {
     use SoftDeletes;
-    
+
     /**
      * Default code_id of qrcode
      */
