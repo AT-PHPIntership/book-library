@@ -18,7 +18,6 @@ return [
   'donated' => 'Donated',
   'borrowing' => 'Borrowing',
   'reviews' => 'Reviews',
-  'follow' => 'Follow',
   'about' => 'About',
   'joined_date' => 'Joined Date',
   'member' => 'Member',
