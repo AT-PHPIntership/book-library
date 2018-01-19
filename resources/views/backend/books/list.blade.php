@@ -119,7 +119,7 @@
                       @endif
                   </table>
                   <div class="text-center">
-                       {{ $books->appends(\Request::except('page'))->appends(['name' => Request::get('name'), 'author' => Request::get('author')])->render()}}
+                       {{ $books->appends(\Request::except('page'))->appends(['search' => Request::get('search'), 'choose' => Request::get('choose')])->render()}}
                   </div>
               </div>
               <!-- /.box-body -->
