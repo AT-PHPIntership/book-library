@@ -1,5 +1,5 @@
 @extends('backend.layouts.main')
-@section('title', __('book.book'))
+@section('title', __('book.edit_book'))
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
