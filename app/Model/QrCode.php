@@ -9,7 +9,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class QrCode extends Model
 {
     use SoftDeletes;
-    
+
+    /**
+     * Default code_id of qrcode
+     */
+    const DEFAULT_CODE_ID = 1;
+
+    /**
+     * QrCode prefix
+     */
+    const QRCODE_PREFIX = 'ABT';
+
     /**
      * Declare table
      *
