@@ -9,7 +9,7 @@
       {{ __('post.list_post')  }}
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{route('home.index')}}"><i class="fa fa-dashboard"></i>{{ __('post.admin')  }}</a></li>
+      <li><a href="{{ route('home.index') }}"><i class="fa fa-dashboard"></i>{{ __('post.admin')  }}</a></li>
       <li class="active">{{ __('post.post_title') }}</li>
     </ol>
   </section>
@@ -32,48 +32,39 @@
               </tr>
             </thead>
             <tbody>
+              @foreach ($posts as $post)
               <tr>
-                <td>1</td>
-                <td>Orion Daugherty</td>
-                <td>Review</td>
-                <td>Incidunt voluptatem officiis esse quis in...</td>
-                <td>2018-01-16 09:16:58</td>
-                <td>5</td>
+                <td>{{ $post->id }}</td>
+                <td>{{ $post->name }}</td>
+                <td>
+                @switch($post->type)
+                  @case(1)
+                    Review
+                    @break
+                  @case(2)
+                    Status
+                    @break
+                  @case(3)
+                    Find book
+                    @break
+                @endswitch
+                </td>
+                <td>{!! \Illuminate\Support\Str::words($post->content, 5,'...')  !!}</td>
+                <td>{{ $post->created_at }}</td>
+                <td class='text-center' >{{ $post->comments_count }}</td>
               </tr>
-              <tr>
-                <td>2</td>
-                <td>Eriberto Stiedemann III</td>
-                <td>Find book</td>
-                <td>Incidunt voluptatem officiis esse quis in...</td>
-                <td>2018-01-16 09:16:58</td>
-                <td>10</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Prof. Pasquale Hintz</td>
-                <td>Status</td>
-                <td>Incidunt voluptatem officiis esse quis in...</td>
-                <td>2018-01-16 09:16:58</td>
-                <td>3</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>Orion Daugherty</td>
-                <td>Review</td>
-                <td>Incidunt voluptatem officiis esse quis in...</td>
-                <td>2018-01-16 09:16:58</td>
-                <td>10</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>Orion Daugherty</td>
-                <td>Review</td>
-                <td>Incidunt voluptatem officiis esse quis in...</td>
-                <td>2018-01-16 09:16:58</td>
-                <td>10</td>
-              </tr>
+              @endforeach
             </tbody>
             </table>
+            <!-- .pagination -->
+            <div class="text-center">
+              <nav aria-label="...">
+                <ul class="pagination">
+                  {{ $posts->links() }}
+                </ul>
+              </nav>
+            </div>
+            <!-- /.pagination -->
           </div>
         </div>
       </div>
