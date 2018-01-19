@@ -6,8 +6,4 @@
       \App\Model\Book::DONATED => 'donator',
       \App\Model\Book::BORROWED => 'borrowings',
     ],
-    'choose' => [
-      \App\Model\Book::BOOK_NAME => 'name',
-      \App\Model\Book::BOOK_AUTHOR => 'author',
-    ],
   ];

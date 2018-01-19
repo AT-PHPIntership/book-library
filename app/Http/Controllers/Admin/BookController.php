@@ -114,7 +114,7 @@ class BookController extends Controller
             'total_rating'
         ];
         $books = Book::select($columns);
-        
+
         if ($request->has('search') && $request->has('choose')) {
             $search = $request->search;
             $choose = $request->choose;
@@ -132,6 +132,7 @@ class BookController extends Controller
         }
 
         $books = $books->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+        
         if ($request->has('uid') && $request->has('filter')) {
             $uid = $request->uid;
             $filter = $request->filter;
