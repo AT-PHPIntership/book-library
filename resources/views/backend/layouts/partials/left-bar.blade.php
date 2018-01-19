@@ -53,7 +53,7 @@
         </a>
       </li>
       <li>
-        <a href="#">
+        <a href="{{route('posts.index')}}">
           <i class="fa fa-list" aria-hidden="true"></i>
           <span>{{ __('dashboard.posts') }}</span>
           <span class="pull-right-container">
