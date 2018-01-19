@@ -143,16 +143,6 @@ class Book extends Model
     }
 
     /**
-     * Get total Borrow
-     *
-     * @return int
-     */
-    public function getTotalBorrowAttribute()
-    {
-        return $this->borrowings->count();
-    }
-
-    /**
      * Relationship hasOne with Book
      *
      * @return array
