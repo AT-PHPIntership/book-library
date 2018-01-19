@@ -24,9 +24,10 @@ return [
   'member' => 'Member',
   'none' => 'None',
   'user_profile_picture' => 'User profile picture',
-  'fullname' => 'Full name',
-  'join_dated' => 'Join dated',
+  'fullname' => 'Full Name',
+  'join_dated' => 'Join Dated',
   'email' => 'Email',
   'user' => 'User',
   'admin' => 'Admin',
+  'team' => 'Team',
 ];

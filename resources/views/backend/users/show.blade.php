@@ -23,7 +23,7 @@
             @if(isset($user->avatar_url))
             <img class="profile-user-img img-responsive img-circle" src="{{ $user->avatar_url }}">
             @else
-            <img class="profile-user-img img-responsive img-circle" src="{{ $user->avatar_url }}" style="display:none" >
+            <img class="profile-user-img img-responsive img-circle" src="{{ asset('images/users/avatar-default.jpg') }}">
             @endif
             <h3 class="profile-username text-center">{{ $user->name }}</h3><center></center>
             <p class="text-muted text-center">
@@ -31,10 +31,10 @@
             </p>
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item">
-                <b>{{ __('user.borrowed') }}</b> <a class="pull-right" href="#">{{ $user->total_borrowed }}</a>
+                <b>{{ __('user.borrowed') }}</b> <a class="pull-right" href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::BORROWED]) }}">{{ $user->total_borrowed }}</a>
               </li>
               <li class="list-group-item">
-                <b>{{ __('user.donated') }}</b> <a class="pull-right" href="#">{{ $user->total_donated }}</a>
+                <b>{{ __('user.donated') }}</b> <a class="pull-right" href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::DONATED]) }}">{{ $user->total_donated }}</a>
               </li>
               <li class="list-group-item">
                 <b>{{ __('user.borrowing') }}</b> 
@@ -43,8 +43,6 @@
                 @endif
               </li>
             </ul>
-
-            <a href="#" class="btn btn-primary btn-block"><b>{{ __('Follow') }}</b></a>
           </div>
           <!-- /.box-body -->
         </div>
@@ -59,13 +57,16 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <strong><i class="fa fa-user-circle-o margin-r-5"></i>{{ __('fullname') }}:</strong>
+              <strong><i class="fa fa-user-circle-o margin-r-5"></i>{{ __('user.fullname') }}:</strong>
               <p class="text-muted margin-r-5 username">{{ $user->name }}</p>
               <hr>
-              <strong><i class="fa fa-calendar-plus-o margin-r-5"></i>{{ __('join_dated') }}:</strong>
+              <strong><i class="fa fa-calendar-plus-o margin-r-5"></i>{{ __('user.join_dated') }}:</strong>
               <p class="text-muted margin-r-5 join_date">{{ date('d-m-Y', strtotime($user->created_at)) }}</p>
               <hr>
-              <strong><i class="fa fa-envelope-o margin-r-5"></i>{{ __('email') }}</strong>
+              <strong><i class="fa fa-users margin-r-5"></i>{{ __('user.team') }}:</strong>
+              <p class="text-muted margin-r-5 team">{{ $user->team }}</p>
+              <hr>
+              <strong><i class="fa fa-envelope-o margin-r-5"></i>{{ __('user.email') }}</strong>
               <p class="text-muted margin-r-5 email">{{ $user->email }}</p>
               <hr>
             </div>
