@@ -8,5 +8,7 @@ return [
   'main_navigation' => 'MAIN NAVIGATION',
   'online'=> 'Online',
   'web_developer' => 'Web Developer',
-  'member' => 'Member'
+  'member' => 'Member',
+  'management' => 'Management',
+  'profile' => 'Profile'
 ];

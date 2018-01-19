@@ -1,7 +1,7 @@
 <header class="main-header">
   <a href="index2.html" class="logo">
     <span class="logo-mini"><b>A</b>dm</span>
-    <span class="logo-lg"><b>{{__('Admin ')}}</b>{{__('Management')}}</span>
+    <span class="logo-lg"><b>{{__('user.admin')}}</b>{{__('dashboard.management')}}</span>
   </a>
   <nav class="navbar navbar-static-top">
     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -25,7 +25,7 @@
             </li>
             <li class="user-footer">
               <div class="pull-left">
-                <a href="{{route('users.show', Auth::user()->employee_code)}}" class="btn btn-default btn-flat">{{__('Profile')}}</a>
+                <a href="{{route('users.show', Auth::user()->employee_code)}}" class="btn btn-default btn-flat">{{__('dashboard.profile')}}</a>
               </div>
               <div class="pull-right">
                 <form action="{{ route('logout') }}" method="POST">
