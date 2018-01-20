@@ -17,6 +17,7 @@ use App\Model\QrCode;
 
 class BookController extends Controller
 {
+
     /**
      * Show the form for creating a new resource.
      *
@@ -118,17 +119,7 @@ class BookController extends Controller
         if ($request->has('search') && $request->has('choose')) {
             $search = $request->search;
             $choose = $request->choose;
-            switch ($choose) {
-                case Book::BOOK_NAME:
-                    $books = $books->searchname($search);
-                    break;
-                case Book::BOOK_AUTHOR:
-                    $books = $books->searchauthor($search);
-                    break;
-                case Book::BOOK_ALL:
-                    $books = $books->searchall($search);
-                    break;
-            }
+            $books = Book::search($search, $choose);
         }
 
         $books = $books->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));

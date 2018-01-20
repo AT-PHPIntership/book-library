@@ -10,10 +10,11 @@ use App\Model\Borrowing;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use App\Libraries\Traits\SearchTrait;
 
 class Book extends Model
 {
-    use Sortable;
+    use Sortable, SearchTrait;
 
     /**
      * Default value of category
@@ -78,6 +79,21 @@ class Book extends Model
      * @var array $sortable table sort
      */
     public $sortable = ['id', 'name', 'author', 'avg_rating'];
+
+    /**
+     * Filter for search trait
+     *
+     * @var array $searchable table search
+     */
+    protected $searchable = [
+        'input' => [
+            'name',
+            'author',
+        ],
+        'type' => [
+            'like',
+        ]
+    ];
 
     /**
      * Declare table sort
@@ -174,44 +190,5 @@ class Book extends Model
     public function qrcode()
     {
         return $this->hasOne(QrCode::class);
-    }
-
-    /**
-     * Scope search book by name
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query  query of Model
-     * @param String                                $search $search
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeSearchName($query, $search)
-    {
-        return $query->where('name', 'LIKE', '%'.$search.'%');
-    }
-
-    /**
-     * Scope search book by author
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query  query of Model
-     * @param String                                $search search
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeSearchAuthor($query, $search)
-    {
-        return $query->where('author', 'LIKE', '%'.$search.'%');
-    }
-
-    /**
-     * Scope search book by name or author
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query  query of Model
-     * @param String                                $search search
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeSearchAll($query, $search)
-    {
-        return $query->where('author', 'LIKE', '%'.$search.'%')->orWhere('name', 'LIKE', '%'.$search.'%');
     }
 }
