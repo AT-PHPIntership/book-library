@@ -14,3 +14,6 @@ h1 {
 .inline-field {
   padding-left: 0px;
 }
+#image-display {
+  display: none;
+}
