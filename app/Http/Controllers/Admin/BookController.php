@@ -53,8 +53,7 @@ class BookController extends Controller
                 $book->image = config('image.books.no_image_name');
             }
             //save new donator, save book
-            $donator = new Donator();
-            $book->donator_id = $donator->updateDonator($request->employee_code);
+            $book->donator_id = Donator::updateDonator($request->employee_code);
             $book->save();
             //save new qrcode
             $book->qrcode()->save(QrCode::generateQRCode());
@@ -154,8 +153,7 @@ class BookController extends Controller
                 $bookData['image'] = $book->uploadImage($request, $book);
             }
             //save new donator
-            $donator = new Donator();
-            $bookData['donator_id'] = $donator->updateDonator($request->employee_code);
+            $bookData['donator_id'] = Donator::updateDonator($request->employee_code);
             
             $book->update($bookData);
             DB::commit();
