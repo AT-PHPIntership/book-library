@@ -48,7 +48,6 @@ class BookController extends Controller
             $name = config('image.name_prefix') . "-" . $image->hashName();
             $folder = config('image.books.path_upload');
             $saveImageResult = $image->move($folder, $name);
-
             $book->image = $name;
         } else {
             $book->image = config('image.books.no_image_name');
