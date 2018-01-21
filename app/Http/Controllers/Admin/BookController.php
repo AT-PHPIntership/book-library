@@ -99,7 +99,7 @@ class BookController extends Controller
     /**
      *  * Display list book with filter ( if have ).
      *
-     * @param Request $request request
+     * @param Request $request requests
      *
      * @return \Illuminate\Http\Response
      */
