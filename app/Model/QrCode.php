@@ -57,11 +57,7 @@ class QrCode extends Model
     public static function generateQRCode()
     {
         $lastestQRCode = self::select('code_id')->withTrashed()->orderby('code_id', 'desc')->first();
-        if (empty($lastestQRCode)) {
-            $lastestCodeId = QrCode::DEFAULT_CODE_ID;
-        } else {
-            $lastestCodeId = $lastestQRCode->code_id + 1;
-        }
+        $lastestCodeId = $lastestQRCode ? $lastestQRCode->code_id + 1 : QrCode::DEFAULT_CODE_ID;
         return new self([
             'prefix' => QrCode::QRCODE_PREFIX,
             'code_id'=> $lastestCodeId,

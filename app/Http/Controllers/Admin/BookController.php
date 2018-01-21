@@ -16,6 +16,7 @@ use File;
 use App\Model\QrCode;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Illuminate\Database\QueryException;
+use Exception;
 
 class BookController extends Controller
 {
@@ -47,7 +48,9 @@ class BookController extends Controller
         try {
             $book = new Book($request->toArray());
             // save image path, move image to directory
-            if (isset($request->image)) {
+            $hasFile = $request->hasFile('image');
+            if ($hasFile) {
+                $folder = config('image.books.path_upload');
                 $book->image = $book->uploadImage($request);
             } else {
                 $book->image = config('image.books.no_image_name');
@@ -64,11 +67,14 @@ class BookController extends Controller
             $errMessage = __('book.message.create_fail') . __('book.message.err_upload_image');
         } catch (QueryException $e) {
             $errMessage = __('book.message.create_fail') . __('book.message.err_long_data');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $errMessage = __('book.message.create_fail');
         }
         if (isset($errMessage)) {
             DB::rollBack();
+            if ($hasFile) {
+                File::delete($folder . $book->image);
+            }
             flash($errMessage)->error();
             return redirect()->back()->withInput();
         }
@@ -149,25 +155,38 @@ class BookController extends Controller
         try {
             $bookData = $request->except('_token', '_method', 'image');
             // save image path, move image to directory
-            if ($request->hasFile('image')) {
-                $bookData['image'] = $book->uploadImage($request, $book);
+            $hasImage = $request->hasFile('image');
+            if ($hasImage) {
+                $oldImage = $book->image;
+                $folder = config('image.books.path_upload');
+                $backup = config('image.books.backup');
+                $bookData['image'] = $book->uploadImage($request, $oldImage);
             }
             //save new donator
             $bookData['donator_id'] = Donator::updateDonator($request->employee_code);
             
             $book->update($bookData);
             DB::commit();
+            if ($hasImage) {
+                File::delete($backup . $oldImage);
+            }
             flash(__('book.message.edit_success'))->success();
             return redirect()->to($request->back_path);
         } catch (FileException $e) {
             $errMessage = __('book.message.edit_fail') . __('book.message.err_upload_image');
         } catch (QueryException $e) {
             $errMessage = __('book.message.edit_fail') . __('book.message.err_long_data');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $errMessage = __('book.message.edit_fail');
         }
         if (isset($errMessage)) {
             DB::rollBack();
+            if ($hasImage) {
+                if ($oldImage != config('image.books.no_image_name')) {
+                    File::move($backup . $oldImage, $folder . $oldImage);
+                }
+                File::delete($folder . $bookData['image']);
+            }
             flash($errMessage)->error();
             return redirect()->back()->withInput();
         }
