@@ -34,6 +34,6 @@ return [
         'edit_success' => 'Edit Success',
         'edit_fail'    => 'Edit fail',
         'err_upload_image' => '. Cannot upload image',
-        'err_long_data'    => '. Invalid or unsuitable size data',
+        'err_long_data'    => '. Cannot save data',
     ],
 ];

@@ -190,21 +190,21 @@ class Book extends Model
     /**
      * Upload image
      *
-     * @param App\Http\Requests\BookEditRequest $request request
-     * @param App\Model\Book                    $book    book
+     * @param App\Http\Requests\BookEditRequest $request  request
+     * @param String                            $oldImage old image name
      *
      * @return String
      */
-    public function uploadImage($request, $book = null)
+    public function uploadImage($request, $oldImage = null)
     {
         $image = $request->image;
         $name = config('image.name_prefix') . "-" . $image->hashName();
         $folder = config('image.books.path_upload');
-        $uploadSuccess = $image->move($folder, $name);
-        if ($uploadSuccess && $book !== null) {
-            $oldImage = config('image.books.path_upload') . $book->image;
-            if (\File::exists($oldImage) && ($book->image != config('image.books.no_image_name'))) {
-                \File::delete($oldImage);
+        $backup = config('image.books.backup');
+        $image->move($folder, $name);
+        if ($oldImage != null) {
+            if (($folder . $oldImage) && ($oldImage != config('image.books.no_image_name'))) {
+                \File::move($folder.$oldImage, $backup.$oldImage);
             }
         }
         return $name;
