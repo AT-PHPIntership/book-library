@@ -17,7 +17,6 @@ use App\Model\QrCode;
 
 class BookController extends Controller
 {
-
     /**
      * Show the form for creating a new resource.
      *
