@@ -17,7 +17,6 @@
   ],
   "dependencies": {
     "admin-lte": "adminLTE#^2.4.2",
-    "jquery": "^3.3.1"
   },
   "resolutions": {
     "jquery": "3.2.1"
