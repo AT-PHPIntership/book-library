@@ -8,7 +8,7 @@
       {{ __('user.list_users')  }}
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{route('home.index') }}"><i class="fa fa-dashboard"></i>{{ __('user.admin')  }}</a></li>
+      <li><a href="{{ route('home.index') }}"><i class="fa fa-dashboard"></i>{{ __('user.admin')  }}</a></li>
       <li class="active">{{ __('user.users') }}</li>
     </ol>
   </section>
