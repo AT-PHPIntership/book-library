@@ -35,7 +35,7 @@
           </h1>
           <ol class="breadcrumb">
               <li><a href="#"><i class="fa fa-dashboard"></i>{{ __('book.admin')  }}</a></li>
-              <li class="active">{{ __('book.book') }}</li>
+              <li class="active">{{ __('book.books') }}</li>
           </ol>
       </section>
 
