@@ -6,4 +6,5 @@
       \App\Model\Book::DONATED => 'donator',
       \App\Model\Book::BORROWED => 'borrowings',
     ],
+    'choose' => 'all',
   ];

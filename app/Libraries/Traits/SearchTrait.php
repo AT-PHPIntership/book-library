@@ -19,13 +19,11 @@ trait SearchTrait
     {
         $columns = $this->searchable;
         foreach ($columns['input'] as $value) {
-            foreach ($columns['type'] as $index) {
-                if ($filter === $value) {
-                    $query->Where($value, $index, '%'.$search.'%');
-                }
-                if ($filter == 'all') {
-                    $query->orWhere($value, $index, '%'.$search.'%');
-                }
+            if ($filter === $value[0]) {
+                $query->where($value[0], $value[1], '%'.$search.'%');
+            }
+            if ($filter == config('define.choose')) {
+                $query->orWhere($value[0], $value[1], '%'.$search.'%');
             }
         }
     }

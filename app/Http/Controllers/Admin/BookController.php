@@ -121,7 +121,6 @@ class BookController extends Controller
         }
 
         $books = $books->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
-
         if ($request->has('uid') && $request->has('filter')) {
             $uid = $request->uid;
             $filter = $request->filter;

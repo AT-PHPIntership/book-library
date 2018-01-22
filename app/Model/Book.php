@@ -32,21 +32,6 @@ class Book extends Model
     const BORROWED = 'borrowed';
 
     /**
-     * Default value of filter type search books is name
-     */
-    const BOOK_NAME = 'name';
-
-    /**
-     * Default value of filter type search books is author
-     */
-    const BOOK_AUTHOR = 'author';
-
-    /**
-     * Default value of filter type search books is author, name
-     */
-    const BOOK_ALL = 'all';
-
-    /**
      * Declare table
      *
      * @var string $tabel table name
@@ -87,12 +72,9 @@ class Book extends Model
      */
     protected $searchable = [
         'input' => [
-            'name',
-            'author',
+            ['name', 'like'],
+            ['author', 'like'],
         ],
-        'type' => [
-            'like',
-        ]
     ];
 
     /**
