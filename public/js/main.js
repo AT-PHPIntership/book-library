@@ -19,11 +19,12 @@ $(document).ready(function() {
           .attr('src', e.target.result);
       };
       reader.readAsDataURL(this.files[0]);
+      $('#image-display').show();
     }
   })
   //stop display image when press reset
   $('#btn-reset').click(function() {
-    $('#image-display').attr('src', '');
+    $('#image-display').attr('src', '').hide();
   })
 
   $('.btn-reset').click(function() {
