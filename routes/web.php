@@ -15,6 +15,7 @@
 Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Admin\LoginController@login');
 Route::post('/logout', 'Admin\LoginController@logout')->name('logout');
+
 //Admin
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::resource('users', 'UserController', ['except' => ['create', 'store']]);
@@ -22,7 +23,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::resource('books', 'BookController');
 });
 
-//Api for Ajax
-Route::group(['prefix' => 'admin', 'namespace' => 'Api'], function () {
-    Route::put('users/{id}/roles', 'UserController@updateRole');
+//Api
+Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
+    Route::put('users/{id}/roles', 'UserController@updateRole')->middleware('TeamSA');
 });
