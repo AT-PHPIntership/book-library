@@ -156,7 +156,9 @@ class BookController extends Controller
             $hasImage = $request->hasFile('image');
             if ($hasImage) {
                 $oldImage = $book->image;
-                $isNotDefaultImage = ($oldImage != (config('image.books.default_path') . '/' . config('image.books.no_image_name'))) ? true : false;
+                $defaultPath = config('image.books.default_path');
+                $defaultImage = config('image.books.no_image_name');
+                $isNotDefaultImage = ($oldImage != ($defaultPath . '/' . $defaultImage)) ? true : false;
                 $bookData['image'] = $book->uploadImage($request, $oldImage);
             }
             //save new donator
