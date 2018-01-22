@@ -35,7 +35,7 @@
               @foreach ($posts as $post)
               <tr>
                 <td>{{ $post->id }}</td>
-                <td>{{ $post->name }}</td>
+                <td><a href="{{ route('posts.show', ['id' => $post->id])}}">{{ $post->name }}</td></a>
                 <td>
                 @switch($post->type)
                   @case(1)
