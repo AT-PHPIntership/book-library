@@ -26,7 +26,7 @@
                           <tr>
                               <th class="text-center">{{ __('category.id') }}</th>
                               <th>{{ __('category.name') }}</th>
-                              <th class="text-center">{{ __('category.category') }}</th>
+                              <th class="text-center">{{ __('category.number_of_books') }}</th>
                           </tr>
                       </thead>
                       <tbody>
