@@ -10,7 +10,7 @@ class PostController extends Controller
     /**
      * Display a list of Posts.
      *
-     * @return mixed
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
