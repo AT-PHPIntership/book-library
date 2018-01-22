@@ -1,7 +1,9 @@
 @extends('backend.layouts.main')
 @section('title',__('user.user_title'))
 @section('content')
-
+<script type="text/javascript">
+  nameRole = {!! json_encode(trans('user.name_role')) !!};
+</script>
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
@@ -32,7 +34,7 @@
                 <th>{{ __('user.employee_email') }}</th>
                 <th>{{ __('user.total_donated') }}</th>
                 <th>{{ __('user.total_borrowed') }}</th>
-                @if (session()->get('team') == app\Model\User::SA)
+                @if (Auth::user()->team == app\Model\User::SA)
                 <th>{{ __('user.role') }}</th>
                 @endif
               </tr>
@@ -46,17 +48,17 @@
                   <td>{{ $user->email }}</td>
                   <td><a href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::DONATED]) }}">{{ $user->total_donated }}</td>
                   <td><a href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::BORROWED]) }}">{{ $user->total_borrowed }}</td>
-                  @if (session()->get('team') == App\Model\User::SA)
+                  @if (Auth::user()->team == App\Model\User::SA)
                   <td>
-                    <a 
-                    @if ($user->team == app\Model\User::SA)
+                    <a id="role-{{$user->id}}"
+                    @if ($user->team == App\Model\User::SA)
                       disabled
                     @endif
-                      class=" width-70
+                      class="btn-change-role width-70 btn
                     @if ($user->role)
-                      btn btn-success"> {{ __('user.admin') }}
+                      btn-success"> {{ __('user.admin') }}
                     @else
-                      btn btn-danger">{{ __('user.user') }}
+                      btn-danger">{{ __('user.user') }}
                     @endif
                     </a>
                   </td>
@@ -75,8 +77,9 @@
 <!-- /.content -->
 @endsection
 @section('script')
-    <script type="text/javascript" src="{{ asset('app/js/user.js') }}"></script>
-    <script type="text/javascript">
-        UserComponent.changeRole();
-    </script>
+  <script src="{{ asset('app/js/user.js') }}">
+  </script>
+  <script>
+    newUser.updateRole();
+  </script>
 @endsection
