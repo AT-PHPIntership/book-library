@@ -14,4 +14,7 @@ h1 {
 #image-display {
   display: block;
 }
-
+.size-img img {
+    height: 246px;
+    width: 210px;
+}

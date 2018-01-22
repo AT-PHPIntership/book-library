@@ -29,4 +29,16 @@ class PostController extends Controller
                     ->paginate(config('define.page_length'));
         return view('backend.posts.index', compact('posts'));
     }
+
+    /**
+     * Display User Detail.
+     *
+     * @param App\Model\Post $post Post
+     *
+     * @return mixed
+     */
+    public function show($post)
+    {
+        return view('backend.posts.show');
+    }
 }
