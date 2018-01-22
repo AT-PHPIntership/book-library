@@ -20,10 +20,10 @@ trait SearchTrait
         $columns = $this->searchable;
         foreach ($columns['input'] as $value) {
             if ($filter === $value[0]) {
-                $query->where($value[0],$value[1], '%'.$search.'%');
+                $query->where($value[0], $value[1], '%'.$search.'%');
             }
             if ($filter == config('define.all')) {
-                $query->orWhere($value[0],$value[1], '%'.$search.'%');
+                $query->orWhere($value[0], $value[1], '%'.$search.'%');
             }
         }
     }
