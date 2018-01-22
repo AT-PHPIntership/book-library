@@ -26,17 +26,28 @@
                           <tr>
                               <th class="text-center">{{ __('category.id') }}</th>
                               <th>{{ __('category.name') }}</th>
-                              <th class="text-center">{{ __('category.category') }}</th>
+                              <th class="text-center">{{ __('category.number_of_books') }}</th>
                           </tr>
                       </thead>
                       <tbody>
+                            @foreach ($categories as $category)
                           <tr>
-                              <th class="text-center"></th>
-                              <th class="margin-l-5"></th>
-                              <th class="text-center"></th>
+                              <td class="text-center">{{ $category->id }}</td>
+                              <td class="margin-l-5">{{ $category->name }}</td>
+                              <td class="text-center">{{ $category->sum_of_books }}</td>
                           </tr>
+                            @endforeach
                       </tbody>
                   </table>
+                    <!-- .pagination -->
+                    <div class="text-center">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                        {{ $categories->links() }}
+                        </ul>
+                    </nav>
+                    </div>
+                    <!-- /.pagination -->
               </div>
               <!-- /.box-body -->
             </div>
