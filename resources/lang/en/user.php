@@ -28,7 +28,7 @@ return [
   'email' => 'Email',
   'user' => 'User',
   'admin' => 'Admin',
-  'team' => 'Team'
+  'team' => 'Team',
   'name_role' => [
     'user' => 'User',
     'admin' => 'Admin'

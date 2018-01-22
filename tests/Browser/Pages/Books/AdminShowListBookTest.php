@@ -62,8 +62,7 @@ class AdminShowListBookTest extends DuskTestCase
         $browser->loginAs(User::find(1))
                 ->visit('/admin/books/')
                 ->resize(900, 1600)
-                ->assertTitle('Admin | LIST OF BOOK')
-                ->screenshot('sample-screenshot');
+                ->assertTitle('Admin | LIST OF BOOK');
         $elements = $browser->elements('#table-book tbody tr');
         $this->assertCount(10, $elements);
         $this->assertNull($browser->element('.pagination'));
