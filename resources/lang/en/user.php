@@ -29,4 +29,8 @@ return [
   'user' => 'User',
   'admin' => 'Admin',
   'team' => 'Team'
+  'name_role' => [
+    'user' => 'User',
+    'admin' => 'Admin'
+  ]
 ];
