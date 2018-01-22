@@ -1,5 +1,5 @@
 @extends('backend.layouts.main')
-@section('title',__('books.title_book'))
+@section('title',__('borrow.title_borrow'))
 @section('content')
 
 <div class="content-wrapper">

@@ -9,4 +9,5 @@ return [
     'books' => 'Books',
     'from_date' => 'From date',
     'end_date' => 'End date',
+    'title_borrow' => 'LIST OF BORROWINGS',
 ];
