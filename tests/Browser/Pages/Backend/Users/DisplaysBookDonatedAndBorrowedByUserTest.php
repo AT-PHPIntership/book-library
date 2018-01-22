@@ -13,7 +13,7 @@ use App\Model\Category;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
-class DisplaysBookDonatedAndBorrowedByUserTest extends DuskTestCase
+class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
@@ -22,9 +22,11 @@ class DisplaysBookDonatedAndBorrowedByUserTest extends DuskTestCase
      *
      * @return void
      */
-    public function testRouteDisplaysBook()
+    public function testRouteDisplayBooks()
     {
-        factory(User::class, 1)->create();
+        factory(User::class, 1)->create([
+            'role' => 1
+        ]);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(1)
                 ->visit('/admin/users')
@@ -35,7 +37,7 @@ class DisplaysBookDonatedAndBorrowedByUserTest extends DuskTestCase
     }
 
     /**
-     * A Data test example.
+     * make data test.
      *
      * @return void
      */
@@ -43,20 +45,18 @@ class DisplaysBookDonatedAndBorrowedByUserTest extends DuskTestCase
     {
         $faker = Faker::create();
 
-        factory(Category::class, 2)->create();
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
+        factory(Category::class, 1)->create();
 
         factory(User::class, 1)->create([
             'role' => 1
         ]);
-        $userId = DB::table('users')->pluck('id');
 
         factory(Donator::class, 1)->create([
             'user_id' => 1
         ]);
 
         factory(Book::class, 1)->create([
-            'category_id' => $faker->randomElement($categoryIds),
+            'category_id' => 1,
             'donator_id' => 1,
             'name' => $faker->sentence(rand(2,5)),
             'author' => $faker->name,
@@ -69,11 +69,11 @@ class DisplaysBookDonatedAndBorrowedByUserTest extends DuskTestCase
     }
 
     /**
-    * Display index user has total donated and borrowed books
+    * Test Display total donated and borrowed books in page list users
     *
     * @return void
     */
-    public function testNumberOfBook()
+    public function testNumberOfDonatedAndBorrowedBooks()
     {
         $this->makeData();
         $this->browse(function (Browser $browser) {
@@ -101,37 +101,38 @@ class DisplaysBookDonatedAndBorrowedByUserTest extends DuskTestCase
     }
 
     /**
-    * display name of book by user
+    * in list users, click number of donated books by user go to page lists books display name of donated books
     *
     * @return void
     */
-    public function testDetailofBook()
+    public function testDetailofDonatedBooks()
     {
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/users');  
-            $fields = [
-                'users.id',
-                'users.employee_code',
-                'users.name',
-                'users.email',
-                DB::raw('COUNT(DISTINCT(borrowings.id)) AS total_borrowed'),
-                DB::raw('COUNT(DISTINCT(books.id)) AS total_donated'),
-            ];
-            $users = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
-            ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
-            ->leftJoin('books', 'donators.id', 'books.donator_id')
-            ->select($fields)
-            ->groupBy('users.id')
-            ->first();
-            $totalDonator = $browser->text('#example2 tbody tr:nth-child(1) td:nth-child(5)');
-            $this->assertTrue($users->total_donated == $totalDonator);
-            $totalBorrow = $browser->text('#example2 tbody tr:nth-child(1) td:nth-child(6)');
-            $this->assertTrue($users->total_borrowed == $totalBorrow);
-            $browser->click('#donator-id')
                     ->visit('admin/books?uid=1&filter=donated')
-                    ->assertSee('LIST OF BOOK')->screenShot(2);
+                    ->assertSee('LIST OF BOOK')
+                    ->assertQueryStringHas('uid', '1')
+                    ->assertQueryStringHas('filter', 'donated');
+            $elements = $browser->elements('#table-book tbody tr');
+            $this->assertCount(1, $elements);
+        });
+    }
+
+    /**
+    * in list users, click number of borrowed books by user go to page books display name of borrowed books
+    *
+    * @return void
+    */
+    public function testDetailofBorrowedBooks()
+    {
+        $this->makeData();
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(User::find(1))
+                    ->visit('admin/books?uid=1&filter=borrowed')
+                    ->assertSee('LIST OF BOOK')
+                    ->assertQueryStringHas('uid', '1')
+                    ->assertQueryStringHas('filter', 'borrowed');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
         });
