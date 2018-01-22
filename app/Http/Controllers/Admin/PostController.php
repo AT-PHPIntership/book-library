@@ -32,11 +32,9 @@ class PostController extends Controller
     /**
      * Display User Detail.
      *
-     * @param App\Model\Post $post Post
-     *
      * @return mixed
      */
-    public function show($post)
+    public function show()
     {
         return view('backend.posts.show');
     }
