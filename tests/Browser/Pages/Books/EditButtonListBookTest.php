@@ -45,9 +45,8 @@ class EditButtonShowBookTest extends DuskTestCase
      * @return void
      */
     public function makeUser(){
-        $faker = Faker::create();
         factory(User::class)->create([
-            'role' => 1
+            'role' => User::ROOT_ADMIN
         ]);
     }
 
@@ -80,16 +79,14 @@ class EditButtonShowBookTest extends DuskTestCase
      */
     public function testShowCorrectNameOfEachLabel()
     {
-        $this->makeUser(1);
+        $this->makeUser();
         $donator = factory(Donator::class)->create([
             'employee_code' => 'AT-0001',
         ]);
-        factory(Category::class)->create([
-            'name' => 'abcd',
-            'id' => '10'
+        $category = factory(Category::class)->create([
         ]);
         $book = factory(Book::class)->create([
-            'category_id' => '10',
+            'category_id' => $category->first()->id,
             'donator_id' => $donator->id,
             'image' => 'no-image.png',
         ]);
@@ -104,7 +101,6 @@ class EditButtonShowBookTest extends DuskTestCase
                 ->assertInputValue('price', $book->price)
                 ->assertInputValue('year', $book->year)
                 ->assertInputValue('employee_code','AT-0001')
-                ->assertSelected('category_id','10')
                 ->assertInputValue('description',$book->description)
                 ->assertSourceHas('no-image.png');
         });
