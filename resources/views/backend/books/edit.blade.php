@@ -35,17 +35,18 @@
                 @endif
               </div>
               <div class="form-group col-sm-3 inline-field">
+                <label for="category">{{ __('book.category') }}</label>
+                <select name="category_id" id="category" class="form-control">
+                  @foreach($categories as $category)
+                    <option value="{{ $category->id }}" {{ (old('category_id', $book->category->id) == $category->id) ? 'selected' : '' }}>{{ $category->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="form-group col-sm-3 inline-field">
                 <label for="author">{{ __('book.author') }}</label>
                 <input name="author" type="text" class="form-control" id="author" placeholder="{{ __('book.enter_author') }}" value="{{ old('author', $book->author) }}">
                 @if($errors->first('author'))
                   <span class="text-danger">{{ $errors->first('author') }}</span>
-                @endif
-              </div>
-              <div class="form-group col-sm-3 inline-field">
-                <label for="price">{{ __('book.price') }}</label>
-                <input name="price" type="text" class="form-control" id="price" placeholder="{{ __('book.enter_price') }}" value="{{ old('price', $book->price) }}">
-                @if($errors->first('price'))
-                  <span class="text-danger">{{ $errors->first('price') }}</span>
                 @endif
               </div>
               <div class="form-group col-sm-3 inline-field">
@@ -56,12 +57,11 @@
                 @endif
               </div>
               <div class="form-group col-sm-3 inline-field">
-                <label for="category">{{ __('book.category') }}</label>
-                <select name="category_id" id="category" class="form-control">
-                  @foreach($categories as $category)
-                    <option value="{{ $category->id }}" {{ (old('category_id', $book->category->id) == $category->id) ? 'selected' : '' }}>{{ $category->name }}</option>
-                  @endforeach
-                </select>
+                <label for="price">{{ __('book.price') }}</label>
+                <input name="price" type="text" class="form-control" id="price" placeholder="{{ __('book.enter_price') }}" value="{{ old('price', $book->price) }}">
+                @if($errors->first('price'))
+                  <span class="text-danger">{{ $errors->first('price') }}</span>
+                @endif
               </div>
               <div class="form-group">
                 <label for="employee_code">{{ __('book.donator') }}</label>
@@ -79,18 +79,19 @@
               </div>
               <div class="form-group">
                 <label for="image">{{ __('book.image') }}</label>
-                <input name="image" type="file" id="image">
+                <input name="image" type="file" id="image" class="image-edit">
                 @if($errors->first('image'))
                   <span class="text-danger">{{ $errors->first('image') }}</span>
                 @endif
               </div>
               @if(isset($book->image))
-                <img id="image-display" width="150" height="200" src="{{ asset(config('image.books.path_upload') . $book->image) }}" alt="no-image"></br>
+                <img id="image-db-display" width="150" height="200" src="{{ asset(config('image.books.storage') . $book->image) }}" alt="no-image">
+                <img id="image-display" width="150" height="200">
               @endif
 
               <div class="box-footer">
                 <button id="btn-add-book" type="submit" class="btn btn-primary">{{ __('book.submit') }}</button>
-                <button id="btn-reset" type="reset" class="btn btn-danger">{{ __('book.reset') }}</button>
+                <button id="btn-reset" type="reset" class="btn btn-danger btn-reset">{{ __('book.reset') }}</button>
                 <a id="btn-back" href="{{ url($backPath) }}" class="btn btn-default">{{ __('book.back') }}</a>
               </div>
             </form>

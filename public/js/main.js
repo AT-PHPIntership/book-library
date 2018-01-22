@@ -16,16 +16,25 @@ $(document).ready(function() {
       var reader = new FileReader();
       reader.onload = function (e) {
         $('#image-display')
-          .attr('src', e.target.result)
-          .width(150)
-          .height(200);
+          .attr('src', e.target.result);
       };
       reader.readAsDataURL(this.files[0]);
+      $('#image-display').show();
     }
   })
   //stop display image when press reset
   $('#btn-reset').click(function() {
-    $('#image-display').attr('src', '');
+    $('#image-display').attr('src', '').hide();
+  })
+
+  $('.btn-reset').click(function() {
+    $('#image-db-display').show();
+    $('#image-display').hide();
+  });
+
+  $('.image-edit').change(function (){
+    $('#image-display').show();
+    $('#image-db-display').hide();
   })
 
   //datapicker option
@@ -35,4 +44,8 @@ $(document).ready(function() {
     autoclose: true,
     format: 'yyyy',
   });
+});
+
+$(window).on('load', function(){
+  $('#image').val('');
 });

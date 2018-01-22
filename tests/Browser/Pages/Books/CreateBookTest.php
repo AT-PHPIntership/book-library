@@ -139,7 +139,7 @@ class CreateBookTest extends DuskTestCase
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
                 
             $browser->press('Submit')
-                    ->assertSee('Create Fail. Invalid or unsuitable size data');
+                    ->assertSee('Create Fail. Cannot save data');
         });
     }
 
