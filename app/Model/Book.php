@@ -10,10 +10,12 @@ use App\Model\Borrowing;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Storage;
+use App\Libraries\Traits\SearchTrait;
 
 class Book extends Model
 {
-    use Sortable;
+    use Sortable, SearchTrait;
 
     /**
      * Default value of category
@@ -63,6 +65,18 @@ class Book extends Model
      * @var array $sortable table sort
      */
     public $sortable = ['id', 'name', 'author', 'avg_rating'];
+
+    /**
+     * Filter for search trait
+     *
+     * @var array $searchable table search
+     */
+    protected $searchable = [
+        'input' => [
+            ['name', 'like'],
+            ['author', 'like'],
+        ],
+    ];
 
     /**
      * Declare table sort
@@ -120,7 +134,7 @@ class Book extends Model
     {
         return $this->hasMany(Rating::class);
     }
-    
+
     /**
      * Relationship hasMany with Borrowing
      *
@@ -162,51 +176,16 @@ class Book extends Model
     }
 
     /**
-     * Scope search book by name
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query query of Model
-     * @param String                                $name  name
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeSearchName($query, $name)
-    {
-        return $query->where('name', 'LIKE', '%'.$name.'%');
-    }
-
-    /**
-     * Scope search book by author
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query  query of Model
-     * @param String                                $author author
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeSearchAuthor($query, $author)
-    {
-        return $query->where('author', 'LIKE', '%'.$author.'%');
-    }
-
-    /**
      * Upload image
      *
      * @param App\Http\Requests\BookEditRequest $request request
-     * @param App\Model\Book                    $book    book
      *
      * @return String
      */
-    public function uploadImage($request, $book = null)
+    public function uploadImage($request)
     {
-        $image = $request->image;
-        $name = config('image.name_prefix') . "-" . $image->hashName();
-        $folder = config('image.books.path_upload');
-        $uploadSuccess = $image->move($folder, $name);
-        if ($uploadSuccess && $book !== null) {
-            $oldImage = config('image.books.path_upload') . $book->image;
-            if (\File::exists($oldImage) && ($book->image != config('image.books.no_image_name'))) {
-                \File::delete($oldImage);
-            }
-        }
-        return $name;
+        $folder = config('image.books.upload_path');
+        $path = Storage::disk('public')->putFile($folder, $request->file('image'));
+        return $path;
     }
 }
