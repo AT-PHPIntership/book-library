@@ -7,7 +7,7 @@
   <section class="content-header">
     <h1>{{ __('user.profile_user') }}</h1>
     <ol class="breadcrumb">
-      <li><a href="{{route('home.index') }}"><i class="fa fa-dashboard"></i>{{ __('user.admin')  }}</a></li>
+      <li><a href="{{ route('home.index') }}"><i class="fa fa-dashboard"></i>{{ __('user.admin')  }}</a></li>
       <li><a href="{{ route('users.index') }}">{{ __('user.users') }}</a></li>
       <li class="active">{{ __('user.profile_user') }}</li>
     </ol>
