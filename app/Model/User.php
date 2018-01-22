@@ -50,7 +50,8 @@ class User extends Authenticatable
         'avatar_url',
         'role',
         'access_token',
-        'expired_at'
+        'expired_at',
+        'created_at'
     ];
 
     /**
