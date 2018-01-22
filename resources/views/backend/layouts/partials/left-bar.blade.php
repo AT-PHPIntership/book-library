@@ -35,7 +35,7 @@
         </a>
       </li>
       <li>
-        <a href="{{route('books.index')}}">
+        <a href="{{ route('books.index') }}">
           <i class="fa fa-book" aria-hidden="true"></i>
           <span>{{ __('dashboard.books') }}</span>
           <span class="pull-right-container">
@@ -53,7 +53,7 @@
         </a>
       </li>
       <li>
-        <a href="{{route('posts.index')}}">
+        <a href="{{ route('posts.index') }}">
           <i class="fa fa-list" aria-hidden="true"></i>
           <span>{{ __('dashboard.posts') }}</span>
           <span class="pull-right-container">
