@@ -10,6 +10,7 @@ use App\Model\Borrowing;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Storage;
 
 class Book extends Model
 {
@@ -195,18 +196,11 @@ class Book extends Model
      *
      * @return String
      */
-    public function uploadImage($request, $oldImage = null)
+    public function uploadImage($request)
     {
         $image = $request->image;
-        $name = config('image.name_prefix') . "-" . $image->hashName();
-        $folder = config('image.books.path_upload');
-        $backup = config('image.books.backup');
-        $image->move($folder, $name);
-        if ($oldImage != null) {
-            if (($folder . $oldImage) && ($oldImage != config('image.books.no_image_name'))) {
-                \File::move($folder.$oldImage, $backup.$oldImage);
-            }
-        }
-        return $name;
+        $folder = config('image.books.upload_path');
+        $path = Storage::disk('public')->putFile($folder, $request->file('image'));
+        return $path;
     }
 }
