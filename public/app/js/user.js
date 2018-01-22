@@ -4,7 +4,7 @@ var user = (function(){
   // Constructor
   var user = function(){
   }
-
+  
   // Methods
   var updateRole = function() {
     classBtnChangeRoles = document.getElementsByClassName('btn-change-role');
@@ -16,7 +16,7 @@ var user = (function(){
           $.ajax({
             type:'PUT',
             headers: { 'X-CSRF-TOKEN': token },
-            url: '/admin/users/' + id + '/roles',
+            url: '/api/users/' + id + '/roles',
             data:{
             },
             success: function (data) {
