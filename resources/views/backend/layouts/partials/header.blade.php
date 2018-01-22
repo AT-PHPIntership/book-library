@@ -1,5 +1,5 @@
 <header class="main-header">
-  <a href="index2.html" class="logo">
+  <a href="{{ route('home.index') }}" class="logo">
     <span class="logo-mini"><b>A</b>dm</span>
     <span class="logo-lg"><b>{{__('Admin ')}}</b>{{__('Management')}}</span>
   </a>
@@ -27,7 +27,12 @@
                 <a href="#" class="btn btn-default btn-flat">{{__('Profile')}}</a>
               </div>
               <div class="pull-right">
-                <a href="#" class="btn btn-default btn-flat">{{__('Log out')}}</a>
+                <form action="{{ route('logout') }}" method="POST">
+                    {{csrf_field()}}
+                    <button type="submit" name="logout" class="btn btn-default btn-flat">
+                      {{__('Log out')}}
+                    </button>
+                  </form>
               </div>
             </li>
           </ul>

@@ -1,3 +1,6 @@
+.help-block {
+  color: red;
+}
 h1 {
   text-align: center;
   color: green;
@@ -8,4 +11,9 @@ h1 {
 .width-70 {
 	width: 70px;
 }
-
+#image-display {
+  display: block;
+}
+.box {
+    padding-top: 10px;
+}

@@ -10,10 +10,26 @@ use App\Model\Borrowing;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use App\Libraries\Traits\SearchTrait;
 
 class Book extends Model
 {
-    use Sortable;
+    use Sortable, SearchTrait;
+
+    /**
+     * Default value of category
+     */
+    const DEFAULT_CATEGORY = 1;
+
+    /**
+     * Default value of filter type books is donated books
+     */
+    const DONATED = 'donated';
+
+    /**
+     * Default value of filter type books is borrowed books
+     */
+    const BORROWED = 'borrowed';
 
     /**
      * Declare table
@@ -48,6 +64,18 @@ class Book extends Model
      * @var array $sortable table sort
      */
     public $sortable = ['id', 'name', 'author', 'avg_rating'];
+
+    /**
+     * Filter for search trait
+     *
+     * @var array $searchable table search
+     */
+    protected $searchable = [
+        'input' => [
+            ['name', 'like'],
+            ['author', 'like'],
+        ],
+    ];
 
     /**
      * Declare table sort
@@ -125,7 +153,7 @@ class Book extends Model
     {
         return $this->hasMany(Post::class);
     }
-    
+
     /**
      * Get total Borrow
      *
@@ -144,31 +172,5 @@ class Book extends Model
     public function qrcode()
     {
         return $this->hasOne(QrCode::class);
-    }
-
-    /**
-     * Scope search book by name
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query query of Model
-     * @param String                                $name  name
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeSearchName($query, $name)
-    {
-        return $query->where('name', 'LIKE', '%'.$name.'%');
-    }
-
-    /**
-     * Scope search book by author
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query  query of Model
-     * @param String                                $author author
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeSearchAuthor($query, $author)
-    {
-        return $query->where('author', 'LIKE', '%'.$author.'%');
     }
 }

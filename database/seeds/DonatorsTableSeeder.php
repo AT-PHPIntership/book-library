@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Model\Donator;
+use Illuminate\Database\Eloquent\Model;
+use Faker\Factory as Faker;
 
 class DonatorsTableSeeder extends Seeder
 {
@@ -12,35 +13,19 @@ class DonatorsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('donators')->insert([
-            ['user_id' => null,
-            'employee_code' => 'AT-00011',
-            'email' => 'abc.nguyen@asiantech.vn',
-            ],
-            ['user_id' => '1',
-            'employee_code' => 'AT-00001',
-            'email' => 'a.nguyen@asiantech.vn',
-            ],
-            ['user_id' => '2',
-            'employee_code' => 'AT-00002',
-            'email' => 'abc.nguyen@asiantech.vn',
-            ],
-            ['user_id' => '3',
-            'employee_code' => 'AT-00013',
-            'email' => 'abc.nguyen@asiantech.vn',
-            ],
-            ['user_id' => null,
-            'employee_code' => 'AT-00015',
-            'email' => 'abc.nguyen@asiantech.vn',
-            ],
-            ['user_id' => null,
-            'employee_code' => 'AT-00008',
-            'email' => 'abc.nguyen@asiantech.vn',
-            ],
-            ['user_id' => null,
-            'employee_code' => 'AT-00007',
-            'email' => 'abc.nguyen@asiantech.vn',
-            ],
-        ]);
+        Model::unguard();
+        $userId = DB::table('users')->pluck('id')->toArray();
+        $faker = Faker::create();
+        for ($i = 0; $i <= 10; $i++) {
+            factory(App\Model\Donator::class, 1)->create([
+                'user_id' => $faker->randomElement($userId)
+            ]);
+            factory(App\Model\Donator::class, 1)->create([
+                'employee_code' => 'AT-' . $faker->unique()->randomNumber(3),
+                'name'          => $faker->name,
+                'email'         => $faker->safeEmail,
+            ]);
+        }
+        Model::reguard();
     }
 }
