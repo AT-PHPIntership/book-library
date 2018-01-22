@@ -24,11 +24,9 @@ var user = (function(){
               if (data === 0) {
                 btnChangeRole.innerHTML = nameRole.user;
                 btnChangeRole.setAttribute('class', 'btn-change-role width-70 btn btn-danger');
-              } else {
-                if (data === 1) {
+              } else if (data === 1) {
                   btnChangeRole.innerHTML = nameRole.admin;
                   btnChangeRole.setAttribute('class', 'btn-change-role width-70 btn btn-success');
-                }
               }
             }
           });
