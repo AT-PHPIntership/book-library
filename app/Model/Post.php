@@ -7,10 +7,16 @@ use App\Model\Comment;
 use App\Model\Favorite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Iatstuti\Database\Support\CascadeSoftDeletes;
 
 class Post extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, CascadeSoftDeletes;
+    
+    /**
+     * Soft Delete Relationship 
+     */
+    protected $cascadeDeletes = ['favorites', 'comments'];
     
     /**
      * Declare table
@@ -81,22 +87,5 @@ class Post extends Model
     {
         $this->boot();
         parent::delete();
-    }
-
-    /**
-     * Return the post configuration array for this model.
-     *
-     * @return array
-    */
-    public static function boot()
-    {
-        parent::boot();
-        
-        static::deleting(function ($post) {
-            foreach ($post->comments()->get() as $comment) {
-                $comment->delete();
-            }
-            $post->favorites()->delete();
-        });
     }
 }

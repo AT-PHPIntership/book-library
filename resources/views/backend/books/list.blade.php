@@ -12,7 +12,9 @@
       </div>
       <div class="modal-body text-center">
         <h3>{{ __('book.confirm.title') }}</h3>
-        <p>{{ __('book.confirm.delete') }} ?</p>
+        <p >{{ __('book.confirm.delete') }}
+            <strong class="data-content"></strong>? 
+        </p>
       </div>
       <div class="modal-footer">
         <button id="ok" type="button" class="btn btn-danger ok" data-dismiss="modal">{{ __('confirm.ok') }}</button>
@@ -99,7 +101,7 @@
                                 <td align="center">
                                     <a href="{{ route('books.edit', $book) }}"
                                        class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                                    <i class="btn btn-danger btn-lg fa fa-trash-o"></i>
+                                    <i class="btn btn-danger btn-lg fa fa-trash-o" id="{{ $book->id }}" data-toggle="modal" data-target="#confirmDelete" data-name="{{ $book->name }}"></i>
                                 </td>
                             </tr>
                         @endforeach
