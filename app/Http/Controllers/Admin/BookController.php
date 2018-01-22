@@ -83,7 +83,7 @@ class BookController extends Controller
     /**
      *  * Display list book with filter ( if have ).
      *
-     * @param Request $request request
+     * @param Request $request requests
      *
      * @return \Illuminate\Http\Response
      */
@@ -98,21 +98,20 @@ class BookController extends Controller
         ];
         $books = Book::select($columns);
 
-        if ($request->name) {
-            $books = $books->searchname($request->name);
-        }
-        if ($request->author) {
-            $books = $books->searchauthor($request->author);
+        if ($request->has('search') && $request->has('choose')) {
+            $search = $request->search;
+            $choose = $request->choose;
+            $books = Book::search($search, $choose);
         }
 
-        $books = $books->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+        $books = $books->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
         if ($request->has('uid') && $request->has('filter')) {
             $uid = $request->uid;
             $filter = $request->filter;
 
             $books = Book::whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
                 $query->where('user_id', '=', $uid);
-            })->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+            })->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
         }
 
         return view('backend.books.list', compact('books'));
@@ -157,7 +156,6 @@ class BookController extends Controller
             $hasImage = $request->hasFile('image');
             if ($hasImage) {
                 $oldImage = $book->image;
-                $folder = config('image.books.upload_path');
                 $isNotDefaultImage = ($oldImage != (config('image.books.default_path') . '/' . config('image.books.no_image_name'))) ? true : false;
                 $bookData['image'] = $book->uploadImage($request, $oldImage);
             }
@@ -170,14 +168,13 @@ class BookController extends Controller
             }
             flash(__('book.message.edit_success'))->success();
             return redirect()->to($request->back_path);
-        } catch (FileException $e) {
-            $errMessage = __('book.message.edit_fail') . __('book.message.err_upload_image');
-        } catch (QueryException $e) {
-            $errMessage = __('book.message.edit_fail') . __('book.message.err_long_data');
         } catch (Exception $e) {
             $errMessage = __('book.message.edit_fail');
-        }
-        if (isset($errMessage)) {
+            if ($e instanceof FileException) {
+                $errMessage = __('book.message.edit_fail') . __('book.message.err_upload_image');
+            } else if ($e instanceof QueryException) {
+                $errMessage = __('book.message.edit_fail') . __('book.message.err_long_data');
+            }
             DB::rollBack();
             if ($hasImage) {
                 Storage::disk('public')->delete($bookData['image']);

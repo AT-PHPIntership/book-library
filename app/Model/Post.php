@@ -11,7 +11,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Post extends Model
 {
     use SoftDeletes;
-    
+
+    /**
+     * Value of review post
+     */
+    const REVIEW_TYPE = 1;
+
+    /**
+     * Value of status post
+     */
+    const STATUS_TYPE = 2;
+
+    /**
+     * Value of find book post
+     */
+    const FIND_TYPE = 3;
+
     /**
      * Declare table
      *
