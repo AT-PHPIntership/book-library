@@ -25,7 +25,6 @@ class PostController extends Controller
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
                     ->select($fields)
                     ->withCount('comments')
-                    ->groupBy('posts.id')
                     ->paginate(config('define.page_length'));
         return view('backend.posts.index', compact('posts'));
     }

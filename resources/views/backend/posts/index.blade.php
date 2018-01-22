@@ -38,13 +38,13 @@
                 <td>{{ $post->name }}</td>
                 <td>
                 @switch($post->type)
-                  @case(1)
+                  @case(App\Model\Post::REVIEW_TYPE)
                     {{ __('post.review') }}
                     @break
-                  @case(2)
+                  @case(App\Model\Post::STATUS_TYPE)
                     {{ __('post.status') }}
                     @break
-                  @case(3)
+                  @case(App\Model\Post::FIND_TYPE)
                     {{ __('post.find_book') }}
                     @break
                 @endswitch
