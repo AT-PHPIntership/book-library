@@ -5,6 +5,7 @@ namespace App\Http\Middleware\Backend;
 use Closure;
 use App\Model\User;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 
 class TeamSAMiddleware extends Middleware
@@ -22,6 +23,6 @@ class TeamSAMiddleware extends Middleware
         if (Auth::user()['team'] == User::SA) {
             return $next($request);
         }
-        throw new \Exception("Error Processing Request", 1);
+        return app()->abort(Response::HTTP_FORBIDDEN, 'Permission denied');
     }
 }
