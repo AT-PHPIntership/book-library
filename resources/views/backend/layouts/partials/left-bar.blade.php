@@ -44,7 +44,7 @@
         </a>
       </li>
       <li class="{{ activeRoute(['posts.index', 'posts.edit', 'posts.show']) }}">
-        <a href="#">
+        <a href="{{ route('posts.index') }}">
           <i class="fa fa-id-card-o" aria-hidden="true"></i>
           <span>{{ __('dashboard.posts') }}</span>
           <span class="pull-right-container">
