@@ -39,13 +39,13 @@
                 <td>
                 @switch($post->type)
                   @case(1)
-                    Review
+                    {{ __('post.review') }}
                     @break
                   @case(2)
-                    Status
+                    {{ __('post.status') }}
                     @break
                   @case(3)
-                    Find book
+                    {{ __('post.find_book') }}
                     @break
                 @endswitch
                 </td>
