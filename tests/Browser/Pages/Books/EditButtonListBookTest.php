@@ -16,6 +16,7 @@ use Faker\Factory as Faker;
 class EditButtonShowBookTest extends DuskTestCase
 {
     use DatabaseMigrations;
+
     /**
      * Create virtual listbook database.
      *
@@ -45,7 +46,7 @@ class EditButtonShowBookTest extends DuskTestCase
      */
     public function makeUser(){
         $faker = Faker::create();
-        factory(User::class, 1)->create([
+        factory(User::class)->create([
             'role' => 1
         ]);
     }
@@ -57,7 +58,7 @@ class EditButtonShowBookTest extends DuskTestCase
      */
     public function testClickEditButton()
     {
-        $this->makeUser(1);
+        $this->makeUser();
         $this->makeListOfBook(1);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
