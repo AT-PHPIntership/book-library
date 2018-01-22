@@ -216,15 +216,9 @@ class BookController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        DB::beginTransaction();
-        try {
-            $book = Book::find($id)->delete();
-            if ($request->ajax()) {
-                return response()->json(['book'=> $book], 200);
-            }
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
+        $book = Book::find($id)->delete();
+        if ($request->ajax()) {
+            return response()->json(['book'=> $book], 200);
         }
     }
 }

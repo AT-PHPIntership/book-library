@@ -7,10 +7,16 @@ use App\Model\User;
 use App\Model\Favorite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Iatstuti\Database\Support\CascadeSoftDeletes;
 
 class Comment extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, CascadeSoftDeletes;
+    
+    /**
+     * Soft Delete Relationship 
+     */
+    protected $cascadeDeletes = ['favorites'];
     
     /**
      * Declare table
@@ -59,19 +65,5 @@ class Comment extends Model
     public function favorites()
     {
         return $this->morphMany(Favorite::class, 'favoritable');
-    }
-    
-    /**
-     * Return the comment configuration array for this model.
-     *
-     * @return array
-    */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::deleting(function ($comment) {
-            $comment->favorites()->delete();
-        });
     }
 }

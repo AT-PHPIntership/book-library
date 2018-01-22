@@ -11,11 +11,17 @@ use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Iatstuti\Database\Support\CascadeSoftDeletes;
 
 class Book extends Model
 {
-    use Sortable, SoftDeletes;
+    use Sortable, SoftDeletes, CascadeSoftDeletes;
 
+    /**
+     * Soft Delete Relationship 
+     */
+    protected $cascadeDeletes = ['borrowings', 'qrcode', 'ratings', 'favorites', 'posts'];
+    
     /**
      * Default value of category
      */
@@ -176,25 +182,5 @@ class Book extends Model
     public function scopeSearchAuthor($query, $author)
     {
         return $query->where('author', 'LIKE', '%'.$author.'%');
-    }
-
-    /**
-     * Return the book configuration array for this model.
-     *
-     * @return array
-    */
-    public static function boot()
-    {
-        parent::boot();
-        
-        static::deleting(function ($book) {
-            $book->borrowings()->delete();
-            $book->ratings()->delete();
-            $book->qrcode()->delete();
-            foreach ($book->posts()->get() as $post) {
-                $post->delete();
-            }
-            $book->favorites()->delete();
-        });
     }
 }
