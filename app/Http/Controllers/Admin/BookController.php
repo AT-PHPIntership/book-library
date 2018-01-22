@@ -17,6 +17,7 @@ use App\Model\QrCode;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Illuminate\Database\QueryException;
 use Exception;
+use Storage;
 
 class BookController extends Controller
 {
@@ -50,10 +51,9 @@ class BookController extends Controller
             // save image path, move image to directory
             $hasFile = $request->hasFile('image');
             if ($hasFile) {
-                $folder = config('image.books.path_upload');
                 $book->image = $book->uploadImage($request);
             } else {
-                $book->image = config('image.books.no_image_name');
+                $book->image = config('image.books.default_path') . '/' . config('image.books.no_image_name');
             }
             //save new donator, save book
             $book->donator_id = Donator::updateDonator($request->employee_code);
@@ -73,7 +73,7 @@ class BookController extends Controller
         if (isset($errMessage)) {
             DB::rollBack();
             if ($hasFile) {
-                File::delete($folder . $book->image);
+                Storage::disk('public')->delete($book->image);
             }
             flash($errMessage)->error();
             return redirect()->back()->withInput();
@@ -153,22 +153,20 @@ class BookController extends Controller
     {
         DB::beginTransaction();
         try {
-            $bookData = $request->except('_token', '_method', 'image');
             // save image path, move image to directory
             $hasImage = $request->hasFile('image');
             if ($hasImage) {
                 $oldImage = $book->image;
-                $folder = config('image.books.path_upload');
-                $backup = config('image.books.backup');
+                $folder = config('image.books.upload_path');
+                $isNotDefaultImage = ($oldImage != (config('image.books.default_path') . '/' . config('image.books.no_image_name'))) ? true : false;
                 $bookData['image'] = $book->uploadImage($request, $oldImage);
             }
             //save new donator
             $bookData['donator_id'] = Donator::updateDonator($request->employee_code);
-            
             $book->update($bookData);
             DB::commit();
-            if ($hasImage) {
-                File::delete($backup . $oldImage);
+            if ($hasImage && $isNotDefaultImage) {
+                Storage::disk('public')->delete($oldImage);
             }
             flash(__('book.message.edit_success'))->success();
             return redirect()->to($request->back_path);
@@ -182,10 +180,7 @@ class BookController extends Controller
         if (isset($errMessage)) {
             DB::rollBack();
             if ($hasImage) {
-                if ($oldImage != config('image.books.no_image_name')) {
-                    File::move($backup . $oldImage, $folder . $oldImage);
-                }
-                File::delete($folder . $bookData['image']);
+                Storage::disk('public')->delete($bookData['image']);
             }
             flash($errMessage)->error();
             return redirect()->back()->withInput();
