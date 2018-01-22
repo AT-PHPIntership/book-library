@@ -2,7 +2,7 @@
 return [
     'title' => 'BOOK',
     'edit_book' => 'Edit Book',
-    'book' => 'Book',
+    'books' => 'Books',
     'edit' => 'Edit',
     'name' => 'Name',
     'enter_name' => 'Enter book name',
