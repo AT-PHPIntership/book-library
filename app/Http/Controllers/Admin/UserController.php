@@ -12,7 +12,7 @@ class UserController extends Controller
     /**
      * Display a listing of User.
      *
-     *@param Request $request request request
+     *@param Request $request request
      *
      * @return mixed
      */
@@ -29,9 +29,6 @@ class UserController extends Controller
             DB::raw('COUNT(DISTINCT(books.id)) AS total_donated'),
         ];
         
-        // Virtual Session
-        session(['team' => 'SA']);
-
         // get value filter and limit on url
         $filter = $request->input('filter');
         $limit = $request->input('limit');
@@ -52,7 +49,6 @@ class UserController extends Controller
             ->groupBy('users.id')
             ->paginate(config('define.page_length'));
         }
-        
         return view('backend.users.index', compact('users'));
     }
 
