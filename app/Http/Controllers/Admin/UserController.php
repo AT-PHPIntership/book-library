@@ -67,7 +67,7 @@ class UserController extends Controller
         ->select('books.name')
         ->where('users.employee_Code', '=', $employeeCode)
         ->whereNull('borrowings.to_date')
-        ->first();
+        ->firstOrFail();
 
         return view('backend.users.show', compact('user', 'bookBorrowing'));
     }
