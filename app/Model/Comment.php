@@ -14,7 +14,7 @@ class Comment extends Model
     use SoftDeletes, CascadeSoftDeletes;
     
     /**
-     * Soft Delete Relationship 
+     * Soft Delete Relationship
      */
     protected $cascadeDeletes = ['favorites'];
     
