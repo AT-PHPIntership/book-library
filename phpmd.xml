@@ -7,8 +7,8 @@
 
     <description>PHPMD ruleset</description>
 
-
     <rule ref="rulesets/codesize.xml">
+        <exclude name="TooManyPublicMethods" />
     </rule>
 
     <rule ref="rulesets/controversial.xml">
