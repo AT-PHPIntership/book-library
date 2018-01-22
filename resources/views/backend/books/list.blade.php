@@ -124,3 +124,6 @@
   </div>
   <!-- /.content-wrapper -->
 @endsection
+@section('script')
+
+@endsection
