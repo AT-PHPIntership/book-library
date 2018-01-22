@@ -1,7 +1,6 @@
 <?php
 return [
   'list_users' => 'List Users',
-  'users_table' => 'List Users Table',
   'id' => 'ID',
   'employee_code' => 'Employee code',
   'employee_name' => 'Name',
@@ -29,4 +28,8 @@ return [
   'email' => 'Email',
   'user' => 'User',
   'admin' => 'Admin',
+  'name_role' => [
+    'user' => 'User',
+    'admin' => 'Admin'
+  ]
 ];

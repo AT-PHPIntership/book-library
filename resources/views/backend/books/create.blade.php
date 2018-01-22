@@ -9,8 +9,8 @@
       {{ __('book.create_book') }}
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-book"></i>{{ __('book.admin') }}</a></li>
-      <li><a href="#">{{ __('book.book') }}</a></li>
+      <li><a href="{{ route('home.index') }}"><i class="fa fa-book"></i>{{ __('book.admin') }}</a></li>
+      <li><a href="{{ route('books.index') }}">{{ __('book.book') }}</a></li>
       <li class="active">{{ __('book.create') }}</li>
     </ol>
   </section>
@@ -33,17 +33,18 @@
                 @endif
               </div>
               <div class="form-group col-sm-3 inline-field">
+                <label for="name">{{ __('book.category') }}</label></br>
+                <select name="category_id" id="category" class="form-control">
+                @foreach($categories as $category)
+                  <option value="{{ $category->id }}" {{ (old('category_id') == $category->id) ? 'selected' : '' }}>{{ $category->name }}</option>
+                @endforeach
+                </select>
+              </div>
+              <div class="form-group col-sm-3 inline-field">
                 <label for="author">{{ __('book.author') }}</label>
                 <input name="author" type="text" class="form-control" id="author" placeholder="{{ __('book.enter_author') }}" value="{{ old('author') }}">
                 @if($errors->first('author'))
                   <span class="text-danger">{{ $errors->first('author') }}</span>
-                @endif
-              </div>
-              <div class="form-group col-sm-3 inline-field">
-                <label for="price">{{ __('book.price') }}</label>
-                <input name="price" type="text" class="form-control" id="price" placeholder="{{ __('book.enter_price') }}" value="{{ old('price') }}">
-                @if($errors->first('price'))
-                  <span class="text-danger">{{ $errors->first('price') }}</span>
                 @endif
               </div>
               <div class="form-group col-sm-3 inline-field">
@@ -54,12 +55,11 @@
                 @endif
               </div>
               <div class="form-group col-sm-3 inline-field">
-                <label for="name">{{ __('book.category') }}</label></br>
-                <select name="category_id" id="category" class="form-control">
-                @foreach($categories as $category)
-                  <option value="{{ $category->id }}" {{ (old('category_id') == $category->id) ? 'selected' : '' }}>{{ $category->name }}</option>
-                @endforeach
-                </select>
+                <label for="price">{{ __('book.price') }}</label>
+                <input name="price" type="text" class="form-control" id="price" placeholder="{{ __('book.enter_price') }}" value="{{ old('price') }}">
+                @if($errors->first('price'))
+                  <span class="text-danger">{{ $errors->first('price') }}</span>
+                @endif
               </div>
               <div class="form-group">
                 <label for="employee_code">{{ __('book.donator') }}</label>
@@ -77,7 +77,6 @@
               <div class="form-group">
                 <label for="exampleInputFile">{{ __('book.image') }}</label>
                 <input id="image" name="image" type="file" id="exampleInputFile">
-                <p class="help-block">{{ __('Only upload image with maximum 10mb') }}</p>
                 @if($errors->first('image'))
                   <span class="text-danger">{{ $errors->first('image') }}</span>
                 @endif
