@@ -1,5 +1,5 @@
 <header class="main-header">
-  <a href="index2.html" class="logo">
+  <a href="{{ route('home.index') }}" class="logo">
     <span class="logo-mini"><b>A</b>dm</span>
     <span class="logo-lg"><b>{{__('user.admin')}}</b>{{__('dashboard.management')}}</span>
   </a>
@@ -19,7 +19,6 @@
               <img src="{{ Auth::user()->avatar_url }}" class="img-circle" alt="User Image">
               <p>
                 {{ Auth::user()->name }} - {{__('dashboard.web_developer')}}
-                {{-- {{dd(Auth::user()->created_at)}} --}}
                 <small>{{__('dashboard.member')}} : {{ Carbon\Carbon::parse(Auth::user()->created_at)->format('d-m-Y')}}</small>
               </p>
             </li>
