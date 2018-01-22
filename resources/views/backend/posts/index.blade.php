@@ -38,14 +38,14 @@
                 <td><a href="{{ route('posts.show', ['id' => $post->id])}}">{{ $post->name }}</td></a>
                 <td>
                 @switch($post->type)
-                  @case(1)
-                    Review
+                  @case(App\Model\Post::REVIEW_TYPE)
+                    {{ __('post.review') }}
                     @break
-                  @case(2)
-                    Status
+                  @case(App\Model\Post::STATUS_TYPE)
+                    {{ __('post.status') }}
                     @break
-                  @case(3)
-                    Find book
+                  @case(App\Model\Post::FIND_TYPE)
+                    {{ __('post.find_book') }}
                     @break
                 @endswitch
                 </td>
