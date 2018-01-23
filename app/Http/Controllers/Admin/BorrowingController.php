@@ -7,8 +7,13 @@ use App\Http\Controllers\Controller;
 
 class BorrowingController extends Controller
 {
-    public function index(){
+    /**
+     * Show the page borrowings.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         return view('backend.books.borrow');
-
     }
 }
