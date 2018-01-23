@@ -7,10 +7,16 @@ use App\Model\User;
 use App\Model\Favorite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Iatstuti\Database\Support\CascadeSoftDeletes;
 
 class Comment extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, CascadeSoftDeletes;
+    
+    /**
+     * Soft Delete Relationship
+     */
+    protected $cascadeDeletes = ['favorites'];
     
     /**
      * Declare table
