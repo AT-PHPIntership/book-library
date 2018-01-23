@@ -20,7 +20,7 @@ class CategoryController extends Controller
     {
         $fields = [
             'categories.id',
-            'categories.name',            
+            'categories.name',
             DB::raw('COUNT(books.id) AS sum_of_books'),
         ];
         

@@ -21,7 +21,7 @@
             <div class="box">
               <!-- /.box-header -->
               <div class="box-body table-responsive no-padding">
-                  <table class="table table-hover" id="table-book">
+                  <table class="table table-hover" id="table-categories">
                       <thead>
                           <tr>
                               <th class="text-center">{{ __('category.id') }}</th>
