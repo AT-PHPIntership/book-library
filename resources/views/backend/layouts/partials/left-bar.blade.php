@@ -48,7 +48,7 @@
           <i class="fa fa-book" aria-hidden="true"></i>
           <span>{{ __('dashboard.borrows') }}</span>
           <span class="pull-right-container">
-              <small class="label pull-right bg-green">{{ getCount(App\Model\Borrow::class) }}</small>
+              <small class="label pull-right bg-green">{{ getCount(App\Model\Borrowing::class) }}</small>
           </span>
         </a>
       </li>
