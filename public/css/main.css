@@ -14,4 +14,6 @@ h1 {
 #image-display {
   display: block;
 }
-
+.box {
+    padding-top: 10px;
+}

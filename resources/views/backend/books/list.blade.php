@@ -12,7 +12,9 @@
       </div>
       <div class="modal-body text-center">
         <h3>{{ __('book.confirm.title') }}</h3>
-        <p>{{ __('book.confirm.delete') }} ?</p>
+        <p >{{ __('book.confirm.delete') }}
+            <strong class="data-content"></strong>? 
+        </p>
       </div>
       <div class="modal-footer">
         <button id="ok" type="button" class="btn btn-danger ok" data-dismiss="modal">{{ __('confirm.ok') }}</button>
@@ -50,14 +52,18 @@
                                 <div class="form-group col-md-3">
                                     <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('books.add_book') }}</a>
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <input type="text" class="form-control" id="search-name" name="name" placeholder="{{ __('general.enter_name')}}" value="{{ Request::get('name')}}">
+                                <div class="form-group col-md-5">
+                                    <input type="text" class="form-control" id="search-book" name="search" placeholder="{{ __('general.enter_name')}}" value="{{ Request::get('search')}}">
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <input type="text" class="form-control" id="search-author" name="author" placeholder="{{ __('general.enter_author')}}" value="{{ Request::get('author')}}">
+                                <div class="form-group col-md-3">
+                                    <select class="form-control" id="choose-search" name="choose">
+                                        @foreach (__('general.search') as $key => $value)
+                                            <option value="{{ $key }}" {{ $key == Request::get('choose') ? 'selected' : '' }}>{{ $value }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-1">
-                                    <button type="submit" class="btn btn-default" id="submit"><i class="fa fa-search"></i></button>
+                                    <button type="submit" class="btn btn-info form-control" id="submit"><i class="fa fa-search"></i></button>
                                 </div>
                             </div>
                         </form>
@@ -85,7 +91,7 @@
                               <th>@sortablelink('author', __('books.author'))</th>
                               <th>@sortablelink('avg_rating', __('books.average_review_score'))</th>
                               <th>@sortablelink('borrowings_count', __('books.total_borrow'))</th>
-                              <th>{{ __('general.options') }}</th>
+                              <th class="text-center text-info">{{ __('general.options') }}</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -99,7 +105,7 @@
                                 <td align="center">
                                     <a href="{{ route('books.edit', $book) }}"
                                        class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                                    <i class="btn btn-danger btn-lg fa fa-trash-o" data-toggle="modal" data-target="#confirmDelete"></i>
+                                    <i class="btn btn-danger btn-lg fa fa-trash-o" id="{{ $book->id }}" data-toggle="modal" data-target="#confirmDelete" data-name="{{ $book->name }}"></i>
                                 </td>
                             </tr>
                         @endforeach
@@ -113,7 +119,9 @@
                           </tr>
                       @endif
                   </table>
-                  {{ $books->appends(\Request::except('page'))->appends(['name' => Request::get('name'), 'author' => Request::get('author')])->render()}}
+                  <div class="text-center">
+                       {{ $books->appends(\Request::except('page'))->appends(['search' => Request::get('search'), 'choose' => Request::get('choose')])->render()}}
+                  </div>
               </div>
               <!-- /.box-body -->
             </div>
