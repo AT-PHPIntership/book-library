@@ -1,7 +1,6 @@
 <?php
 return [
   'list_users' => 'List Users',
-  'users_table' => 'List Users Table',
   'id' => 'ID',
   'employee_code' => 'Employee code',
   'employee_name' => 'Name',
