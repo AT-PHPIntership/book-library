@@ -26,7 +26,6 @@ class BorrowingController extends Controller
         $borrowings = Borrowing::Join('users', 'users.id', '=', 'borrowings.user_id')
             ->Join('books', 'books.id', '=', 'borrowings.book_id')
             ->select($fields)
-//            ->paginate(15);
             ->paginate(config('define.page_length'));
         return view('backend.books.borrow', compact('borrowings'));
     }
