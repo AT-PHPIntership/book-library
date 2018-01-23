@@ -119,19 +119,17 @@
                       @endif
                   </table>
                   <div class="text-center">
-                       {{ $books->appends(\Request::except('page'))->appends(['search' => Request::get('search'), 'choose' => Request::get('choose')])->render()}}
+                        @if($books instanceof \Illuminate\Pagination\AbstractPaginator)
+                            {{ $books->appends(\Request::except('page'))->appends(['search' => Request::get('search'), 'choose' => Request::get('choose')])->render()}}
+                        @endif
                   </div>
               </div>
               <!-- /.box-body -->
             </div>
             <!-- /.box -->
-            @if($books instanceof \Illuminate\Pagination\Paginator)
-                {{ $books->appends(\Request::except('page'))->appends(['name' => Request::get('name'), 'author' => Request::get('author')])->render()}}
-            @endif
-      </div>
-    </div>
-    <!-- /.content -->
+          </div>
+        </div>
+    </section>
   </div>
-</div>
   <!-- /.content-wrapper -->
 @endsection

@@ -67,7 +67,7 @@
               @endforeach
               </tbody>
             </table>
-            @if($users instanceof \Illuminate\Pagination\Paginator)
+            @if($users instanceof \Illuminate\Pagination\AbstractPaginator)
               {{  $users ->links() }}
             @endif
           </div>

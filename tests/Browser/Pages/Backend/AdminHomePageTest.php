@@ -16,26 +16,26 @@ class AdminHomePageTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    // /**
-    //  * A Dusk test route home page.
-    //  *
-    //  * @return void
-    //  */
-    // public function testRoute()
-    // {
-    //     $this->userLogin(1);
-    //     $this->browse(function (Browser $browser) {
-    //         $browser->loginAs(User::find(1))
-    //                 ->visit('/admin')
-    //                 ->clickLink('HOME PAGE')
-    //                 ->assertPathIs('/admin')
-    //                 ->assertSee('Home Page')
-    //                 ->assertSee('Categories')
-    //                 ->assertSee('Books')
-    //                 ->assertSee('Posts')
-    //                 ->assertSee('Users');
-    //     });
-    // }
+    /**
+     * A Dusk test route home page.
+     *
+     * @return void
+     */
+    public function testRoute()
+    {
+        $this->userLogin(1);
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin')
+                    ->clickLink('HOME PAGE')
+                    ->assertPathIs('/admin')
+                    ->assertSee('Home Page')
+                    ->assertSee('Categories')
+                    ->assertSee('Books')
+                    ->assertSee('Posts')
+                    ->assertSee('Users');
+        });
+    }
 
     /**
      * A Dusk test value data.
@@ -57,6 +57,45 @@ class AdminHomePageTest extends DuskTestCase
                     ->screenshot('value')
                     ->assertSeeIn('.small-box .inner h3', '10');
         });
+    }
+
+    /**
+     * A Dusk test redirect to User donator.
+     *
+     * @dataProvider caseTestRedirectPage
+     * 
+     * @return void
+     */
+    public function testRedirecttoUserFilter($id, $link, $title, $filter, $limit, $table, $number)
+    {
+        $this->userLogin(1);
+        $this->makeData();
+        $this->browse(function (Browser $browser) use ($id, $link, $title, $filter, $limit, $table, $number) {
+            $browser->loginAs(User::first())
+                    ->visit('/admin')
+                    ->assertSee('Home Page')
+                    ->resize(800, 1600)
+                    ->click($id.' .small-box-footer')
+                    ->assertPathIs('/admin/'.$link)
+                    ->assertSee($title)
+                    ->assertQueryStringHas('filter', $filter)
+                    ->assertQueryStringHas('limit', $limit);
+            $elements = $browser->elements($table.' tbody tr');
+            $this->assertCount($number, $elements);
+        });
+    }
+
+    /**
+     * Case test fot test redirect page
+     *
+     * @return array
+     */
+    public function caseTestRedirectPage()
+    {
+        return [
+            ['#donator', 'users',  'List Users', 'donator', 5, '#example2', 5],
+            ['#borrowed', 'books', 'LIST OF BOOK', 'borrowed', 10, '#table-book', 10],
+        ];
     }
 
     /**

@@ -78,7 +78,7 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-violet">
+          <div class="small-box bg-violet" id="donator">
             <div class="inner">
               <h3>{{__('home.top_5')}}</h3>
 
@@ -93,7 +93,7 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-red">
+          <div class="small-box bg-red" id="borrowed">
             <div class="inner">
               <h3>{{__('home.top_10')}}</h3>
 

@@ -122,29 +122,22 @@ class BookController extends Controller
             $books = Book::search($search, $choose);
         }
 
-        $books = $books->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
-        if ($request->has('uid') && $request->has('filter')) {
-            $uid = $request->uid;
-            $filter = $request->filter;
-
-            $books = Book::whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
-                $query->where('user_id', '=', $uid);
-            })->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
-        }
-
-<<<<<<< HEAD
         if ($filter == 'borrowed' && $limit == 10) {
             $books = $books->withCount('borrowings')
                     ->orderBy('borrowings_count', 'DESC')
                     ->limit($limit)
                     ->get();
         } else {
-            $books = $books->withCount('borrowings')
-                    ->sortable()
-                    ->paginate(config('define.page_length'));
+            $books = $books->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
+            if ($request->has('uid') && $request->has('filter')) {
+                $uid = $request->uid;
+                $filter = $request->filter;
+
+                $books = Book::whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
+                    $query->where('user_id', '=', $uid);
+                })->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
+            }
         }
-=======
->>>>>>> master
         return view('backend.books.list', compact('books'));
     }
 
