@@ -94,7 +94,7 @@
                           <li><b>{{ __('post.by') }} </b><i>User </i></li>
                           <li><b>{{ __('post.score') }} :</b><i>9</i></li>
                           <li><b>{{ __('post.date') }} :</b><i> 20.10.2017</i></li>
-                          <li><i class="fa fa-trash-o text-danger" data-toggle="modal" data-target="#PostconfirmDeletePost"></i></li>
+                          <li><i class="fa fa-trash-o text-danger" data-toggle="modal" data-target="#confirmDeletePost"></i></li>
                         </ol>
                   </div>
                   <!-- /.user-block -->
