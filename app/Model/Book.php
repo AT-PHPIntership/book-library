@@ -11,11 +11,18 @@ use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Iatstuti\Database\Support\CascadeSoftDeletes;
+use App\Libraries\Traits\SearchTrait;
 
 class Book extends Model
 {
-    use Sortable, SoftDeletes;
+    use Sortable, SoftDeletes, CascadeSoftDeletes, SearchTrait;
 
+    /**
+     * Soft Delete Relationship
+     */
+    protected $cascadeDeletes = ['borrowings', 'qrcode', 'ratings', 'favorites', 'posts'];
+    
     /**
      * Default value of category
      */
@@ -64,6 +71,18 @@ class Book extends Model
      * @var array $sortable table sort
      */
     protected $sortable = ['id', 'name', 'author', 'avg_rating'];
+
+    /**
+     * Filter for search trait
+     *
+     * @var array $searchable table search
+     */
+    protected $searchable = [
+        'input' => [
+            ['name', 'like'],
+            ['author', 'like'],
+        ],
+    ];
 
     /**
      * Declare table sort
@@ -121,7 +140,7 @@ class Book extends Model
     {
         return $this->hasMany(Rating::class);
     }
-    
+
     /**
      * Relationship hasMany with Borrowing
      *
@@ -150,51 +169,5 @@ class Book extends Model
     public function qrcode()
     {
         return $this->hasOne(QrCode::class);
-    }
-
-    /**
-     * Scope search book by name
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query query of Model
-     * @param String                                $name  name
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeSearchName($query, $name)
-    {
-        return $query->where('name', 'LIKE', '%'.$name.'%');
-    }
-
-    /**
-     * Scope search book by author
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query  query of Model
-     * @param String                                $author author
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeSearchAuthor($query, $author)
-    {
-        return $query->where('author', 'LIKE', '%'.$author.'%');
-    }
-
-    /**
-     * Return the book configuration array for this model.
-     *
-     * @return array
-    */
-    public static function boot()
-    {
-        parent::boot();
-        
-        static::deleting(function ($book) {
-            $book->borrowings()->delete();
-            $book->ratings()->delete();
-            $book->qrcode()->delete();
-            foreach ($book->posts()->get() as $post) {
-                $post->delete();
-            }
-            $book->favorites()->delete();
-        });
     }
 }

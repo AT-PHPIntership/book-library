@@ -48,7 +48,6 @@ class BookController extends Controller
             $name = config('image.name_prefix') . "-" . $image->hashName();
             $folder = config('image.books.path_upload');
             $saveImageResult = $image->move($folder, $name);
-
             $book->image = $name;
         } else {
             $book->image = config('image.books.no_image_name');
@@ -100,7 +99,7 @@ class BookController extends Controller
     /**
      *  * Display list book with filter ( if have ).
      *
-     * @param Request $request request
+     * @param Request $request requests
      *
      * @return \Illuminate\Http\Response
      */
@@ -115,21 +114,20 @@ class BookController extends Controller
         ];
         $books = Book::select($columns);
 
-        if ($request->name) {
-            $books = $books->searchname($request->name);
-        }
-        if ($request->author) {
-            $books = $books->searchauthor($request->author);
+        if ($request->has('search') && $request->has('choose')) {
+            $search = $request->search;
+            $choose = $request->choose;
+            $books = Book::search($search, $choose);
         }
 
-        $books = $books->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+        $books = $books->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
         if ($request->has('uid') && $request->has('filter')) {
             $uid = $request->uid;
             $filter = $request->filter;
 
             $books = Book::whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
                 $query->where('user_id', '=', $uid);
-            })->withCount('borrowings')->sortable()->paginate(config('define.page_length'));
+            })->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
         }
 
         return view('backend.books.list', compact('books'));
@@ -216,16 +214,9 @@ class BookController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        DB::beginTransaction();
-        try {
-            $book = Book::find($id)->delete();
-            dd($book);
-            if ($request->ajax()) {
-                return response()->json(['book'=> $book], 200);
-            }
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
+        $book = Book::find($id)->delete();
+        if ($request->ajax()) {
+            return response()->json(['book'=> $book], 200);
         }
     }
 }

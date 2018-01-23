@@ -1,6 +1,8 @@
 $('.fa-trash-o').click(function () {
 	 $id = $(this).attr('id');
-	 $('.ok').attr('data-id', $id.slice(7));
+	 $('.ok').attr('data-id', $id);
+	 $content = $(this).attr('data-name');
+	 $('.text-center strong').html($content + " book");
 });
 //Add event for button OK in modal
 $('.ok').click(function () {
@@ -15,14 +17,13 @@ $('.ok').click(function () {
 			_method: 'delete',
 		},
 		success: function ($data) {
-			if ($id == $data.book.id) {
-				$tr = $('#delete-' + $id).parent().parent();
+			if ($data.book.id == undefined){
+				$tr = $('#' + $id).parent().parent();
 				$tr.attr('style', 'background-color: #aaa');
 				setTimeout(function(){
 					$tr.remove();
 				}, 1000);
 			}
-			
 		}
 	});
 });

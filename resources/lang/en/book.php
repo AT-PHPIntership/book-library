@@ -25,7 +25,7 @@ return [
     'back' => 'Back',
     'confirm' => [
         'title' => 'Confirm',
-        'delete' => 'Do you want to delete this book'
+        'delete' => 'Do you want to delete this '
     ],
     'not_found' => 'Sorry, Not be found.'
 
