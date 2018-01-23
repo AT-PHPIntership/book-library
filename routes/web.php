@@ -22,6 +22,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('/', 'HomeController@index')->name('home.index');
     Route::resource('books', 'BookController');
     Route::resource('posts', 'PostController');
+    Route::resource('categories', 'CategoryController');
 });
 
 //Api
