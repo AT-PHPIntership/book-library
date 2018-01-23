@@ -9,7 +9,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i>{{ __('borrow.admin')  }}</a></li>
-            <li class="active">{{ __('borrow.users') }}</li>
+            <li class="active">{{ __('borrow.borrowings') }}</li>
         </ol>
     </section>
     <section class="content">
@@ -29,90 +29,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>AT-0001</td>
-                            <td>Phu</td>
-                            <td>phutran@gmail.com</td>
-                            <td>codedao</td>
-                            <td>2017-01-17</td>
-                            <td>2017-01-19</td>
-                        </tr>
-                        <tr>
-                            <td>AT-0001</td>
-                            <td>Phu</td>
-                            <td>phutran@gmail.com</td>
-                            <td>codedao</td>
-                            <td>2017-01-17</td>
-                            <td>2017-01-19</td>
-                        </tr>
-                        <tr>
-                            <td>AT-0001</td>
-                            <td>Phu</td>
-                            <td>phutran@gmail.com</td>
-                            <td>codedao</td>
-                            <td>2017-01-17</td>
-                            <td>2017-01-19</td>
-                        </tr>
-                        <tr>
-                            <td>AT-0001</td>
-                            <td>Phu</td>
-                            <td>phutran@gmail.com</td>
-                            <td>codedao</td>
-                            <td>2017-01-17</td>
-                            <td>2017-01-19</td>
-                        </tr>
-                        <tr>
-                            <td>AT-0001</td>
-                            <td>Phu</td>
-                            <td>phutran@gmail.com</td>
-                            <td>codedao</td>
-                            <td>2017-01-17</td>
-                            <td>2017-01-19</td>
-                        </tr>
-                        <tr>
-                            <td>AT-0001</td>
-                            <td>Phu</td>
-                            <td>phutran@gmail.com</td>
-                            <td>codedao</td>
-                            <td>2017-01-17</td>
-                            <td>2017-01-19</td>
-                        </tr>
-                        <tr>
-                            <td>AT-0001</td>
-                            <td>Phu</td>
-                            <td>phutran@gmail.com</td>
-                            <td>codedao</td>
-                            <td>2017-01-17</td>
-                            <td>2017-01-19</td>
-                        </tr>
-                        <tr>
-                            <td>AT-0001</td>
-                            <td>Phu</td>
-                            <td>phutran@gmail.com</td>
-                            <td>codedao</td>
-                            <td>2017-01-17</td>
-                            <td>2017-01-19</td>
-                        </tr>
-                        <tr>
-                            <td>AT-0001</td>
-                            <td>Phu</td>
-                            <td>phutran@gmail.com</td>
-                            <td>codedao</td>
-                            <td>2017-01-17</td>
-                            <td>2017-01-19</td>
-                        </tr>
-                        <tr>
-                            <td>AT-0001</td>
-                            <td>Phu</td>
-                            <td>phutran@gmail.com</td>
-                            <td>codedao</td>
-                            <td>2017-01-17</td>
-                            <td>2017-01-19</td>
-                        </tr>
+                        @foreach ($borrowings as $borrowing)
+                            <tr>
+                                <td>{{ $borrowing->employee_code }}</td>
+                                <td>{{ $borrowing->name }}</td>
+                                <td>{{ $borrowing->email }}</td>
+                                <td>{{ $borrowing->name }}</td>
+                                <td>{{ $borrowing->from_date }}</td>
+                                <td>{{ $borrowing->to_date }}</td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
                 <!-- /.box-body -->
+                <div class="text-center">
+                    {{ $borrowings->render() }}
+                </div>
             </div>
             <!-- /.box -->
         </div>
@@ -121,6 +54,7 @@
     <!-- /.row -->
     </section>
 <!-- /.content -->
+
 </div>
 <!-- /.content-wrapper -->
 @endsection
