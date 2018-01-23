@@ -122,7 +122,7 @@ class BookController extends Controller
             $books = Book::search($search, $choose);
         }
 
-        if ($filter == 'borrowed' && $limit == 10) {
+        if ($filter == Book::BORROWED && $limit == config('define.page_length')) {
             $books = $books->withCount('borrowings')
                     ->orderBy('borrowings_count', 'DESC')
                     ->limit($limit)

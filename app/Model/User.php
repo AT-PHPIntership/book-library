@@ -30,6 +30,11 @@ class User extends Authenticatable
      */
     const USER = 'User';
 
+     /**
+     * Value of USER
+     */
+    const DONATOR = 'donator';
+
     /**
      * Declare table
      *
