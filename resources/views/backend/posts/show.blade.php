@@ -1,6 +1,59 @@
 @extends('backend.layouts.main')
 @section('title',__('post.post_title'))
 @section('content')
+
+<!-- Modal confirm delete post-->
+<div id="confirmDeletePost" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <h3>{{ __('post.confirm.title') }}</h3>
+        <p >{{ __('post.confirm.delete_post') }}
+            <strong class="data-content"></strong>? 
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+      </div>
+    </div>
+    <!-- end content-->
+
+  </div>
+</div>
+<!-- end modal-->
+
+<!-- Modal confirm delete comment -->
+<div id="confirmDeleteComment" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <h3>{{ __('post.confirm.title') }}</h3>
+        <p >{{ __('post.confirm.delete_comment') }}
+            <strong class="data-content"></strong>? 
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+      </div>
+    </div>
+    <!-- end content-->
+
+  </div>
+</div>
+<!-- end modal-->
+
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -41,7 +94,7 @@
                           <li><b>{{ __('post.by') }} </b><i>User </i></li>
                           <li><b>{{ __('post.score') }} :</b><i>9</i></li>
                           <li><b>{{ __('post.date') }} :</b><i> 20.10.2017</i></li>
-                          <li><i class="fa fa-trash-o text-danger"></i></li>
+                          <li><i class="fa fa-trash-o text-danger" data-toggle="modal" data-target="#PostconfirmDeletePost"></i></li>
                         </ol>
                   </div>
                   <!-- /.user-block -->
@@ -129,12 +182,12 @@
                        <tr>
                          <th scope="row">1</th>
                          <td>Mark</td>
-                         <td><a href="#" class="pull-right btn-box-tool"><i class="btn btn-danger fa fa-trash-o text-danger"></i></i></a></td>
+                         <td><a href="#" class="pull-right btn-box-tool"><i class="btn btn-danger fa fa-trash-o text-danger" data-toggle="modal" data-target="#confirmDeleteComment"></i></i></a></td>
                        </tr>
                        <tr>
                          <th scope="row">2</th>
                          <td>Jacob</td>
-                         <td><a href="#" class="pull-right btn-box-tool"><i class="btn btn-danger fa fa-trash-o text-danger"></i></a></td>
+                         <td><a href="#" class="pull-right btn-box-tool"><i class="btn btn-danger fa fa-trash-o text-danger" data-toggle="modal" data-target="#confirmDeleteComment"></i></a></td>
                        </tr>
                      </tbody>
                     </table>
