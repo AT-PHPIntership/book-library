@@ -43,9 +43,9 @@
                     </table>
                 </div>
                 <!-- /.box-body -->
-        <div
-            class="text-center">{{ $borrowings->render() }}
-        </div>
+                <div class="text-center">
+                    {{ $borrowings->render() }}
+                </div>
             </div>
             <!-- /.box -->
         </div>
