@@ -1,7 +1,7 @@
 <header class="main-header">
   <a href="{{ route('home.index') }}" class="logo">
     <span class="logo-mini"><b>A</b>dm</span>
-    <span class="logo-lg"><b>{{__('Admin ')}}</b>{{__('Management')}}</span>
+    <span class="logo-lg"><b>{{__('user.admin')}}</b>{{__('dashboard.management')}}</span>
   </a>
   <nav class="navbar navbar-static-top">
     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -11,20 +11,20 @@
       <ul class="nav navbar-nav">
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="{{ asset('bower_components/admin-lte/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
-            <span class="hidden-xs">Alexander Pierce</span>
+            <img src="{{ Auth::user()->avatar_url }}" class="user-image" alt="User Image">
+            <span class="hidden-xs">{{ Auth::user()->name }}</span>
           </a>
           <ul class="dropdown-menu">
             <li class="user-header">
-              <img src="{{ asset('bower_components/admin-lte/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+              <img src="{{ Auth::user()->avatar_url }}" class="img-circle" alt="User Image">
               <p>
-                Alexander Pierce - {{__('Web Developer')}}
-                <small>{{__('Member since Jun. 2017')}}</small>
+                {{ Auth::user()->name }} - {{__('dashboard.web_developer')}}
+                <small>{{__('dashboard.member')}} : {{ Carbon\Carbon::parse(Auth::user()->created_at)->format('d-m-Y')}}</small>
               </p>
             </li>
             <li class="user-footer">
               <div class="pull-left">
-                <a href="#" class="btn btn-default btn-flat">{{__('Profile')}}</a>
+                <a href="{{route('users.show', Auth::user()->employee_code)}}" class="btn btn-default btn-flat">{{__('dashboard.profile')}}</a>
               </div>
               <div class="pull-right">
                 <form action="{{ route('logout') }}" method="POST">

@@ -42,7 +42,7 @@
                                     @if (isset($borrowing->date_send_email))
                                         <a href="{{ route('sendMail') }}">{{Carbon\Carbon::parse($borrowing->date_send_email)->format('H:i:s d-m-Y')}}</a>
                                     @else
-                                        <button id="{{ $borrowing->id }}" class="btn btn-warning"><i class="ion ion-android-drafts"></i></button>
+                                        <a href="{{ route('sendMail') }}" id="{{ $borrowing->id }}" class="btn btn-warning"><i class="ion ion-android-drafts"></i></a>
                                     @endif
                                 </td>
                             </tr>
