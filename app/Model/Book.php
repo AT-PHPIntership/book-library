@@ -22,7 +22,7 @@ class Book extends Model
      * Soft Delete Relationship
      */
     protected $cascadeDeletes = ['borrowings', 'qrcode', 'ratings', 'favorites', 'posts'];
-    
+
     /**
      * Default value of category
      */
@@ -108,7 +108,7 @@ class Book extends Model
     */
     public function users()
     {
-        return $this->belongsToMany(User::classb);
+        return $this->belongsToMany(User::class);
     }
 
     /**
