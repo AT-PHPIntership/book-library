@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Post;
+use App\Model\Rating;
+use App\Model\Comment;
+use DB;
 
 class PostController extends Controller
 {
@@ -32,10 +35,20 @@ class PostController extends Controller
     /**
      * Display User Detail.
      *
+     * @param int $id id
+     *
      * @return mixed
      */
-    public function show()
+    public function show($id)
     {
-        return view('backend.posts.show');
+        $comments = Comment::with(['parent', 'children'])->whereHas('post', function ($query) use ($id) {
+            $query->where('post_id', '=', $id);
+        })->get();
+        $posts = DB::select('select posts.* ,ratings.rating , users.name
+                            from posts, ratings, users
+                            where posts.user_id = ratings.user_id and posts.book_id = ratings.book_id
+                                and users.id = posts.user_id and posts.id = '.$id.'');
+
+        return view('backend.posts.show', compact('posts', 'comments'));
     }
 }

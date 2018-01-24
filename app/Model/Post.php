@@ -46,7 +46,7 @@ class Post extends Model
         'content',
         'image'
     ];
-    
+
     /**
      * Relationship morphMany with Favorite
      *
