@@ -16,6 +16,11 @@ class User extends Authenticatable
     const ROOT_ADMIN = 1;
 
     /**
+     * The default avatar of the user
+     */
+    const DEFAULT_AVATAR = '../../images/users/avatar-default.jpg';
+
+    /**
      * Value of SA
      */
     const SA = 'SA';
@@ -131,5 +136,15 @@ class User extends Authenticatable
     public function getRoleNameAttribute()
     {
         return $this->role == self::ROOT_ADMIN ? __('user.admin') : __('user.member');
+    }
+
+    /**
+     * Get avatar of user
+     *
+     * @return array
+    */
+    public function getImageAttribute()
+    {
+        return $this->avatar_url ? $this->avatar_url : self::DEFAULT_AVATAR;
     }
 }

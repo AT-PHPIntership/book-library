@@ -9,7 +9,7 @@ return [
   'total_borrowed' => 'Total borrowed books',
   'user_title' => 'Users',
   'role' => 'Role',
-  'profile_user' => 'Profile User',
+  'user_profile' => 'Profile User',
   'admin' => 'Admin',
   'users' => 'Users',
   'edit_profile' => 'Edit Profile',
