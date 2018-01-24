@@ -20,10 +20,10 @@
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>@sortablelink('employee_code', __('borrow.employee_code'))</th>
-                            <th>@sortablelink('name',  __('borrow.name'))</th>
-                            <th>@sortablelink('email', __('borrow.email'))</th>
-                            <th>@sortablelink('books', __('borrow.books'))</th>
+                            <th>@sortablelink('users.employee_code', __('borrow.employee_code'))</th>
+                            <th>@sortablelink('users.name', __('borrow.name'))</th>
+                            <th>@sortablelink('users.email', __('borrow.email'))</th>
+                            <th>@sortablelink('books.name', __('borrow.books'))</th>
                             <th>@sortablelink('from_date', __('borrow.from_date'))</th>
                             <th>@sortablelink('to_date', __('borrow.end_date'))</th>
                         </tr>
@@ -31,12 +31,13 @@
                         <tbody>
                         @foreach ($borrowings as $borrowing)
                             <tr>
-                                <td>{{ $borrowing->employee_code }}</td>
-                                <td>{{ $borrowing->name }}</td>
-                                <td>{{ $borrowing->email }}</td>
-                                <td>{{ $borrowing->name }}</td>
-                                <td>{{ $borrowing->from_date }}</td>
-                                <td>{{ $borrowing->to_date }}</td>
+                                <td>{{ $borrowing->users->employee_code }}</td>
+                                <td>{{ $borrowing->users->name }}</td>
+                                <td>{{ $borrowing->users->email }}</td>
+                                <td>{{ $borrowing->books->name }}</td>
+                                {{--<td>{{ $borrowing->from_date $OpenOrders->OPEN_TIME->format('d-m-Y') }}</td>--}}
+                                <td>{{ date('d-m-Y H-m-i',strtotime($borrowing->from_date)) }}</td>
+                                <td>{{ date('d-m-Y H-m-i',strtotime($borrowing->to_date)) }}</td>
                             </tr>
                         @endforeach
                         </tbody>
