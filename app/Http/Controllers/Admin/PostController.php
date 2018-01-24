@@ -30,7 +30,7 @@ class PostController extends Controller
     }
 
     /**
-     * Display User Detail.
+     * Display Layout Post Detail.
      *
      * @return mixed
      */
