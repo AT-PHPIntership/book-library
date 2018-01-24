@@ -36,8 +36,8 @@
                                 <td>{{ $borrowing->users->email }}</td>
                                 <td>{{ $borrowing->books->name }}</td>
                                 {{--<td>{{ $borrowing->from_date $OpenOrders->OPEN_TIME->format('d-m-Y') }}</td>--}}
-                                <td>{{ date('d-m-Y H-m-i',strtotime($borrowing->from_date)) }}</td>
-                                <td>{{ date('d-m-Y H-m-i',strtotime($borrowing->to_date)) }}</td>
+                                <td>{{ date('d-m-Y',strtotime($borrowing->from_date)) }}</td>
+                                <td>{{ date('d-m-Y',strtotime($borrowing->to_date)) }}</td>
                             </tr>
                         @endforeach
                         </tbody>
