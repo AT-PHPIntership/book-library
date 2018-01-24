@@ -53,7 +53,6 @@ class AdminShowDetailUserTest extends DuskTestCase
             $browser->loginAs($user)
                 ->visit('/admin/users/' . $user->employee_code)
                 ->assertSee('Profile User')
-                ->assertSee('Follow')
                 ->assertSee('Borrowed')
                 ->assertSee('Donated')
                 ->assertSee('Borrowing')
