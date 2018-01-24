@@ -35,8 +35,8 @@
                                 <td>{{ $borrowing->users->name }}</td>
                                 <td>{{ $borrowing->users->email }}</td>
                                 <td>{{ $borrowing->books->name }}</td>
-                                <td>{{ date('d-m-Y',strtotime($borrowing->from_date)) }}</td>
-                                <td>{{ date('d-m-Y',strtotime($borrowing->to_date)) }}</td>
+                                <td>{{ date(config('define.date_format'), strtotime($borrowing->from_date)) }}</td>
+                                <td>{{ date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
                             </tr>
                         @endforeach
                         </tbody>

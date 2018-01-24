@@ -7,5 +7,9 @@ return [
   'posts' => 'POSTS',
   'main_navigation' => 'MAIN NAVIGATION',
   'borrows' => 'BORROWS',
-  'online'=> 'Online'
+  'online'=> 'Online',
+  'web_developer' => 'Web Developer',
+  'member' => 'Member',
+  'management' => 'Management',
+  'profile' => 'Profile'
 ];
