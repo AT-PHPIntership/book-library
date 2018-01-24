@@ -2,7 +2,7 @@
 return [
     'list_borrowers' => 'List Borrowers',
     'admin' => 'Admin',
-    'users' => 'Users',
+    'borrowings' => 'Borrowings',
     'employee_code' => 'Employee code',
     'name' => 'Name',
     'email' => 'Email',
