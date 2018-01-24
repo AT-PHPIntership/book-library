@@ -15,18 +15,6 @@ class SetRoleTest extends BaseTestUser
     use DatabaseMigrations;
 
     /**
-     * Make 10 users.
-     *
-     * @return void
-     */
-    // public function makeUser()
-    // {
-    //   factory(User::class, 10)->create([
-    //   ]);
-    //   User::where('team', User::SA)->update(['role' => User::ROLE_ADMIN]);
-    // }
-
-    /**
      * If role of user was logining is "User", move to "/login" with message.
      *
      * @return void
