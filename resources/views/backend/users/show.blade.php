@@ -1,5 +1,5 @@
 @extends('backend.layouts.main')
-@section('title', __('user.user_profile'))
+@section('title', __('user.profile_user'))
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -7,7 +7,7 @@
   <section class="content-header">
     <h1>{{ __('user.profile_user') }}</h1>
     <ol class="breadcrumb">
-      <li>{{ __('user.admin') }}</li>
+      <li><a href="{{ route('home.index') }}"><i class="fa fa-dashboard"></i>{{ __('user.admin')  }}</a></li>
       <li><a href="{{ route('users.index') }}">{{ __('user.users') }}</a></li>
       <li class="active">{{ __('user.profile_user') }}</li>
     </ol>
@@ -43,8 +43,6 @@
                 @endif
               </li>
             </ul>
-
-            <a href="#" class="btn btn-primary btn-block"><b>{{ __('Follow') }}</b></a>
           </div>
           <!-- /.box-body -->
         </div>
