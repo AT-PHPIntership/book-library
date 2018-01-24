@@ -143,7 +143,7 @@
                             @endif
                             @if ($comment->children->count())
                                 @foreach ($comment->children as $index=>$chil)
-                                <small class="text-muted">{{$chil->content}} <a href="#" class="glyphicon glyphicon-remove text-warning pull-right"></a></small>
+                                <small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small><small class="text-muted">{{$chil->content}} <a href="#" class="glyphicon glyphicon-remove text-warning pull-right"></a></small>
                                 @endforeach
                             </div>
                             @endif
