@@ -8,48 +8,36 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use DB;
 use App\Model\User;
 use Faker\Factory as Faker;
+use Tests\Browser\Pages\Backend\Users\BaseTestUser;
 
-class SetRoleTest extends DuskTestCase
+class SetRoleTest extends BaseTestUser
 {
     use DatabaseMigrations;
-
-    /**
-     * Make a user to login from $userLogin.
-     *
-     * @param array $userLogin If $userLogin has a name or role, $user has a name or role like $userLogin,
-     * otherwise random to get name and role.
-     *
-     * @return App\Model\User
-     */
-    public function makeUserLogin($userLogin)
-    {
-        $user = factory(User::class)->create($userLogin);
-        return $user;
-    }
 
     /**
      * Make 10 users.
      *
      * @return void
      */
-    public function makeUser()
-    {
-      factory(User::class, 10)->create([
-      ]);
-      User::where('team', User::SA)->update(['role' => User::ROLE_ADMIN]);
-    }
+    // public function makeUser()
+    // {
+    //   factory(User::class, 10)->create([
+    //   ]);
+    //   User::where('team', User::SA)->update(['role' => User::ROLE_ADMIN]);
+    // }
 
     /**
-     * If role of user was logining is User, move to /login with message
+     * If role of user was logining is "User", move to "/login" with message.
      *
      * @return void
      */
     public function testNotRoleAdmin()
     {
-        $this->makeUser();
+        $numberUser = 15;
+        BaseTestUser::makeUser($numberUser);
         $userLogin['role'] = User::ROLE_USER;
         $user = new User();
-        $user = $this->makeUserLogin($userLogin);
+        $user = BaseTestUser::makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->resize(1200, 900)
@@ -60,17 +48,16 @@ class SetRoleTest extends DuskTestCase
     }
 
     /**
-     * If user was logining has role = 1 but team not SA, it can't see column Role.
+     * If user was logining has role "Admin" but team not "SA", it can't see column "Role".
      *
      * @return void
      */
     public function testRoleAdminNotTeamSA()
     {
-        $this->makeUser();
-        $teamNotSA = [User::PHP, User::QC, User::ADROID, User::IOS];
-        $userLogin['team'] = $teamNotSA[array_rand($teamNotSA)];
-        $userLogin['role'] = User::ROLE_ADMIN;
-        $user = $this->makeUserLogin($userLogin);
+        $numberUser = 15;
+        BaseTestUser::makeUser($numberUser);
+        $userLogin = ['team' => BaseTestUser::teamNotSA(), 'role' => User::ROLE_ADMIN];
+        $user = BaseTestUser::makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->resize(1200, 900)
@@ -81,16 +68,16 @@ class SetRoleTest extends DuskTestCase
     }
 
     /**
-     * If user was logining has role = 1 and team is SA, it can see column Role.
+     * If user was logining has role "Admin" and team is "SA", it can see column "Role".
      *
      * @return void
      */
     public function testRoleAdminTeamSA()
     {
-        $this->makeUser();
-        $userLogin['team'] = User::SA;
-        $userLogin['role'] = User::ROLE_ADMIN;
-        $user = $this->makeUserLogin($userLogin);
+        $numberUser = 15;
+        BaseTestUser::makeUser($numberUser);
+        $userLogin = ['team' => User::SA, 'role' => User::ROLE_ADMIN];
+        $user = BaseTestUser::makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->resize(1200, 900)
@@ -107,12 +94,12 @@ class SetRoleTest extends DuskTestCase
      */
     public function testUpdateRoleOfUser()
     {
-        $this->makeUser();
-        $teamNotSA = [User::PHP, User::QC, User::ADROID, User::IOS];
-        User::first()->update(['role' => User::ROLE_USER, 'team' => $teamNotSA[array_rand($teamNotSA)]]);
+        $numberUser = 15;
+        BaseTestUser::makeUser($numberUser);
+        User::first()->update(['team' => BaseTestUser::teamNotSA(), 'role' => User::ROLE_USER]);
         $userLogin['team'] = User::SA;
         $userLogin['role'] = User::ROLE_ADMIN;
-        $user = $this->makeUserLogin($userLogin);
+        $user = BaseTestUser::makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->resize(1200, 900)
@@ -133,12 +120,12 @@ class SetRoleTest extends DuskTestCase
      */
     public function testUpdateRoleOfAdminNotTeamSA()
     {
-        $this->makeUser();
-        $teamNotSA = [User::PHP, User::QC, User::ADROID, User::IOS];
-        User::first()->update(['role' => User::ROLE_ADMIN, 'team' => $teamNotSA[array_rand($teamNotSA)]]);
+        $numberUser = 15;
+        BaseTestUser::makeUser($numberUser);
+        User::first()->update(['team' => BaseTestUser::teamNotSA(), 'role' => User::ROLE_ADMIN]);
         $userLogin['team'] = User::SA;
         $userLogin['role'] = User::ROLE_ADMIN;
-        $user = $this->makeUserLogin($userLogin);
+        $user = BaseTestUser::makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->resize(1200, 900)
@@ -153,17 +140,18 @@ class SetRoleTest extends DuskTestCase
     }
 
     /**
-     * Can't change role of User of SA team, button update is disabled and do nothing when press.
+     * Can't change role of User of team "SA", button update is disabled and do nothing when press.
      *
      * @return void
      */
     public function testUpdateRoleOfAdminTeamSA()
     {
-        $this->makeUser();
-        User::first()->update(['role' => User::ROLE_ADMIN, 'team' => User::SA]);
+        $numberUser = 15;
+        BaseTestUser::makeUser($numberUser);
+        User::first()->update(['team' => User::SA, 'role' => User::ROLE_ADMIN]);
         $userLogin['team'] = User::SA;
         $userLogin['role'] = User::ROLE_ADMIN;
-        $user = $this->makeUserLogin($userLogin);
+        $user = BaseTestUser::makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->resize(1200, 900)
