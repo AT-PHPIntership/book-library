@@ -46,7 +46,7 @@
 
             <div class="tab-content">
                 <!-- /.display review -->
-                @if ($post->type == 1)
+
                     <div class="active tab-pane" id="activity">
                         <!-- Post -->
                         <div class="post">
@@ -55,11 +55,13 @@
                                     {{$post->name}}
                                 </div>
                                 <ol class="breadcrumb">
-                                    <li><b>{{ __('post.score') }} :</b>
-                                        <i>
-                                        {{$post->rating}}
-                                        </i>
-                                    </li>
+                                    @if ($post->type == 1)
+                                        <li><b>{{ __('post.score') }} :</b>
+                                            <i>
+                                                {{$post->rating}}
+                                            </i>
+                                        </li>
+                                    @endif
                                     <li><b>{{ __('post.date') }} :</b><i> {{ $post->created_at }}</i></li>
                                     <li><i class="fa fa-trash-o text-danger"></i></li>
                                 </ol>
@@ -71,52 +73,8 @@
                         </div>
                         <!-- /.post -->
                     </div>
-                @endif
               <!-- /.end reivew -->
-
-              <!-- /.display status -->
-                @if ($post->type == 2)
-                    <div class="active tab-pane" id="activity">
-                        <!-- Post -->
-                        <div class="post">
-                            <div>
-                                <ol class="breadcrumb">
-                                    <li><b>{{ __('post.date') }} :</b><i> {{ $post->created_at }}</i></li>
-                                    <li><i class="fa fa-trash-o text-danger"></i></li>
-                                </ol>
-                            </div>
-                          <!-- /.user-block -->
-                            <p>
-                                {{ $post->content }}
-                            </p>
-                        </div>
-                        <!-- /.post -->
-                    </div>
-                @endif
-              <!-- /.end status -->
-
-              <!-- /.display find book-->
-                @if ($post->type == 3)
-                    <div class="active tab-pane" id="activity">
-                        <!-- Post -->
-                        <div class="post">
-                            <div>
-                                <ol class="breadcrumb">
-                                    <li><b>{{ __('post.date') }} :</b><i> {{ $post->created_at }}</i></li>
-                                    <li><i class="fa fa-trash-o text-danger"></i></li>
-                                </ol>
-                            </div>
-                          <!-- /.user-block -->
-                            <p>
-                                {{ $post->content }}
-                            </p>
-                        </div>
-                        <!-- /.post -->
-                    </div>
-                @endif
-              <!-- /.end find book -->
             </div>
-
             <!-- /.tab-content -->
           </div>
           <!-- /.nav-tabs-custom -->
