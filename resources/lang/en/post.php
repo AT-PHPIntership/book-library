@@ -8,5 +8,8 @@ return [
     'type_post' => 'Type',
     'short_content' => 'Short Content',
     'post_date' => 'Post Date',
-    'total_comment' => 'Total Comment'
+    'total_comment' => 'Total Comment',
+    'review' => 'Review',
+    'status' => 'Status',
+    'find_book' => 'Find book'
 ];
