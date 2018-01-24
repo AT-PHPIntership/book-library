@@ -34,7 +34,7 @@
           </span>
         </a>
       </li>
-      <li>
+      <li class="{{ activeRoute(['borrowings.index']) }}">
         <a href="{{ route('borrowings.index') }}">
           <i class="fa fa-book" aria-hidden="true"></i>
           <span>{{ __('dashboard.borrows') }}</span>
@@ -43,7 +43,6 @@
           </span>
         </a>
       </li>
-      <li>
       <li class="{{ activeRoute(['categories.index', 'categories.edit']) }}">
         <a href="{{ route('categories.index') }}">
           <i class="fa fa-list" aria-hidden="true"></i>
