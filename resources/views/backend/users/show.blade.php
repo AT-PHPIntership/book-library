@@ -1,5 +1,5 @@
 @extends('backend.layouts.main')
-@section('title', __('user.user_profile'))
+@section('title', __('user.profile_user'))
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -43,8 +43,6 @@
                 @endif
               </li>
             </ul>
-
-            <a href="#" class="btn btn-primary btn-block"><b>{{ __('Follow') }}</b></a>
           </div>
           <!-- /.box-body -->
         </div>
