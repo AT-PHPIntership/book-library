@@ -112,8 +112,6 @@ class BookController extends Controller
             'avg_rating',
             'total_rating'
         ];
-        $filter = $request->input('filter');
-        $limit = $request->input('limit');
         $books = Book::select($columns);
 
         if ($request->has('search') && $request->has('choose')) {
@@ -121,22 +119,22 @@ class BookController extends Controller
             $choose = $request->choose;
             $books = Book::search($search, $choose);
         }
+        $uid = $request->uid;
+        $limit = $request->limit;
+        $filter = $request->filter;
 
-        if ($filter == Book::BORROWED && $limit == config('define.page_length')) {
-            $books = $books->withCount('borrowings')
-                    ->orderBy('borrowings_count', 'DESC')
+        $books = $books->withCount('borrowings')->sortable();
+
+        if ($request->has('uid') && $request->has('filter')) {
+            $books = Book::whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
+                $query->where('user_id', '=', $uid);
+            })->orderby('id', 'desc')->paginate(config('define.page_length'));
+        } else if ($filter == Book::BORROWED) {
+            $books = $books->orderBy('borrowings_count', 'DESC')
                     ->limit($limit)
                     ->get();
         } else {
-            $books = $books->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
-            if ($request->has('uid') && $request->has('filter')) {
-                $uid = $request->uid;
-                $filter = $request->filter;
-
-                $books = Book::whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
-                    $query->where('user_id', '=', $uid);
-                })->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
-            }
+            $books = $books->orderby('id', 'desc')->paginate(config('define.page_length'));
         }
         return view('backend.books.list', compact('books'));
     }
