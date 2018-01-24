@@ -140,6 +140,7 @@ class BookController extends Controller
         return view('backend.books.edit', compact('book', 'categories', 'backPath'));
     }
 
+
     /**
      * Save data book edited.
      *
@@ -152,6 +153,7 @@ class BookController extends Controller
     {
         DB::beginTransaction();
         try {
+            $bookData = $request->except('_token', '_method', 'image');
             // save image path, move image to directory
             $hasImage = $request->hasFile('image');
             if ($hasImage) {
@@ -183,6 +185,22 @@ class BookController extends Controller
             }
             flash($errMessage)->error();
             return redirect()->back()->withInput();
+        }
+    }
+
+    /**
+     * Show the form with book data for edit book.
+     *
+     * @param Request $request request
+     * @param int     $id      id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        $book = Book::find($id)->delete();
+        if ($request->ajax()) {
+            return response()->json(['book'=> $book], 200);
         }
     }
 }
