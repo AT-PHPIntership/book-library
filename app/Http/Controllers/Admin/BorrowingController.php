@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Borrowing;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,6 +15,8 @@ class BorrowingController extends Controller
      */
     public function index()
     {
-        return view('backend.books.borrow');
+        $borrowings = Borrowing::with('books', 'users')
+            ->paginate(config('define.page_length'));
+        return view('backend.books.borrow', compact('borrowings'));
     }
 }
