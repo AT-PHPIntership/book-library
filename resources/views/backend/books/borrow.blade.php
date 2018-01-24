@@ -32,19 +32,19 @@
                         <tbody>
                         @foreach ($borrowings as $borrowing)
                             <tr>
-                                <td>{{ $borrowing->employee_code }}</td>
-                                <td>{{ $borrowing->name }}</td>
-                                <td>{{ $borrowing->email }}</td>
-                                <td>{{ $borrowing->name }}</td>
-                                <td>{{ $borrowing->from_date }}</td>
-                                <td>{{ $borrowing->to_date }}</td>
+                                <td>{{ $borrowing->users->employee_code }}</td>
+                                <td>{{ $borrowing->users->name }}</td>
+                                <td>{{ $borrowing->users->email }}</td>
+                                <td>{{ $borrowing->books->name }}</td>
+                                <td>{{ date(config('define.date_format'), strtotime($borrowing->from_date)) }}</td>
+                                <td>{{ date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
                                 <td id="{{ $borrowing->id }}" class="align-center">
                                     @if (isset($borrowing->date_send_email))
                                         <a href="{{ route('sendMail') }}">{{Carbon\Carbon::parse($borrowing->date_send_email)->format('H:i:s d-m-Y')}}</a>
                                     @else
                                         <a href="{{ route('sendMail') }}" id="{{ $borrowing->id }}" class="btn btn-warning"><i class="ion ion-android-drafts"></i></a>
                                     @endif
-                                </td>
+                                </td>              
                             </tr>
                         @endforeach
                         </tbody>
