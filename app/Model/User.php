@@ -21,6 +21,26 @@ class User extends Authenticatable
     const SA = 'SA';
 
     /**
+     * Value of PHP
+     */
+    const PHP = 'PHP';
+
+    /**
+     * Value of QC
+     */
+    const QC = 'QC';
+
+    /**
+     * Value of ADROID
+     */
+    const ADROID = 'Adroid';
+
+    /**
+     * Value of IOS
+     */
+    const IOS = 'IOS';
+
+    /**
      * Value of ADMIN
      */
     const ADMIN = 'Admin';
@@ -29,6 +49,16 @@ class User extends Authenticatable
      * Value of USER
      */
     const USER = 'User';
+
+    /**
+     * Value of ROLE_ADMIN
+     */
+    const ROLE_ADMIN = 1;
+
+    /**
+     * Value of ROLE_USER
+     */
+    const ROLE_USER = 0;
 
     /**
      * Declare table
