@@ -13,9 +13,7 @@
       </div>
       <div class="modal-body text-center">
         <h3>{{ __('post.confirm.title') }}</h3>
-        <p >{{ __('post.confirm.delete_post') }}
-            <strong class="data-content"></strong>? 
-        </p>
+        <p >{{ __('post.confirm.delete_post') }} ?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
@@ -39,9 +37,7 @@
       </div>
       <div class="modal-body text-center">
         <h3>{{ __('post.confirm.title') }}</h3>
-        <p >{{ __('post.confirm.delete_comment') }}
-            <strong class="data-content"></strong>? 
-        </p>
+        <p >{{ __('post.confirm.delete_comment') }} ?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
