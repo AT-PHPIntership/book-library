@@ -22,10 +22,10 @@ class SetRoleTest extends BaseTestUser
     public function testNotRoleAdmin()
     {
         $numberUser = 15;
-        BaseTestUser::makeUser($numberUser);
+        $this->makeUser($numberUser);
         $userLogin['role'] = User::ROLE_USER;
         $user = new User();
-        $user = BaseTestUser::makeUserLogin($userLogin);
+        $user = $this->makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->resize(1200, 900)
@@ -43,9 +43,9 @@ class SetRoleTest extends BaseTestUser
     public function testRoleAdminNotTeamSA()
     {
         $numberUser = 15;
-        BaseTestUser::makeUser($numberUser);
-        $userLogin = ['team' => BaseTestUser::teamNotSA(), 'role' => User::ROLE_ADMIN];
-        $user = BaseTestUser::makeUserLogin($userLogin);
+        $this->makeUser($numberUser);
+        $userLogin = ['team' => $this->teamNotSA(), 'role' => User::ROLE_ADMIN];
+        $user = $this->makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->resize(1200, 900)
@@ -63,9 +63,9 @@ class SetRoleTest extends BaseTestUser
     public function testRoleAdminTeamSA()
     {
         $numberUser = 15;
-        BaseTestUser::makeUser($numberUser);
+        $this->makeUser($numberUser);
         $userLogin = ['team' => User::SA, 'role' => User::ROLE_ADMIN];
-        $user = BaseTestUser::makeUserLogin($userLogin);
+        $user = $this->makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->resize(1200, 900)
@@ -83,11 +83,11 @@ class SetRoleTest extends BaseTestUser
     public function testUpdateRoleOfUser()
     {
         $numberUser = 15;
-        BaseTestUser::makeUser($numberUser);
-        User::first()->update(['team' => BaseTestUser::teamNotSA(), 'role' => User::ROLE_USER]);
+        $this->makeUser($numberUser);
+        User::first()->update(['team' => $this->teamNotSA(), 'role' => User::ROLE_USER]);
         $userLogin['team'] = User::SA;
         $userLogin['role'] = User::ROLE_ADMIN;
-        $user = BaseTestUser::makeUserLogin($userLogin);
+        $user = $this->makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->resize(1200, 900)
@@ -109,11 +109,11 @@ class SetRoleTest extends BaseTestUser
     public function testUpdateRoleOfAdminNotTeamSA()
     {
         $numberUser = 15;
-        BaseTestUser::makeUser($numberUser);
-        User::first()->update(['team' => BaseTestUser::teamNotSA(), 'role' => User::ROLE_ADMIN]);
+        $this->makeUser($numberUser);
+        User::first()->update(['team' => $this->teamNotSA(), 'role' => User::ROLE_ADMIN]);
         $userLogin['team'] = User::SA;
         $userLogin['role'] = User::ROLE_ADMIN;
-        $user = BaseTestUser::makeUserLogin($userLogin);
+        $user = $this->makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->resize(1200, 900)
@@ -135,11 +135,11 @@ class SetRoleTest extends BaseTestUser
     public function testUpdateRoleOfAdminTeamSA()
     {
         $numberUser = 15;
-        BaseTestUser::makeUser($numberUser);
+        $this->makeUser($numberUser);
         User::first()->update(['team' => User::SA, 'role' => User::ROLE_ADMIN]);
         $userLogin['team'] = User::SA;
         $userLogin['role'] = User::ROLE_ADMIN;
-        $user = BaseTestUser::makeUserLogin($userLogin);
+        $user = $this->makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->resize(1200, 900)
