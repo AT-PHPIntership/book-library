@@ -29,6 +29,7 @@
                 <th>{{ __('post.short_content') }}</th>
                 <th>{{ __('post.post_date') }}</th>
                 <th>{{ __('post.total_comment') }}</th>
+                <th>{{__('general.options')}}</th>
               </tr>
             </thead>
             <tbody>
@@ -52,6 +53,7 @@
                 <td>{!! \Illuminate\Support\Str::words($post->content, 5,'...')  !!}</td>
                 <td>{{ $post->created_at }}</td>
                 <td class='text-center' >{{ $post->comments_count }}</td>
+                <td><a href="{{ route('posts.show', ['id' => $post->id])}}" class="btn btn-success">Detail</a></td>
               </tr>
               @endforeach
             </tbody>
