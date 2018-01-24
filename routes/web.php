@@ -23,9 +23,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::resource('books', 'BookController');
     Route::resource('posts', 'PostController');
     Route::resource('borrowings', 'BorrowingController');
+    Route::resource('categories', 'CategoryController');
 });
-
 //Api
-Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
+    Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
     Route::put('users/{id}/roles', 'UserController@updateRole')->middleware('TeamSA');
 });
