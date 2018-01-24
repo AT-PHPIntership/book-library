@@ -29,6 +29,8 @@
 
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <!-- show message response -->
+    @include('flash::message')
     <!-- Content Header (Page header) -->
       <section class="content-header">
           <h1>
@@ -72,9 +74,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- show message response -->
-        @include('flash::message')
 
         <!-- /.row -->
         <div class="row">
