@@ -17,7 +17,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-body">
-                    <table id="example2" class="table table-bordered table-hover">
+                    <table id="table-borrowings" class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>@sortablelink('users.employee_code', __('borrow.employee_code'))</th>
@@ -35,9 +35,8 @@
                                 <td>{{ $borrowing->users->name }}</td>
                                 <td>{{ $borrowing->users->email }}</td>
                                 <td>{{ $borrowing->books->name }}</td>
-                                {{--<td>{{ $borrowing->from_date $OpenOrders->OPEN_TIME->format('d-m-Y') }}</td>--}}
-                                <td>{{ date('d-m-Y',strtotime($borrowing->from_date)) }}</td>
-                                <td>{{ date('d-m-Y',strtotime($borrowing->to_date)) }}</td>
+                                <td>{{ date(config('define.date_format'), strtotime($borrowing->from_date)) }}</td>
+                                <td>{{ date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
                             </tr>
                         @endforeach
                         </tbody>
