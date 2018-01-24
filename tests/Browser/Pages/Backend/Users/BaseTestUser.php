@@ -51,5 +51,4 @@ class BaseTestUser extends DuskTestCase
         $teamNotSA = [User::PHP, User::QC, User::ADROID, User::IOS];
         return $teamNotSA[array_rand($teamNotSA)];
     }
-
 }
