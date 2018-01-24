@@ -21,3 +21,6 @@ h1 {
 .box {
     padding-top: 10px;
 }
+.align-center {
+  text-align: center
+}

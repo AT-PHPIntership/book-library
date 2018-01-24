@@ -28,6 +28,7 @@ class Borrowing extends Model
         'user_id',
         'from_date',
         'to_date',
+        'date_send_email',
     ];
 
     /**
