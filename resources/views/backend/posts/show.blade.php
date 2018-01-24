@@ -11,16 +11,12 @@
     </section>
     <section class="content">
       <div class="row">
-        @foreach ($posts as $post)
         <div class="col-md-3">
+            {{Session('fail')}}
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-                @if ($post->image == '')
-                  <img class="img-thumbnail" src="{{ asset('images/books/lrg.jpg')}}" alt="User profile picture">
-                @else
-                 <img class="img-thumbnail" src="{{ asset('images/books/'.$post->image)}}" alt="User profile picture">
-                @endif
+                  <img class="img-thumbnail" src="{{ asset('images/books/'.$post->image) }}" alt="User profile picture">
             </div>
             <!-- /.box-body -->
           </div>
@@ -52,7 +48,7 @@
                         <div class="post">
                             <div>
                                 <div class="h2">
-                                    {{$post->name}}
+                                    {{$post->users->name}}
                                 </div>
                                 <ol class="breadcrumb">
                                     @if ($post->type == 1)
@@ -81,7 +77,6 @@
         </div>
         <!-- /.col -->
         <!-- /.col -->
-        @endforeach
         @if ($comments->count() > 0)
         <div class="col-md-12">
             <div class="nav-tabs-custom">

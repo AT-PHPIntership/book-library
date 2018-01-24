@@ -12,12 +12,12 @@ use Iatstuti\Database\Support\CascadeSoftDeletes;
 class Post extends Model
 {
     use SoftDeletes, CascadeSoftDeletes;
-    
+
     /**
      * Soft Delete Relationship
      */
     protected $cascadeDeletes = ['favorites', 'comments'];
-    
+
     /**
      * Value of review post
      */
@@ -32,6 +32,11 @@ class Post extends Model
      * Value of find book post
      */
     const FIND_TYPE = 3;
+
+    /**
+      * The default avatar of the user
+      */
+    const DEFAULT_IMAGE = 'lrg.jpg';
 
     /**
      * Declare table
@@ -102,5 +107,17 @@ class Post extends Model
     {
         $this->boot();
         parent::delete();
+    }
+
+    /**
+    * Custom format image if has not so default image
+     *
+     * @param string $image image
+     *
+     * @return string
+     */
+    public function getImageAttribute($image)
+    {
+        return $image ? $image : self::DEFAULT_IMAGE;
     }
 }

@@ -44,11 +44,15 @@ class PostController extends Controller
         $comments = Comment::with(['parent', 'children'])->whereHas('post', function ($query) use ($id) {
             $query->where('post_id', '=', $id);
         })->get();
-        $posts = DB::select('select posts.* ,ratings.rating , users.name
-                            from posts, ratings, users
-                            where posts.user_id = ratings.user_id and posts.book_id = ratings.book_id
-                                and users.id = posts.user_id and posts.id = '.$id.'');
 
-        return view('backend.posts.show', compact('posts', 'comments'));
+        $post = Post::select('posts.*', 'ratings.rating')
+                ->join('ratings', function ($join) {
+                    $join->on('posts.user_id', '=', 'ratings.user_id');
+                    $join->on('posts.book_id', '=', 'ratings.book_id');
+                })->find($id);
+        if (!$post) {
+            return redirect('admin/posts');
+        }
+        return view('backend.posts.show', compact('post', 'comments'));
     }
 }
