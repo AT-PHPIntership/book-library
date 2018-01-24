@@ -15,14 +15,14 @@ if (!function_exists('getCount')) {
   *
   * @return int
   */
-  function getCount($class)
-  {
-      $count = 0;
-      if (class_exists($class) && app($class) instanceof Model) {
-          $count = app($class)->count();
-      }
-      return $count;
-  }
+    function getCount($class)
+    {
+        $count = 0;
+        if (class_exists($class) && app($class) instanceof Model) {
+            $count = app($class)->count();
+        }
+        return $count;
+    }
 }
 
 if (!function_exists('activeRoute')) {

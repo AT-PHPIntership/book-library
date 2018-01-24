@@ -23,13 +23,10 @@ class UserController extends Controller
             'users.email',
             'users.team',
             'users.role',
-            DB::raw('COUNT(DISTINCT(borrowings.id)) AS total_borrowed'),
+            DB::raw('COUNT(DISTINCT(borrowings.book_id)) AS total_borrowed'),
             DB::raw('COUNT(DISTINCT(books.id)) AS total_donated'),
         ];
         
-        // Virtual Session
-        session(['team' => 'SA']);
-
         $users = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
         ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
         ->leftJoin('books', 'donators.id', 'books.donator_id')
@@ -50,7 +47,7 @@ class UserController extends Controller
     {
         $fields = [
             'users.*',
-            DB::raw('count(distinct(borrowings.id)) as total_borrowed'),
+            DB::raw('count(distinct(borrowings.book_id)) as total_borrowed'),
             DB::raw('count(distinct(donators.id)) as total_donated')
         ];
 

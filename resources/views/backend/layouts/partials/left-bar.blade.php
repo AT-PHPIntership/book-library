@@ -35,7 +35,7 @@
         </a>
       </li>
       <li class="{{ activeRoute(['categories.index', 'categories.edit']) }}">
-        <a href="#">
+        <a href="{{ route('categories.index') }}">
           <i class="fa fa-list" aria-hidden="true"></i>
           <span>{{ __('dashboard.categories') }}</span>
           <span class="pull-right-container">
