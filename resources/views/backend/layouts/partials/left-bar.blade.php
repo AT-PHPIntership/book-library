@@ -44,7 +44,16 @@
         </a>
       </li>
       <li>
-        <a href="{{ route('categories.index') }}">
+        <a href="{{ route('borrowings.index') }}">
+          <i class="fa fa-book" aria-hidden="true"></i>
+          <span>{{ __('dashboard.borrows') }}</span>
+          <span class="pull-right-container">
+              <small class="label pull-right bg-green">{{ getCount(App\Model\Borrowing::class) }}</small>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
           <i class="fa fa-list" aria-hidden="true"></i>
           <span>{{ __('dashboard.categories') }}</span>
           <span class="pull-right-container">
