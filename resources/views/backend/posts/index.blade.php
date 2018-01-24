@@ -20,7 +20,7 @@
       <div class="col-xs-12">
         <div class="box">
          <div class="box-body">
-          <table id="example2" class="table table-bordered table-hover">
+          <table id="list-posts-table" class="table table-bordered table-hover">
             <thead>
               <tr>
                 <th>{{ __('post.id') }}</th>
@@ -61,9 +61,7 @@
             <!-- .pagination -->
             <div class="text-center">
               <nav aria-label="...">
-                <ul class="pagination">
-                  {{ $posts->links() }}
-                </ul>
+                {{ $posts->links() }}
               </nav>
             </div>
             <!-- /.pagination -->
