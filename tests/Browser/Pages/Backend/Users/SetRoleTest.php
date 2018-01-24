@@ -36,7 +36,7 @@ class SetRoleTest extends DuskTestCase
     {
       factory(User::class, 10)->create([
       ]);
-      User::where('team', User::SA)->update(['role' => 1]);
+      User::where('team', User::SA)->update(['role' => User::ROLE_ADMIN]);
     }
 
     /**
@@ -47,7 +47,7 @@ class SetRoleTest extends DuskTestCase
     public function testNotRoleAdmin()
     {
         $this->makeUser();
-        $userLogin['role'] = 0;
+        $userLogin['role'] = User::ROLE_USER;
         $user = new User();
         $user = $this->makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
@@ -67,9 +67,9 @@ class SetRoleTest extends DuskTestCase
     public function testRoleAdminNotTeamSA()
     {
         $this->makeUser();
-        $teamNotSA = ['PHP', 'QC', 'Adroid', 'IOS'];
+        $teamNotSA = [User::PHP, User::QC, User::ADROID, User::IOS];
         $userLogin['team'] = $teamNotSA[array_rand($teamNotSA)];
-        $userLogin['role'] = 1;
+        $userLogin['role'] = User::ROLE_ADMIN;
         $user = $this->makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
@@ -89,7 +89,7 @@ class SetRoleTest extends DuskTestCase
     {
         $this->makeUser();
         $userLogin['team'] = User::SA;
-        $userLogin['role'] = 1;
+        $userLogin['role'] = User::ROLE_ADMIN;
         $user = $this->makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
@@ -108,10 +108,10 @@ class SetRoleTest extends DuskTestCase
     public function testUpdateRoleOfUser()
     {
         $this->makeUser();
-        $teamNotSA = ['PHP', 'QC', 'Adroid', 'IOS'];
-        User::first()->update(['role' => 0, 'team' => $teamNotSA[array_rand($teamNotSA)]]);
+        $teamNotSA = [User::PHP, User::QC, User::ADROID, User::IOS];
+        User::first()->update(['role' => User::ROLE_USER, 'team' => $teamNotSA[array_rand($teamNotSA)]]);
         $userLogin['team'] = User::SA;
-        $userLogin['role'] = 1;
+        $userLogin['role'] = User::ROLE_ADMIN;
         $user = $this->makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
@@ -134,10 +134,10 @@ class SetRoleTest extends DuskTestCase
     public function testUpdateRoleOfAdminNotTeamSA()
     {
         $this->makeUser();
-        $teamNotSA = ['PHP', 'QC', 'Adroid', 'IOS'];
-        User::first()->update(['role' => 1, 'team' => $teamNotSA[array_rand($teamNotSA)]]);
+        $teamNotSA = [User::PHP, User::QC, User::ADROID, User::IOS];
+        User::first()->update(['role' => User::ROLE_ADMIN, 'team' => $teamNotSA[array_rand($teamNotSA)]]);
         $userLogin['team'] = User::SA;
-        $userLogin['role'] = 1;
+        $userLogin['role'] = User::ROLE_ADMIN;
         $user = $this->makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
@@ -160,9 +160,9 @@ class SetRoleTest extends DuskTestCase
     public function testUpdateRoleOfAdminTeamSA()
     {
         $this->makeUser();
-        User::first()->update(['role' => 1, 'team' => User::SA]);
+        User::first()->update(['role' => User::ROLE_ADMIN, 'team' => User::SA]);
         $userLogin['team'] = User::SA;
-        $userLogin['role'] = 1;
+        $userLogin['role'] = User::ROLE_ADMIN;
         $user = $this->makeUserLogin($userLogin);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
