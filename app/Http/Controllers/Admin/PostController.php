@@ -33,7 +33,7 @@ class PostController extends Controller
     }
 
     /**
-     * Display User Detail.
+     * Display Layout Post Detail.
      *
      * @param int $id id
      *

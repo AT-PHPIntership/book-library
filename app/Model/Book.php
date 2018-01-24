@@ -10,12 +10,19 @@ use App\Model\Borrowing;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Iatstuti\Database\Support\CascadeSoftDeletes;
 use App\Libraries\Traits\SearchTrait;
 
 class Book extends Model
 {
-    use Sortable, SearchTrait;
+    use Sortable, SoftDeletes, CascadeSoftDeletes, SearchTrait;
 
+    /**
+     * Soft Delete Relationship
+     */
+    protected $cascadeDeletes = ['borrowings', 'qrcode', 'ratings', 'favorites', 'posts'];
+    
     /**
      * Default value of category
      */
@@ -63,7 +70,7 @@ class Book extends Model
      *
      * @var array $sortable table sort
      */
-    public $sortable = ['id', 'name', 'author', 'avg_rating'];
+    protected $sortable = ['id', 'name', 'author', 'avg_rating'];
 
     /**
      * Filter for search trait
@@ -152,16 +159,6 @@ class Book extends Model
     public function posts()
     {
         return $this->hasMany(Post::class);
-    }
-
-    /**
-     * Get total Borrow
-     *
-     * @return int
-     */
-    public function getTotalBorrowAttribute()
-    {
-        return $this->borrowings->count();
     }
 
     /**
