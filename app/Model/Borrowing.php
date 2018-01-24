@@ -58,5 +58,5 @@ class Borrowing extends Model
      * @var array $sortable table sort
      */
     public $sortable = ['from_date', 'to_date'];
-    public $sortableAs = ['employee_code', 'name', 'email'];
+    public $sortableAs = ['users.employee_code', 'users.name', 'users.email', 'books.name'];
 }
