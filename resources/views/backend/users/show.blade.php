@@ -1,15 +1,15 @@
 @extends('backend.layouts.main')
-@section('title', __('user.profile_user'))
+@section('title', __('user.user_profile'))
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1>{{ __('user.profile_user') }}</h1>
+    <h1>{{ __('user.user_profile') }}</h1>
     <ol class="breadcrumb">
       <li><a href="{{ route('home.index') }}"><i class="fa fa-dashboard"></i>{{ __('user.admin')  }}</a></li>
       <li><a href="{{ route('users.index') }}">{{ __('user.users') }}</a></li>
-      <li class="active">{{ __('user.profile_user') }}</li>
+      <li class="active">{{ __('user.user_profile') }}</li>
     </ol>
   </section>
   <!-- Main content -->
@@ -19,11 +19,7 @@
         <!-- Profile Image -->
         <div class="box box-primary">
           <div class="box-body box-profile">
-            @if(isset($user->avatar_url))
-            <img class="profile-user-img img-responsive img-circle" src="{{ $user->avatar_url }}">
-            @else
-            <img class="profile-user-img img-responsive img-circle" src="{{ asset('images/users/avatar-default.jpg') }}" >
-            @endif
+            <img class="profile-user-img img-responsive img-circle" src="{{ $user->Image }}">
             <h3 class="profile-username text-center">{{ $user->name }}</h3><center></center>
             <p class="text-muted text-center">
               {{ $user->roleName }}
