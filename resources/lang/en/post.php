@@ -9,7 +9,11 @@ return [
     'short_content' => 'Short Content',
     'post_date' => 'Post Date',
     'total_comment' => 'Total Comment',
+    'detail_post' => 'Detail Post',
     'review' => 'Review',
     'status' => 'Status',
-    'find_book' => 'Find book'
+    'find_book' => 'Find Book',
+    'by' => 'By',
+    'score' => 'Score',
+    'date' => 'Date',
 ];
