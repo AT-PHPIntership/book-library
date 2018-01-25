@@ -61,7 +61,7 @@
                     <div class="active tab-pane" id="activity">
                     <!-- Comment -->
                     <div class="post">
-                        {!! $chilComments !!}
+                        {!! showComment($comments) !!}
                     </div>
                     <!-- /.Comment -->
                   </div>

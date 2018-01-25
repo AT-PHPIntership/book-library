@@ -21,3 +21,10 @@ h1 {
 .box {
     padding-top: 10px;
 }
+
+.list-group .list-group-item {
+    margin-top: 10px;
+}
+.list-group .glyphicon {
+    position: relative;
+}
