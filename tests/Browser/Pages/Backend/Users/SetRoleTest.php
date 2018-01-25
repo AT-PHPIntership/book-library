@@ -19,7 +19,7 @@ class SetRoleTest extends BaseTestUser
      *
      * @return void
      */
-    public function testNotRoleAdmin()
+    public function testLoginAdminPageWithUserAccount()
     {
         $userLogin = factory(User::class)->create(['role' => User::ROLE_USER]);
         $this->browse(function (Browser $browser) use ($userLogin) {
@@ -36,9 +36,9 @@ class SetRoleTest extends BaseTestUser
      *
      * @return void
      */
-    public function testRoleAdminNotTeamSA()
+    public function testAdminAccountNotBelongsToSATeam()
     {
-        $userLogin = factory(User::class)->create(['team' => $this->teamNotSA(), 'role' => User::ROLE_ADMIN]);
+        $userLogin = factory(User::class)->create(['team' => $this->getTeamExceptSA(), 'role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin) {
             $browser->loginAs($userLogin)
                     ->resize(1200, 900)
@@ -53,7 +53,7 @@ class SetRoleTest extends BaseTestUser
      *
      * @return void
      */
-    public function testRoleAdminTeamSA()
+    public function testAdminAccountBelongsToSATeam()
     {
         $userLogin = $this->makeUserTeamSA();
         $this->browse(function (Browser $browser) use ($userLogin) {
@@ -72,7 +72,7 @@ class SetRoleTest extends BaseTestUser
      */
     public function testUpdateRoleOfUser()
     {
-        $user = factory(User::class)->create(['team' => $this->teamNotSA(), 'role' => User::ROLE_USER]);
+        $user = factory(User::class)->create(['team' => $this->getTeamExceptSA(), 'role' => User::ROLE_USER]);
         $userLogin = $this->makeUserTeamSA();
         $this->browse(function (Browser $browser) use ($userLogin) {
             $browser->loginAs($userLogin)
@@ -94,7 +94,7 @@ class SetRoleTest extends BaseTestUser
      */
     public function testUpdateRoleOfAdminNotTeamSA()
     {
-        $user = factory(User::class)->create(['team' => $this->teamNotSA(), 'role' => User::ROLE_ADMIN]);
+        $user = factory(User::class)->create(['team' => $this->getTeamExceptSA(), 'role' => User::ROLE_ADMIN]);
         $userLogin = $this->makeUserTeamSA();
         $this->browse(function (Browser $browser) use ($userLogin) {
             $browser->loginAs($userLogin)
