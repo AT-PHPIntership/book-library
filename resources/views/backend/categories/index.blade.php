@@ -33,7 +33,7 @@
                           <tr>
                               <td class="text-center">{{ $category->id }}</td>
                               <td class="margin-l-5">{{ $category->name }}</td>
-                              <td class="text-center">{{ $category->sum_of_books }}</td>
+                              <td class="text-center">{{ $category->books_count }}</td>
                           </tr>
                           @endforeach
                       </tbody>
