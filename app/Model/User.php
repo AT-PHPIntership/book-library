@@ -18,7 +18,7 @@ class User extends Authenticatable
     /**
      * The default avatar of the user
      */
-    const DEFAULT_AVATAR = '../../images/users/avatar-default.jpg';
+    const DEFAULT_AVATAR = 'avatar-default.jpg';
 
     /**
      * Value of SA
@@ -143,8 +143,8 @@ class User extends Authenticatable
      *
      * @return array
     */
-    public function getImageAttribute()
+    public function getAvatarAttribute()
     {
-        return $this->avatar_url ? $this->avatar_url : self::DEFAULT_AVATAR;
+        return $this->avatar_url ? $this->avatar_url : asset(config('image.users.path_upload') . self::DEFAULT_AVATAR);
     }
 }
