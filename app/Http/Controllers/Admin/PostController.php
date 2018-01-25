@@ -28,4 +28,14 @@ class PostController extends Controller
                     ->paginate(config('define.page_length'));
         return view('backend.posts.index', compact('posts'));
     }
+
+    /**
+     * Display Layout Post Detail.
+     *
+     * @return mixed
+     */
+    public function show()
+    {
+        return view('backend.posts.show');
+    }
 }
