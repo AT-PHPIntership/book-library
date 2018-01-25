@@ -30,4 +30,20 @@ class CategoryController extends Controller
                                 ->paginate(config('define.page_length'));
         return view('backend.categories.index', compact('categories'));
     }
+
+    /**
+     * Update the name corresponding to the category ID in the database.
+     *
+     * @param Illuminate\Http\Request $data data
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $data)
+    {
+        $category = Category::findOrFail($data->id);
+        $category->name = $data->name;
+        $category->save();
+        
+        return response()->json($data);
+    }
 }
