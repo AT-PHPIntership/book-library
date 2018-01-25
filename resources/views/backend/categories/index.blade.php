@@ -14,7 +14,6 @@
               <li class="active">{{ __('category.category') }}</li>
           </ol>
       </section>
-
       <section class="content">
         <div class="row">
           <div class="col-md-12">
@@ -34,13 +33,13 @@
                           <tr>
                               <td class="text-center">{{ $category->id }}</td>
                               <td class="margin-l-5">{{ $category->name }}</td>
-                              <td class="text-center">{{ $category->sum_of_books }}</td>
+                              <td class="text-center">{{ $category->books_count }}</td>
                           </tr>
-                            @endforeach
+                          @endforeach
                       </tbody>
                   </table>
-                    <!-- .pagination -->
-                    <div class="text-center">
+                   <!-- .pagination -->
+                   <div class="text-center">
                     <nav aria-label="...">
                         <ul class="pagination">
                         {{ $categories->links() }}

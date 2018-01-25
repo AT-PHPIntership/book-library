@@ -90,6 +90,24 @@ class AdminListCategoriesTest extends DuskTestCase
     }
 
     /**
+     * Check the list of categories without data
+     *
+     * @return void
+     */
+    public function testShowListCategoriesNoData()
+    {
+        $this->makeUser();
+        $this->browse(function (Browser $browser) {
+        $browser->loginAs(User::find(1))
+                ->visit('/admin/categories/')
+                ->resize(900, 1600)
+                ->assertSee('List Categories');
+                $elements = $browser->elements('#table-categories tbody tr');
+                $this->assertCount(0, $elements);
+        });
+    }
+
+    /**
      * Check list categories with showing only 10 rows
      *
      * @return void
