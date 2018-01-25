@@ -136,8 +136,11 @@ class BookController extends Controller
         } else {
             $backPath = config('define.list_book_path');
         }
+        $defaultPath = config('image.books.default_path');
+        $defaultImage = config('image.books.no_image_name');
+        $isNotDefaultImage = ($book->image != ($defaultPath . '/' . $defaultImage)) ? true : false;
         $categories = Category::select($categoryFields)->where('id', '<>', Book::DEFAULT_CATEGORY)->get();
-        return view('backend.books.edit', compact('book', 'categories', 'backPath'));
+        return view('backend.books.edit', compact('book', 'categories', 'backPath', 'isNotDefaultImage'));
     }
 
 
