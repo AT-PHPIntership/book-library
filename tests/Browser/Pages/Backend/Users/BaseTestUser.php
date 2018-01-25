@@ -16,7 +16,7 @@ class BaseTestUser extends DuskTestCase
     /**
      * Make a user to login with team is "SA" and role is "Admin".
      *
-     * @return App\Model\User
+     * @return User
      */
     public function makeUserTeamSA()
     {
@@ -29,9 +29,9 @@ class BaseTestUser extends DuskTestCase
      *
      * @return string
      */
-    public function teamNotSA()
+    public function getTeamExceptSA()
     {
-        $teamNotSA = [User::PHP, User::QC, User::ANDROID, User::IOS];
-        return $teamNotSA[array_rand($teamNotSA)];
+        $teamExceptSA = [User::PHP, User::QC, User::ANDROID, User::IOS];
+        return $teamExceptSA[array_rand($teamExceptSA)];
     }
 }
