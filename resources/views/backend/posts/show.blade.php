@@ -12,7 +12,6 @@
     <section class="content">
       <div class="row">
         <div class="col-md-3">
-            {{Session('fail')}}
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
@@ -42,7 +41,6 @@
 
             <div class="tab-content">
                 <!-- /.display review -->
-
                     <div class="active tab-pane" id="activity">
                         <!-- Post -->
                         <div class="post">
@@ -51,11 +49,9 @@
                                     {{$post->users->name}}
                                 </div>
                                 <ol class="breadcrumb">
-                                    @if ($post->type == 1)
+                                    @if ($post->type == App\Model\Post::REVIEW_TYPE)
                                         <li><b>{{ __('post.score') }} :</b>
-                                            <i>
-                                                {{$post->rating}}
-                                            </i>
+                                            <i> {{$post->rating}} </i>
                                         </li>
                                     @endif
                                     <li><b>{{ __('post.date') }} :</b><i> {{ $post->created_at }}</i></li>
@@ -86,16 +82,15 @@
                 <div class="tab-content">
                     <div class="active tab-pane" id="activity">
                     <!-- Post -->
-
                     <div class="post">
-                    @foreach ($comments as $key=>$comment)
+                    @foreach ($comments as $comment)
                         <div class="list-group">
                             @if ($comment->parent_id == '')
                             <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                                 <p class="mb-1">{{ $comment->content }} <a href="#" class="glyphicon glyphicon-remove text-warning pull-right"></a></p>
                             @endif
                             @if ($comment->children->count())
-                                @foreach ($comment->children as $index=>$chil)
+                                @foreach ($comment->children as $chil)
                                 <small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small><small class="text-muted">{{$chil->content}} <a href="#" class="glyphicon glyphicon-remove text-warning pull-right"></a></small>
                                 @endforeach
                             </div>
