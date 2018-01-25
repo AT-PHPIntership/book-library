@@ -5,7 +5,7 @@ return [
     'numbers_order' => 'No.',
     'name' => 'Name',
     'author' => 'Author',
-    'average_review_score' => 'Average review score',
+    'average_review_score' => 'Rating',
     'total_borrow' => 'Total borrow',
     'add_book' => 'Add Book',
 ];
