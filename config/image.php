@@ -5,5 +5,8 @@ return [
     'books'            => [
         'path_upload'  => 'images/books/',
         'no_image_name'=> 'no-image.png',
-    ]
+    ],
+    'users' => [
+        'path_upload'  => 'images/users/',
+    ],
 ];
