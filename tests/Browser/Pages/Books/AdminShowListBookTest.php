@@ -16,6 +16,7 @@ use Faker\Factory as Faker;
 class AdminShowListBookTest extends DuskTestCase
 {
     use DatabaseMigrations;
+
     /**
      * Create virtual database
      *
