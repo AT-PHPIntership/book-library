@@ -26,3 +26,5 @@
 <script src="{{ asset('bower_components/ckeditor/ckeditor.js') }}"></script>
 
 <script src="{{ asset('js/main.js') }}"></script>
+<script src="{{ asset('/js/delete_list.js') }}"></script>
+
