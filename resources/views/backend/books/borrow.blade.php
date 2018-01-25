@@ -20,13 +20,13 @@
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>{{ __('borrow.employee_code') }}</th>
-                            <th>{{ __('borrow.name') }}</th>
-                            <th>{{ __('borrow.email') }}</th>
-                            <th>{{ __('borrow.books') }}</th>
-                            <th>{{ __('borrow.from_date') }}</th>
-                            <th>{{ __('borrow.end_date') }}</th>
-                            <th>{{ __('borrow.date_sent_mail') }}</th>
+                            <th>@sortablelink('users.employee_code', __('borrow.employee_code'))</th>
+                            <th>@sortablelink('users.name', __('borrow.name'))</th>
+                            <th>@sortablelink('users.email', __('borrow.email'))</th>
+                            <th>@sortablelink('books.name', __('borrow.books'))</th>
+                            <th>@sortablelink('from_date', __('borrow.from_date'))</th>
+                            <th>@sortablelink('to_date', __('borrow.end_date'))</th>
+                            <th>@sortablelink('date_sent_mail', __('borrow.date_sent_mail'))</th>
                         </tr>
                         </thead>
                         <tbody>
