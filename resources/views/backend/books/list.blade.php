@@ -1,7 +1,6 @@
 @extends('backend.layouts.main')
 @section('title',__('books.title_book'))
 @section('content')
-
 <!-- Modal -->
 <div id="confirmDelete" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -13,10 +12,12 @@
       </div>
       <div class="modal-body text-center">
         <h3>{{ __('book.confirm.title') }}</h3>
-        <p>{{ __('book.confirm.delete') }} ?</p>
+        <p >{{ __('book.confirm.delete') }}
+            <strong class="data-content"></strong>? 
+        </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
+        <button id="ok" type="button" class="btn btn-danger ok" data-dismiss="modal">{{ __('confirm.ok') }}</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
       </div>
     </div>
@@ -35,7 +36,7 @@
           </h1>
           <ol class="breadcrumb">
               <li><a href="#"><i class="fa fa-dashboard"></i>{{ __('book.admin')  }}</a></li>
-              <li class="active">{{ __('book.book') }}</li>
+              <li class="active">{{ __('book.books') }}</li>
           </ol>
       </section>
 
@@ -104,7 +105,7 @@
                                 <td align="center">
                                     <a href="{{ route('books.edit', $book) }}"
                                        class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                                    <i class="btn btn-danger btn-lg fa fa-trash-o"></i>
+                                    <i class="btn btn-danger btn-lg fa fa-trash-o" id="{{ $book->id }}" data-toggle="modal" data-target="#confirmDelete" data-name="{{ $book->name }}"></i>
                                 </td>
                             </tr>
                         @endforeach

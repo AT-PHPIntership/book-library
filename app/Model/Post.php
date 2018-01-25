@@ -7,11 +7,17 @@ use App\Model\Comment;
 use App\Model\Favorite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Iatstuti\Database\Support\CascadeSoftDeletes;
 
 class Post extends Model
 {
-    use SoftDeletes;
-
+    use SoftDeletes, CascadeSoftDeletes;
+    
+    /**
+     * Soft Delete Relationship
+     */
+    protected $cascadeDeletes = ['favorites', 'comments'];
+    
     /**
      * Value of review post
      */
@@ -85,5 +91,16 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Custom delete method.
+     *
+     * @return array
+    */
+    public function delete()
+    {
+        $this->boot();
+        parent::delete();
     }
 }
