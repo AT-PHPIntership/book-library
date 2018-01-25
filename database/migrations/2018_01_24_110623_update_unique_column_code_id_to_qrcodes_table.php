@@ -14,7 +14,7 @@ class UpdateUniqueColumnCodeIdToQrcodesTable extends Migration
     public function up()
     {
         Schema::table('qrcodes', function (Blueprint $table) {
-            $table->unique('code_id', 'code_id');
+            $table->unique('code_id', 'qrcodes_code_id_unique');
         });
     }
 
@@ -26,7 +26,7 @@ class UpdateUniqueColumnCodeIdToQrcodesTable extends Migration
     public function down()
     {
         Schema::table('qrcodes', function (Blueprint $table) {
-            $table->dropUnique('code_id');
+            $table->dropUnique('qrcodes_code_id_unique');
         });
     }
 }
