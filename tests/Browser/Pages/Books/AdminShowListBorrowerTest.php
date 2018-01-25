@@ -13,7 +13,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
-class AdminShowListBookTest extends DuskTestCase
+class AdminShowListBorrowingsTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
