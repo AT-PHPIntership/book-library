@@ -37,7 +37,7 @@ class AdminShowDetailUserTest extends DuskTestCase
                 ->assertSee('List Users')
                 ->click('.username')
                 ->visit('admin/users/'.$user->employee_code)
-                ->assertSee('Profile User');
+                ->assertSee('User Profile');
         });
     }
     
@@ -52,7 +52,7 @@ class AdminShowDetailUserTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                 ->visit('/admin/users/' . $user->employee_code)
-                ->assertSee('Profile User')
+                ->assertSee('User Profile')
                 ->assertSee('Borrowed')
                 ->assertSee('Donated')
                 ->assertSee('Borrowing')
