@@ -7,5 +7,8 @@ return [
         'default_path' => 'images/books/default',
         'no_image_name'=> 'no-image.png',
         'storage'      => 'storage/',
-    ]
+    ],
+    'users' => [
+        'path_upload'  => 'images/users/',
+    ],
 ];

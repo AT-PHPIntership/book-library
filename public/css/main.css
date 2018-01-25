@@ -20,6 +20,10 @@ h1 {
 .box {
     padding-top: 10px;
 }
+.size-img img {
+    height: 246px;
+    width: 210px;
+}
 .box {
     padding-top: 10px;
 }

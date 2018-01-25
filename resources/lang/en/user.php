@@ -9,7 +9,7 @@ return [
   'total_borrowed' => 'Total borrowed books',
   'user_title' => 'Users',
   'role' => 'Role',
-  'profile_user' => 'Profile User',
+  'user_profile' => 'User Profile',
   'admin' => 'Admin',
   'users' => 'Users',
   'edit_profile' => 'Edit Profile',
@@ -22,14 +22,14 @@ return [
   'joined_date' => 'Joined Date',
   'member' => 'Member',
   'none' => 'None',
-  'user_profile_picture' => 'User profile picture',
-  'fullname' => 'Full name',
-  'join_dated' => 'Join dated',
+  'fullname' => 'Full Name',
+  'join_dated' => 'Join Dated',
   'email' => 'Email',
   'user' => 'User',
   'admin' => 'Admin',
   'name_role' => [
     'user' => 'User',
     'admin' => 'Admin'
-  ]
+  ],
+  'team' => 'Team',
 ];
