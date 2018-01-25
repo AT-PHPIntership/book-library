@@ -31,9 +31,9 @@ class User extends Authenticatable
     const QC = 'QC';
 
     /**
-     * Value of ADROID
+     * Value of ANDROID
      */
-    const ADROID = 'Adroid';
+    const ANDROID = 'Android';
 
     /**
      * Value of IOS
