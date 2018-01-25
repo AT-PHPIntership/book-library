@@ -45,24 +45,24 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
     {
         $faker = Faker::create();
 
-        factory(Category::class, 1)->create();
+        factory(Category::class)->create();
 
-        factory(User::class, 1)->create([
+        factory(User::class,2)->create([
             'role' => 1
         ]);
 
-        factory(Donator::class, 1)->create([
+        factory(Donator::class)->create([
             'user_id' => 1
         ]);
 
-        factory(Book::class, 1)->create([
+        factory(Book::class)->create([
             'category_id' => 1,
             'donator_id' => 1,
             'name' => $faker->sentence(rand(2,5)),
             'author' => $faker->name,
         ]);
 
-        factory(Borrowing::class, 1)->create([
+        factory(Borrowing::class)->create([
             'book_id' =>  1,
             'user_id' =>  1,
         ]);
@@ -101,6 +101,23 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
     }
 
     /**
+     * Test Users never Donated books.
+     *
+     * @return void
+     */
+    public function testUserNotDonateBook()
+    {   
+        $this->makeData();
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(User::find(1))
+                    ->visit('admin/books?uid=2&filter=donated')
+                    ->assertSee('LIST OF BOOK')
+                    ->assertSee('Sorry, Not be found.')
+                    ->assertMissing('.pagination');
+        });
+    }
+
+    /**
     * in list users, click number of donated books by user go to page lists books display name of donated books
     *
     * @return void
@@ -135,6 +152,23 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
                     ->assertQueryStringHas('filter', 'borrowed');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
+        });
+    }
+
+    /**
+     * Test Users haven't borrowed books.
+     *
+     * @return void
+     */
+    public function testUserNotBorrowBook()
+    {   
+        $this->makeData();
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(User::find(1))
+                    ->visit('admin/books?uid=2&filter=borrowed')
+                    ->assertSee('LIST OF BOOK')
+                    ->assertSee('Sorry, Not be found.')
+                    ->assertMissing('.pagination');
         });
     }
 }
