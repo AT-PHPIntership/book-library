@@ -41,9 +41,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $comments = Comment::with(['parent', 'children'])->whereHas('post', function ($query) use ($id) {
-            $query->where('post_id', '=', $id);
-        })->get();
+        $comments = Comment::where('post_id', $id)->get();
 
         $post = Post::select('posts.*', 'ratings.rating')
                 ->join('ratings', function ($join) {
@@ -53,6 +51,30 @@ class PostController extends Controller
         if (!$post) {
             return redirect('admin/posts');
         }
-        return view('backend.posts.show', compact('post', 'comments'));
+        $chilComments = $this->showComment($comments);
+        return view('backend.posts.show', compact('post', 'chilComments'));
+    }
+
+    /**
+     * Display Layout Post Detail.
+     *
+     * @param array $comments  comments
+     * @param int   $parentId parent id
+     *
+     * @return mixed
+     */
+    public function showComment($comments, $parentId = null)
+    {
+        $body = '<div class="list-group">';
+        foreach ($comments as $comment) {
+            if ($comment->parent_id == $parentId) {
+                    $body .= '<div href="#" class="list-group-item list-group-item-action flex-column align-items-start">';
+                    $body .= '<p class="mb-1">'. $comment['content'].'<a href="#" class="glyphicon glyphicon-remove text-warning pull-right"></a></p>';
+                    $body .= $this->showComment($comments, $comment->id);
+                    $body .= '</div>';
+            }
+        }
+        $body .= '</div>';
+        return $body;
     }
 }
