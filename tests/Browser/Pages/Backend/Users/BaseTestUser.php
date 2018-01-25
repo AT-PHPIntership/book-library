@@ -14,31 +14,14 @@ class BaseTestUser extends DuskTestCase
     use DatabaseMigrations;
 
     /**
-     * Make a user to login from $userLogin.
-     *
-     * @param array $userLogin If $userLogin has a name or role, $user has a name or role like $userLogin,
-     * otherwise random to get name and role.
+     * Make a user to login with team is "SA" and role is "Admin".
      *
      * @return App\Model\User
      */
-    public function makeUserLogin($userLogin)
+    public function makeUserTeamSA()
     {
-        $user = factory(User::class)->create($userLogin);
+        $user = factory(User::class)->create(['team' => User::SA, 'role' => User::ROLE_ADMIN]);
         return $user;
-    }
-
-    /**
-     * Make users.
-     *
-     * @param int $numberUser Number user.
-     *
-     * @return void
-     */
-    public function makeUser($numberUser)
-    {
-      factory(User::class, $numberUser)->create([
-      ]);
-      User::where('team', User::SA)->update(['role' => User::ROLE_ADMIN]);
     }
 
     /**
