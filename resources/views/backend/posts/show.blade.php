@@ -15,65 +15,43 @@
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-                  <img class="img-thumbnail" src="{{ asset('images/books/'.$post->image) }}" alt="User profile picture">
+                  <img class="img-thumbnail" src="{{ asset('images/books/'.$post->image_url) }}" alt="User profile picture">
             </div>
-            <!-- /.box-body -->
+            <!-- End Profile Image -->
           </div>
-          <!-- /.box -->
         </div>
-        <!-- /.col -->
         <div class="col-md-9">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-                @switch($post->type)
-                  @case(App\Model\Post::REVIEW_TYPE)
-                    <li class="active"><a href="#activity" data-toggle="tab">{{ strtoupper(__('post.review')) }}</a></li>
-                    @break
-                  @case(App\Model\Post::STATUS_TYPE)
-                    <li><a href="#timeline" data-toggle="tab">{{ strtoupper(__('post.status')) }}</a></li>
-                    @break
-                  @case(App\Model\Post::FIND_TYPE)
-                    <li><a href="#settings" data-toggle="tab">{{ strtoupper(__('post.find_book')) }}</a></li>
-                    @break
-                @endswitch
+                <li class="active"><a href="{{ $post->type_lable[0]}}" data-toggle="tab" value="">{{ strtoupper($post->type_lable[1]) }}</a></li>
             </ul>
-            <!-- /.tab-content -->
-
             <div class="tab-content">
-                <!-- /.display review -->
-                    <div class="active tab-pane" id="activity">
-                        <!-- Post -->
-                        <div class="post">
-                            <div>
-                                <div class="h2">
-                                    {{$post->users->name}}
-                                </div>
-                                <ol class="breadcrumb">
-                                    @if ($post->type == App\Model\Post::REVIEW_TYPE)
-                                        <li><b>{{ __('post.score') }} :</b>
-                                            <i> {{$post->rating}} </i>
-                                        </li>
-                                    @endif
-                                    <li><b>{{ __('post.date') }} :</b><i> {{ $post->created_at }}</i></li>
-                                    <li><i class="fa fa-trash-o text-danger"></i></li>
-                                </ol>
+                <div class="active tab-pane" id="activity">
+                    <!-- Post -->
+                    <div class="post">
+                        <div>
+                            <div class="h2">
+                                {{$post->users->name}}
                             </div>
-                          <!-- /.user-block -->
-                            <p>
-                                {{ $post->content }}
-                            </p>
+                            <ol class="breadcrumb">
+                                @if ($post->type == App\Model\Post::REVIEW_TYPE)
+                                    <li><b>{{ __('post.score') }} :</b>
+                                        <i> {{$post->rating}} </i>
+                                    </li>
+                                @endif
+                                <li><b>{{ __('post.date') }} :</b><i> {{ $post->created_at }}</i></li>
+                                <li><i class="fa fa-trash-o text-danger"></i></li>
+                            </ol>
                         </div>
-                        <!-- /.post -->
+                        <p>
+                            {{ $post->content }}
+                        </p>
                     </div>
-              <!-- /.end reivew -->
+                </div>
             </div>
-            <!-- /.tab-content -->
           </div>
-          <!-- /.nav-tabs-custom -->
         </div>
-        <!-- /.col -->
-        <!-- /.col -->
-        @if ($comments->count() > 0)
+
         <div class="col-md-12">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
@@ -81,36 +59,18 @@
                 </ul>
                 <div class="tab-content">
                     <div class="active tab-pane" id="activity">
-                    <!-- Post -->
+                    <!-- Comment -->
                     <div class="post">
-                    @foreach ($comments as $comment)
-                        <div class="list-group">
-                            @if ($comment->parent_id == '')
-                            <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                <p class="mb-1">{{ $comment->content }} <a href="#" class="glyphicon glyphicon-remove text-warning pull-right"></a></p>
-                            @endif
-                            @if ($comment->children->count())
-                                @foreach ($comment->children as $chil)
-                                <small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small><small class="text-muted">{{$chil->content}} <a href="#" class="glyphicon glyphicon-remove text-warning pull-right"></a></small>
-                                @endforeach
-                            </div>
-                            @endif
-                        </div>
-                    @endforeach
+                        {!! $chilComments !!}
                     </div>
-                    <!-- /.post -->
+                    <!-- /.Comment -->
                   </div>
                 </div>
-            <!-- /.tab-content -->
           </div>
-            <!-- /.nav-tabs-custom -->
         </div>
-        @endif
-        <!-- /.col -->
+
       </div>
-      <!-- /.row -->
     </section>
-    <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 @endsection
