@@ -11,7 +11,7 @@
     </section>
     <section class="content">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
@@ -20,7 +20,7 @@
             <!-- End Profile Image -->
           </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-10">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="{{ $post->type_lable[0]}}" data-toggle="tab" value="">{{ strtoupper($post->type_lable[1]) }}</a></li>
