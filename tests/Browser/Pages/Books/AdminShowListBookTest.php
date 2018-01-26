@@ -46,7 +46,7 @@ class AdminShowListBookTest extends DuskTestCase
      */
     public function makeUser(){
         factory(User::class)->create([
-            'role' => 1
+            'role' => User::ROOT_ADMIN
         ]);
     }
 
