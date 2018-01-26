@@ -21,9 +21,10 @@ class AdminListCategoriesTest extends DuskTestCase
      *
      * @return void
      */
-    public function makeUser(){
-        factory(User::class)->create([
-            'role' => 1
+    public function userLogin()
+    {
+        return factory(User::class)->create([
+            'role' => '1'
         ]);
     }
 
@@ -34,9 +35,9 @@ class AdminListCategoriesTest extends DuskTestCase
      */
     public function testRouteShowListCategories()
     {
-        $this->makeUser();
-        $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+        $user = $this->userLogin();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user)
                     ->visit('/admin')
                     ->clickLink('CATEGORIES')
                     ->assertPathIs('/admin/categories')
@@ -51,9 +52,9 @@ class AdminListCategoriesTest extends DuskTestCase
      */
     public function testLayoutListCategories()
     {
-        $this->makeUser();
-        $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+        $user = $this->userLogin();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user)
                 ->visit('/admin/categories')
                 ->assertSee('List Categories')
                 ->assertSeeLink('Admin')
@@ -75,11 +76,11 @@ class AdminListCategoriesTest extends DuskTestCase
         factory(Category::class, $rows)->create();
         $categoryIds = DB::table('categories')->pluck('id')->toArray();
 
-        $donator = factory(Donator::class, 1)->create();
-
+        factory(Donator::class)->create();
+    
         for ($i = 0; $i <= $rows; $i++)
         {
-            factory(Book::class,1)->create([
+            factory(Book::class)->create([
                 'category_id' => $faker->randomElement($categoryIds),
                 'donator_id' => 1,
                 'name' => $faker->name,
@@ -95,9 +96,9 @@ class AdminListCategoriesTest extends DuskTestCase
      */
     public function testShowListCategoriesNoData()
     {
-        $this->makeUser();
-        $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+        $user = $this->userLogin();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user)
                     ->visit('/admin/categories/')
                     ->resize(900, 1600)
                     ->assertSee('List Categories');
@@ -113,10 +114,10 @@ class AdminListCategoriesTest extends DuskTestCase
      */
     public function testShowListCategoriesNoPagination()
     {
-        $this->makeUser();
         $this->makeDataOfListCategories(8);
-        $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+        $user = $this->userLogin();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user)
                     ->visit('/admin/categories/')
                     ->resize(900, 1600)
                     ->assertSee('List Categories');
@@ -132,10 +133,10 @@ class AdminListCategoriesTest extends DuskTestCase
      */
     public function testPagination()
     {
-        $this->makeUser();
         $this->makeDataOfListCategories(25);
-        $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+        $user = $this->userLogin();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user)
                     ->visit('/admin/categories/')
                     ->resize(900, 1600)
                     ->assertSee('List Categories');
@@ -152,10 +153,10 @@ class AdminListCategoriesTest extends DuskTestCase
      */
     public function testShowListCategoriesHavePagination()
     {
-        $this->makeUser();
         $this->makeDataOfListCategories(15);
-        $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+        $user = $this->userLogin();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user)
                     ->visit('/admin/categories/')
                     ->resize(900, 1600)
                     ->assertSee('List Categories')
