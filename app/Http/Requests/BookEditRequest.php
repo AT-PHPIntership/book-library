@@ -25,11 +25,11 @@ class BookEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:8',
+            'name' => 'required',
             'author' => 'required',
             'price' => 'required|numeric',
             'employee_code' => 'required',
-            'year' => 'required|digits:4|integer|min:1900|max:'.(Carbon::now()->year+1),
+            'year' => 'required|digits:4|integer|min:1900|max:'.Carbon::now()->year,
             'description' => 'required|string',
             'image'=> 'image|max:10240',
         ];
