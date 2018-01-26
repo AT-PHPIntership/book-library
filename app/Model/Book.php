@@ -10,6 +10,7 @@ use App\Model\Borrowing;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Iatstuti\Database\Support\CascadeSoftDeletes;
 use App\Libraries\Traits\SearchTrait;
@@ -169,5 +170,19 @@ class Book extends Model
     public function qrcode()
     {
         return $this->hasOne(QrCode::class);
+    }
+
+    /**
+     * Upload image
+     *
+     * @param App\Http\Requests\BookEditRequest $request request
+     *
+     * @return String
+     */
+    public function uploadImage($request)
+    {
+        $folder = config('image.books.upload_path');
+        $path = Storage::disk('public')->putFile($folder, $request->file('image'));
+        return $path;
     }
 }
