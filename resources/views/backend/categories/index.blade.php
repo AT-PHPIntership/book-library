@@ -2,6 +2,27 @@
 @section('title',__('category.title'))
 @section('content')
 
+<!-- Modal -->
+<div id="confirmDelete" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <h3>{{ __('category.confirm_delete_message') }}</h3>
+      </div>
+      <div class="modal-footer">
+        <button id="confirm" type="button" class="btn btn-danger confirm" data-dismiss="modal">{{ __('confirm.ok') }}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+      </div>
+    </div>
+    <!-- end content-->
+  </div>
+</div>
+<!-- end modal-->
+
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
