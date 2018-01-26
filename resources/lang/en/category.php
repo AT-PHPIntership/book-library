@@ -5,5 +5,7 @@ return [
     'category' => 'Category',
     'id' => 'ID',
     'name' => 'Name',
-    'number_of_books' => 'Number of Books'
+    'number_of_books' => 'Number of Books',
+    'option' => 'Option',
+    'edit' => 'Edit',
 ];
