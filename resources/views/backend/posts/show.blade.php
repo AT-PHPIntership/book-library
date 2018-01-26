@@ -51,7 +51,7 @@
             </div>
           </div>
         </div>
-
+        @if ($comments->count() > 0)
         <div class="col-md-12">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
@@ -68,7 +68,7 @@
                 </div>
           </div>
         </div>
-
+        @endif
       </div>
     </section>
   </div>
