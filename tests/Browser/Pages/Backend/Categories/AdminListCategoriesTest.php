@@ -27,7 +27,6 @@ class AdminListCategoriesTest extends DuskTestCase
         ]);
     }
 
-
     /**
      * A Dusk test route to page list categories.
      *
@@ -65,7 +64,7 @@ class AdminListCategoriesTest extends DuskTestCase
     }
 
     /**
-     * Create virtual database
+     * Create virtual data to test
      *
      * @return void
      */
@@ -83,7 +82,7 @@ class AdminListCategoriesTest extends DuskTestCase
             factory(Book::class,1)->create([
                 'category_id' => $faker->randomElement($categoryIds),
                 'donator_id' => 1,
-                'name' => $faker->sentence(rand(2,5)),
+                'name' => $faker->name,
                 'author' => $faker->name,
             ]);
         }
@@ -98,12 +97,12 @@ class AdminListCategoriesTest extends DuskTestCase
     {
         $this->makeUser();
         $this->browse(function (Browser $browser) {
-        $browser->loginAs(User::find(1))
-                ->visit('/admin/categories/')
-                ->resize(900, 1600)
-                ->assertSee('List Categories');
-                $elements = $browser->elements('#table-categories tbody tr');
-                $this->assertCount(0, $elements);
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/categories/')
+                    ->resize(900, 1600)
+                    ->assertSee('List Categories');
+                    $elements = $browser->elements('#table-categories tbody tr');
+                    $this->assertCount(0, $elements);
         });
     }
 
@@ -117,12 +116,12 @@ class AdminListCategoriesTest extends DuskTestCase
         $this->makeUser();
         $this->makeDataOfListCategories(8);
         $this->browse(function (Browser $browser) {
-        $browser->loginAs(User::find(1))
-                ->visit('/admin/categories/')
-                ->resize(900, 1600)
-                ->assertSee('List Categories');
-                $elements = $browser->elements('#table-categories tbody tr');
-                $this->assertCount(8, $elements);
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/categories/')
+                    ->resize(900, 1600)
+                    ->assertSee('List Categories');
+                    $elements = $browser->elements('#table-categories tbody tr');
+                    $this->assertCount(8, $elements);
         });
     }
 
@@ -140,9 +139,9 @@ class AdminListCategoriesTest extends DuskTestCase
                     ->visit('/admin/categories/')
                     ->resize(900, 1600)
                     ->assertSee('List Categories');
-            $elements = $browser->elements('.pagination li');
-            $numberPage = count($elements) - 2;
-            $this->assertTrue($numberPage == ceil(25 / (config('define.page_length'))));
+                    $elements = $browser->elements('.pagination li');
+                    $numberPage = count($elements) - 2;
+                    $this->assertTrue($numberPage == ceil(25 / (config('define.page_length'))));
         });
     }
 
@@ -156,15 +155,15 @@ class AdminListCategoriesTest extends DuskTestCase
         $this->makeUser();
         $this->makeDataOfListCategories(15);
         $this->browse(function (Browser $browser) {
-        $browser->loginAs(User::find(1))
-                ->visit('/admin/categories/')
-                ->resize(900, 1600)
-                ->assertSee('List Categories')
-                ->click('.pagination li:nth-child(3) a');
-                $elements = $browser->elements('#table-categories tbody tr');
-                $this->assertCount(5, $elements);
-                $browser->assertQueryStringHas('page', 2);
-                $this->assertNotNull($browser->element('.pagination'));
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/categories/')
+                    ->resize(900, 1600)
+                    ->assertSee('List Categories')
+                    ->click('.pagination li:nth-child(3) a');
+                    $elements = $browser->elements('#table-categories tbody tr');
+                    $this->assertCount(5, $elements);
+                    $browser->assertQueryStringHas('page', 2);
+                    $this->assertNotNull($browser->element('.pagination'));
         });
     }
 }
