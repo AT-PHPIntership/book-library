@@ -44,7 +44,7 @@
                   <td>{{ $user->email }}</td>
                   <td><a class="bookuser" id="donator-id" href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::DONATED]) }}">{{ $user->total_donated }}</td>
                   <td><a class="bookuser" href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::BORROWED]) }}">{{ $user->total_borrowed }}</td>
-                  @if (session()->get('team') == App\Model\User::SA)
+                  @if (Auth::user()->team == app\Model\User::SA)
                   <td>
                     <a id="role-{{$user->id}}"
                     @if ($user->team == App\Model\User::SA)
