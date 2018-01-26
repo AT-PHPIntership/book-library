@@ -82,9 +82,7 @@ class AdminListCategoriesTest extends DuskTestCase
         {
             factory(Book::class)->create([
                 'category_id' => $faker->randomElement($categoryIds),
-                'donator_id' => 1,
-                'name' => $faker->name,
-                'author' => $faker->name,
+                'donator_id' => 1
             ]);
         }
     }
@@ -108,7 +106,7 @@ class AdminListCategoriesTest extends DuskTestCase
     }
 
     /**
-     * Check list categories with showing only 10 rows
+     * Check list categories with showing only 8 rows
      *
      * @return void
      */
