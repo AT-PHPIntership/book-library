@@ -53,7 +53,7 @@ if (!function_exists('activeRoute')) {
     function showComment($comments, $parentId = null)
     {
         $body = '<div class="list-group">';
-        foreach ($comments as $key=>$comment) {
+        foreach ($comments as $comment) {
             if ($comment->parent_id == $parentId) {
                     $body .= '<div href="#" class="list-group-item list-group-item-action">';
                     $body .= '<p class="mb-1">'.$comment['content'].'<a href="#" class="glyphicon glyphicon-remove text-warning pull-right"></a></p>';
