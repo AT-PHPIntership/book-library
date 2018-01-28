@@ -2,7 +2,7 @@
 return [
     'title' => 'BOOK',
     'edit_book' => 'Edit Book',
-    'book' => 'Book',
+    'books' => 'Books',
     'edit' => 'Edit',
     'name' => 'Name',
     'enter_name' => 'Enter book name',
@@ -25,7 +25,7 @@ return [
     'back' => 'Back',
     'confirm' => [
         'title' => 'Confirm',
-        'delete' => 'Do you want to delete this book'
+        'delete' => 'Do you want to delete this '
     ],
     'not_found' => 'Sorry, Not be found.',
     'message' => [
