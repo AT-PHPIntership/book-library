@@ -15,6 +15,9 @@ class CreateBookTest extends DuskTestCase
 
     use DatabaseMigrations;
 
+    /**
+     * Constructor function
+     */
     public function setUp()
     {
         parent::setUp();
@@ -219,5 +222,21 @@ class CreateBookTest extends DuskTestCase
      */
     public function fakeNotImage() {
         return UploadedFile::fake()->create('image.pdf');
+    }
+
+    /**
+     * Adding user for testing
+     * 
+     * @return void
+     */
+    public function fakeUser() {
+        $user = [
+            'employee_code' => 'AT0286',
+            'name'          => 'SA Dinh Thi.',
+            'email'         => 'sa.as@asiantech.vn',
+            'team'          => 'SA',
+            'role'          => 1,
+        ];
+        $user = factory(User::class, 1)->create($user);
     }
 }
