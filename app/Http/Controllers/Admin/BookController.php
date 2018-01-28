@@ -81,7 +81,7 @@ class BookController extends Controller
     }
 
     /**
-     *  * Display list book with filter ( if have ).
+     * Display list book with filter ( if have ).
      *
      * @param Request $request requests
      *
@@ -136,9 +136,13 @@ class BookController extends Controller
         } else {
             $backPath = config('define.list_book_path');
         }
+        $defaultPath = config('image.books.default_path');
+        $defaultImage = config('image.books.no_image_name');
+        $isNotDefaultImage = ($book->image != ($defaultPath . '/' . $defaultImage)) ? true : false;
         $categories = Category::select($categoryFields)->where('id', '<>', Book::DEFAULT_CATEGORY)->get();
-        return view('backend.books.edit', compact('book', 'categories', 'backPath'));
+        return view('backend.books.edit', compact('book', 'categories', 'backPath', 'isNotDefaultImage'));
     }
+
 
     /**
      * Save data book edited.
@@ -152,6 +156,7 @@ class BookController extends Controller
     {
         DB::beginTransaction();
         try {
+            $bookData = $request->except('_token', '_method', 'image');
             // save image path, move image to directory
             $hasImage = $request->hasFile('image');
             if ($hasImage) {
@@ -183,6 +188,22 @@ class BookController extends Controller
             }
             flash($errMessage)->error();
             return redirect()->back()->withInput();
+        }
+    }
+
+    /**
+     * Show the form with book data for edit book.
+     *
+     * @param Request $request request
+     * @param int     $id      id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        $book = Book::find($id)->delete();
+        if ($request->ajax()) {
+            return response()->json(['book'=> $book], 200);
         }
     }
 }

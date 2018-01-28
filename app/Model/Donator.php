@@ -60,14 +60,13 @@ class Donator extends Model
     public static function updateDonator($employeeCode)
     {
         $user = User::where('employee_code', $employeeCode)->first();
-        if (empty($user)) {
-            $donatorData = [
-                'employee_code' => $employeeCode,
-            ];
-        } else {
+        $donatorData = [
+            'employee_code' => $employeeCode,
+        ];
+        if ($user) {
             $donatorData = [
                 'user_id' => $user->id,
-                'employee_code' => $user->employee_code,
+                'employee_code' => $employeeCode,
                 'email' => $user->email,
                 'name' => $user->name,
             ];

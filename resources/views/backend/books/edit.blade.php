@@ -85,7 +85,7 @@
                 @endif
               </div>
               @if(isset($book->image))
-                <img id="image-db-display" width="150" height="200" src="{{ asset(config('image.books.storage') . $book->image) }}" alt="no-image">
+                <img id="image-db-display" width="150" height="200" src="{{ ($isNotDefaultImage) ? asset(config('image.books.storage') . $book->image) : asset($book->image) }}" alt="no-image">
                 <img id="image-display" width="150" height="200">
               @endif
 
