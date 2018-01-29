@@ -2,7 +2,7 @@ $('.fa-trash-o').click(function () {
 	 $id = $(this).attr('id');
 	 $('.ok').attr('data-id', $id);
 	 $content = $(this).attr('data-name');
-	 $('.text-center strong').html($content + " book");
+	 $('.text-center strong').html($content);
 });
 //Add event for button OK in modal
 $('.ok').click(function () {
