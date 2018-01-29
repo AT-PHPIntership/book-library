@@ -6,10 +6,11 @@ use App\Model\User;
 use App\Model\Book;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kyslik\ColumnSortable\Sortable;
 
 class Borrowing extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Sortable;
     
     /**
      * Declare table
@@ -49,4 +50,14 @@ class Borrowing extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    /**
+     * Relationship morphMany with Favorite
+     * Declare table sort
+     *
+     * @var array $sortable table sort
+     */
+    public $sortable = ['from_date', 'to_date'];
+    
+    public $sortableAs = ['users.employee_code', 'users.name', 'users.email', 'books.name'];
 }

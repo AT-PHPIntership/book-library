@@ -2,30 +2,21 @@
   <section class="sidebar">
     <div class="user-panel">
       <div class="pull-left image">
-        <img src="{{ asset('bower_components/admin-lte/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+        <img src="{{ Auth::user()->avatar_url }}" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
-        <p>Alexander Pierce</p>
+        <p><a href="{{route('users.show', Auth::user()->employee_code)}}">{{Auth::user()->name}}</a></p>
         <a href="#"><i class="fa fa-circle text-success"></i>{{ __('dashboard.online')  }}</a>
       </div>
     </div>
-    <form action="#" method="get" class="sidebar-form">
-      <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Search...">
-        <span class="input-group-btn">
-          <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-          </button>
-        </span>
-      </div>
-    </form>
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">{{ __('dashboard.main_navigation') }}</li>
-      <li>
+      <li class="{{ activeRoute(['home.index']) }}">
         <a href="{{ route('home.index') }}">
           <i class="fa fa-home" aria-hidden="true"></i> <span>{{ __('dashboard.home_page') }}</span>
         </a>
       </li>
-      <li>
+      <li class="{{ activeRoute(['users.index', 'users.edit', 'users.show']) }}">
         <a href="{{ route('users.index') }}">
           <i class="fa fa-male" aria-hidden="true"></i>
           <span>{{ __('dashboard.users') }}</span>
@@ -34,8 +25,8 @@
           </span>
         </a>
       </li>
-      <li>
-        <a href="{{ route('books.index') }}">
+      <li class="{{ activeRoute(['books.index', 'books.edit', 'books.show']) }}">
+        <a href="{{route('books.index')}}">
           <i class="fa fa-book" aria-hidden="true"></i>
           <span>{{ __('dashboard.books') }}</span>
           <span class="pull-right-container">
@@ -43,7 +34,16 @@
           </span>
         </a>
       </li>
-      <li>
+      <li class="{{ activeRoute(['borrowings.index']) }}">
+        <a href="{{ route('borrowings.index') }}">
+          <i class="fa fa-book" aria-hidden="true"></i>
+          <span>{{ __('dashboard.borrows') }}</span>
+          <span class="pull-right-container">
+              <small class="label pull-right bg-green">{{ getCount(App\Model\Borrowing::class) }}</small>
+          </span>
+        </a>
+      </li>
+      <li class="{{ activeRoute(['categories.index', 'categories.edit']) }}">
         <a href="{{ route('categories.index') }}">
           <i class="fa fa-list" aria-hidden="true"></i>
           <span>{{ __('dashboard.categories') }}</span>
@@ -52,9 +52,9 @@
           </span>
         </a>
       </li>
-      <li>
+      <li class="{{ activeRoute(['posts.index', 'posts.edit', 'posts.show']) }}">
         <a href="{{ route('posts.index') }}">
-          <i class="fa fa-list" aria-hidden="true"></i>
+          <i class="fa fa-id-card-o" aria-hidden="true"></i>
           <span>{{ __('dashboard.posts') }}</span>
           <span class="pull-right-container">
               <small class="label pull-right bg-purple">{{ getCount(App\Model\Post::class) }}</small>
