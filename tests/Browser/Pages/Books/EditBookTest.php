@@ -18,6 +18,11 @@ use Carbon\Carbon;
 class EditBookTest extends DuskTestCase
 {
 
+    /**
+     * Get all donator in database
+     */
+    protected $donators;
+
     use DatabaseMigrations;
 
     public function setUp()
@@ -28,7 +33,7 @@ class EditBookTest extends DuskTestCase
         factory(Category::class, 10)->create();
         factory(User::class, 10)->create();
         $userIds = DB::table('users')->pluck('id')->toArray();
-        factory(Donator::class, 10)->create([
+        $this->donators =  factory(Donator::class, 10)->create([
             'user_id' => $faker->unique()->randomElement($userIds)
         ]);
         $categoryIds = DB::table('categories')->pluck('id')->toArray();
@@ -42,12 +47,12 @@ class EditBookTest extends DuskTestCase
 
     public function testAccessEditBook()
     {
-        $book = Book::findOrFail(1);
+        $book = Book::findOrFail(15);
         $this->browse(function (Browser $browser) use ($book) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->resize(1600, 2000)
-                    ->click('.btn-edit-1')
+                    ->click('.btn-edit-15')
                     ->assertSee('Edit Book')
                     ->assertInputValue('name', $book->name)
                     ->assertInputValue('author', $book->author)
@@ -56,7 +61,7 @@ class EditBookTest extends DuskTestCase
                     ->assertSelected('category_id', $book->category->id)
                     ->assertInputValue('employee_code', $book->donator->employee_code)
                     ->assertInputValue('description', $book->description)
-                    ->assertSourceHas('no-image.png')->screenshot('abc');
+                    ->assertSourceHas('no-image.png');
         });
     }  
 
@@ -74,7 +79,6 @@ class EditBookTest extends DuskTestCase
             ['Example Book', '7', 'Example Author', '10009', '', '2018', 'This is description', $this->fakeImage(),['The employee code field is required']],
             ['Example Book', '7', 'Example Author', '10009', 'AT-00001', '1800', 'This is description', $this->fakeImage(),['The year must be at least 1900']],
             ['Example Book', '7', 'Example Author', '10009', 'AT-00001', '2020', 'This is description', $this->fakeImage(),['The year may not be greater than ' . Carbon::now()->year]],
-            ['Example Book', '7', 'Example Author', '10009', 'AT-00001', '2018', '', $this->fakeImage(),['The description field is required']],
             ['Example Book', '7', 'Example Author', '10009', 'AT-00001', '2018', 'This is description', $this->fakeNotImage(),['The image must be an image']],
         ];
     }
@@ -87,7 +91,7 @@ class EditBookTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) use ($name, $category_id, $author, $price, $donator_id, $year, $description, $image, $messages) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/books/create')
+                    ->visit('/admin/books/1/edit')
                     ->resize(1600, 2000)
                     ->type('name', $name)
                     ->select('category_id', $category_id)
@@ -114,8 +118,9 @@ class EditBookTest extends DuskTestCase
      */
     public function testEditBookSuccess()
     {
-        $category = Category::findOrFail(1);
-        $this->browse(function (Browser $browser) use($category) {
+        $book = Book::findOrFail(1);
+        $category = Category::findOrFail(2);
+        $this->browse(function (Browser $browser) use ($category, $book) {
             $browser->loginAs(User::find(1))
                     ->visit('admin/books/1/edit')
                     ->resize(1600, 2000)
@@ -123,7 +128,7 @@ class EditBookTest extends DuskTestCase
                     ->select('category_id', $category->id)
                     ->type('author', 'Example Author')
                     ->type('price', '10009')
-                    ->type('employee_code', 'Example Author')
+                    ->type('employee_code', 'AT-00001')
                     ->type('year', '2018')
                     ->attach('image', $this->fakeImage());
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
@@ -131,6 +136,20 @@ class EditBookTest extends DuskTestCase
             $browser->press('Submit')
                     ->assertSee('Edit Success');
         });
+
+        $this->assertDatabaseHas('books', [
+            'id' => 1,
+            'category_id' => $category->id,
+            'donator_id' => ($this->donators->count() + 1),
+            'name' => 'Example Book',
+            'author' => 'Example Author',
+            'year' => '2018',
+            'price' => '10009',
+            'description' => '<p>This is a description'.$book->description.'</p>',
+            "avg_rating" => $book->avg_rating,
+            "total_rating" => $book->total_rating,
+            "status" => $book->status,
+        ]);
     }
 
     /**
@@ -140,8 +159,9 @@ class EditBookTest extends DuskTestCase
      */
     public function testEditBookFail()
     {
+        $book = Book::findOrFail(1);
         $category = Category::findOrFail(1);
-        $this->browse(function (Browser $browser) use($category) {
+        $this->browse(function (Browser $browser) use ($category, $book) {
             $browser->loginAs(User::find(1))
                     ->visit('admin/books/1/edit')
                     ->resize(1600, 2000)
@@ -156,7 +176,21 @@ class EditBookTest extends DuskTestCase
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
                 
             $browser->press('Submit')
-                    ->assertSee('Edit fail. Invalid or unsuitable size data');
+                    ->assertSee('Edit fail. Cannot save data');
+
+            $this->assertDatabaseHas('books', [
+                'id' => 1,
+                'category_id' => $book->category_id,
+                'donator_id' => $book->donator_id,
+                'name' => $book->name,
+                'author' => $book->author,
+                'year' => $book->year,
+                'price' => $book->price,
+                'description' => $book->description,
+                "avg_rating" => $book->avg_rating,
+                "total_rating" => $book->total_rating,
+                "status" => $book->status,
+            ]);
         });
     }
 
@@ -171,14 +205,13 @@ class EditBookTest extends DuskTestCase
                     ->visit('admin/books')
                     ->resize(1600, 2000)
                     ->clickLink(2)
-                    ->click('.btn-edit-11')
+                    ->click('.btn-edit-1')
                     ->clickLink('Back')
                     ->assertQueryStringHas('page', 2);
 
-            $browser->visit('admin/books/12/edit')
+            $browser->visit('admin/books/1/edit')
                     ->resize(1600, 2000)
-                    ->clickLink('Back')
-                    ->assertPathIs('/admin/books');
+                    ->clickLink('Back');
         });
     }
 
@@ -202,7 +235,7 @@ class EditBookTest extends DuskTestCase
                     ->type('year', '1996')
                     ->attach('image', $this->fakeImage());
             $this->typeInCKEditor('#cke_description iframe', $browser, 'abc');
-                
+
             $browser->press('Reset')
                     ->assertInputValue('name', $book->name)
                     ->assertNotSelected('category_id', $category->name)
