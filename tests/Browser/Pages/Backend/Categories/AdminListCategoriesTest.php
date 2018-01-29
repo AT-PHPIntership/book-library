@@ -24,7 +24,7 @@ class AdminListCategoriesTest extends DuskTestCase
     public function userLogin()
     {
         return factory(User::class)->create([
-            'role' => '1'
+            'role' => User::ROLE_ADMIN
         ]);
     }
 
