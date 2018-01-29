@@ -52,13 +52,27 @@ if (!function_exists('activeRoute')) {
      */
     function showComment($comments, $parentId = null)
     {
-        $body = '<div class="list-group">';
+        $body = '<div class="row">';
         foreach ($comments as $comment) {
             if ($comment->parent_id == $parentId) {
-                    $body .= '<div href="#" class="list-group-item list-group-item-action">';
-                    $body .= '<p class="mb-1">'.$comment['content'].'<a href="#" class="glyphicon glyphicon-remove text-warning pull-right"></a></p>';
-                    $body .=  showComment($comments, $comment->id);
+                $body .= '<div class="col-md-12">';
+                    $body .= '<div class="row">';
+                        $body .= '<div class="col-md-2 imgg">';
+                            $body .= '<div class="panel panel-default pull-left">';
+                                    $body .= '<img class="img-thumbnail" src="' . asset("images/books/no-image.png") . '" alt="User profile picture">';
+                                $body .= '</div>';
+                        $body .= '</div>';
+                        $body .= '<div class="col-md-10 pull-right">';
+                            $body .= '<div class="panel panel-default commnent-left">';
+                                    $body .= '<div class="panel-heading">'.$comment->user->name.'<a href="#" class="glyphicon glyphicon-remove text-warning pull-right"></a></div>';
+                                    $body .= '<div class="panel-body">'.$comment['content'].'</div>';
+                            $body .= '</div>';
+                        $body .= '</div>';
                     $body .= '</div>';
+                $body .= '</div>';
+                $body .= '<div class="col-md-10 pull-right">';
+                    $body .= '<div class="commnent-left">'.showComment($comments, $comment->id).'</div>';
+                $body .= '</div>';
             }
         }
         $body .= '</div>';

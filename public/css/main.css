@@ -28,3 +28,10 @@ h1 {
 .list-group .glyphicon {
     position: relative;
 }
+.imgg img {
+    with: 100px;
+    height: 80px;
+}
+.commnent-left {
+    margin-left: -90px;
+}
