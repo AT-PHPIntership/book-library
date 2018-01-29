@@ -11,8 +11,14 @@ h1 {
 .width-70 {
 	width: 70px;
 }
+.inline-field {
+  padding-left: 0px;
+}
 #image-display {
-  display: block;
+  display: none;
+}
+.box {
+    padding-top: 10px;
 }
 .size-img img {
     height: 246px;
