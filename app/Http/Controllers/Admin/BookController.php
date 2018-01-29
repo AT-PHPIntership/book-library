@@ -81,7 +81,7 @@ class BookController extends Controller
     }
 
     /**
-     *  * Display list book with filter ( if have ).
+     * Display list book with filter ( if have ).
      *
      * @param Request $request requests
      *
