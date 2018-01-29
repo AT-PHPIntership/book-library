@@ -100,22 +100,38 @@ class CreateBookTest extends DuskTestCase
      */
     public function testCreateBookSuccess()
     {
-        $category = Category::findOrFail(1);
+        $category = Category::findOrFail(3);
         $this->browse(function (Browser $browser) use ($category) {
             $browser->loginAs(User::find(1))
                     ->visit('admin/books/create')
                     ->resize(1600, 2000)
                     ->type('name', 'Example Book')
-                    ->select('category_id', $category->name)
+                    ->select('category_id', $category->id)
                     ->type('author', 'Example Author')
                     ->type('price', '10009')
                     ->type('employee_code', 'AT-00001')
                     ->type('year', '2018')
                     ->attach('image', $this->fakeImage());
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
-                
+            
+
             $browser->press('Submit')
                     ->assertSee('Create Success');
+            $this->assertDatabaseHas('books', [
+                'id' => 1,
+                'category_id' => $category->id,
+                'donator_id' => 1,
+                'name' => 'Example Book',
+                'author' => 'Example Author',
+                'year' => '2018',
+                'price' => '10009',
+                'description' => '<p>This is a description</p>',
+                "avg_rating" => 0,
+                "total_rating" => 0,
+                "status" => 1,
+
+            ]);
+            
         });
     }
 
@@ -132,7 +148,7 @@ class CreateBookTest extends DuskTestCase
                     ->visit('admin/books/create')
                     ->resize(1600, 2000)
                     ->type('name', 'Example Book')
-                    ->select('category_id', $category->name)
+                    ->select('category_id', $category->id)
                     ->type('author', 'Example Author')
                     ->type('price', '10009')
                     ->type('employee_code', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s
@@ -143,6 +159,21 @@ class CreateBookTest extends DuskTestCase
                 
             $browser->press('Submit')
                     ->assertSee('Create Fail. Cannot save data');
+
+            $this->assertDatabaseMissing('books', [
+                'id' => 1,
+                'category_id' => $category->id,
+                'donator_id' => 1,
+                'name' => 'Example Book',
+                'author' => 'Example Author',
+                'year' => '2018',
+                'price' => '10009',
+                'description' => '<p>This is a description</p>',
+                "avg_rating" => 0,
+                "total_rating" => 0,
+                "status" => 1,
+
+            ]);
         });
     }
 
