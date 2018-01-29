@@ -92,7 +92,6 @@ class Comment extends Model
     *
     * @return void
     */
-
     public static function boot()
     {
         parent::boot();
