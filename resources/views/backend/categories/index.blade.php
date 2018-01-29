@@ -34,6 +34,9 @@
                               <td class="text-center">{{ $category->id }}</td>
                               <td class="margin-l-5">{{ $category->name }}</td>
                               <td class="text-center">{{ $category->books_count }}</td>
+                              <td>
+                                <button type="button" class="btn btn-danger btn-lg fa fa-trash-o delete-category" id="{{ $category->id }}" data-toggle="modal" data-target="#confirmDelete" data-name="{{ $category->name }}"></button>
+                              </td>
                           </tr>
                           @endforeach
                       </tbody>
