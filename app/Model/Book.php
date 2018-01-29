@@ -23,7 +23,7 @@ class Book extends Model
      * Soft Delete Relationship
      */
     protected $cascadeDeletes = ['borrowings', 'qrcode', 'ratings', 'favorites', 'posts'];
-    
+
     /**
      * Default value of category
      */
