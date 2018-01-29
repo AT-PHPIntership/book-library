@@ -16,6 +16,7 @@ class BorrowingController extends Controller
     public function index()
     {
         $borrowings = Borrowing::with('books', 'users')
+            ->sortable()->orderby('from_date', 'DESC')
             ->paginate(config('define.page_length'));
         return view('backend.books.borrow', compact('borrowings'));
     }
