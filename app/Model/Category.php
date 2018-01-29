@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+
+    const DEFAULT_CATEGORY = 1;
+
     /**
      * Declare table
      *
