@@ -37,8 +37,9 @@
                               <td class="text-center">{{ $category->books_count }}</td>
                               <td class="text-center">
                                 <button class="btn btn-info" type="button">
-                                    <span class="glyphicon glyphicon-edit"></span> {{ __('category.edit') }}
+                                    <span class="glyphicon glyphicon-edit"></span>
                                 </button>
+                                <button type="button" class="btn btn-danger btn-lg fa fa-trash-o delete-category" id="{{ $category->id }}" data-toggle="modal" data-target="#confirmDelete" data-name="{{ $category->name }}"></button>
                               </td>
                           </tr>
                           @endforeach
