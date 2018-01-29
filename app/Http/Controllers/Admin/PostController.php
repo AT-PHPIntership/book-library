@@ -54,4 +54,19 @@ class PostController extends Controller
 
         return view('backend.posts.show', compact('post', 'comments'));
     }
+
+    /**
+     * Delete post
+     *
+     * @param Request $request request
+     * @param int     $id      id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        Post::find($id)->delete();
+        flash(__('post.delete_success'))->success();
+        return redirect()->route('posts.index');
+    }
 }
