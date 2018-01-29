@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Post;
+use App\Model\Rating;
+use App\Model\Comment;
+use DB;
 
 class PostController extends Controller
 {
@@ -32,10 +35,23 @@ class PostController extends Controller
     /**
      * Display Layout Post Detail.
      *
+     * @param int $id id
+     *
      * @return mixed
      */
-    public function show()
+    public function show($id)
     {
-        return view('backend.posts.show');
+        $comments = Comment::where('post_id', $id)->get();
+
+        $post = Post::select('posts.*', 'ratings.rating')
+                ->join('ratings', function ($join) {
+                    $join->on('posts.user_id', '=', 'ratings.user_id');
+                    $join->on('posts.book_id', '=', 'ratings.book_id');
+                })->find($id);
+        if (!$post) {
+            return redirect('admin/posts');
+        }
+
+        return view('backend.posts.show', compact('post', 'comments'));
     }
 }

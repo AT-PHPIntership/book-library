@@ -27,3 +27,24 @@ h1 {
 .box {
     padding-top: 10px;
 }
+
+.list-group .list-group-item {
+    margin-top: 10px;
+}
+.list-group .glyphicon {
+    position: relative;
+}
+.comment-img {
+    min-width: 100px;
+}
+.comment-img img {
+    width: 100%;
+    height: auto;
+}
+.comment-content {
+    padding-left: 0;
+}
+.comment-list .comment-item .row {
+    display: -webkit-flex;
+    display: flex;
+}
