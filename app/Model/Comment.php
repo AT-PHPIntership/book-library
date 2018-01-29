@@ -12,12 +12,12 @@ use Iatstuti\Database\Support\CascadeSoftDeletes;
 class Comment extends Model
 {
     use SoftDeletes, CascadeSoftDeletes;
-    
+
     /**
      * Soft Delete Relationship
      */
     protected $cascadeDeletes = ['favorites'];
-    
+
     /**
      * Declare table
      *
@@ -46,7 +46,7 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class, 'post_id');
     }
-    
+
     /**
      * Relationship belongsTo with User
      *
@@ -65,5 +65,25 @@ class Comment extends Model
     public function favorites()
     {
         return $this->morphMany(Favorite::class, 'favoritable');
+    }
+
+    /**
+     * Each comment may have one parent
+     *
+     * @return array
+    */
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class, 'parent_id');
+    }
+
+    /**
+     * Each comment may have multiple children
+     *
+     * @return array
+    */
+    public function children()
+    {
+        return $this->hasMany(Comment::class, 'parent_id');
     }
 }
