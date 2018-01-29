@@ -28,10 +28,17 @@ h1 {
 .list-group .glyphicon {
     position: relative;
 }
-.imgg img {
-    with: 100px;
-    height: 80px;
+.comment-img {
+    min-width: 100px;
 }
-.commnent-left {
-    margin-left: -90px;
+.comment-img img {
+    width: 100%;
+    height: auto;
+}
+.comment-content {
+    padding-left: 0;
+}
+.comment-list .comment-item .row {
+    display: -webkit-flex;
+    display: flex;
 }
