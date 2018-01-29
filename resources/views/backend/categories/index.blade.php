@@ -26,7 +26,7 @@
                               <th class="text-center">{{ __('category.id') }}</th>
                               <th>{{ __('category.name') }}</th>
                               <th class="text-center">{{ __('category.number_of_books') }}</th>
-                              <th class="text-center">{{ __('category.option') }}</th>
+                              <th class="text-center">{{ __('category.actions') }}</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -36,7 +36,7 @@
                               <td class="margin-l-5">{{ $category->name }}</td>
                               <td class="text-center">{{ $category->books_count }}</td>
                               <td class="text-center">
-                                <button class="btn btn-info">
+                                <button class="btn btn-info" type="button">
                                     <span class="glyphicon glyphicon-edit"></span> {{ __('category.edit') }}
                                 </button>
                               </td>
