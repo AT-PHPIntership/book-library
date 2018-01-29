@@ -59,7 +59,7 @@ if (!function_exists('activeRoute')) {
                     $body .= '<div class="row">';
                         $body .= '<div class="col-md-1 comment-img">';
                             $body .= '<div class="pull-left">';
-                                $body .= '<img class="img-thumbnail" src="'.$comment->user->Avatar.'" alt="User profile picture">';
+                                $body .= '<img class="img-thumbnail" src="'.$comment->user->avatar.'" alt="User profile picture">';
                             $body .= '</div>';
                         $body .= '</div>';
                         $body .= '<div class="col-md-11 comment-content">';
