@@ -86,4 +86,21 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class, 'parent_id');
     }
+<<<<<<< HEAD
+=======
+
+    /**
+    * Delete comment by parent id of children.
+    *
+    * @return void
+    */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($comment) {
+            $comment->children()->delete();
+        });
+    }
+>>>>>>> 6ae3fca... update delete comment
 }
