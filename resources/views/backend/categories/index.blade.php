@@ -39,7 +39,8 @@
                                 <button type="button" class="edit-modal btn btn-info" id="edit-modal" data-id="{{$category->id}}"
   							data-name="{{$category->name}}">
                                     <span class="glyphicon glyphicon-edit"></span> {{ __('category.edit') }}
-  						        </button>
+  						                  </button>
+                                <button type="button" class="btn btn-danger btn-lg fa fa-trash-o delete-category" id="{{ $category->id }}" data-toggle="modal" data-target="#confirmDelete" data-name="{{ $category->name }}"></button>
                               </td>
                           </tr>
                           @endforeach

@@ -7,7 +7,7 @@ use App\Model\Category;
 use Illuminate\Database\Eloquent\Model;
 
 if (!function_exists('getCount')) {
-  
+
   /**
   * Get percent progress name of database
   *
@@ -40,5 +40,42 @@ if (!function_exists('activeRoute')) {
         if (in_array(Route::currentRouteName(), $routes, true)) {
             return $output;
         }
+    }
+
+    /**
+     * Display Layout Post Detail.
+     *
+     * @param array $comments comments
+     * @param int   $parentId parent id
+     *
+     * @return mixed
+     */
+    function showComment($comments, $parentId = null)
+    {
+        $body = '<div class="row comment-list">';
+        foreach ($comments as $comment) {
+            if ($comment->parent_id == $parentId) {
+                $body .= '<div class="col-md-12 comment-item">';
+                    $body .= '<div class="row">';
+                        $body .= '<div class="col-md-1 comment-img">';
+                            $body .= '<div class="pull-left">';
+                                $body .= '<img class="img-thumbnail" src="'.$comment->user->avatar.'" alt="User profile picture">';
+                            $body .= '</div>';
+                        $body .= '</div>';
+                        $body .= '<div class="col-md-11 comment-content">';
+                            $body .= '<div class="panel panel-default">';
+                                    $body .= '<div class="panel-heading">'.$comment->user->name.'<a href="#" class="glyphicon glyphicon-remove text-warning pull-right"></a></div>';
+                                    $body .= '<div class="panel-body">'.$comment['content'].'</div>';
+                            $body .= '</div>';
+                            $body .= '<div class="col-md-12 comment-item">';
+                                $body .= '<div class="row">'.showComment($comments, $comment->id).'</div>';
+                            $body .= '</div>';
+                        $body .= '</div>';
+                    $body .= '</div>';
+                $body .= '</div>';
+            }
+        }
+        $body .= '</div>';
+        return $body;
     }
 }
