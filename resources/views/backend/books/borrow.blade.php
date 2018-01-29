@@ -39,9 +39,7 @@
                                 <td>{{ $borrowing->books->name }}</td>
                                 <td>{{ date(config('define.date_format'), strtotime($borrowing->from_date)) }}</td>
                                 <td>{{ date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
-                                <td>
-                                    <a href="{{ route('sendMail') }}">{{Carbon\Carbon::parse($borrowing->date_send_email)->format('H:i:s d-m-Y')}}</a>
-                                </td>
+                                <td>{{ $borrowing->date_send_email }}</td>
                                 <td>
                                     <a href="{{ route('sendMail') }}" id="{{ $borrowing->id }}" class="btn btn-warning"><i class="ion ion-android-drafts"></i></a>
                                 </td>         

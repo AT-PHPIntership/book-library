@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Model\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class SendMailController extends Controller
