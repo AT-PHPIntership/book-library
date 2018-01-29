@@ -27,3 +27,9 @@ h1 {
 .box {
     padding-top: 10px;
 }
+#category-delete-message {
+  display:none;
+}
+.delete-progress {
+  display: none;
+}
