@@ -9,6 +9,7 @@ use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class AdminListCategoriesTest extends DuskTestCase
 {
