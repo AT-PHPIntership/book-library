@@ -38,7 +38,6 @@ var category = (function(){
                     if (typeof(data) == 'object') {
                         displayMessage(data.message, 'alert-danger');
                     } else {
-                        console.log(data);
                         displayMessage(deleteMessage, 'alert-success');
                         $('#unload-paginate').html(data);
                     }
