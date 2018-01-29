@@ -14,7 +14,6 @@
               <li class="active">{{ __('category.category') }}</li>
           </ol>
     </section>
-
     <section class="content">
         <div class="row">
           <div class="col-md-12">
@@ -62,9 +61,8 @@
           </div>
         </div>
     </section>
-
     <section id="pop-up">
-        <div id="myModal" class="modal fade" role="dialog">
+        <div id="myModal" class="modal" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
@@ -85,9 +83,14 @@
                                     <input type="name" class="form-control" id="nameCategory" autofocus>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="col-sm-10 col-sm-push-2">
+                                    <p class="errors text-warning"></p>
+                                </div>
+                            </div>
                         </form>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success editCategory" data-dismiss="modal">
+                            <button type="button" class="btn btn-success editCategory">
                                 <span id="footer_action_button" class='glyphicon glyphicon-check'>Update</span>
                             </button>
                             <button type="button" class="btn btn-warning" data-dismiss="modal">
