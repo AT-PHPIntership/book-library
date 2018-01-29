@@ -18,9 +18,11 @@ $(document).ready(function() {
           success: function(data) {
             $("#nameCategory" + data.id).html(data.name);
             $('#edit-modal').attr('data-name',data.name);
+            $("#myModal").modal("hide");
           },
-          error: function() {
-              alert("Error, please try again.");
+          error: function(error) {
+            obj = JSON.parse(error.responseText);
+            $('.errors').html(obj.errors.name);
           }
     });
   });
