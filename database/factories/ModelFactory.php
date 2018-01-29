@@ -22,7 +22,7 @@ $factory->define(App\Model\Category::class, function (Faker $faker) {
 });
 
 $factory->define(App\Model\User::class, function (Faker $faker) {
-    $team = ['PHP', 'SA', 'QC', 'Adroid', 'IOS'];
+    $team = ['PHP', 'SA', 'QC', 'Android', 'IOS'];
     return [
         'employee_code' => 'AT-' . $faker->unique()->randomNumber(3),
         'name'          => $faker->name,
