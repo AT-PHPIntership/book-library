@@ -49,4 +49,29 @@ class Donator extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    /**
+     * Update donator user, if not exists then create
+     *
+     * @param String $employeeCode employeeCode
+     *
+     * @return int
+     */
+    public static function updateDonator($employeeCode)
+    {
+        $user = User::where('employee_code', $employeeCode)->first();
+        $donatorData = [
+            'employee_code' => $employeeCode,
+        ];
+        if ($user) {
+            $donatorData = [
+                'user_id' => $user->id,
+                'employee_code' => $employeeCode,
+                'email' => $user->email,
+                'name' => $user->name,
+            ];
+        }
+        $donator = self::updateOrCreate(['employee_code' => $employeeCode], $donatorData);
+        return $donator->id;
+    }
 }
