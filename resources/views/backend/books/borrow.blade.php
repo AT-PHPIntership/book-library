@@ -20,12 +20,14 @@
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>{{ __('borrow.employee_code') }}</th>
-                            <th>{{ __('borrow.name') }}</th>
-                            <th>{{ __('borrow.email') }}</th>
-                            <th>{{ __('borrow.books') }}</th>
-                            <th>{{ __('borrow.from_date') }}</th>
-                            <th>{{ __('borrow.end_date') }}</th>
+                            <th>@sortablelink('users.employee_code', __('borrow.employee_code'))</th>
+                            <th>@sortablelink('users.name', __('borrow.name'))</th>
+                            <th>@sortablelink('users.email', __('borrow.email'))</th>
+                            <th>@sortablelink('books.name', __('borrow.books'))</th>
+                            <th>@sortablelink('from_date', __('borrow.from_date'))</th>
+                            <th>@sortablelink('to_date', __('borrow.end_date'))</th>
+                            <th>@sortablelink('date_sent_mail', __('borrow.date_sent_mail'))</th>
+                            <th class="text-center text-info">{{ __('general.options') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -37,6 +39,10 @@
                                 <td>{{ $borrowing->books->name }}</td>
                                 <td>{{ date(config('define.date_format'), strtotime($borrowing->from_date)) }}</td>
                                 <td>{{ date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
+                                <td>{{ $borrowing->date_send_email }}</td>
+                                <td>
+                                    <a href="{{ route('sendMail') }}" id="{{ $borrowing->id }}" class="btn btn-warning"><i class="ion ion-android-drafts"></i></a>
+                                </td>         
                             </tr>
                         @endforeach
                         </tbody>

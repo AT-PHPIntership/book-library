@@ -38,6 +38,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
+        session()->put('url_previous', session()->get('_previous')['url']);
         return view('backend.users.login');
     }
 
@@ -82,7 +83,13 @@ class LoginController extends Controller
                 $user = User::updateOrCreate($userCondition, $user);
                 # Set login for user
                 Auth::login($user, $request->filled('remember'));
-                return redirect("/admin");
+                # check redirect to
+                $urlPrevious = session()->get('url_previous');
+                if (empty($urlPrevious) || $urlPrevious == route('login')) {
+                    $urlPrevious = "/";
+                }
+                session()->forget('url_previous');
+                return redirect($urlPrevious);
             }
         } catch (ServerException $e) {
             # Catch errors from Portal
