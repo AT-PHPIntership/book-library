@@ -34,4 +34,16 @@ class BaseTestUser extends DuskTestCase
         $teamExceptSA = [User::PHP, User::QC, User::ANDROID, User::IOS];
         return $teamExceptSA[array_rand($teamExceptSA)];
     }
+
+    /**
+     * Make a user to login with role is "Admin".
+     *
+     * @return $user
+     */
+    public function makeAdminUserToLogin()
+    {
+        return factory(User::class)->create([
+            'role' => User::ROLE_ADMIN
+        ]);
+    }
 }
