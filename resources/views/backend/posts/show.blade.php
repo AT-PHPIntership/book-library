@@ -16,7 +16,7 @@
         <p>{{ __('post.confirm.delete_post') }} ?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
+        <button id="confirm-delete-post" type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
       </div>
     </div>
@@ -89,7 +89,13 @@
                                         </li>
                                     @endif
                                     <li><b>{{ __('post.date') }} :</b><i> {{ $post->created_at }}</i></li>
-                                    <li><i class="fa fa-trash-o text-danger" data-toggle="modal" data-target="#confirmDeletePost"></i></li>
+                                    <li>
+                                      <form method="POST" action="{{ route('posts.destroy', $post->id) }}" id="form-delete-post" class="inline">
+                                          {{ csrf_field() }}
+                                          {{ method_field('DELETE') }}
+                                        <button type="button" class="btn btn-danger btn-flat fa fa-trash-o" data-toggle="modal" data-target="#confirmDeletePost"></button>
+                                      </form> 
+                                    </li>
                                 </ol>
                             </div>
                             <p>
@@ -128,4 +134,8 @@
     </section>
   </div>
   <!-- /.content-wrapper -->
+@endsection
+
+@section('script')
+  <script src="{{ asset('js/delete_post.js') }}"></script>
 @endsection
