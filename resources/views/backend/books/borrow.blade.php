@@ -14,6 +14,8 @@
             <li class="active">{{ __('borrow.borrowings') }}</li>
         </ol>
     </section>
+    <!-- show message response -->
+    @include('flash::message')
     <section class="content">
     <div class="row">
         <div class="col-xs-12">
@@ -41,11 +43,11 @@
                                 <td>{{ $borrowing->books->name }}</td>
                                 <td>{{ date(config('define.date_format'), strtotime($borrowing->from_date)) }}</td>
                                 <td>{{ date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
-                                <td>{{ $borrowing->date_send_email }}</td>
+                                <td>{{ $borrowing->DateSendMail }}</td>
                                 <td>
-                                    <form method="GET" action="{{ route('sendMail') }}" id="form-confirm-{{$borrowing->id}}">
+                                    <form method="GET" action="{{ route('sendMail', $borrowing) }}" id="form-confirm-{{$borrowing->id}}">
                                     {{ csrf_field()}}
-                                        <button type="button" class="btn btn-warning btn-check" data-toggle="modal" data-target="#confirmSendMail" id="{{$borrowing->id}}" {{canSendMail}}>
+                                        <button type="button" class="btn btn-warning btn-check" data-toggle="modal" data-target="#confirmSendMail" id="{{$borrowing->id}}" {{canSendMail($borrowing->date_send_email) ? '':'disabled'}}>
                                             <i class="ion ion-android-drafts fa-trash-o" data-name="{{ $borrowing->users->name }}"></i>
                                         </button>
                                     </form>
