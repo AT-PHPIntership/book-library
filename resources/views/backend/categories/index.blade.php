@@ -20,13 +20,13 @@
             <div class="box">
               <!-- /.box-header -->
               <div class="box-body table-responsive no-padding">
-                  <table class="table table-hover" id="table-book">
+                  <table class="table table-hover" id="table-categories">
                       <thead>
                           <tr>
                               <th class="text-center">{{ __('category.id') }}</th>
                               <th>{{ __('category.name') }}</th>
                               <th class="text-center">{{ __('category.number_of_books') }}</th>
-                              <th class="text-center">{{ __('category.option') }}</th>
+                              <th class="text-center">{{ __('category.actions') }}</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -36,10 +36,11 @@
                               <td id="nameCategory{{$category->id}}" class="margin-l-5">{{ $category->name }}</td>
                               <td class="text-center">{{ $category->books_count }}</td>
                               <td class="text-center">
-                                <button type="button" class="edit-modal btn btn-info" id="edit-modal" data-id="{{$category->id}}"
+                                <button class="edit-modal btn btn-info" id="edit-modal" data-id="{{$category->id}}"
   							data-name="{{$category->name}}">
-                                    <span class="glyphicon glyphicon-edit"></span> {{ __('category.edit') }}
+                                    <span class="glyphicon glyphicon-edit"></span>
   						        </button>
+                                <button type="button" class="btn btn-danger btn-lg fa fa-trash-o delete-category" id="{{ $category->id }}" data-toggle="modal" data-target="#confirmDelete" data-name="{{ $category->name }}"></button>
                               </td>
                           </tr>
                           @endforeach
