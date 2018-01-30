@@ -1,6 +1,55 @@
 @extends('backend.layouts.main')
 @section('title',__('post.post_title'))
 @section('content')
+
+<!-- Modal confirm delete post-->
+<div id="confirmDeletePost" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <h3>{{ __('post.confirm.title') }}</h3>
+        <p>{{ __('post.confirm.delete_post') }} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+      </div>
+    </div>
+    <!-- end content-->
+
+  </div>
+</div>
+<!-- end modal-->
+
+<!-- Modal confirm delete comment -->
+<div id="confirmDeleteComment" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <h3>{{ __('post.confirm.title') }}</h3>
+        <p>{{ __('post.confirm.delete_comment') }} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+      </div>
+    </div>
+    <!-- end content-->
+
+  </div>
+</div>
+<!-- end modal-->
+
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -40,7 +89,7 @@
                                         </li>
                                     @endif
                                     <li><b>{{ __('post.date') }} :</b><i> {{ $post->created_at }}</i></li>
-                                    <li><i class="fa fa-trash-o text-danger"></i></li>
+                                    <li><i class="fa fa-trash-o text-danger" data-toggle="modal" data-target="#confirmDeletePost"></i></li>
                                 </ol>
                             </div>
                             <p>
