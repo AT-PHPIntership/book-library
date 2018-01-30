@@ -26,6 +26,8 @@
                             <th>@sortablelink('books.name', __('borrow.books'))</th>
                             <th>@sortablelink('from_date', __('borrow.from_date'))</th>
                             <th>@sortablelink('to_date', __('borrow.end_date'))</th>
+                            <th>@sortablelink('date_sent_mail', __('borrow.date_sent_mail'))</th>
+                            <th class="text-center text-info">{{ __('general.options') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -37,6 +39,10 @@
                                 <td>{{ $borrowing->books->name }}</td>
                                 <td>{{ date(config('define.date_format'), strtotime($borrowing->from_date)) }}</td>
                                 <td>{{ date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
+                                <td>{{ $borrowing->date_send_email }}</td>
+                                <td>
+                                    <a href="{{ route('sendMail') }}" id="{{ $borrowing->id }}" class="btn btn-warning"><i class="ion ion-android-drafts"></i></a>
+                                </td>         
                             </tr>
                         @endforeach
                         </tbody>

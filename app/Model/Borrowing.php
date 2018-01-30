@@ -29,6 +29,7 @@ class Borrowing extends Model
         'user_id',
         'from_date',
         'to_date',
+        'date_send_email',
     ];
 
     /**
@@ -57,7 +58,7 @@ class Borrowing extends Model
      *
      * @var array $sortable table sort
      */
-    public $sortable = ['from_date', 'to_date'];
+    public $sortable = ['from_date', 'to_date', 'date_sent_mail'];
     
     public $sortableAs = ['users.employee_code', 'users.name', 'users.email', 'books.name'];
 }
