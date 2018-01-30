@@ -17,7 +17,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-body">
-                    <table id="example2" class="table table-bordered table-hover">
+                    <table id="table-borrowings" class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>@sortablelink('users.employee_code', __('borrow.employee_code'))</th>
