@@ -29,20 +29,7 @@ class EditBookTest extends DuskTestCase
     {
         parent::setUp();
         $this->fakeUser();
-        $faker = Faker::create();
-        factory(Category::class, 10)->create();
-        factory(User::class, 10)->create();
-        $userIds = DB::table('users')->pluck('id')->toArray();
-        $this->donators =  factory(Donator::class, 10)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
-        ]);
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
-        $book = factory(Book::class, 15)->create([
-            'category_id' => $faker->randomElement($categoryIds),
-            'donator_id' => $faker->randomElement($donatorIds),
-            'image'      => 'no-image.png',
-        ]);
+        $this->fakeData();
     }
 
     public function testAccessEditBook()
@@ -211,7 +198,9 @@ class EditBookTest extends DuskTestCase
 
             $browser->visit('admin/books/1/edit')
                     ->resize(1600, 2000)
-                    ->clickLink('Back');
+                    ->clickLink('Back')
+                    ->clickLink(2)
+                    ->assertQueryStringHas('page', 2);
         });
     }
 
@@ -294,5 +283,28 @@ class EditBookTest extends DuskTestCase
             'role'          => 1,
         ];
         $user = factory(User::class, 1)->create($user);
+    }
+
+    /**
+     * Fake data testing
+     * 
+     * @return void
+     */
+    public function fakeData()
+    {
+        $faker = Faker::create();
+        factory(Category::class, 10)->create();
+        factory(User::class, 10)->create();
+        $userIds = DB::table('users')->pluck('id')->toArray();
+        $this->donators =  factory(Donator::class, 10)->create([
+            'user_id' => $faker->unique()->randomElement($userIds)
+        ]);
+        $categoryIds = DB::table('categories')->pluck('id')->toArray();
+        $donatorIds = DB::table('donators')->pluck('id')->toArray();
+        $book = factory(Book::class, 15)->create([
+            'category_id' => $faker->randomElement($categoryIds),
+            'donator_id' => $faker->randomElement($donatorIds),
+            'image'      => 'no-image.png',
+        ]);
     }
 }
