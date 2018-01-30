@@ -10,4 +10,5 @@ return [
     'from_date' => 'From date',
     'end_date' => 'End date',
     'title_borrow' => 'LIST OF BORROWINGS',
+    'date_sent_mail' => 'Date Sent Mail',
 ];
