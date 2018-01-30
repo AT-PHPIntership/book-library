@@ -44,7 +44,7 @@ class PostController extends Controller
         $comments = Comment::where('post_id', $id)->get();
 
         $post = Post::select('posts.*', 'ratings.rating')
-                ->join('ratings', function ($join) {
+                ->leftJoin('ratings', function ($join) {
                     $join->on('posts.user_id', '=', 'ratings.user_id');
                     $join->on('posts.book_id', '=', 'ratings.book_id');
                 })->find($id);
