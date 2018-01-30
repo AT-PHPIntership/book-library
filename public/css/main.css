@@ -33,6 +33,9 @@ h1 {
 .delete-progress {
   display: none;
 }
+.align-center {
+  text-align: center
+}
 .list-group .list-group-item {
     margin-top: 10px;
 }
