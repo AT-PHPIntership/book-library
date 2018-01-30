@@ -1,9 +1,11 @@
 @extends('backend.layouts.main')
 @section('title',__('borrow.title_borrow'))
 @section('content')
-
 <!-- Modal -->
 <div id="confirmSendMail" class="modal fade" role="dialog">
+  <div id="loading">
+    <p><img src="{{ asset('images/loading.gif') }}"></p>
+  </div>
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -27,7 +29,6 @@
   </div>
 </div>
 <!-- end modal-->
-
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
@@ -95,5 +96,5 @@
 </div>
 <!-- /.content-wrapper -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="{{ asset('app/js/borrow.js') }}">
+<script src="{{ asset('app/js/borrow.js') }}"></script>
 @endsection
