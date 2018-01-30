@@ -68,7 +68,7 @@ class PostController extends Controller
         DB::beginTransaction();
         try {
             $post = Post::find($id);
-            if($post != null){
+            if ($post != null) {
                 $post->delete();
                 flash(__('post.message.success'))->success();
             } else {
