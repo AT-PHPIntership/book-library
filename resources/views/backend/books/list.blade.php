@@ -29,6 +29,8 @@
 
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <!-- show message response -->
+    @include('flash::message')
     <!-- Content Header (Page header) -->
       <section class="content-header">
           <h1>
@@ -36,7 +38,7 @@
           </h1>
           <ol class="breadcrumb">
               <li><a href="#"><i class="fa fa-dashboard"></i>{{ __('book.admin')  }}</a></li>
-              <li class="active">{{ __('book.book') }}</li>
+              <li class="active">{{ __('book.books') }}</li>
           </ol>
       </section>
 
@@ -73,9 +75,6 @@
             </div>
         </div>
 
-        <!-- show message response -->
-        @include('flash::message')
-
         <!-- /.row -->
         <div class="row">
           <div class="col-md-12">
@@ -103,7 +102,7 @@
                                 <td>{{ $book->avg_rating }}</td>
                                 <td>{{ $book->borrowings_count }}</td>
                                 <td align="center">
-                                    <a href="{{ route('books.edit', $book) }}"
+                                    <a href="{{ route('books.edit', ['book' => $book, 'page' => $_SERVER['REQUEST_URI']]) }}"
                                        class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
                                     <i class="btn btn-danger btn-lg fa fa-trash-o" id="{{ $book->id }}" data-toggle="modal" data-target="#confirmDelete" data-name="{{ $book->name }}"></i>
                                 </td>
