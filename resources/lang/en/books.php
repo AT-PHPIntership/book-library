@@ -2,7 +2,7 @@
 return [
     'title_book' => 'LIST OF BOOK',
     'list_book' => 'LIST OF BOOK',
-    'numbers_order' => 'No.',
+    'numbers_order' => 'Id',
     'name' => 'Name',
     'author' => 'Author',
     'average_review_score' => 'Rating',
