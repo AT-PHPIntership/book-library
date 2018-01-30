@@ -17,24 +17,24 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::select('id', 'name')->withCount('books')
-                                ->groupBy('id')
-                                ->paginate(config('define.page_length'));
+                                                    ->groupBy('id')
+                                                    ->paginate(config('define.page_length'));
         return view('backend.categories.index', compact('categories'));
     }
 
     /**
      * Update the name corresponding to the category ID in the database.
      *
-     * @param Illuminate\Http\Request $data data
+     * @param Illuminate\Http\Request $request request
+     * @param int                     $id      Id of category
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $data)
+    public function update(Request $request, $id)
     {
-        $category = Category::findOrFail($data->id);
-        $category->name = $data->name;
+        $category = Category::findOrFail($id);
+        $category->name = $request->name;
         $category->save();
-        
-        return response()->json($data);
+        return response()->json($request);
     }
 }
