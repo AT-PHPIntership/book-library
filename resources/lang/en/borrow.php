@@ -12,7 +12,7 @@ return [
     'title_borrow' => 'LIST OF BORROWINGS',
     'date_sent_mail' => 'Date Sent Mail',
     'send_mail_success' => 'Send Mail Success',
-    'send_mail_failure' => 'Send Mail failure',
+    'send_mail_failure' => 'Send Mail Failure',
     'sent_mail' => 'You Sent Mail',
     'confirm' => [
         'title' => 'Confirm Send Mail',
