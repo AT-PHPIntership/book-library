@@ -2,32 +2,7 @@
 @section('title',__('borrow.title_borrow'))
 @section('content')
 <!-- Modal -->
-<div id="confirmSendMail" class="modal fade" role="dialog">
-  <div id="loading">
-    <p><img src="{{ asset('images/loading.gif') }}"></p>
-  </div>
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body text-center">
-        <h3>{{ __('borrow.confirm.title') }}</h3>
-        <p >{{ __('borrow.confirm.content') }}
-            <strong class="data-content"></strong>? 
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger btn-confirm" data-dismiss="modal">{{ __('confirm.ok') }}</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
-      </div>
-    </div>
-    <!-- end content-->
-
-  </div>
-</div>
+@include ('backend.books.partials.modal')
 <!-- end modal-->
 <div class="content-wrapper">
     <section class="content-header">
@@ -70,7 +45,7 @@
                                 <td>
                                     <form method="GET" action="{{ route('sendMail') }}" id="form-confirm-{{$borrowing->id}}">
                                     {{ csrf_field()}}
-                                        <button type="button" class="btn btn-warning btn-check" data-toggle="modal" data-target="#confirmSendMail" id="{{$borrowing->id}}">
+                                        <button type="button" class="btn btn-warning btn-check" data-toggle="modal" data-target="#confirmSendMail" id="{{$borrowing->id}}" {{canSendMail}}>
                                             <i class="ion ion-android-drafts fa-trash-o" data-name="{{ $borrowing->users->name }}"></i>
                                         </button>
                                     </form>
@@ -95,6 +70,7 @@
 
 </div>
 <!-- /.content-wrapper -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="{{ asset('app/js/borrow.js') }}"></script>
+@endsection
+@section('script')
+    <script src="{{ asset('app/js/borrow.js') }}">
 @endsection
