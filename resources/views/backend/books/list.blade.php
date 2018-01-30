@@ -81,15 +81,15 @@
             <div class="box">
               <!-- /.box-header -->
               <div class="box-body table-responsive no-padding">
-                  <table class="table table-hover" id="table-book">
+                  <table class="table table-bordered table-hover" id="table-book">
                        @if (count($books) > 0)
                       <thead>
                           <tr>
                               <th>@sortablelink('id', __('books.numbers_order'))</th>
                               <th>@sortablelink('name', __('books.name'))</th>
                               <th>@sortablelink('author', __('books.author'))</th>
-                              <th>@sortablelink('avg_rating', __('books.average_review_score'))</th>
-                              <th>@sortablelink('borrowings_count', __('books.total_borrow'))</th>
+                              <th class="text-center">@sortablelink('avg_rating', __('books.average_review_score'))</th>
+                              <th class="text-center">@sortablelink('borrowings_count', __('books.total_borrow'))</th>
                               <th class="text-center text-info">{{ __('general.options') }}</th>
                           </tr>
                       </thead>
@@ -99,8 +99,8 @@
                                 <td>{{ $book->id }}</td>
                                 <td>{{ $book->name }}</td>
                                 <td>{{ $book->author }}</td>
-                                <td>{{ $book->avg_rating }}</td>
-                                <td>{{ $book->borrowings_count }}</td>
+                                <td class="text-center">{{ $book->avg_rating }}</td>
+                                <td class="text-center">{{ $book->borrowings_count }}</td>
                                 <td align="center">
                                     <a href="{{ route('books.edit', ['book' => $book, 'page' => $_SERVER['REQUEST_URI']]) }}"
                                        class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
