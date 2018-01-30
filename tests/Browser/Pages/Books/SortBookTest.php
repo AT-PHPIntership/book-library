@@ -319,7 +319,7 @@ class SortBookTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
-                    ->clickLink('Average review score')
+                    ->clickLink('Rating')
                     ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-asc');
@@ -378,7 +378,8 @@ class SortBookTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books?sort=avg_rating&order=asc')
-                    ->clickLink('Average review score')
+                    ->clickLink('Rating')
+//                    ->clickLink('Average review score')
                     ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-desc');
