@@ -135,3 +135,7 @@
   </div>
   <!-- /.content-wrapper -->
 @endsection
+
+@section('script')
+  <script src="{{ asset('js/delete_post.js') }}"></script>
+@endsection

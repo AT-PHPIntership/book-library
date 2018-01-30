@@ -8,6 +8,7 @@ use App\Model\Post;
 use App\Model\Rating;
 use App\Model\Comment;
 use DB;
+use Illuminate\Database\QueryException;
 
 class PostController extends Controller
 {
@@ -64,8 +65,21 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        Post::find($id)->delete();
-        flash(__('post.delete_success'))->success();
-        return redirect()->route('posts.index');
+        DB::beginTransaction();
+        try {
+            $post = Post::find($id);
+            if($post != null){
+                $post->delete();
+                flash(__('post.message.success'))->success();
+            } else {
+                flash(__('post.message.not_exist'))->error();
+            }
+            DB::commit();
+            return redirect()->route('posts.index');
+        } catch (Exception $e) {
+            DB::rollBack();
+            flash(__('post.message.error'))->error();
+            return redirect()->back();
+        }
     }
 }
