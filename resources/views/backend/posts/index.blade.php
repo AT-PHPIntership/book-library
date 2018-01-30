@@ -4,6 +4,8 @@
 
 <!-- Content Wrapper -->
 <div class="content-wrapper">
+    <!-- show message response -->
+    @include('flash::message')
   <section class="content-header">
     <h1>
       {{ __('post.list_post')  }}
