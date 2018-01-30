@@ -67,13 +67,8 @@ class PostController extends Controller
     {
         DB::beginTransaction();
         try {
-            $post = Post::find($id);
-            if ($post != null) {
-                $post->delete();
-                flash(__('post.message.success'))->success();
-            } else {
-                flash(__('post.message.not_exist'))->error();
-            }
+            Post::findOrFail($id)->delete();
+            flash(__('post.message.success'))->success();
             DB::commit();
             return redirect()->route('posts.index');
         } catch (Exception $e) {

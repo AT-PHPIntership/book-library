@@ -24,6 +24,5 @@ return [
     'message' => [
         'success' => 'Delete success !',
         'error' => 'Delete failure !',
-        'not_exist' => 'That post does not exist !'
     ]
 ];
