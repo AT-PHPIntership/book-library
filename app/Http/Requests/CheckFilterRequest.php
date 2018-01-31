@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
-use Carbon\Carbon;
 
-class BookEditRequest extends FormRequest
+class CheckFilterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,6 +19,13 @@ class BookEditRequest extends FormRequest
     }
 
     /**
+     * The URI to redirect to if validation fails.
+     *
+     * @var string
+     */
+    protected $redirect = 'admin/books';
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -25,14 +33,7 @@ class BookEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'author' => 'required',
-            'price' => 'required|numeric',
-            'employee_code' => 'required',
-            'year' => 'required|digits:4|integer|min:1900|max:'.Carbon::now()->year,
-            'description' => 'required|string',
-            'image'=> 'image|max:10240',
+            'filter' => Rule::in(['donated', 'borrowed']),
         ];
     }
-    
 }

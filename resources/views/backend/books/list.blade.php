@@ -137,7 +137,7 @@
             <!-- /.box -->
           </div>
         </div>
-      </section>
+    </section>
   </div>
   <!-- /.content-wrapper -->
 @endsection

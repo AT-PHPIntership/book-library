@@ -19,7 +19,7 @@ trait SearchTrait
     {
         $columns = $this->searchable;
 
-        $query->where(function ($where) use($columns, $search, $filter) {
+        $query->where(function ($where) use ($columns, $search, $filter) {
             foreach ($columns['input'] as $value) {
                 if ($filter === $value[0]) {
                     $where->orWhere($value[0], $value[1], '%'.$search.'%');
