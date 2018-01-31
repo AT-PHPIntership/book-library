@@ -9,10 +9,10 @@ use App\Model\Comment;
 class CommentController extends Controller
 {
     /**
-     * Show the form with book data for edit book.
+     * Delete comment by Post
      *
      * @param Request $request request
-     * @param int     $id      id
+     * @param int     $id      id of comment
      *
      * @return \Illuminate\Http\Response
      */
