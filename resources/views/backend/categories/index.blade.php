@@ -21,7 +21,7 @@
         <div class="col-md-12">
           <div class="box">
             <!-- /.box-header -->
-            <div id="unload-paginate" class="box-body table-responsive no-padding">
+            <div id="load-paginate" class="box-body table-responsive no-padding">
               <!-- Modal -->
               <div id="confirmDelete" class="modal fade" role="dialog">
                 <div class="modal-dialog">
@@ -71,9 +71,7 @@
               <!-- .pagination -->
               <div class="text-center">
                 <nav aria-label="...">
-                  <ul class="pagination">
                   {{ $categories->links() }}
-                  </ul>
                 </nav>
               </div>
               <!-- /.pagination -->
@@ -81,7 +79,7 @@
               <script src="{{ asset('app/js/category.js') }}">
               </script>
               <script>
-                category.unloadPage("{{ isset($url) ? $url : '' }}", "{{ Request::get('page') }}", "{{ __('category.delete_success') }}");
+                category.loadPage("{{ isset($paginateAttr['uri']) ? $paginateAttr['uri'] : '' }}", "{{ Request::get('page') }}", "{{ __('category.delete_success') }}");
               </script>
             </div>
             <!-- /.box-body -->
