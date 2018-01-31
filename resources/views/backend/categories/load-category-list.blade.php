@@ -55,5 +55,5 @@
 <script src="{{ asset('app/js/category.js') }}">
 </script>
 <script>
-  category.loadPage("{{ isset($paginateAttr['uri']) ? $paginateAttr['uri'] : '' }}", "{{ isset($paginateAttr['page']) ? $paginateAttr['page'] : Request::get('page') }}", "{{ __('category.delete_success') }}", "{{ $totalCategories }}");
+  category.loadPage("{{ isset($paginateAttr['uri']) ? $paginateAttr['uri'] : '' }}", "{{ isset($paginateAttr['page']) ? $paginateAttr['page'] : Request::get('page') }}", "{{ __('category.delete_success') }}");
 </script>
