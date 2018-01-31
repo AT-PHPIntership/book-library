@@ -16,9 +16,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::select('id', 'name')->withCount('books')
-                                                    ->groupBy('id')
-                                                    ->paginate(config('define.page_length'));
+        $categories = Category::select('id', 'name')
+                                ->withCount('books')
+                                ->groupBy('id')
+                                ->paginate(config('define.page_length'));
         return view('backend.categories.index', compact('categories'));
     }
 
