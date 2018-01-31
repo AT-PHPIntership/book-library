@@ -86,7 +86,8 @@ class AdminListPostsTest extends DuskTestCase
                     ->pause(1000)
                     ->assertSee('Confirm Delete !')
                     ->press('OK')
-                    ->assertSee('Delete success !');
+                    ->assertSee('Delete success !')
+                    ->visit('/admin/posts');
         });
     }
 
