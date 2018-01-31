@@ -85,7 +85,7 @@
                                 <ol class="breadcrumb">
                                     @if ($post->type == App\Model\Post::REVIEW_TYPE)
                                         <li><b>{{ __('post.score') }} :</b>
-                                            <i> {{$post->rating}} </i>
+                                            <i>{{ $post->rating or '0' }}</i>
                                         </li>
                                     @endif
                                     <li><b>{{ __('post.date') }} :</b><i> {{ $post->created_at }}</i></li>
