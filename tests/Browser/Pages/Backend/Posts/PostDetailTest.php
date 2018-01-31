@@ -191,34 +191,6 @@ class PostDetailTest extends DuskTestCase
         });
     }
 
-    /**
-     * Detail post is find book
-     *
-     * @return void
-     */
-    public function testClickLinkTransfertToDetaiIsFindBooklHaveComment()
-    {
-        $this->makeDataFindBook(2);
-        $post = Post::first();
-        $this->browse(function (Browser $browser) use($post) {
-            $browser->loginAs(User::find(1))
-                    ->resize(1200,1600)
-                    ->visit('/admin/posts')
-                    ->assertSee('List Posts')
-                    ->assertVisible('.btn.btn-success')
-                    ->click('.btn.btn-success')
-                    ->visit('/admin/posts/'.$post->id)
-                    ->assertPathIs('/admin/posts/'.$post->id)
-                    ->assertSee('Detail Post')
-                    ->assertSee('FIND BOOK')
-                    ->assertSee('Date')
-                    ->assertDontSee('Score')
-                    ->assertVisible('.post-image[src="'. $post->image_url .'"]')->screenShot(11);
-            $this->assertTrue($browser->text('.post-username') == $post->users->name);
-            $this->assertTrue($browser->text('.post-date') == date('d-m-Y', strtotime($post->created_at)));
-            $this->assertTrue($browser->text('.post-content') == $post->content);
-        });
-    }
 
     /**
      * Make data has comment
