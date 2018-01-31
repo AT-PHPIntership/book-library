@@ -96,29 +96,33 @@ class BookController extends Controller
             'avg_rating',
             'total_rating'
         ];
-        $books = Book::select($columns);
 
-        if ($request->has('search') && $request->has('choose')) {
-            $search = $request->search;
-            $choose = $request->choose;
-            $books = Book::search($search, $choose);
-        }
+        $search = $request->search;
+        $choose = $request->choose;
         $uid = $request->uid;
         $limit = $request->limit;
         $filter = $request->filter;
 
-        $books = $books->withCount('borrowings')->sortable();
+        $books = Book::search($search, $choose)->withCount('borrowings')->sortable();
 
-        if ($request->has('uid') && $request->has('filter')) {
+        if ($request->has('uid')) {
+
             $books = Book::whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
                 $query->where('user_id', '=', $uid);
-            })->orderby('id', 'desc')->paginate(config('define.page_length'));
-        } else if ($filter == Book::BORROWED) {
+                    })->withCount('borrowings')->sortable()->search($search, $choose)
+            ->orderby('id', 'desc')->paginate(config('define.page_length'))
+            ->appends(['search' => $search, 'choose' => $choose, 'uid' => $uid, 'limit' => $limit, 'filter' => $filter]);
+        
+        } else if ($filter == Book::BORROWED && $limit == config('define.page_length')) {
+        
             $books = $books->orderBy('borrowings_count', 'DESC')
                     ->limit($limit)
                     ->get();
         } else {
-            $books = $books->orderby('id', 'desc')->paginate(config('define.page_length'));
+        
+            $books = $books->orderby('id', 'desc')->paginate(config('define.page_length'))
+            ->appends(['search' => $search, 'choose' => $choose, 'uid' => $uid, 'limit' => $limit, 'filter' => $filter]);
+        
         }
         return view('backend.books.list', compact('books'));
     }
