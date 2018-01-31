@@ -49,3 +49,7 @@ $(document).ready(function() {
 $(window).on('load', function(){
   $('#image').val('');
 });
+
+$(window).on('load', function(){
+  $('.alert').delay(5000).slideUp(400);
+});
