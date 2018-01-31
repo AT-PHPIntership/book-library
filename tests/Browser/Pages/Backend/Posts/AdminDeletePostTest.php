@@ -13,7 +13,7 @@ use App\Model\Category;
 use App\Model\Donator;
 use DB;
 
-class AdminListPostsTest extends DuskTestCase
+class AdminDeletePostTest extends DuskTestCase
 {
 
     use DatabaseMigrations;
