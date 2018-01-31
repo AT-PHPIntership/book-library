@@ -29,7 +29,8 @@ class CategoryController extends Controller
     /**
      * Delete category with ajax request
      *
-     * @param int $id category's id
+     * @param int                     $id      category's id
+     * @param Illuminate\Http\Request $request get request
      *
      * @return mixin
      */
