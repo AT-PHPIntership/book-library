@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Model\Category;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Http\Request;
 use App\Http\Requests\CategoryUpdateNameRequest;
 
 class CategoryController extends Controller
@@ -17,7 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::select('id', 'name')->withCount('books')
+        $categories = Category::select('id', 'name')
+                                ->withCount('books')
                                 ->groupBy('id')
                                 ->paginate(config('define.page_length'));
         return view('backend.categories.index', compact('categories'));
@@ -26,16 +26,16 @@ class CategoryController extends Controller
     /**
      * Update the name corresponding to the category ID in the database.
      *
-     * @param CategoryUpdateNameRequest $data data
+     * @param CategoryUpdateNameRequest $request request
+     * @param int                       $id      Id of category
      *
      * @return Response
      */
-    public function update(CategoryUpdateNameRequest $data)
+    public function update(CategoryUpdateNameRequest $request, $id)
     {
-        $category = Category::findOrFail($data->id);
-        $category->name = $data->name;
+        $category = Category::findOrFail($id);
+        $category->name = $request->name;
         $category->save();
-        
-        return response()->json($data, 200);
+        return response()->json($request);
     }
 }

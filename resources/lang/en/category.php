@@ -6,6 +6,8 @@ return [
     'id' => 'ID',
     'name' => 'Name',
     'number_of_books' => 'Number of Books',
-    'option' => 'Option',
-    'edit' => 'Edit',
+    'actions' => 'Actions',
+    'rename' => 'Rename Category',
+    'update' => 'Update',
+    'close' => 'Close'
 ];
