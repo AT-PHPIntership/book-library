@@ -33,12 +33,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        $page = \Request::get('page');
         DB::beginTransaction();
         try {
-            $this->deleteAndSetDefault($id);
-            $paginateAttr = $this->redirectCurrentPage(\Request::get('page'));
-            $url = $paginateAttr['url'];
-            $page = $paginateAttr['page'];
+            $category = Category::findOrFail($id);
+            $category->deleteAndSetDefault($category);
+            $paginateAttr = $this->getRedirectedPage($page);
             $categories = Category::select('id', 'name')->withCount('books')
                                     ->groupBy('id')
                                     ->paginate(config('define.page_length'))
@@ -48,27 +48,11 @@ class CategoryController extends Controller
                 throw new Exception(__('category.denied_default_delete'));
             }
             DB::commit();
-            return view('backend.categories.unload', compact('categories', 'url', 'page', 'totalCategories'));
+            return view('backend.categories.load-category-list', compact('categories', 'paginateAttr', 'totalCategories'));
         } catch (Exception $e) {
             DB::rollBack();
             return response()->json(['message' => $e->getMessage()], 200);
         }
-    }
-
-    /**
-     * Delete category and set book's category_id to default
-     *
-     * @param int $categoryId category's id
-     *
-     * @return void
-     */
-    public function deleteAndSetDefault($categoryId)
-    {
-        $category = Category::findOrFail($categoryId);
-        DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        Book::where('category_id', $categoryId)->update(['category_id' => Category::DEFAULT_CATEGORY]);
-        DB::statement('SET FOREIGN_KEY_CHECKS=1');
-        $category->delete();
     }
 
     /**
@@ -78,7 +62,7 @@ class CategoryController extends Controller
      *
      * @return array
      */
-    public function redirectCurrentPage($page)
+    public function getRedirectedPage($page)
     {
         $rowCount = Category::count();
         $lastPageRemainRow = $rowCount % config('define.page_length');
@@ -89,9 +73,9 @@ class CategoryController extends Controller
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         });
-        $url = "/admin/categories?page=" . $page;
+        $uri = "/admin/categories?page=" . $page;
         return [
-            'url' => $url,
+            'uri' => $uri,
             'page'=> $page
         ];
     }
