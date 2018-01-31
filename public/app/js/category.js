@@ -30,11 +30,17 @@ var category = (function(){
         success: function(request) {
           $("#nameCategory" + id).html(request.name);
           $('#edit-modal' + id).attr('data-name', request.name);
+          $("#myModal").modal("hide");
         },
-        error: function() {
-          alert("Error, please try again.");
+        error: function(error) {
+          errorText = JSON.parse(error.responseText);
+          $('.errors').html(errorText.errors.name);
         }
       });
+    });
+
+    $('.btn-close-update-category').on('click', function () {
+      $('.errors').html("");
     });
   }
   // Prototype
