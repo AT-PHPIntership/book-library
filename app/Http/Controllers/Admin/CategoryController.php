@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Model\Category;
 use Illuminate\Pagination\Paginator;
-use App\Http\Requests\CategoryUpdateNameRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 
 class CategoryController extends Controller
 {
@@ -26,12 +26,12 @@ class CategoryController extends Controller
     /**
      * Update the name corresponding to the category ID in the database.
      *
-     * @param CategoryUpdateNameRequest $request request
-     * @param int                       $id      Id of category
+     * @param CategoryUpdateRequest $request request
+     * @param int                   $id      Id of category
      *
      * @return Response
      */
-    public function update(CategoryUpdateNameRequest $request, $id)
+    public function update(CategoryUpdateRequest $request, $id)
     {
         $category = Category::findOrFail($id);
         $category->name = $request->name;
