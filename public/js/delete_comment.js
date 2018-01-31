@@ -18,6 +18,7 @@ $(document).ready(function(){
                 if (data == 204){
                     $('[data-id=' + $id + ']').parent().parent().parent().parent().remove();
                     $('[data-id=' + $id + ']').parent().parent().remove();
+                    $('#message').html('').show();
                     $('#message').append('<div class="alert alert-success"><strong>Success!</strong> Delete Comments</div>').fadeOut(5000);
 
                 } else {
