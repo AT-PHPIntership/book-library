@@ -26,22 +26,25 @@
 
 <!-- Modal confirm delete comment -->
 <div id="confirmDeleteComment" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+    <div class="modal-dialog">
     <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body text-center">
-        <h3>{{ __('post.confirm.title') }}</h3>
-        <p>{{ __('post.confirm.delete_comment') }} ?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="btnOK" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
-      </div>
-    </div>
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                <h3>{{ __('post.confirm.title') }}</h3>
+                <p>{{ __('post.confirm.delete_comment') }} ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnOK" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+            </div>
+        </div>
     <!-- end content-->
+    </div>
+</div>
+<!-- end modal-->
   </div>
 </div>
 <!-- end modal-->
@@ -80,11 +83,17 @@
                                 <ol class="breadcrumb">
                                     @if ($post->type == App\Model\Post::REVIEW_TYPE)
                                         <li><b>{{ __('post.score') }} :</b>
-                                            <i> {{$post->rating}} </i>
+                                            <i>{{ $post->rating or '0' }}</i>
                                         </li>
                                     @endif
                                     <li><b>{{ __('post.date') }} :</b><i> {{ $post->created_at }}</i></li>
-                                    <li><i class="fa fa-trash-o text-danger"></i></li>
+                                    <li>
+                                      <form method="POST" action="{{ route('posts.destroy', $post->id) }}" id="form-delete-post" class="inline">
+                                          {{ csrf_field() }}
+                                          {{ method_field('DELETE') }}
+                                        <button type="button" class="btn btn-danger btn-flat fa fa-trash-o" data-toggle="modal" data-target="#confirmDeletePost"></button>
+                                      </form>
+                                    </li>
                                 </ol>
                             </div>
                             <p>
@@ -125,8 +134,14 @@
   </div>
   <!-- /.content-wrapper -->
 @endsection
+<<<<<<< HEAD
 @section('script')
     <script type="text/javascript" src="{{ asset('js/delete_comment.js') }}">
 
     </script>
+=======
+
+@section('script')
+  <script src="{{ asset('js/delete_post.js') }}"></script>
+>>>>>>> b41158755f865c09264be2efa80306edcf8943f1
 @endsection

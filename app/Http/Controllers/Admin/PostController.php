@@ -8,6 +8,7 @@ use App\Model\Post;
 use App\Model\Rating;
 use App\Model\Comment;
 use DB;
+use Illuminate\Database\QueryException;
 
 class PostController extends Controller
 {
@@ -44,7 +45,7 @@ class PostController extends Controller
         $comments = Comment::where('post_id', $id)->get();
 
         $post = Post::select('posts.*', 'ratings.rating')
-                ->join('ratings', function ($join) {
+                ->leftJoin('ratings', function ($join) {
                     $join->on('posts.user_id', '=', 'ratings.user_id');
                     $join->on('posts.book_id', '=', 'ratings.book_id');
                 })->find($id);
@@ -52,5 +53,27 @@ class PostController extends Controller
             return redirect('admin/posts');
         }
         return view('backend.posts.show', compact('post', 'comments'));
+    }
+
+    /**
+     * Delete post
+     *
+     * @param int $id id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        DB::beginTransaction();
+        try {
+            Post::findOrFail($id)->delete();
+            flash(__('post.message.success'))->success();
+            DB::commit();
+            return redirect()->route('posts.index');
+        } catch (Exception $e) {
+            DB::rollBack();
+            flash(__('post.message.error'))->error();
+            return redirect()->back();
+        }
     }
 }

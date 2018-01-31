@@ -25,6 +25,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::resource('borrowings', 'BorrowingController');
     Route::resource('categories', 'CategoryController');
     Route::resource('comments', 'CommentController');
+    //Mail
+    Route::post('mail', 'SendMailController@sendMail')->name('sendMail');
 });
 
 //Api
