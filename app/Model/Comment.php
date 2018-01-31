@@ -95,7 +95,6 @@ class Comment extends Model
     public static function boot()
     {
         parent::boot();
-
         static::deleting(function ($comment) {
             $comment->children()->delete();
         });

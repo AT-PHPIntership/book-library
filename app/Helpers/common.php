@@ -61,10 +61,10 @@ if (!function_exists('activeRoute')) {
                             $body .= '<div class="pull-left">';
                                 $body .= '<img class="img-thumbnail" src="'.$comment->user->avatar.'" alt="User profile picture">';
                             $body .= '</div>';
-                        $body .= '</div>'; 
+                        $body .= '</div>';
                         $body .= '<div class="col-md-11 comment-content">';
                             $body .= '<div class="panel panel-default">';
-                                    $body .= '<div class="panel-heading">'.$comment->user->name.'<a href="#" class="glyphicon glyphicon-remove text-warning pull-right"></a></div>';
+                                    $body .= '<div class="panel-heading">'.$comment->user->name.'<a href="#" class="glyphicon glyphicon-remove text-warning pull-right confirm-delete" data-id="'.$comment['id'].'" data-toggle="modal" data-target="#confirmDeleteComment"></a></div>';
                                     $body .= '<div class="panel-body">'.$comment['content'].'</div>';
                             $body .= '</div>';
                             $body .= '<div class="col-md-12 comment-item">';
