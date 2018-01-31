@@ -134,14 +134,7 @@
   </div>
   <!-- /.content-wrapper -->
 @endsection
-<<<<<<< HEAD
 @section('script')
     <script type="text/javascript" src="{{ asset('js/delete_comment.js') }}">
-
     </script>
-=======
-
-@section('script')
-  <script src="{{ asset('js/delete_post.js') }}"></script>
->>>>>>> b41158755f865c09264be2efa80306edcf8943f1
 @endsection
