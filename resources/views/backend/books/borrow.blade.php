@@ -58,7 +58,8 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="text-center">
-                    {{ $borrowings->render() }}
+                    {{ $borrowings->appends(\Request::except('page'))->render()}}
+
                 </div>
             </div>
             <!-- /.box -->
