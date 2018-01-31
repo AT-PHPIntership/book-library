@@ -7,4 +7,7 @@ return [
     'name' => 'Name',
     'number_of_books' => 'Number of Books',
     'actions' => 'Actions',
+    'rename' => 'Rename Category',
+    'update' => 'Update',
+    'close' => 'Close'
 ];
