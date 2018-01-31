@@ -6,17 +6,11 @@ var category = (function(){
   }
     
   // Methods
-  var loadPage = function(url, page, deleteMessage, totalCategories = null) {
+  var loadPage = function(url, page, deleteMessage) {
     $('.delete-category').click(function() {
         $('.confirm').attr('data-id', $(this).attr('id'));
         $(this).parent().find('.delete-progress').attr('id', 'active-delete-progress');
     });
-
-    if (totalCategories != null) {
-        $('#total-categories').text(totalCategories);
-    } else {
-        $('#total-categories').text($('#total-categories').text());
-    }
 
     window.history.replaceState("category", "Category", url);
 
@@ -40,6 +34,7 @@ var category = (function(){
           } else {
               displayMessage(deleteMessage, 'alert-success');
               $('#load-paginate').html(data);
+              $('#total-categories').text($('#total-categories').text() - 1);
           }
           $('.delete-progress').attr('id', '').css('display', 'none');
         }

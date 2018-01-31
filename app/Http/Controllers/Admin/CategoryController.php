@@ -43,12 +43,11 @@ class CategoryController extends Controller
                                     ->groupBy('id')
                                     ->paginate(config('define.page_length'))
                                     ->setPath('/admin/categories');
-            $totalCategories = getCount(Category::class);
             if ($id == Category::DEFAULT_CATEGORY) {
                 throw new Exception(__('category.denied_default_delete'));
             }
             DB::commit();
-            return view('backend.categories.load-category-list', compact('categories', 'paginateAttr', 'totalCategories'));
+            return view('backend.categories.load-category-list', compact('categories', 'paginateAttr'));
         } catch (Exception $e) {
             DB::rollBack();
             return response()->json(['message' => $e->getMessage()], 200);
