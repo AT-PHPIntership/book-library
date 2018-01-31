@@ -10,4 +10,7 @@ return [
     'delete_success' => 'Delete success!',
     'denied_default_delete' => 'You cannot delete this category, because it is a default category!',
     'actions' => 'Actions',
+    'rename' => 'Rename Category',
+    'update' => 'Update',
+    'close' => 'Close'
 ];

@@ -1,11 +1,43 @@
-// Object
+// Category Object 
 var category = (function(){
-  
   // Constructor
   var category = function(){
   }
-    
-  // Methods
+  // edit name of category method
+  var editNameCategory = function() {
+    classBtnEditNameCategories = document.getElementsByClassName('btn-show-edit-modal');
+    for (let classBtnEditNameCategory of classBtnEditNameCategories) {
+      classBtnEditNameCategory.addEventListener('click', function () {
+        $('#idCategory').val($(this).attr('data-id'));
+        $('#nameCategory').val($(this).attr('data-name'));
+      });
+    }
+  }
+  // update name of category method to database
+  var updateNameCategory = function() {
+    $('.btn-UpdateNameCategory').on('click', function () {
+      token = $('meta[name="csrf_token"]').attr('content');
+      id = $("#idCategory").val();
+      name = $('#nameCategory').val();
+      $.ajax({
+        type: 'PUT',
+        headers: { 'X-CSRF-TOKEN': token },
+        url: '/admin/categories/' + id,
+        data: {
+          'name': name
+        },
+        success: function(request) {
+          $("#nameCategory" + id).html(request.name);
+          $('#edit-modal' + id).attr('data-name', request.name);
+        },
+        error: function() {
+          alert("Error, please try again.");
+        }
+      });
+    });
+  }
+
+  //loading page with out refresh when deleted category
   var loadPage = function(url, page, deleteMessage) {
     $('.delete-category').click(function() {
         $('.confirm').attr('data-id', $(this).attr('id'));
@@ -50,15 +82,15 @@ var category = (function(){
                                     .slideUp(300);
     }
   }
-  
-    // Prototype
-    category.prototype = {
-      constructor: category,
-      loadPage: loadPage
-    }
-  
-    // Return category;
-    return category;
-  })();
-  
-  var category = new category();
+  // Prototype
+  category.prototype = {
+    constructor: category,
+    editNameCategory: editNameCategory,
+    updateNameCategory: updateNameCategory,
+    loadPage: loadPage
+  }
+  // Return category;
+  return category;
+})();
+
+var newCategory = new category();
