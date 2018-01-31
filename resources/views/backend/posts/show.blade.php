@@ -1,6 +1,55 @@
 @extends('backend.layouts.main')
 @section('title',__('post.post_title'))
 @section('content')
+
+<!-- Modal confirm delete post-->
+<div id="confirmDeletePost" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <h3>{{ __('post.confirm.title') }}</h3>
+        <p>{{ __('post.confirm.delete_post') }} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button id="confirm-delete-post" type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+      </div>
+    </div>
+    <!-- end content-->
+
+  </div>
+</div>
+<!-- end modal-->
+
+<!-- Modal confirm delete comment -->
+<div id="confirmDeleteComment" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <h3>{{ __('post.confirm.title') }}</h3>
+        <p>{{ __('post.confirm.delete_comment') }} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('confirm.ok') }}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+      </div>
+    </div>
+    <!-- end content-->
+
+  </div>
+</div>
+<!-- end modal-->
+
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -36,11 +85,17 @@
                                 <ol class="breadcrumb post-ratings">
                                     @if ($post->type == App\Model\Post::REVIEW_TYPE)
                                         <li><b>{{ __('post.score') }} :</b>
-                                            <i> {{$post->rating}} </i>
+                                            <i>{{ $post->rating or '0' }}</i>
                                         </li>
                                     @endif
                                     <li><b>{{ __('post.date') }} :</b><i class="post-date"> {{ date('d-m-Y', strtotime($post->created_at))}}</i></li>
-                                    <li><i class="fa fa-trash-o text-danger"></i></li>
+                                    <li>
+                                      <form method="POST" action="{{ route('posts.destroy', $post->id) }}" id="form-delete-post" class="inline">
+                                          {{ csrf_field() }}
+                                          {{ method_field('DELETE') }}
+                                        <button type="button" class="btn btn-danger btn-flat fa fa-trash-o" data-toggle="modal" data-target="#confirmDeletePost"></button>
+                                      </form>
+                                    </li>
                                 </ol>
                             </div>
                             <p class="post-content">
@@ -78,4 +133,8 @@
     </section>
   </div>
   <!-- /.content-wrapper -->
+@endsection
+
+@section('script')
+  <script src="{{ asset('js/delete_post.js') }}"></script>
 @endsection
