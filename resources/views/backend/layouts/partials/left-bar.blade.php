@@ -48,7 +48,7 @@
           <i class="fa fa-list" aria-hidden="true"></i>
           <span>{{ __('dashboard.categories') }}</span>
           <span class="pull-right-container">
-              <small class="label pull-right bg-orange">{{ getCount(App\Model\Category::class) }}</small>
+              <small id="total-categories" class="label pull-right bg-orange">{{ getCount(App\Model\Category::class) }}</small>
           </span>
         </a>
       </li>
