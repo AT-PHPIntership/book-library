@@ -59,20 +59,17 @@
                     </a>
                   </td>
                   @endif
-                  </a>
-                </td>
-                @endif
-              </tr>
-              @endforeach
+                </tr>
+                @endforeach
               </tbody>
             </table>
             <!-- .pagination -->
             <div class="text-center">
               <nav aria-label="...">
                 <ul class="pagination">
-                  @if($users instanceof \Illuminate\Pagination\AbstractPaginator)
-                    {{  $users ->links() }}
-                  @endif
+                @if ($users instanceof \Illuminate\Pagination\AbstractPaginator)
+                  {{ $users->links() }}
+                @endif
                 </ul>
               </nav>
             </div>

@@ -93,7 +93,7 @@ class AdminHomePageTest extends DuskTestCase
     public function caseTestRedirectPage()
     {
         return [
-            ['#donator', 'users',  'List Users', 'donator', 5, '#example2', 5],
+            ['#donator', 'users',  'List Users', 'donated', 5, '#example2', 5],
             ['#borrowed', 'books', 'LIST OF BOOK', 'borrowed', 10, '#table-book', 10],
         ];
     }
