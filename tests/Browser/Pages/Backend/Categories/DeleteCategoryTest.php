@@ -39,7 +39,6 @@ class DeleteCategoryTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->user)
                     ->visit('/admin/categories')
-                    ->assertPathIs('/admin/categories')
                     ->assertVisible('.delete-category', 'background-color: #dd4b39');
         });
     }
@@ -54,7 +53,6 @@ class DeleteCategoryTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->user)
                     ->visit('/admin/categories')
-                    ->assertPathIs('/admin/categories')
                     ->press('#2')
                     ->pause(1000)
                     ->assertSee('Do you want to delete this category?')
