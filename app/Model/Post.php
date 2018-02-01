@@ -116,7 +116,7 @@ class Post extends Model
      */
     public function getImageUrlAttribute()
     {
-        return $this->image ? $this->image: asset(config('image.books.default_path').self::DEFAULT_IMAGE_POST);
+        return $this->image ? $this->image : asset(config('image.posts.path_upload').self::DEFAULT_IMAGE_POST);
     }
 
     /**

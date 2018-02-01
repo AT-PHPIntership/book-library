@@ -13,7 +13,7 @@
       <div class="modal-body text-center">
         <h3>{{ __('book.confirm.title') }}</h3>
         <p >{{ __('book.confirm.delete') }}
-            <strong class="data-content"></strong>? 
+            <strong class="data-content"></strong>?
         </p>
       </div>
       <div class="modal-footer">
