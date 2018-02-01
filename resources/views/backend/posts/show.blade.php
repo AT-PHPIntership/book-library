@@ -110,7 +110,7 @@
                   <div class="col-md-12">
                       <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#activity" data-toggle="tab">Comments</a></li>
+                                <li class="active"><a href="#activity" data-toggle="tab">{{ __('comment.comments') }}</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="active tab-pane" id="activity">
@@ -130,7 +130,7 @@
   <!-- /.content-wrapper -->
 @endsection
 @section('script')
-    <script type="text/javascript" src="{{ asset('js/delete_comment.js') }}">
+    <script type="text/javascript" src="{{ asset('js/comment.js') }}">
     </script>
     <script>
       newComment.deleteComment();

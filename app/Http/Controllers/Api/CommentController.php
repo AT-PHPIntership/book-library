@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Comment;
+use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends Controller
 {
     /**
      * Delete comment by Post
      *
-     * @param Request $request request
-     * @param int     $id      id of comment
+     * @param int $id id of comment
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         Comment::find($id)->delete();
-        if ($request->ajax()) {
-            return response()->json(204);
+        if (request()->ajax()) {
+            return response()->json(Response::HTTP_NO_CONTENT);
         }
     }
 }

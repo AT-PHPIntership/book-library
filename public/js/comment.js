@@ -15,12 +15,9 @@ var comment = (function() {
         $('#btn-ok').click(function() {
             token = $('meta[name="csrf_token"]').attr('content');
             $.ajax({
-                url: '/admin/comments/' + $id,
+                url: '/api/comments/' + $id + '/destroy',
                 type : 'DELETE',
                 headers: { 'X-CSRF-TOKEN': token },
-                data : {
-                    id : $id,
-                },
                 success: function(data) {
                     if (data == 204){
                         $('[data-id=' + $id + ']').parent().parent().parent().parent().remove();
