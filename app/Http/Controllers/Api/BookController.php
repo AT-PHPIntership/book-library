@@ -11,6 +11,7 @@ use App\Model\Borrowing;
 use App\Model\QrCode;
 use App\Model\Rating;
 use App\Model\Comment;
+
 class BookController extends Controller
 {
     /**
