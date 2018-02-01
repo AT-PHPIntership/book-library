@@ -9,4 +9,6 @@
       \App\Model\Book::BORROWED => 'borrowings',
     ],
     'all' => 'all',
+    'date_diff' => 3,
+    'timezone' => 7,
   ];
