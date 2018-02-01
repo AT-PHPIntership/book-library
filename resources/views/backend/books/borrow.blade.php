@@ -59,7 +59,6 @@
                 <!-- /.box-body -->
                 <div class="text-center">
                     {{ $borrowings->appends(\Request::except('page'))->render()}}
-
                 </div>
             </div>
             <!-- /.box -->
