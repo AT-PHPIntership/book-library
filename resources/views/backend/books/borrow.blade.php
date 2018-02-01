@@ -76,8 +76,8 @@
                                     <td>{{ date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
                                     <td>{{ $borrowing->date_send_mail }}</td>
                                     <td>
-                                        <button type="button" data-action= "{{route('sendMail', $borrowing->id)}}" 
-                                        class="btn btn-warning btn-check fa-trash-o ion ion-android-drafts" data-name="{{ $borrowing->users->name }}" data-toggle="modal" data-target="#confirmSendMail" id="{{$borrowing->id}}" {{ canSendMail($borrowing->date_send_email) ? '':'disabled'}}>
+                                        <button type="button" data-action= "{{ route('sendMail', $borrowing->id) }}" 
+                                        class="btn btn-warning btn-check fa-trash-o ion ion-android-drafts" data-name="{{ $borrowing->users->name }}" data-toggle="modal" data-target="#confirmSendMail" id="{{ $borrowing->id }}" {{ canSendMail($borrowing->date_send_email) ? '' : 'disabled' }}>
                                         </button>
                                     </td>         
                                 </tr>
