@@ -57,7 +57,7 @@ class PostDetailTest extends DuskTestCase
     {
         $this->makeData(2);
         $post = Post::first();
-        $this->browse(function (Browser $browser) use($post) {
+        $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs(User::find(1))
                     ->resize(1200,1600)
                     ->visit('/admin/posts')
@@ -84,7 +84,7 @@ class PostDetailTest extends DuskTestCase
     {
         $this->makeDataNotComment(2);
         $post = Post::first();
-        $this->browse(function (Browser $browser) use($post) {
+        $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs(User::find(1))
                     ->resize(1200,1600)
                     ->visit('/admin/posts')
@@ -112,7 +112,7 @@ class PostDetailTest extends DuskTestCase
     {
         $this->makeDataReview(2);
         $post = Post::first();
-        $this->browse(function (Browser $browser) use($post) {
+        $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs(User::find(1))
                     ->resize(1200,1600)
                     ->visit('/admin/posts')
@@ -142,7 +142,7 @@ class PostDetailTest extends DuskTestCase
     {
         $this->makeDataStatus(2);
         $post = Post::first();
-        $this->browse(function (Browser $browser) use($post) {
+        $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs(User::find(1))
                     ->resize(1200,1600)
                     ->visit('/admin/posts')
@@ -171,7 +171,7 @@ class PostDetailTest extends DuskTestCase
     {
         $this->makeDataFindBook(2);
         $post = Post::first();
-        $this->browse(function (Browser $browser) use($post) {
+        $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs(User::find(1))
                     ->resize(1200,1600)
                     ->visit('/admin/posts')
