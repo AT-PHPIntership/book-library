@@ -17,10 +17,12 @@ class RatingsTableSeeder extends Seeder
         $bookId = DB::table('books')->pluck('id')->toArray();
         $userId = DB::table('users')->pluck('id')->toArray();
         $faker = Faker::create();
-        for ($i = 0; $i <= 15; $i++) {
+        $posts = DB::table('posts')->get();
+        foreach ($posts as $value) {
             factory(App\Model\Rating::class, 1)->create([
-                'book_id' => $faker->randomElement($bookId),
-                'user_id' => $faker->randomElement($userId)
+                'book_id' => $value->book_id,
+                'user_id' => $value->user_id,
+                'rating'  => rand(1,5),
             ]);
         }
         Model::reguard();
