@@ -1,11 +1,9 @@
 @extends('backend.layouts.main')
 @section('title',__('borrow.title_borrow'))
 @section('content')
-
 <!-- Modal -->
 @include ('backend.books.partials.modal')
 <!-- end modal-->
-
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
@@ -16,6 +14,8 @@
             <li class="active">{{ __('borrow.borrowings') }}</li>
         </ol>
     </section>
+    <!-- show message response -->
+    @include('flash::message')
     <section class="content">
     <div class="row">
         <div class="col-xs-12">
@@ -43,16 +43,17 @@
                                 <td>{{ $borrowing->books->name }}</td>
                                 <td>{{ date(config('define.date_format'), strtotime($borrowing->from_date)) }}</td>
                                 <td>{{ date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
-                                <td>{{ $borrowing->date_send_email }}</td>
+                                <td>{{ $borrowing->date_send_mail }}</td>
                                 <td>
-                                    <form method="POST" action="{{ route('sendMail', $borrowing) }}" id="form-confirm-{{$borrowing->id}}">
-                                    {{ csrf_field()}}
-                                        <button type="button" class="btn btn-warning btn-check fa-trash-o ion ion-android-drafts" data-name="{{ $borrowing->users->name }}" data-toggle="modal" data-target="#confirmSendMail" id="{{$borrowing->id}}">
-                                        </button>
-                                    </form>
+                                    <button type="button" data-action= "{{route('sendMail', $borrowing->id)}}" 
+                                    class="btn btn-warning btn-check fa-trash-o ion ion-android-drafts" data-name="{{ $borrowing->users->name }}" data-toggle="modal" data-target="#confirmSendMail" id="{{$borrowing->id}}" {{ canSendMail($borrowing->date_send_email) ? '':'disabled'}}>
+                                    </button>
                                 </td>         
                             </tr>
                         @endforeach
+                        <form method="POST" action="" id="form-confirm">
+                            {{ csrf_field()}}
+                        </form>
                         </tbody>
                     </table>
                 </div>
