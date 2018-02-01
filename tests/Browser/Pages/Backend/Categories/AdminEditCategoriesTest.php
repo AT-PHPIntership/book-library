@@ -81,9 +81,11 @@ class AdminEditCategoriesTest extends BaseTestUser
             $browser->loginAs($admin)
                     ->visit('/admin/categories')
                     ->press('#table-categories .category2 #edit-modal2')
+                    ->pause(2000)
                     ->type('name-category', $category[0]->name)
+                    ->pause(2000)
                     ->press('.btn-update-name-category')
-                    ->pause(1000)
+                    ->pause(5000)
                     ->assertSee('The name has already been taken.');
         });    
     }
@@ -97,13 +99,15 @@ class AdminEditCategoriesTest extends BaseTestUser
     {
         $admin  = $this->makeAdminUserToLogin();
         $category = $this->makeDataOfEditCategories(1);
-        $this->browse(function (Browser $browser) use ($admin,$category) {
+        $this->browse(function (Browser $browser) use ($admin, $category) {
             $browser->loginAs($admin)
                     ->visit('/admin/categories')
                     ->press('#table-categories .category1 #edit-modal1')
+                    ->pause(2000)
                     ->type('name-category','')
+                    ->pause(2000)
                     ->press('.btn-update-name-category')
-                    ->pause(1000)
+                    ->pause(5000)
                     ->assertSee('The name field is required.');
         });    
     }
@@ -122,9 +126,12 @@ class AdminEditCategoriesTest extends BaseTestUser
                     ->visit('/admin/categories')
                     ->assertDontSee('New Category')
                     ->press('#table-categories .category1  #edit-modal1')
-                    ->type('name-category','New Category')
-                    ->press('.btn-update-name-category')
                     ->pause(2000)
+                    ->type('name-category','New Category')
+                    ->pause(2000)
+                    ->press('.btn-update-name-category')
+                    ->pause(5000)
+                    ->screenshot(2)
                     ->assertDontSee('Rename Category')
                     ->assertSee('New Category');
             $this->assertDatabaseHas('categories', ['id' => $category[0]->id,'name' => 'New Category']);
