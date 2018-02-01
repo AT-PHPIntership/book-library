@@ -64,7 +64,7 @@
               <!-- Profile Image -->
               <div class="box box-primary">
                 <div class="box-body box-profile">
-                      <img class="img-thumbnail post-image" src="{{ $post->image_url }}" alt="User profile picture">
+                      <img class="img-thumbnail post-image" src="{{ $post->image_url }}">
                 </div>
                 <!-- End Profile Image -->
               </div>
@@ -88,7 +88,7 @@
                                             <i>{{ $post->rating or '0' }}</i>
                                         </li>
                                     @endif
-                                    <li><b>{{ __('post.date') }} :</b><i class="post-date"> {{ date('d-m-Y', strtotime($post->created_at))}}</i></li>
+                                    <li><b>{{ __('post.date') }} :</b><i class="post-date"> {{ date('d-m-Y', strtotime($post->created_at)) }}</i></li>
                                     <li>
                                       <form method="POST" action="{{ route('posts.destroy', $post->id) }}" id="form-delete-post" class="inline">
                                           {{ csrf_field() }}
