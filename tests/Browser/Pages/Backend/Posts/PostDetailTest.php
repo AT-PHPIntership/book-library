@@ -44,7 +44,7 @@ class PostDetailTest extends DuskTestCase
                     ->visit('/admin/posts')
                     ->assertSee('List Posts')
                     ->assertSee('Detail')
-                    ->assertVisible('.btn.btn-success')->screenShot(1);
+                    ->assertVisible('.btn.btn-success');
         });
     }
 
@@ -126,7 +126,7 @@ class PostDetailTest extends DuskTestCase
                     ->assertSee('Date')
                     ->assertSee('Score')
                     ->assertValue('i',$post->rating)
-                    ->assertVisible('.post-image[src="'. $post->image_url .'"]')->screenShot(11);
+                    ->assertVisible('.post-image[src="'. $post->image_url .'"]');
             $this->assertTrue($browser->text('.post-username') == $post->users->name);
             $this->assertTrue($browser->text('.post-date') == date('d-m-Y', strtotime($post->created_at)));
             $this->assertTrue($browser->text('.post-content') == $post->content);
@@ -155,7 +155,7 @@ class PostDetailTest extends DuskTestCase
                     ->assertSee('Date')
                     ->assertSee('STATUS')
                     ->assertDontSee('Score')
-                    ->assertVisible('.post-image[src="'. $post->image_url .'"]')->screenShot(11);
+                    ->assertVisible('.post-image[src="'. $post->image_url .'"]');
             $this->assertTrue($browser->text('.post-username') == $post->users->name);
             $this->assertTrue($browser->text('.post-date') == date('d-m-Y', strtotime($post->created_at)));
             $this->assertTrue($browser->text('.post-content') == $post->content);
@@ -184,7 +184,7 @@ class PostDetailTest extends DuskTestCase
                     ->assertSee('Date')
                     ->assertSee('FIND BOOK')
                     ->assertDontSee('Score')
-                    ->assertVisible('.post-image[src="'. $post->image_url .'"]')->screenShot(11);
+                    ->assertVisible('.post-image[src="'. $post->image_url .'"]');
             $this->assertTrue($browser->text('.post-username') == $post->users->name);
             $this->assertTrue($browser->text('.post-date') == date('d-m-Y', strtotime($post->created_at)));
             $this->assertTrue($browser->text('.post-content') == $post->content);
