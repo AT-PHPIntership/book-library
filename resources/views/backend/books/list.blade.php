@@ -102,9 +102,10 @@
                                 <td>{{ $book->avg_rating }}</td>
                                 <td>{{ $book->borrowings_count }}</td>
                                 <td align="center">
-                                    <a href="{{ route('books.edit', ['book' => $book, 'page' => $_SERVER['REQUEST_URI']]) }}"
-                                       class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                                    <i class="btn btn-danger btn-lg fa fa-trash-o" id="{{ $book->id }}" data-toggle="modal" data-target="#confirmDelete" data-name="{{ $book->name }}"></i>
+                                    <a href="{{ route('books.edit', ['book' => $book, 'page' => $_SERVER['REQUEST_URI']]) }}">
+                                      <button class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></button>
+                                    </a>
+                                    <i class="width-50 btn btn-danger btn-lg fa fa-trash-o" book-id="{{ $book->id }}"></i>
                                 </td>
                             </tr>
                         @endforeach
@@ -132,5 +133,8 @@
   <!-- /.content-wrapper -->
 @endsection
 @section('script')
-
+<script src="{{ asset('app/js/book.js') }}"></script>
+<script>
+  $newBook.addEventForAllButton();
+</script>
 @endsection
