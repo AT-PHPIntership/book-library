@@ -77,7 +77,7 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-violet">
+          <div class="small-box bg-violet" id="donator">
             <div class="inner">
               <h3>{{__('home.top_5')}}</h3>
 
@@ -86,13 +86,13 @@
             <div class="icon">
               <i class="ion ion-android-contacts"></i>
             </div>
-            <a href="{{ route('users.index') }}" class="small-box-footer">{{__('home.more_info')}} <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ route('users.index', ['filter' => 'donated', 'limit' => '5']) }}" class="small-box-footer top-donator">{{__('home.more_info')}} <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-red">
+          <div class="small-box bg-red" id="borrowed">
             <div class="inner">
               <h3>{{__('home.top_10')}}</h3>
 
@@ -101,7 +101,7 @@
             <div class="icon">
               <i class="ion ion-heart"></i>
             </div>
-            <a href="{{ route('books.index') }}" class="small-box-footer">{{__('home.more_info')}} <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ route('books.index', ['filter' => 'borrowed', 'limit' => '10']) }}" class="small-box-footer">{{__('home.more_info')}} <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
