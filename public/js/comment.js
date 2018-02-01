@@ -26,6 +26,9 @@ var comment = (function() {
                     } else {
                         messageFail();
                     }
+                },
+                error: function() {
+                    alert("Error, please try again.");
                 }
             });
         });
