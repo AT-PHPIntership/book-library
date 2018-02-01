@@ -50,7 +50,6 @@ class BookController extends Controller
     {
         $timeDelete = Book::withTrashed()->select('deleted_at')->find($id);
         $listPostID = Post::select('id')->where('book_id', $id)->where('deleted_at', $timeDelete->deleted_at)->get();
-
         DB::beginTransaction();
         try {
             $book = Book::withTrashed()->find($id)->restore();
