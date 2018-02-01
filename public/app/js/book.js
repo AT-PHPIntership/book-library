@@ -50,7 +50,6 @@ var book = (function(){
     var restoreBook = function($id) {
         console.log('restore book ' +$id);
         removeEventForAllButton();
-        // $($element).prop("onclick", null).off('click');
         console.log('turn off event restore');
         $.ajax({
             type: 'POST',
