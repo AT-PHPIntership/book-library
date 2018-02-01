@@ -9,16 +9,16 @@ var category = (function(){
     for (let classBtnEditNameCategory of classBtnEditNameCategories) {
       classBtnEditNameCategory.addEventListener('click', function () {
         $('#idCategory').val($(this).attr('data-id'));
-        $('#nameCategory').val($(this).attr('data-name'));
+        $('#name-category').val($(this).attr('data-name'));
       });
     }
   }
   // update name of category method to database
   var updateNameCategory = function() {
-    $('.btn-UpdateNameCategory').on('click', function () {
+    $('.btn-update-name-category').on('click', function () {
       token = $('meta[name="csrf_token"]').attr('content');
       id = $("#idCategory").val();
-      name = $('#nameCategory').val();
+      name = $('#name-category').val();
       $.ajax({
         type: 'PUT',
         headers: { 'X-CSRF-TOKEN': token },
@@ -27,7 +27,7 @@ var category = (function(){
           'name': name
         },
         success: function(request) {
-          $("#nameCategory" + id).html(request.name);
+          $("#name-category" + id).html(request.name);
           $('#edit-modal' + id).attr('data-name', request.name);
           $('#myModal').hide();
           $('.modal-backdrop').hide();
