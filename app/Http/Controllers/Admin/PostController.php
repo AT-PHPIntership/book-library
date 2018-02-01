@@ -52,7 +52,6 @@ class PostController extends Controller
         if (!$post) {
             return redirect('admin/posts');
         }
-
         return view('backend.posts.show', compact('post', 'comments'));
     }
 

@@ -1,6 +1,7 @@
 $('.btn-check').click(function () {
-  $id = $(this).attr('id');
+  $dataAction = $(this).attr('data-action');
 })
 $('.btn-confirm').click(function () {
-  $('#form-confirm-'+$id).submit();
+  $('#form-confirm').attr('action', $dataAction);
+  $('#form-confirm').submit();
 })
