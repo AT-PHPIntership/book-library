@@ -18,9 +18,13 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        Comment::find($id)->delete();
-        if (request()->ajax()) {
-            return response()->json(Response::HTTP_NO_CONTENT);
+        try {
+            Comment::findOrFail($id)->delete();
+            if (request()->ajax()) {
+                return response()->json(Response::HTTP_NO_CONTENT);
+            }
+        } catch (Exception $e) {
+            return response()->json(Response::HTTP_NOT_FOUND);
         }
     }
 }
