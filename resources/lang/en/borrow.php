@@ -11,4 +11,8 @@ return [
     'end_date' => 'End date',
     'title_borrow' => 'LIST OF BORROWINGS',
     'date_sent_mail' => 'Date Sent Mail',
+    'confirm' => [
+        'title' => 'Confirm Send Mail',
+        'content' => 'Do you want to send email for'
+    ]
 ];

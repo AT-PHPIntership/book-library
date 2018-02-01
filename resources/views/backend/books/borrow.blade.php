@@ -2,6 +2,10 @@
 @section('title',__('borrow.title_borrow'))
 @section('content')
 
+<!-- Modal -->
+@include ('backend.books.partials.modal')
+<!-- end modal-->
+
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
@@ -17,7 +21,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-body">
-                    <table id="example2" class="table table-bordered table-hover">
+                    <table id="table-borrowings" class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>@sortablelink('users.employee_code', __('borrow.employee_code'))</th>
@@ -41,7 +45,11 @@
                                 <td>{{ date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
                                 <td>{{ $borrowing->date_send_email }}</td>
                                 <td>
-                                    <a href="{{ route('sendMail') }}" id="{{ $borrowing->id }}" class="btn btn-warning"><i class="ion ion-android-drafts"></i></a>
+                                    <form method="POST" action="{{ route('sendMail', $borrowing) }}" id="form-confirm-{{$borrowing->id}}">
+                                    {{ csrf_field()}}
+                                        <button type="button" class="btn btn-warning btn-check fa-trash-o ion ion-android-drafts" data-name="{{ $borrowing->users->name }}" data-toggle="modal" data-target="#confirmSendMail" id="{{$borrowing->id}}">
+                                        </button>
+                                    </form>
                                 </td>         
                             </tr>
                         @endforeach
@@ -63,4 +71,7 @@
 
 </div>
 <!-- /.content-wrapper -->
+@endsection
+@section('script')
+    <script src="{{ asset('app/js/borrow.js') }}">
 @endsection
