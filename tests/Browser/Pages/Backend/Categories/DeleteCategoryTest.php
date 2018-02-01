@@ -39,6 +39,7 @@ class DeleteCategoryTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->user)
                     ->visit('/admin/categories')
+                    ->resize(1600, 2000)
                     ->assertVisible('.delete-category', 'background-color: #dd4b39');
         });
     }
@@ -53,9 +54,9 @@ class DeleteCategoryTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->user)
                     ->visit('/admin/categories')
+                    ->resize(1600, 2000)
                     ->press('#2')
-                    ->pause(1000)
-                    ->assertSee('Do you want to delete this category?')
+                    ->waitForText('Do you want to delete this category?')
                     ->assertSee('OK')
                     ->assertSee('Close');
 
@@ -89,18 +90,20 @@ class DeleteCategoryTest extends DuskTestCase
                     ->resize(1600, 2000)
                     ->click('.pagination li:nth-child(3) a')
                     ->press('#12')
-                    ->pause(2000)
+                    ->pause(4000)
                     ->press('OK')->pause(2000)
                     ->assertQueryStringHas('page', 2);
             $btnDelete = $browser->elements('#table-categories tbody tr');
             $totalRecord = Category::count();
-            $browser->pause(1000)
-                    ->assertSee('Delete success')
+            $browser->waitForText('Delete success')
                     ->pause(5500)
                     ->assertDontSee('Delete success');
             $this->assertCount($totalRecord % config('define.page_length'), $btnDelete);
 
-            $browser->press('#11')
+            $browser->visit('/admin/categories')
+                    ->click('.pagination li:nth-child(3) a')
+                    ->pause(2000)
+                    ->press('#11')
                     ->pause(2000)
                     ->press('OK')
                     ->pause(1000)
