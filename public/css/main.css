@@ -11,6 +11,9 @@ h1 {
 .width-70 {
 	width: 70px;
 }
+.width-50 {
+  width: 50px;
+}
 .inline-field {
   padding-left: 0px;
 }
