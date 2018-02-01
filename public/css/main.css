@@ -56,3 +56,6 @@ h1 {
     display: -webkit-flex;
     display: flex;
 }
+.form-row .btn {
+    padding : 6px 6px;
+}
