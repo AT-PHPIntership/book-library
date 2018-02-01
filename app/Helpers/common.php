@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use App\Model\User;
 use App\Model\Book;
 use App\Model\Post;
@@ -77,5 +78,22 @@ if (!function_exists('activeRoute')) {
         }
         $body .= '</div>';
         return $body;
+    }
+}
+
+if (!function_exists('canSendMail')) {
+
+    /**
+     * Active menu side bar when routes menu are current route
+     *
+     * @param datetime $sendTime time
+     *
+     * @return boolean
+     */
+    function canSendMail($sendTime)
+    {
+        $now = Carbon::now()->format(config('define.datetime_format'));
+        $dateSendMail = Carbon::parse($sendTime)->addDay(config('define.date_diff'))->format(config('define.datetime_format'));
+        return ((strtotime($now) >= strtotime($dateSendMail)) && !empty($sendTime)) || empty($sendTime) ? true : false;
     }
 }
