@@ -23,7 +23,7 @@ class CheckFilterRequest extends FormRequest
      *
      * @var string
      */
-    protected $redirect = 'admin/books';
+    protected $redirect = '/admin/404';
 
     /**
      * Get the validation rules that apply to the request.

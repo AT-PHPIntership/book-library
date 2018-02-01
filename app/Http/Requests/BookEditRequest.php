@@ -34,5 +34,4 @@ class BookEditRequest extends FormRequest
             'image'=> 'image|max:10240',
         ];
     }
-    
 }

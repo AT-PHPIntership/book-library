@@ -26,6 +26,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::resource('categories', 'CategoryController');
     //Mail
     Route::post('mail', 'SendMailController@sendMail')->name('sendMail');
+    Route::get('404', function () {
+        return view('backend.errors.404'); 
+    });
 });
 
 //Api
