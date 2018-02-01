@@ -19,5 +19,7 @@ return [
     'confirm' => [
         'title' => 'Confirm Send Mail',
         'content' => 'Do you want to send email for'
-    ]
+    ],
+    'subject' => 'Reminder Borrowed Book Email'
+
 ];

@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Model\Borrowing;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -37,8 +38,9 @@ class BorrowedBookMail extends Mailable
      */
     public function build()
     {
-        $subject = 'Reminder Borrowed Book Email';
-        return $this->view('backend.email.index')
+        $locale = App::getLocale();
+        $subject =  __('borrow.subject');
+        return $this->view('backend.email.'.$locale.'.mail-reminder')
                     ->with(['borrowing' => $this->borrowing])
                     ->from(Auth::user()->email, Auth::user()->name)
                     ->subject($subject);
