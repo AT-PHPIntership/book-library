@@ -39,7 +39,7 @@ class DeleteCommentTest extends DuskTestCase
     {
         $this->makeData(1);
         $post = Post::first();
-        $this->browse(function (Browser $browser) use($post) {
+        $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs(User::find(1))
                     ->resize(1200,1600)
                     ->visit('/admin/posts')
@@ -81,7 +81,7 @@ class DeleteCommentTest extends DuskTestCase
     {
         $this->makeData(1);
         $post = Post::first();
-        $this->browse(function (Browser $browser) use($post) {
+        $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs(User::find(1))
                     ->resize(1200,1600)
                     ->visit('/admin/posts')
@@ -111,7 +111,7 @@ class DeleteCommentTest extends DuskTestCase
         $comments = Comment::where('post_id',$post->id)->get();
         $count = count($comments);
 
-        $this->browse(function (Browser $browser) use($post, $count) {
+        $this->browse(function (Browser $browser) use ($post, $count) {
             $browser->loginAs(User::find(1))
                     ->resize(1200,1600)
                     ->visit('/admin/posts')
@@ -147,7 +147,7 @@ class DeleteCommentTest extends DuskTestCase
         $comments = Comment::where('post_id',$post->id)->get();
         $count = count($comments);
 
-        $this->browse(function (Browser $browser) use($post, $count) {
+        $this->browse(function (Browser $browser) use ($post, $count) {
             $browser->loginAs(User::find(1))
                     ->resize(1200,1600)
                     ->visit('/admin/posts')
@@ -181,7 +181,7 @@ class DeleteCommentTest extends DuskTestCase
         $this->makeData(1);
         $post = Post::first();
         $comment = Comment::where('post_id',$post->id)->where('parent_id','!=', null)->first();
-        $this->browse(function (Browser $browser) use($post, $comment) {
+        $this->browse(function (Browser $browser) use ($post, $comment) {
             $browser->loginAs(User::find(1))
                     ->resize(1200,1600)
                     ->visit('/admin/posts')
