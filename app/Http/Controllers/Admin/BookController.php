@@ -189,21 +189,5 @@ class BookController extends Controller
             flash($errMessage)->error();
             return redirect()->back()->withInput();
         }
-    }
-
-    /**
-     * Show the form with book data for edit book.
-     *
-     * @param Request $request request
-     * @param int     $id      id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, $id)
-    {
-        $book = Book::find($id)->delete();
-        if ($request->ajax()) {
-            return response()->json(['book'=> $book], 200);
-        }
-    }
+    }   
 }
