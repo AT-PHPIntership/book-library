@@ -58,7 +58,7 @@
                       <div class="form-group">
                         <label class="control-label col-sm-2" for="name">{{ __('category.name') }}:</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="nameCategory" autofocus>
+                          <input type="text" class="form-control" id="name-category" autofocus>
                         </div>
                       </div>
                       <div class="form-group">
@@ -68,7 +68,7 @@
                       </div>
                     </form>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-success btn-UpdateNameCategory">
+                      <button type="button" class="btn btn-success btn-update-name-category">
                         <span id="footer_action_button" class='glyphicon glyphicon-check'>{{ __('category.update') }}</span>
                       </button>
                       <button type="button" class="btn btn-warning btn-close-update-category" data-dismiss="modal">
@@ -94,7 +94,7 @@
                 @foreach ($categories as $category)
                 <tr class="category{{ $category->id }}">
                   <td class="text-center">{{ $category->id }}</td>
-                  <td id="nameCategory{{ $category->id }}" class="margin-l-5">{{ $category->name }}</td>
+                  <td id="name-category{{ $category->id }}" class="margin-l-5">{{ $category->name }}</td>
                   <td class="text-center">{{ $category->books_count }}</td>
                   <td class="text-center">
                     <button class="btn-show-edit-modal btn btn-info" id="edit-modal{{ $category->id }}" data-id="{{ $category->id }}" data-name="{{ $category->name }}" data-toggle="modal" data-target="#myModal">
