@@ -189,5 +189,5 @@ class BookController extends Controller
             flash($errMessage)->error();
             return redirect()->back()->withInput();
         }
-    }   
+    }
 }
