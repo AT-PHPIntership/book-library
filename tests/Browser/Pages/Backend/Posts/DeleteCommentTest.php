@@ -216,7 +216,6 @@ class DeleteCommentTest extends DuskTestCase
 
        factory(Category::class)->create();
        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-
        $userIds = DB::table('users')->pluck('id')->toArray();
 
        $donator = factory(Donator::class)->create([
