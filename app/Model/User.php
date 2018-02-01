@@ -16,9 +16,34 @@ class User extends Authenticatable
     const ROOT_ADMIN = 1;
 
     /**
+     * The default avatar of the user
+     */
+    const DEFAULT_AVATAR = 'avatar-default.jpg';
+
+    /**
      * Value of SA
      */
     const SA = 'SA';
+
+    /**
+     * Value of PHP
+     */
+    const PHP = 'PHP';
+
+    /**
+     * Value of QC
+     */
+    const QC = 'QC';
+
+    /**
+     * Value of ANDROID
+     */
+    const ANDROID = 'Android';
+
+    /**
+     * Value of IOS
+     */
+    const IOS = 'IOS';
 
     /**
      * Value of ADMIN
@@ -29,6 +54,16 @@ class User extends Authenticatable
      * Value of USER
      */
     const USER = 'User';
+
+    /**
+     * Value of ROLE_ADMIN
+     */
+    const ROLE_ADMIN = 1;
+
+    /**
+     * Value of ROLE_USER
+     */
+    const ROLE_USER = 0;
 
     /**
      * Declare table
@@ -131,5 +166,15 @@ class User extends Authenticatable
     public function getRoleNameAttribute()
     {
         return $this->role == self::ROOT_ADMIN ? __('user.admin') : __('user.member');
+    }
+
+    /**
+     * Get avatar of user
+     *
+     * @return array
+    */
+    public function getAvatarAttribute()
+    {
+        return $this->avatar_url ? $this->avatar_url : asset(config('image.users.path_upload') . self::DEFAULT_AVATAR);
     }
 }

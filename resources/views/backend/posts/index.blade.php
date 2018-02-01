@@ -4,6 +4,8 @@
 
 <!-- Content Wrapper -->
 <div class="content-wrapper">
+    <!-- show message response -->
+    @include('flash::message')
   <section class="content-header">
     <h1>
       {{ __('post.list_post')  }}
@@ -20,7 +22,7 @@
       <div class="col-xs-12">
         <div class="box">
          <div class="box-body">
-          <table id="example2" class="table table-bordered table-hover">
+          <table id="list-posts-table" class="table table-bordered table-hover">
             <thead>
               <tr>
                 <th>{{ __('post.id') }}</th>
@@ -29,6 +31,7 @@
                 <th>{{ __('post.short_content') }}</th>
                 <th>{{ __('post.post_date') }}</th>
                 <th>{{ __('post.total_comment') }}</th>
+                <th>{{__('general.options')}}</th>
               </tr>
             </thead>
             <tbody>
@@ -52,6 +55,7 @@
                 <td>{!! \Illuminate\Support\Str::words($post->content, 5,'...')  !!}</td>
                 <td>{{ $post->created_at }}</td>
                 <td class='text-center' >{{ $post->comments_count }}</td>
+                <td><a href="{{ route('posts.show', ['id' => $post->id])}}" class="btn btn-success">Detail</a></td>
               </tr>
               @endforeach
             </tbody>
@@ -59,9 +63,7 @@
             <!-- .pagination -->
             <div class="text-center">
               <nav aria-label="...">
-                <ul class="pagination">
-                  {{ $posts->links() }}
-                </ul>
+                {{ $posts->links() }}
               </nav>
             </div>
             <!-- /.pagination -->

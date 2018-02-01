@@ -11,9 +11,48 @@ h1 {
 .width-70 {
 	width: 70px;
 }
+.inline-field {
+  padding-left: 0px;
+}
 #image-display {
-  display: block;
+  display: none;
 }
 .box {
     padding-top: 10px;
+}
+.size-img img {
+    height: 246px;
+    width: 210px;
+}
+.box {
+    padding-top: 10px;
+}
+#category-delete-message {
+  display:none;
+}
+.delete-progress {
+  display: none;
+}
+.align-center {
+  text-align: center
+}
+.list-group .list-group-item {
+    margin-top: 10px;
+}
+.list-group .glyphicon {
+    position: relative;
+}
+.comment-img {
+    min-width: 100px;
+}
+.comment-img img {
+    width: 100%;
+    height: auto;
+}
+.comment-content {
+    padding-left: 0;
+}
+.comment-list .comment-item .row {
+    display: -webkit-flex;
+    display: flex;
 }

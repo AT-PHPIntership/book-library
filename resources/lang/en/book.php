@@ -2,11 +2,11 @@
 return [
     'title' => 'BOOK',
     'edit_book' => 'Edit Book',
-    'book' => 'Book',
+    'books' => 'Books',
     'edit' => 'Edit',
     'name' => 'Name',
     'enter_name' => 'Enter book name',
-    'create_book' => 'Create book',
+    'create_book' => 'Create Book',
     'admin' => 'Admin',
     'create' => 'Create',
     'category' => 'Category',
@@ -25,8 +25,15 @@ return [
     'back' => 'Back',
     'confirm' => [
         'title' => 'Confirm',
-        'delete' => 'Do you want to delete this book'
+        'delete' => 'Do you want to delete this '
     ],
-    'not_found' => 'Sorry, Not be found.'
-
+    'not_found' => 'Sorry, Not be found.',
+    'message' => [
+        'create_success' => 'Create Success',
+        'create_fail' => 'Create Fail',
+        'edit_success' => 'Edit Success',
+        'edit_fail'    => 'Edit fail',
+        'err_upload_image' => '. Cannot upload image',
+        'err_long_data'    => '. Cannot save data',
+    ],
 ];

@@ -7,10 +7,16 @@ use App\Model\Comment;
 use App\Model\Favorite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Iatstuti\Database\Support\CascadeSoftDeletes;
 
 class Post extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, CascadeSoftDeletes;
+
+    /**
+     * Soft Delete Relationship
+     */
+    protected $cascadeDeletes = ['favorites', 'comments'];
 
     /**
      * Value of review post
@@ -26,6 +32,11 @@ class Post extends Model
      * Value of find book post
      */
     const FIND_TYPE = 3;
+
+    /**
+      * The default avatar of the user
+      */
+    const DEFAULT_IMAGE_POST = 'no-image.png';
 
     /**
      * Declare table
@@ -46,7 +57,7 @@ class Post extends Model
         'content',
         'image'
     ];
-    
+
     /**
      * Relationship morphMany with Favorite
      *
@@ -85,5 +96,46 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Custom delete method.
+     *
+     * @return array
+    */
+    public function delete()
+    {
+        $this->boot();
+        parent::delete();
+    }
+
+    /**
+    * Custom format image if has not so default image
+     *
+     * @return string
+     */
+    public function getImageUrlAttribute()
+    {
+        return $this->image ? $this->image : self::DEFAULT_IMAGE_POST;
+    }
+
+    /**
+    * Custom format lable type by review, status, find book
+     *
+     * @return mixed
+     */
+    public function getTypeLableAttribute()
+    {
+        switch ($this->type) {
+            case self::REVIEW_TYPE:
+                return ['#activity', __('post.review')] ;
+                break;
+            case self::STATUS_TYPE:
+                return ['#timeline', __('post.status')] ;
+                break;
+            case self::FIND_TYPE:
+                return ['#settings', __('post.find_book')] ;
+                break;
+        }
     }
 }

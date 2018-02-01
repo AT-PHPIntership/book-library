@@ -16,6 +16,7 @@ use Faker\Factory as Faker;
 class AdminShowListBookTest extends DuskTestCase
 {
     use DatabaseMigrations;
+
     /**
      * Create virtual database
      *
@@ -45,7 +46,7 @@ class AdminShowListBookTest extends DuskTestCase
      */
     public function makeUser(){
         factory(User::class)->create([
-            'role' => 1
+            'role' => User::ROOT_ADMIN
         ]);
     }
 

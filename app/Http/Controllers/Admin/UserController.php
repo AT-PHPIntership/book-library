@@ -25,7 +25,7 @@ class UserController extends Controller
             'users.email',
             'users.team',
             'users.role',
-            DB::raw('COUNT(DISTINCT(borrowings.id)) AS total_borrowed'),
+            DB::raw('COUNT(DISTINCT(borrowings.book_id)) AS total_borrowed'),
             DB::raw('COUNT(DISTINCT(books.id)) AS total_donated'),
         ];
         
@@ -63,7 +63,7 @@ class UserController extends Controller
     {
         $fields = [
             'users.*',
-            DB::raw('count(distinct(borrowings.id)) as total_borrowed'),
+            DB::raw('count(distinct(borrowings.book_id)) as total_borrowed'),
             DB::raw('count(distinct(donators.id)) as total_donated')
         ];
 
@@ -72,7 +72,7 @@ class UserController extends Controller
         ->leftJoin('donators', 'users.id', '=', 'donators.user_id')
         ->where('users.employee_Code', '=', $employeeCode)
         ->groupBy('users.id')
-        ->first();
+        ->firstOrFail();
 
         $bookBorrowing = DB::table('borrowings')
         ->join('books', 'borrowings.book_id', '=', 'books.id')
