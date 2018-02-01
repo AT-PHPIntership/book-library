@@ -74,5 +74,5 @@
 <!-- /.content-wrapper -->
 @endsection
 @section('script')
-    <script src="{{ asset('app/js/borrow.js') }}">
+    <script src="{{ asset('app/js/borrow.js') }}"></script>
 @endsection
