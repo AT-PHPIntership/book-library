@@ -55,15 +55,16 @@ class AdminEditCategoriesTest extends BaseTestUser
     {
         $admin  = $this->makeAdminUserToLogin();
         $category = $this->makeDataOfEditCategories(1);
-        $this->browse(function (Browser $browser) use ($admin,$category) {
+        $this->browse(function (Browser $browser) use ($admin, $category) {
             $browser->loginAs($admin)
                     ->visit('/admin/categories')
                     ->press('#table-categories #edit-modal1')
+                    ->pause(1000)
                     ->assertSee('Rename Category')
                     ->assertInputValue('#idCategory', $category[0]->id)
-                    ->assertInputValue('#nameCategory', $category[0]->name)
-                    ->assertSeeIn('.update', 'Update')
-                    ->assertSeeIn('.closebtn', 'Close');
+                    ->assertInputValue('#name-category', $category[0]->name)
+                    ->assertSeeIn('.btn-update-name-category', 'Update')
+                    ->assertSeeIn('.btn-close-update-category', 'Close');
         });
     }
 
@@ -76,12 +77,12 @@ class AdminEditCategoriesTest extends BaseTestUser
     {
         $admin  = $this->makeAdminUserToLogin();
         $category = $this->makeDataOfEditCategories(2);
-        $this->browse(function (Browser $browser) use ($admin,$category) {
+        $this->browse(function (Browser $browser) use ($admin, $category) {
             $browser->loginAs($admin)
                     ->visit('/admin/categories')
                     ->press('#table-categories .category2 #edit-modal2')
-                    ->type('input[type=name]',$category[0]->name)
-                    ->press('.update')
+                    ->type('name-category', $category[0]->name)
+                    ->press('.btn-update-name-category')
                     ->pause(1000)
                     ->assertSee('The name has already been taken.');
         });    
@@ -100,8 +101,8 @@ class AdminEditCategoriesTest extends BaseTestUser
             $browser->loginAs($admin)
                     ->visit('/admin/categories')
                     ->press('#table-categories .category1 #edit-modal1')
-                    ->type('input[type=name]','')
-                    ->press('.update')
+                    ->type('name-category','')
+                    ->press('.btn-update-name-category')
                     ->pause(1000)
                     ->assertSee('The name field is required.');
         });    
@@ -116,13 +117,13 @@ class AdminEditCategoriesTest extends BaseTestUser
     {
         $admin  = $this->makeAdminUserToLogin();
         $category = $this->makeDataOfEditCategories(1);
-        $this->browse(function (Browser $browser) use ($admin,$category) {
+        $this->browse(function (Browser $browser) use ($admin, $category) {
             $browser->loginAs($admin)
                     ->visit('/admin/categories')
                     ->assertDontSee('New Category')
                     ->press('#table-categories .category1  #edit-modal1')
-                    ->type('input[type=name]','New Category')
-                    ->press('.editCategory')
+                    ->type('name-category','New Category')
+                    ->press('.btn-update-name-category')
                     ->pause(2000)
                     ->assertDontSee('Rename Category')
                     ->assertSee('New Category');
@@ -139,11 +140,12 @@ class AdminEditCategoriesTest extends BaseTestUser
     {
         $admin  = $this->makeAdminUserToLogin();
         $category = $this->makeDataOfEditCategories(1);
-        $this->browse(function (Browser $browser) use ($admin,$category) {
+        $this->browse(function (Browser $browser) use ($admin, $category) {
             $browser->loginAs($admin)
                     ->visit('/admin/categories')
                     ->press('#table-categories .category1  #edit-modal1')
-                    ->press('.closebtn')
+                    ->pause(1000)
+                    ->press('.btn-close-update-category')
                     ->pause(1000)
                     ->assertDontSee('Rename Category');
         });
