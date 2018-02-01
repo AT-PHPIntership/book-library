@@ -70,6 +70,6 @@ class Borrowing extends Model
     */
     public function getDateSendMailAttribute()
     {
-        return $this->date_send_email ? Carbon::parse($this->date_send_email)->addHours(7)->format(config('define.datetime_format')) : "";
+        return $this->date_send_email ? Carbon::parse($this->date_send_email)->addHours(config('define.timezone'))->format(config('define.datetime_format')) : "";
     }
 }

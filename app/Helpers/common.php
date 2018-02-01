@@ -93,7 +93,7 @@ if (!function_exists('canSendMail')) {
     function canSendMail($sendTime)
     {
         $now = Carbon::now()->format(config('define.datetime_format'));
-        $dateSendMail = Carbon::parse($sendTime)->addDay(3)->format(config('define.datetime_format'));
+        $dateSendMail = Carbon::parse($sendTime)->addDay(config('define.date_diff'))->format(config('define.datetime_format'));
         return ((strtotime($now) >= strtotime($dateSendMail)) && !empty($sendTime)) || empty($sendTime) ? true : false;
     }
 }
