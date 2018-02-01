@@ -65,7 +65,6 @@ class DeleteCommentTest extends DuskTestCase
                     ->visit('/admin/posts')
                     ->assertSee('List Posts')
                     ->visit('/admin/posts/100')
-                    ->assertPathIs('/admin/posts/100')
                     ->assertDontSee('Detail Post')
                     ->pause(1000)
                     ->assertPathIs('/admin/posts')
