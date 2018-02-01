@@ -27,9 +27,7 @@ var book = (function(){
     }
 
     var deleteBook = function($id) {
-        console.log('delete book ' +$id);
         removeEventForAllButton();
-        console.log('turn off event delete');
         $.ajax({
             type: 'POST',
             headers: { 'X-CSRF-TOKEN': $token },
@@ -40,17 +38,12 @@ var book = (function(){
             success: function ($data) {
                 setBackGroundAndIcon($id);
                 addEventForAllButton();        
-                console.log('turn on event restore');
-                console.log($data);
-                console.log('---------------------------------------');
             }
         });
     }
 
     var restoreBook = function($id) {
-        console.log('restore book ' +$id);
         removeEventForAllButton();
-        console.log('turn off event restore');
         $.ajax({
             type: 'POST',
             headers: { 'X-CSRF-TOKEN': $token },
@@ -60,8 +53,6 @@ var book = (function(){
             success: function ($data) {
                 setBackGroundAndIcon($id);
                 addEventForAllButton();
-                console.log('turn on event delete');
-                console.log('---------------------------------------');
             }
         }); 
     }
@@ -69,7 +60,6 @@ var book = (function(){
     var setBackGroundAndIcon = function($id) {
         $icon = $('i[book-id=' + $id + ']');
         $bookInfo = $icon.parent().parent();
-        console.log($icon.attr('class').indexOf('fa-trash-o'));
         if ($icon.attr('class').indexOf('fa-trash-o') !== -1) {
             $icon.removeClass('fa-trash-o btn-danger');
             $icon.addClass('fa-history btn-info');
@@ -82,7 +72,6 @@ var book = (function(){
             $icon.addClass('fa-trash-o btn-danger');
             $('.btn-edit-' + $id).removeAttr('disabled');
         }
-        console.log('change UI');
     }
 
     // Prototype
