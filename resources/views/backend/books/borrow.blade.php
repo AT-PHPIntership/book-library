@@ -25,11 +25,11 @@
                         <form action="{{ route('borrowings.index') }}" method="GET" id="frm-search-borrow">
                             <div class="form-row">
                                 <div class="form-group col-md-6 col-md-push-1">
-                                    <input type="text" class="form-control" id="" name="search-borrow" placeholder="{{ __('general.find_borrow') }}" value="">
+                                    <input type="text" class="form-control" id="" name="search-borrow" placeholder="{{ __('borrow.find_borrow') }}" value="">
                                 </div>
                                 <div class="form-group col-md-2 col-md-push-1">
                                     <select class="form-control" id="filter" name="filter">
-                                        @foreach (__('general.filter_borrow') as $key => $value)
+                                        @foreach (__('borrow.filter_borrow') as $key => $value)
                                             <option value="{{ $key }}" {{ $key == Request::get('filter') ? 'selected' : '' }}>{{ $value }}</option>
                                         @endforeach
                                     </select>
