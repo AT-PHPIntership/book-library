@@ -90,7 +90,6 @@ class BookController extends Controller
      */
     public function index(CheckFilterRequest $request)
     {
-        // throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
         $columns = [
             'id',
             'name',
@@ -108,13 +107,11 @@ class BookController extends Controller
         $books = Book::search($search, $choose)->select($columns)->withCount('borrowings')->sortable();
     
         if ($request->has('uid') && $request->has('filter')) {
-            
             $books = Book::whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
                 $query->where('user_id', '=', $uid);
             })->withCount('borrowings')->sortable()->search($search, $choose)
             ->orderby('id', 'desc')->paginate(config('define.page_length'))
             ->appends(['search' => $search, 'choose' => $choose, 'uid' => $uid, 'limit' => $limit, 'filter' => $filter]);
-        
         } elseif ($filter == Book::BORROWED) {
             $books = $books->orderBy('borrowings_count', 'DESC')
                     ->limit($limit)
