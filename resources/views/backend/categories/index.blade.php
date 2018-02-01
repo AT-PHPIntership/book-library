@@ -58,15 +58,20 @@
                       <div class="form-group">
                         <label class="control-label col-sm-2" for="name">{{ __('category.name') }}:</label>
                         <div class="col-sm-10">
-                          <input type="name" class="form-control" id="nameCategory" autofocus>
+                          <input type="text" class="form-control" id="nameCategory" autofocus>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-sm-10 col-sm-push-2">
+                          <p class="errors text-warning"></p>
                         </div>
                       </div>
                     </form>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-success btn-UpdateNameCategory" data-dismiss="modal">
+                      <button type="button" class="btn btn-success btn-UpdateNameCategory">
                         <span id="footer_action_button" class='glyphicon glyphicon-check'>{{ __('category.update') }}</span>
                       </button>
-                      <button type="button" class="btn btn-warning" data-dismiss="modal">
+                      <button type="button" class="btn btn-warning btn-close-update-category" data-dismiss="modal">
                         <span class='glyphicon glyphicon-remove'>{{ __('category.close') }}</span> 
                       </button>
                     </div>
