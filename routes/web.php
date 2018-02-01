@@ -24,7 +24,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::resource('posts', 'PostController');
     Route::resource('borrowings', 'BorrowingController');
     Route::resource('categories', 'CategoryController');
-    Route::resource('comments', 'CommentController');
     //Mail
     Route::post('mail', 'SendMailController@sendMail')->name('sendMail');
 });
@@ -32,4 +31,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
 //Api
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
     Route::put('users/{id}/roles', 'UserController@updateRole')->middleware('TeamSA');
+    Route::delete('comments/{id}/destroy', 'CommentController@destroy');
 });
