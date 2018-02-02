@@ -14,17 +14,28 @@ class AdminEditCategoriesTest extends BaseTestUser
     use DatabaseMigrations;
 
     /**
+    * Override function setUp()
+    *
+    * @return void
+    */
+    public function setUp()
+    {
+        parent::setUp();
+        $this->makeAdminUserToLogin();
+    }
+
+    /**
      * A test don't see edit button in list categories without data.
      *
      * @return void
      */
     public function testEditButtonInListCategoriesWithoutData()
     {
-        $admin  = $this->makeAdminUserToLogin();
-        $this->browse(function (Browser $browser) use ($admin) {
-            $browser->loginAs($admin)
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(User::find(1))
                     ->visit('/admin/categories')
                     ->assertSee('List Categories')
+                    ->assertMissing('#table-categories .btn-show-edit-modal')
                     ->assertMissing('#table-categories #edit-modal1');
         });
     }
@@ -36,12 +47,12 @@ class AdminEditCategoriesTest extends BaseTestUser
      */
     public function testSeeEditButtonInListCategoriesHaveData()
     {
-        $admin  = $this->makeAdminUserToLogin();
-        $this->makeDataOfEditCategories(1);
-        $this->browse(function (Browser $browser) use ($admin) {
-            $browser->loginAs($admin)
+        $this->makeDataOfEditCategories(2);
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(User::find(1))
                     ->visit('/admin/categories')
                     ->assertSee('List Categories')
+                    ->assertVisible('#table-categories .btn-show-edit-modal')
                     ->assertVisible('#table-categories #edit-modal1');
         });
     }
@@ -53,15 +64,14 @@ class AdminEditCategoriesTest extends BaseTestUser
      */
     public function testEditButtonWorkRight()
     {
-        $admin  = $this->makeAdminUserToLogin();
         $category = $this->makeDataOfEditCategories(1);
-        $this->browse(function (Browser $browser) use ($admin, $category) {
-            $browser->loginAs($admin)
+        $this->browse(function (Browser $browser) use ($category) {
+            $browser->loginAs(User::find(1))
                     ->visit('/admin/categories')
                     ->press('#table-categories #edit-modal1')
                     ->pause(1000)
                     ->assertSee('Rename Category')
-                    ->assertInputValue('#idCategory', $category[0]->id)
+                    ->assertInputValue('#id-category', $category[0]->id)
                     ->assertInputValue('#name-category', $category[0]->name)
                     ->assertSeeIn('.btn-update-name-category', 'Update')
                     ->assertSeeIn('.btn-close-update-category', 'Close');
@@ -75,10 +85,9 @@ class AdminEditCategoriesTest extends BaseTestUser
      */
     public function testEditNameCategoryAlreadyExists()
     {
-        $admin  = $this->makeAdminUserToLogin();
         $category = $this->makeDataOfEditCategories(2);
-        $this->browse(function (Browser $browser) use ($admin, $category) {
-            $browser->loginAs($admin)
+        $this->browse(function (Browser $browser) use ($category) {
+            $browser->loginAs(User::find(1))
                     ->visit('/admin/categories')
                     ->press('#table-categories .category2 #edit-modal2')
                     ->pause(2000)
@@ -97,10 +106,9 @@ class AdminEditCategoriesTest extends BaseTestUser
      */
     public function testEditNameCategoryToEmpty()
     {
-        $admin  = $this->makeAdminUserToLogin();
         $category = $this->makeDataOfEditCategories(1);
-        $this->browse(function (Browser $browser) use ($admin, $category) {
-            $browser->loginAs($admin)
+        $this->browse(function (Browser $browser) use ($category) {
+            $browser->loginAs(User::find(1))
                     ->visit('/admin/categories')
                     ->press('#table-categories .category1 #edit-modal1')
                     ->pause(2000)
@@ -119,10 +127,9 @@ class AdminEditCategoriesTest extends BaseTestUser
      */
     public function testEditNameCategorySuccessfully()
     {
-        $admin  = $this->makeAdminUserToLogin();
         $category = $this->makeDataOfEditCategories(1);
-        $this->browse(function (Browser $browser) use ($admin, $category) {
-            $browser->loginAs($admin)
+        $this->browse(function (Browser $browser) use ($category) {
+            $browser->loginAs(User::find(1))
                     ->visit('/admin/categories')
                     ->assertDontSee('New Category')
                     ->press('#table-categories .category1  #edit-modal1')
@@ -131,7 +138,6 @@ class AdminEditCategoriesTest extends BaseTestUser
                     ->pause(2000)
                     ->press('.btn-update-name-category')
                     ->pause(5000)
-                    ->screenshot(2)
                     ->assertDontSee('Rename Category')
                     ->assertSee('New Category');
             $this->assertDatabaseHas('categories', ['id' => $category[0]->id,'name' => 'New Category']);
@@ -145,16 +151,17 @@ class AdminEditCategoriesTest extends BaseTestUser
      */
     public function testPressEditThenClose()
     {
-        $admin  = $this->makeAdminUserToLogin();
         $category = $this->makeDataOfEditCategories(1);
-        $this->browse(function (Browser $browser) use ($admin, $category) {
-            $browser->loginAs($admin)
+        $this->browse(function (Browser $browser) use ($category) {
+            $browser->loginAs(User::find(1))
                     ->visit('/admin/categories')
                     ->press('#table-categories .category1  #edit-modal1')
                     ->pause(1000)
                     ->press('.btn-close-update-category')
                     ->pause(1000)
-                    ->assertDontSee('Rename Category');
+                    ->assertDontSee('Rename Category')
+                    ->assertDontSeeIn('.btn-update-name-category', 'Update')
+                    ->assertDontSeeIn('.btn-close-update-category', 'Close');
         });
     }
 
