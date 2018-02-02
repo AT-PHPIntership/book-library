@@ -382,7 +382,6 @@ class SortBookTest extends DuskTestCase
                     ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-desc');
-
             $books = Book::orderBy('avg_rating', 'Desc')->limit(10)->get();
             $checkAvgRating = false;
             foreach ($books as $index => $book) {
