@@ -70,7 +70,7 @@
                       </thead>
                       <tbody>
                         @foreach ($books as $book)
-                            <tr>
+                            <tr id={{ $book->id }}>
                                 <td>{{ $book->id }}</td>
                                 <td>{{ $book->name }}</td>
                                 <td>{{ $book->author }}</td>
