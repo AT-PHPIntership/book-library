@@ -118,7 +118,6 @@ class DeleteCommentTest extends DuskTestCase
                     ->press('Close')
                     ->assertPathIs('/admin/posts/' . $post->id);
             $this->assertTrue(2 == $count);
-
         });
     }
 
@@ -183,39 +182,33 @@ class DeleteCommentTest extends DuskTestCase
     */
     public function makeData($row)
     {
-       $faker = Faker::create();
+        $faker = Faker::create();
 
-       $category = factory(Category::class)->create();
-
-       $userIds = DB::table('users')->pluck('id')->toArray();
-
-       $donator = factory(Donator::class)->create([
-           'user_id' => $faker->unique()->randomElement($userIds)
-       ]);
-       $donatorIds = DB::table('donators')->pluck('id')->toArray();
-       factory(Book::class)->create([
+        $category = factory(Category::class)->create();
+        $donator = factory(Donator::class)->create([
+           'user_id' => $this->user->id
+        ]);
+        $book = factory(Book::class)->create([
            'category_id' => $category->id,
-           'donator_id' => $faker->randomElement($donatorIds),
-       ]);
-
-       $bookIds = DB::table('books')->pluck('id')->toArray();
-
-        factory(Post::class, 1)->create([
-            'user_id' => $faker->randomElement($userIds),
-            'book_id' => $faker->randomElement($bookIds),
+           'donator_id' => $donator->id,
         ]);
 
-       $post = Post::first();
-       factory(Comment::class, 1)->create([
-           'post_id' => $post->id,
-           'user_id' => $faker->randomElement($userIds),
-           'parent_id' => null,
-       ]);
+        factory(Post::class, 1)->create([
+            'user_id' => $this->user->id,
+            'book_id' => $book->id,
+        ]);
 
-       $comment = Comment::first();
+        $post = Post::first();
+            factory(Comment::class, 1)->create([
+            'post_id' => $post->id,
+            'user_id' => $this->user->id,
+            'parent_id' => null,
+        ]);
+
+        $comment = Comment::first();
         factory(Comment::class, 1)->create([
            'post_id' => $post->id,
-           'user_id' => $faker->randomElement($userIds),
+           'user_id' => $this->user->id,
            'parent_id' => $comment->id,
         ]);
     }
