@@ -13,7 +13,7 @@ class AdminEditCategoriesTest extends BaseTestUser
 {
     use DatabaseMigrations;
 
-    private $adminLogin;
+    private $adminUserToLogin;
 
     /**
     * Override function setUp()
@@ -23,7 +23,7 @@ class AdminEditCategoriesTest extends BaseTestUser
     public function setUp()
     {
         parent::setUp();
-        $this->adminLogin = $this->makeAdminUserToLogin();
+        $this->adminUserToLogin = $this->makeAdminUserToLogin();
     }
 
     /**
@@ -34,7 +34,7 @@ class AdminEditCategoriesTest extends BaseTestUser
     public function testEditButtonInListCategoriesWithoutData()
     {
         $this->browse(function (Browser $browser) {
-            $browser->loginAs($this->adminLogin)
+            $browser->loginAs($this->adminUserToLogin)
                     ->visit('/admin/categories')
                     ->assertSee('List Categories')
                     ->assertMissing('#table-categories .btn-show-edit-modal')
@@ -51,7 +51,7 @@ class AdminEditCategoriesTest extends BaseTestUser
     {
         $this->makeDataOfEditCategories(2);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs($this->adminLogin)
+            $browser->loginAs($this->adminUserToLogin)
                     ->visit('/admin/categories')
                     ->assertSee('List Categories')
                     ->assertVisible('#table-categories .btn-show-edit-modal')
@@ -68,7 +68,7 @@ class AdminEditCategoriesTest extends BaseTestUser
     {
         $category = $this->makeDataOfEditCategories(1);
         $this->browse(function (Browser $browser) use ($category) {
-            $browser->loginAs($this->adminLogin)
+            $browser->loginAs($this->adminUserToLogin)
                     ->visit('/admin/categories')
                     ->press('#table-categories #edit-modal1')
                     ->pause(1000)
@@ -89,7 +89,7 @@ class AdminEditCategoriesTest extends BaseTestUser
     {
         $category = $this->makeDataOfEditCategories(2);
         $this->browse(function (Browser $browser) use ($category) {
-            $browser->loginAs($this->adminLogin)
+            $browser->loginAs($this->adminUserToLogin)
                     ->visit('/admin/categories')
                     ->press('#table-categories .category2 #edit-modal2')
                     ->pause(2000)
@@ -110,11 +110,11 @@ class AdminEditCategoriesTest extends BaseTestUser
     {
         $category = $this->makeDataOfEditCategories(1);
         $this->browse(function (Browser $browser) use ($category) {
-            $browser->loginAs($this->adminLogin)
+            $browser->loginAs($this->adminUserToLogin)
                     ->visit('/admin/categories')
                     ->press('#table-categories .category1 #edit-modal1')
                     ->pause(2000)
-                    ->type('name-category','')
+                    ->type('name-category', '')
                     ->pause(2000)
                     ->press('.btn-update-name-category')
                     ->pause(5000)
@@ -131,18 +131,18 @@ class AdminEditCategoriesTest extends BaseTestUser
     {
         $category = $this->makeDataOfEditCategories(1);
         $this->browse(function (Browser $browser) use ($category) {
-            $browser->loginAs($this->adminLogin)
+            $browser->loginAs($this->adminUserToLogin)
                     ->visit('/admin/categories')
                     ->assertDontSee('New Category')
                     ->press('#table-categories .category1  #edit-modal1')
                     ->pause(2000)
-                    ->type('name-category','New Category')
+                    ->type('name-category', 'New Category')
                     ->pause(2000)
                     ->press('.btn-update-name-category')
                     ->pause(5000)
                     ->assertDontSee('Rename Category')
                     ->assertSee('New Category');
-            $this->assertDatabaseHas('categories', ['id' => $category[0]->id,'name' => 'New Category']);
+            $this->assertDatabaseHas('categories', ['id' => $category[0]->id, 'name' => 'New Category']);
         });
     }
 
@@ -155,7 +155,7 @@ class AdminEditCategoriesTest extends BaseTestUser
     {
         $category = $this->makeDataOfEditCategories(1);
         $this->browse(function (Browser $browser) use ($category) {
-            $browser->loginAs($this->adminLogin)
+            $browser->loginAs($this->adminUserToLogin)
                     ->visit('/admin/categories')
                     ->press('#table-categories .category1  #edit-modal1')
                     ->pause(1000)
