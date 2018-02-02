@@ -415,7 +415,6 @@ class PostDetailTest extends DuskTestCase
             'category_id' => $faker->randomElement($categoryIds),
             'donator_id' => $faker->randomElement($donatorIds),
         ]);
-
         $bookIds = DB::table('books')->pluck('id')->toArray();
 
         for ($i = 0; $i <= $row; $i++) {
