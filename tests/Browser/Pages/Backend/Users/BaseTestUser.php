@@ -38,11 +38,11 @@ class BaseTestUser extends DuskTestCase
     /**
      * Make a user to login with role is "Admin".
      *
-     * @return $user
+     * @return mixed
      */
     public function makeAdminUserToLogin()
     {
-        factory(User::class)->create([
+        return factory(User::class)->create([
             'role' => User::ROLE_ADMIN
         ]);
     }
