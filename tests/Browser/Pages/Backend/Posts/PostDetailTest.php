@@ -184,40 +184,37 @@ class PostDetailTest extends DuskTestCase
         $faker = Faker::create();
 
         $category = factory(Category::class)->create();
-
-        $userIds = DB::table('users')->pluck('id')->toArray();
-
         $donator = factory(Donator::class)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
+            'user_id' => $this->user->id,
         ]);
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
-        factory(Book::class)->create([
+        $book = factory(Book::class)->create([
             'category_id' => $category->id,
-            'donator_id' => $faker->randomElement($donatorIds),
+            'donator_id' => $donator->id,
         ]);
-        $bookIds = DB::table('books')->pluck('id')->toArray();
+
         for ($i = 0; $i <= $row; $i++) {
-         factory(Post::class,1)->create([
-             'user_id' => $faker->randomElement($userIds),
-             'book_id' => $faker->randomElement($bookIds),
-         ]);
+            factory(Post::class,1)->create([
+                'user_id' => $this->user->id,
+                'book_id' => $book->id,
+            ]);
         }
+
         $postIds = DB::table('posts')->pluck('id')->toArray();
         for ($i = 0; $i <= $row; $i++) {
             factory(Comment::class)->create([
                 'post_id' => $faker->randomElement($postIds),
-                'user_id' => $faker->randomElement($userIds),
+                'user_id' => $this->user->id,
             ]);
         }
 
         $comments = DB::table('comments')->get();
-        foreach ($comments as $value) {
-            if (isset($value->post_id)) {
+        foreach ($comments as $comment) {
+            if (isset($comment->post_id)) {
                 factory(Comment::class)->create([
-                    'post_id' => $value->post_id,
-                    'user_id' => $faker->randomElement($userIds),
-                    'parent_id' => $value->id
+                    'post_id' => $comment->post_id,
+                    'user_id' =>  $this->user->id,
+                    'parent_id' => $comment->id
                 ]);
             }
         }
@@ -233,26 +230,20 @@ class PostDetailTest extends DuskTestCase
         $faker = Faker::create();
 
         $category = factory(Category::class)->create();
-
-        $userIds = DB::table('users')->pluck('id')->toArray();
-
         $donator = factory(Donator::class)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
+            'user_id' => $this->user->id,
         ]);
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
-        factory(Book::class)->create([
+        $book = factory(Book::class)->create([
             'category_id' => $category->id,
-            'donator_id' => $faker->randomElement($donatorIds),
+            'donator_id' => $donator->id,
         ]);
-
-        $bookIds = DB::table('books')->pluck('id')->toArray();
 
         for ($i = 0; $i <= $row; $i++) {
-         factory(Post::class,1)->create([
-             'user_id' => $faker->randomElement($userIds),
-             'book_id' => $faker->randomElement($bookIds),
-         ]);
+            factory(Post::class,1)->create([
+                'user_id' => $this->user->id,
+                'book_id' => $book->id,
+            ]);
         }
     }
 
@@ -266,51 +257,45 @@ class PostDetailTest extends DuskTestCase
         $faker = Faker::create();
 
         $category = factory(Category::class)->create();
-
-        $userIds = DB::table('users')->pluck('id')->toArray();
-
         $donator = factory(Donator::class)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
+            'user_id' => $this->user->id,
         ]);
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
-        factory(Book::class)->create([
+        $book = factory(Book::class)->create([
             'category_id' => $category->id,
-            'donator_id' => $faker->randomElement($donatorIds),
+            'donator_id' => $donator->id,
         ]);
-
-        $bookIds = DB::table('books')->pluck('id')->toArray();
 
         for ($i = 0; $i <= $row; $i++) {
-         factory(Post::class,1)->create([
-             'user_id' => $faker->randomElement($userIds),
-             'book_id' => $faker->randomElement($bookIds),
-             'type'    => 1,
-         ]);
+            factory(Post::class,1)->create([
+                'user_id' => $this->user->id,
+                'book_id' => $book->id,
+                'type'    => 1,
+            ]);
         }
         $postIds = DB::table('posts')->pluck('id')->toArray();
         for ($i = 0; $i <= $row; $i++) {
             factory(Comment::class)->create([
                 'post_id' => $faker->randomElement($postIds),
-                'user_id' => $faker->randomElement($userIds),
+                'user_id' => $this->user->id,
             ]);
         }
         $posts = DB::table('posts')->get();
-        foreach ($posts as $value) {
+        foreach ($posts as $comment) {
             factory(Rating::class, 1)->create([
-                'book_id' => $value->book_id,
-                'user_id' => $value->user_id,
+                'book_id' => $comment->book_id,
+                'user_id' => $this->user->id,
                 'rating'  => rand(1,5),
             ]);
         }
 
         $comments = DB::table('comments')->get();
-        foreach ($comments as $value) {
-            if (isset($value->post_id)) {
+        foreach ($comments as $comment) {
+            if (isset($comment->post_id)) {
                 factory(Comment::class)->create([
-                    'post_id' => $value->post_id,
-                    'user_id' => $faker->randomElement($userIds),
-                    'parent_id' => $value->id
+                    'post_id' => $comment->post_id,
+                    'user_id' => $this->user->id,
+                    'parent_id' => $comment->id
                 ]);
             }
         }
@@ -326,43 +311,37 @@ class PostDetailTest extends DuskTestCase
         $faker = Faker::create();
 
         $category = factory(Category::class)->create();
-
-        $userIds = DB::table('users')->pluck('id')->toArray();
-
         $donator = factory(Donator::class)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
+            'user_id' => $this->user->id,
         ]);
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
-        factory(Book::class)->create([
+        $book = factory(Book::class)->create([
             'category_id' => $category->id,
-            'donator_id' => $faker->randomElement($donatorIds),
+            'donator_id' => $donator->id,
         ]);
-
-        $bookIds = DB::table('books')->pluck('id')->toArray();
 
         for ($i = 0; $i <= $row; $i++) {
-         factory(Post::class,1)->create([
-             'user_id' => $faker->randomElement($userIds),
-             'book_id' => $faker->randomElement($bookIds),
-             'type'    => '2',
-         ]);
+            factory(Post::class,1)->create([
+                'user_id' => $this->user->id,
+                'book_id' => $book->id,
+                'type'    => '2',
+            ]);
         }
         $postIds = DB::table('posts')->pluck('id')->toArray();
         for ($i = 0; $i <= $row; $i++) {
             factory(Comment::class)->create([
                 'post_id' => $faker->randomElement($postIds),
-                'user_id' => $faker->randomElement($userIds),
+                'user_id' => $this->user->id,
             ]);
         }
 
         $comments = DB::table('comments')->get();
-        foreach ($comments as $value) {
-            if (isset($value->post_id)) {
+        foreach ($comments as $comment) {
+            if (isset($comment->post_id)) {
                 factory(Comment::class)->create([
-                    'post_id' => $value->post_id,
-                    'user_id' => $faker->randomElement($userIds),
-                    'parent_id' => $value->id
+                    'post_id' => $comment->post_id,
+                    'user_id' => $this->user->id,
+                    'parent_id' => $comment->id
                 ]);
             }
         }
@@ -378,42 +357,37 @@ class PostDetailTest extends DuskTestCase
         $faker = Faker::create();
 
         $category = factory(Category::class)->create();
-
-        $userIds = DB::table('users')->pluck('id')->toArray();
-
         $donator = factory(Donator::class)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
+            'user_id' => $this->user->id,
         ]);
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
-        factory(Book::class)->create([
+        $book = factory(Book::class)->create([
             'category_id' => $category->id,
-            'donator_id' => $faker->randomElement($donatorIds),
+            'donator_id' => $donator->id,
         ]);
-        $bookIds = DB::table('books')->pluck('id')->toArray();
 
         for ($i = 0; $i <= $row; $i++) {
-         factory(Post::class,1)->create([
-             'user_id' => $faker->randomElement($userIds),
-             'book_id' => $faker->randomElement($bookIds),
-             'type'    => 3,
-         ]);
+            factory(Post::class,1)->create([
+                'user_id' => $this->user->id,
+                'book_id' => $book->id,
+                'type'    => 3,
+            ]);
         }
         $postIds = DB::table('posts')->pluck('id')->toArray();
         for ($i = 0; $i <= $row; $i++) {
             factory(Comment::class)->create([
                 'post_id' => $faker->randomElement($postIds),
-                'user_id' => $faker->randomElement($userIds),
+                'user_id' => $this->user->id,
             ]);
         }
 
         $comments = DB::table('comments')->get();
-        foreach ($comments as $value) {
-            if (isset($value->post_id)) {
+        foreach ($comments as $comment) {
+            if (isset($comment->post_id)) {
                 factory(Comment::class)->create([
-                    'post_id' => $value->post_id,
-                    'user_id' => $faker->randomElement($userIds),
-                    'parent_id' => $value->id
+                    'post_id' => $comment->post_id,
+                    'user_id' => $this->user->id,
+                    'parent_id' => $comment->id
                 ]);
             }
         }
