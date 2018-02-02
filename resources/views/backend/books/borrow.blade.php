@@ -25,7 +25,7 @@
                         <form action="{{ route('borrowings.index') }}" method="GET" id="frm-search-borrow">
                             <div class="form-row">
                                 <div class="form-group col-md-6 col-md-push-1">
-                                    <input type="text" class="form-control" id="" name="search-borrow" placeholder="{{ __('borrow.find_borrow') }}" value="">
+                                    <input type="text" class="form-control" name="search-borrow" placeholder="{{ __('borrow.find_borrow') }}">
                                 </div>
                                 <div class="form-group col-md-2 col-md-push-1">
                                     <select class="form-control" id="filter" name="filter">
@@ -88,10 +88,9 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="text-center">
-                        {{ $borrowings->render() }}
-                    </div>
+                <!-- /.box-body -->
+                <div class="text-center">
+                    {{ $borrowings->appends(\Request::except('page'))->render()}}
                 </div>
                 <!-- /.box -->
             </div>
