@@ -128,6 +128,8 @@
   <!-- /.content-wrapper -->
 @endsection
 @section('script')
+    <script type="text/javascript" src="{{ asset('js/post.js') }}">
+    </script>
     <script type="text/javascript" src="{{ asset('js/comment.js') }}">
     </script>
     <script>
