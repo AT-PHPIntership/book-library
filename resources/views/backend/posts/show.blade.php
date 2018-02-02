@@ -48,7 +48,7 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>{{ __('post.detail_post')}}</h1>
+      <h1>{{ __('post.detail_post') }}</h1>
     </section>
     <section class="content">
       <div class="row">
@@ -64,7 +64,7 @@
         <div class="col-md-10">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="{{ $post->type_lable[0]}}" data-toggle="tab">
+                <li class="active"><a href="{{ $post->type_lable[0] }}" data-toggle="tab">
                     {{ strtoupper($post->type_lable[1]) }}</a></li>
             </ul>
             <div class="tab-content">
@@ -73,7 +73,7 @@
                     <div class="post">
                         <div>
                             <div class="h2">
-                                {{$post->users->name}}
+                                {{ $post->users->name }}
                             </div>
                             <ol class="breadcrumb">
                                 @if ($post->type == App\Model\Post::REVIEW_TYPE)
