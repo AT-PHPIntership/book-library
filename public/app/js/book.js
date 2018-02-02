@@ -1,6 +1,5 @@
 // Constant
 const $token = $('meta[name="csrf_token"]').attr('content');
-const $colorGray = "rgb(221, 221, 221)";
 
 // Object
 var book = (function(){
@@ -59,18 +58,17 @@ var book = (function(){
 
     var setBackGroundAndIcon = function($id) {
         $icon = $('i[book-id=' + $id + ']');
-        $bookInfo = $icon.parent().parent();
+        $rowCoverIcon = $icon.parent().parent();
         if ($icon.attr('class').indexOf('fa-trash-o') !== -1) {
             $icon.removeClass('fa-trash-o btn-danger');
             $icon.addClass('fa-history btn-info');
             $('.btn-edit-' + $id).attr('disabled','disabled');
-            $bookInfo.css("background-color", $colorGray);
+            $rowCoverIcon.addClass('bg-color-gray');
         } else {
-            $('btn-edit-' + $id).removeAttr('disabled');
-            $bookInfo.css("background-color", "white");
             $icon.removeClass('fa-history btn-info');
             $icon.addClass('fa-trash-o btn-danger');
             $('.btn-edit-' + $id).removeAttr('disabled');
+            $rowCoverIcon.removeClass('bg-color-gray');
         }
     }
 
