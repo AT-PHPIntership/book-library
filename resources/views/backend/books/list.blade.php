@@ -56,7 +56,7 @@
             <div class="box">
               <!-- /.box-header -->
               <div class="box-body table-responsive no-padding">
-                  <table class="table table-bordered table-hover" id="table-book">
+                  <table class="table table-bordered" id="table-book">
                        @if (count($books) > 0)
                       <thead>
                           <tr>
