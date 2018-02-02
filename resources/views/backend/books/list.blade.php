@@ -128,7 +128,8 @@
                   </table>
                   <div class="text-center">
                     @if($books instanceof \Illuminate\Pagination\AbstractPaginator)
-                       {{ $books->render()}}
+                       {{ $books->appends(\Request::except('page'))->appends(['search' => Request::get('search'), 'choose' => Request::get('choose'),
+                        'uid' => Request::get('uid'), 'filter' => Request::get('filter'), 'limit' => Request::get('limit')])->render()}}
                     @endif
                   </div>
               </div>
