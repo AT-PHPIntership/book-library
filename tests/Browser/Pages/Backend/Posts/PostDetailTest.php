@@ -20,6 +20,8 @@ class PostDetailTest extends DuskTestCase
     use DatabaseMigrations;
 
     private $user;
+    // Data general
+    private $data;
 
     /**
      * Override function setUp()
@@ -30,6 +32,7 @@ class PostDetailTest extends DuskTestCase
     {
         parent::setUp();
         $this->user = $this->makeUserLogin();
+        $this->data = $this->getData();
     }
 
     /**
@@ -173,16 +176,13 @@ class PostDetailTest extends DuskTestCase
         });
     }
 
-
     /**
-     * Make data has comment
+     * Make data general
      *
      * @return void
      */
-    public function makeData($row)
+    public function getData()
     {
-        $faker = Faker::create();
-
         $category = factory(Category::class)->create();
         $donator = factory(Donator::class)->create([
             'user_id' => $this->user->id,
@@ -192,11 +192,21 @@ class PostDetailTest extends DuskTestCase
             'category_id' => $category->id,
             'donator_id' => $donator->id,
         ]);
+        return ['category' => $category, 'donator' => $donator, 'book' => $book];
+    }
 
+    /**
+     * Make data has comment
+     *
+     * @return void
+     */
+    public function makeData($row)
+    {
+        $faker = Faker::create();
         for ($i = 0; $i <= $row; $i++) {
             factory(Post::class,1)->create([
                 'user_id' => $this->user->id,
-                'book_id' => $book->id,
+                'book_id' => $this->data['book']->id,
             ]);
         }
 
@@ -229,20 +239,10 @@ class PostDetailTest extends DuskTestCase
     {
         $faker = Faker::create();
 
-        $category = factory(Category::class)->create();
-        $donator = factory(Donator::class)->create([
-            'user_id' => $this->user->id,
-        ]);
-
-        $book = factory(Book::class)->create([
-            'category_id' => $category->id,
-            'donator_id' => $donator->id,
-        ]);
-
         for ($i = 0; $i <= $row; $i++) {
             factory(Post::class,1)->create([
                 'user_id' => $this->user->id,
-                'book_id' => $book->id,
+                'book_id' => $this->data['book']->id,
             ]);
         }
     }
@@ -256,20 +256,10 @@ class PostDetailTest extends DuskTestCase
     {
         $faker = Faker::create();
 
-        $category = factory(Category::class)->create();
-        $donator = factory(Donator::class)->create([
-            'user_id' => $this->user->id,
-        ]);
-
-        $book = factory(Book::class)->create([
-            'category_id' => $category->id,
-            'donator_id' => $donator->id,
-        ]);
-
         for ($i = 0; $i <= $row; $i++) {
             factory(Post::class,1)->create([
                 'user_id' => $this->user->id,
-                'book_id' => $book->id,
+                'book_id' => $this->data['book']->id,
                 'type'    => 1,
             ]);
         }
@@ -310,20 +300,10 @@ class PostDetailTest extends DuskTestCase
     {
         $faker = Faker::create();
 
-        $category = factory(Category::class)->create();
-        $donator = factory(Donator::class)->create([
-            'user_id' => $this->user->id,
-        ]);
-
-        $book = factory(Book::class)->create([
-            'category_id' => $category->id,
-            'donator_id' => $donator->id,
-        ]);
-
         for ($i = 0; $i <= $row; $i++) {
             factory(Post::class,1)->create([
                 'user_id' => $this->user->id,
-                'book_id' => $book->id,
+                'book_id' => $this->data['book']->id,
                 'type'    => '2',
             ]);
         }
@@ -356,20 +336,10 @@ class PostDetailTest extends DuskTestCase
     {
         $faker = Faker::create();
 
-        $category = factory(Category::class)->create();
-        $donator = factory(Donator::class)->create([
-            'user_id' => $this->user->id,
-        ]);
-
-        $book = factory(Book::class)->create([
-            'category_id' => $category->id,
-            'donator_id' => $donator->id,
-        ]);
-
         for ($i = 0; $i <= $row; $i++) {
             factory(Post::class,1)->create([
                 'user_id' => $this->user->id,
-                'book_id' => $book->id,
+                'book_id' => $this->data['book']->id,
                 'type'    => 3,
             ]);
         }
