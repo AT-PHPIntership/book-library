@@ -19,6 +19,8 @@ class PostDetailTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
+    private $user;
+
     /**
      * Override function setUp()
      *
@@ -27,7 +29,7 @@ class PostDetailTest extends DuskTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->makeUserLogin();
+        $this->user = $this->makeUserLogin();
     }
 
     /**
@@ -39,8 +41,8 @@ class PostDetailTest extends DuskTestCase
     {
         $this->makeData(10);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
-                    ->resize(1200,1600)
+            $browser->loginAs($this->user)
+                    ->resize(1200, 1600)
                     ->visit('/admin/posts')
                     ->assertSee('List Posts')
                     ->assertSee('Detail')
@@ -58,17 +60,13 @@ class PostDetailTest extends DuskTestCase
         $this->makeData(2);
         $post = Post::first();
         $this->browse(function (Browser $browser) use ($post) {
-            $browser->loginAs(User::find(1))
-                    ->resize(1200,1600)
-                    ->visit('/admin/posts')
-                    ->assertSee('List Posts')
-                    ->assertVisible('.btn.btn-success')
-                    ->click('.btn.btn-success')
-                    ->visit('/admin/posts/'.$post->id)
-                    ->assertPathIs('/admin/posts/'.$post->id)
+            $browser->loginAs($this->user)
+                    ->resize(1200, 1600)
+                    ->visit('/admin/posts/' . $post->id)
+                    ->assertPathIs('/admin/posts/' . $post->id)
                     ->assertSee('Detail Post')
                     ->assertSee('Date')
-                    ->assertVisible('.post-image[src="'. $post->image_url .'"]');
+                    ->assertVisible('.post-image[src="' . $post->image_url . '"]');
             $this->assertTrue($browser->text('.post-username') == $post->users->name);
             $this->assertTrue($browser->text('.post-date') == date('d-m-Y', strtotime($post->created_at)));
             $this->assertTrue($browser->text('.post-content') == $post->content);
@@ -85,18 +83,14 @@ class PostDetailTest extends DuskTestCase
         $this->makeDataNotComment(2);
         $post = Post::first();
         $this->browse(function (Browser $browser) use ($post) {
-            $browser->loginAs(User::find(1))
-                    ->resize(1200,1600)
-                    ->visit('/admin/posts')
-                    ->assertSee('List Posts')
-                    ->assertVisible('.btn.btn-success')
-                    ->click('.btn.btn-success')
-                    ->visit('/admin/posts/'.$post->id)
-                    ->assertPathIs('/admin/posts/'.$post->id)
+            $browser->loginAs($this->user)
+                    ->resize(1200, 1600)
+                    ->visit('/admin/posts/' . $post->id)
+                    ->assertPathIs('/admin/posts/' . $post->id)
                     ->assertSee('Detail Post')
                     ->assertSee('Date')
                     ->assertDontSee('Comments')
-                    ->assertVisible('.post-image[src="'. $post->image_url .'"]');
+                    ->assertVisible('.post-image[src="' . $post->image_url . '"]');
             $this->assertTrue($browser->text('.post-username') == $post->users->name);
             $this->assertTrue($browser->text('.post-date') == date('d-m-Y', strtotime($post->created_at)));
             $this->assertTrue($browser->text('.post-content') == $post->content);
@@ -113,20 +107,16 @@ class PostDetailTest extends DuskTestCase
         $this->makeDataReview(2);
         $post = Post::first();
         $this->browse(function (Browser $browser) use ($post) {
-            $browser->loginAs(User::find(1))
-                    ->resize(1200,1600)
-                    ->visit('/admin/posts')
-                    ->assertSee('List Posts')
-                    ->assertVisible('.btn.btn-success')
-                    ->click('.btn.btn-success')
-                    ->visit('/admin/posts/'.$post->id)
-                    ->assertPathIs('/admin/posts/'.$post->id)
+            $browser->loginAs($this->user)
+                    ->resize(1200, 1600)
+                    ->visit('/admin/posts/' . $post->id)
+                    ->assertPathIs('/admin/posts/' . $post->id)
                     ->assertSee('Detail Post')
                     ->assertSee('REVIEW')
                     ->assertSee('Date')
                     ->assertSee('Score')
-                    ->assertValue('i',$post->rating)
-                    ->assertVisible('.post-image[src="'. $post->image_url .'"]');
+                    ->assertValue('i', $post->rating)
+                    ->assertVisible('.post-image[src="' . $post->image_url . '"]');
             $this->assertTrue($browser->text('.post-username') == $post->users->name);
             $this->assertTrue($browser->text('.post-date') == date('d-m-Y', strtotime($post->created_at)));
             $this->assertTrue($browser->text('.post-content') == $post->content);
@@ -143,19 +133,15 @@ class PostDetailTest extends DuskTestCase
         $this->makeDataStatus(2);
         $post = Post::first();
         $this->browse(function (Browser $browser) use ($post) {
-            $browser->loginAs(User::find(1))
-                    ->resize(1200,1600)
-                    ->visit('/admin/posts')
-                    ->assertSee('List Posts')
-                    ->assertVisible('.btn.btn-success')
-                    ->click('.btn.btn-success')
-                    ->visit('/admin/posts/'.$post->id)
-                    ->assertPathIs('/admin/posts/'.$post->id)
+            $browser->loginAs($this->user)
+                    ->resize(1200, 1600)
+                    ->visit('/admin/posts/' . $post->id)
+                    ->assertPathIs('/admin/posts/' . $post->id)
                     ->assertSee('Detail Post')
                     ->assertSee('Date')
                     ->assertSee('STATUS')
                     ->assertDontSee('Score')
-                    ->assertVisible('.post-image[src="'. $post->image_url .'"]');
+                    ->assertVisible('.post-image[src="' . $post->image_url . '"]');
             $this->assertTrue($browser->text('.post-username') == $post->users->name);
             $this->assertTrue($browser->text('.post-date') == date('d-m-Y', strtotime($post->created_at)));
             $this->assertTrue($browser->text('.post-content') == $post->content);
@@ -172,19 +158,15 @@ class PostDetailTest extends DuskTestCase
         $this->makeDataFindBook(2);
         $post = Post::first();
         $this->browse(function (Browser $browser) use ($post) {
-            $browser->loginAs(User::find(1))
-                    ->resize(1200,1600)
-                    ->visit('/admin/posts')
-                    ->assertSee('List Posts')
-                    ->assertVisible('.btn.btn-success')
-                    ->click('.btn.btn-success')
-                    ->visit('/admin/posts/'.$post->id)
-                    ->assertPathIs('/admin/posts/'.$post->id)
+            $browser->loginAs($this->user)
+                    ->resize(1200, 1600)
+                    ->visit('/admin/posts/' . $post->id)
+                    ->assertPathIs('/admin/posts/' . $post->id)
                     ->assertSee('Detail Post')
                     ->assertSee('Date')
                     ->assertSee('FIND BOOK')
                     ->assertDontSee('Score')
-                    ->assertVisible('.post-image[src="'. $post->image_url .'"]');
+                    ->assertVisible('.post-image[src="' . $post->image_url . '"]');
             $this->assertTrue($browser->text('.post-username') == $post->users->name);
             $this->assertTrue($browser->text('.post-date') == date('d-m-Y', strtotime($post->created_at)));
             $this->assertTrue($browser->text('.post-content') == $post->content);
@@ -201,8 +183,7 @@ class PostDetailTest extends DuskTestCase
     {
         $faker = Faker::create();
 
-        factory(Category::class)->create();
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
+        $category = factory(Category::class)->create();
 
         $userIds = DB::table('users')->pluck('id')->toArray();
 
@@ -212,12 +193,10 @@ class PostDetailTest extends DuskTestCase
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
         factory(Book::class)->create([
-            'category_id' => $faker->randomElement($categoryIds),
+            'category_id' => $category->id,
             'donator_id' => $faker->randomElement($donatorIds),
         ]);
-
         $bookIds = DB::table('books')->pluck('id')->toArray();
-
         for ($i = 0; $i <= $row; $i++) {
          factory(Post::class,1)->create([
              'user_id' => $faker->randomElement($userIds),
@@ -253,8 +232,7 @@ class PostDetailTest extends DuskTestCase
     {
         $faker = Faker::create();
 
-        factory(Category::class)->create();
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
+        $category = factory(Category::class)->create();
 
         $userIds = DB::table('users')->pluck('id')->toArray();
 
@@ -264,7 +242,7 @@ class PostDetailTest extends DuskTestCase
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
         factory(Book::class)->create([
-            'category_id' => $faker->randomElement($categoryIds),
+            'category_id' => $category->id,
             'donator_id' => $faker->randomElement($donatorIds),
         ]);
 
@@ -287,8 +265,7 @@ class PostDetailTest extends DuskTestCase
     {
         $faker = Faker::create();
 
-        factory(Category::class)->create();
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
+        $category = factory(Category::class)->create();
 
         $userIds = DB::table('users')->pluck('id')->toArray();
 
@@ -298,7 +275,7 @@ class PostDetailTest extends DuskTestCase
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
         factory(Book::class)->create([
-            'category_id' => $faker->randomElement($categoryIds),
+            'category_id' => $category->id,
             'donator_id' => $faker->randomElement($donatorIds),
         ]);
 
@@ -348,8 +325,7 @@ class PostDetailTest extends DuskTestCase
     {
         $faker = Faker::create();
 
-        factory(Category::class)->create();
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
+        $category = factory(Category::class)->create();
 
         $userIds = DB::table('users')->pluck('id')->toArray();
 
@@ -359,7 +335,7 @@ class PostDetailTest extends DuskTestCase
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
         factory(Book::class)->create([
-            'category_id' => $faker->randomElement($categoryIds),
+            'category_id' => $category->id,
             'donator_id' => $faker->randomElement($donatorIds),
         ]);
 
@@ -401,8 +377,7 @@ class PostDetailTest extends DuskTestCase
     {
         $faker = Faker::create();
 
-        factory(Category::class)->create();
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
+        $category = factory(Category::class)->create();
 
         $userIds = DB::table('users')->pluck('id')->toArray();
 
@@ -412,7 +387,7 @@ class PostDetailTest extends DuskTestCase
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
         factory(Book::class)->create([
-            'category_id' => $faker->randomElement($categoryIds),
+            'category_id' => $category->id,
             'donator_id' => $faker->randomElement($donatorIds),
         ]);
         $bookIds = DB::table('books')->pluck('id')->toArray();
@@ -451,7 +426,7 @@ class PostDetailTest extends DuskTestCase
      */
     public function makeUserLogin()
     {
-        factory(User::class)->create([
+        return factory(User::class)->create([
             'role' => User::ROOT_ADMIN
         ]);
     }
