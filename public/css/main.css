@@ -62,3 +62,6 @@ h1 {
 .form-row .btn {
     padding : 6px 6px;
 }
+.bg-color-gray {
+  background-color: #f7f7f7;
+}
