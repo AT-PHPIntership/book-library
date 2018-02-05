@@ -42,6 +42,7 @@ class AdminDeletePostTest extends DuskTestCase
         $this->browse(function (Browser $browser) use($post) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/posts/' . $post->id)
+                    ->resize(1500, 1000)
                     ->assertSee('Detail Post')
                     ->click('button.btn-delete-post')
                     ->pause(1000)
@@ -61,6 +62,7 @@ class AdminDeletePostTest extends DuskTestCase
         $this->browse(function (Browser $browser) use($post) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/posts/' . $post->id)
+                    ->resize(1500, 1000)
                     ->click('button.btn-delete-post')
                     ->pause(1000)
                     ->assertSee('Confirm Delete !')
@@ -82,6 +84,7 @@ class AdminDeletePostTest extends DuskTestCase
         $this->browse(function (Browser $browser) use($post) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/posts/' . $post->id)
+                    ->resize(1500, 1000)
                     ->click('button.btn-delete-post')
                     ->pause(1000)
                     ->assertSee('Confirm Delete !')
@@ -89,6 +92,80 @@ class AdminDeletePostTest extends DuskTestCase
                     ->assertSee('Delete success !')
                     ->visit('/admin/posts');
         });
+    }
+
+        /**
+     * Test click button Ok and delete post fail
+     *
+     * @return void
+     */
+    public function testDeletePostFail()
+    {  
+        $post = Post::first();
+        
+        $this->browse(function (Browser $browser) use($post) {
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/posts/' . $post->id)
+                    ->resize(1500, 1000);
+            $post->delete();
+            $browser->click('button.btn-delete-post')
+                    ->pause(1000)
+                    ->assertSee('Confirm Delete !')
+                    ->press('OK')
+                    ->assertSee('Sorry');
+        });
+    }
+
+    /**
+     * Test delete post with DELETE method
+     *
+     * @return void
+     */
+    public function testWithDeleteMethod() {
+        $post = Post::first();
+
+        $this->withoutMiddleware();
+        $response = $this->call('DELETE', '/admin/posts/' . $post->id);
+        $this->assertDatabaseMissing('posts', ['deleted_at' => null, 'id' => $post->id]);
+    }
+
+    /**
+     * Test delete post with GET method
+     *
+     * @return void
+     */
+    public function testWithGetMethod() {
+        $post = Post::first();
+
+        $this->withoutMiddleware();
+        $response = $this->call('GET', '/admin/posts/' . $post->id);
+        $this->assertDatabaseHas('posts', ['deleted_at' => null, 'id' => $post->id]);
+    }
+
+    /**
+     * Test delete post with POST method
+     *
+     * @return void
+     */
+    public function testWithPostMethod() {
+        $post = Post::first();
+
+        $this->withoutMiddleware();
+        $response = $this->call('POST', '/admin/posts/' . $post->id);
+        $this->assertDatabaseHas('posts', ['deleted_at' => null, 'id' => $post->id]);
+    }
+
+    /**
+     * Test delete post with PUT method
+     *
+     * @return void
+     */
+    public function testWithPutMethod() {
+        $post = Post::first();
+
+        $this->withoutMiddleware();
+        $response = $this->call('PUT', '/admin/posts/' . $post->id);
+        $this->assertDatabaseHas('posts', ['deleted_at' => null, 'id' => $post->id]);
     }
 
     /**
