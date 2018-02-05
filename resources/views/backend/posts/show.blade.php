@@ -87,7 +87,7 @@
                                           <form method="POST" action="{{ route('posts.destroy', $post->id) }}" id="form-delete-post" class="inline">
                                               {{ csrf_field() }}
                                               {{ method_field('DELETE') }}
-                                            <button type="button" class="btn btn-danger btn-flat fa fa-trash-o" data-toggle="modal" data-target="#confirmDeletePost"></button>
+                                            <button type="button" class="btn btn-danger btn-flat fa fa-trash-o btn-delete-post" data-toggle="modal" data-target="#confirmDeletePost"></button>
                                           </form>
                                         </li>
                                     </ol>
@@ -133,8 +133,6 @@
     <script type="text/javascript" src="{{ asset('js/post.js') }}">
     </script>
     <script type="text/javascript" src="{{ asset('js/comment.js') }}">
-    </script>
-    <script type="text/javascript" src="{{ asset('js/delete_post.js') }}">
     </script>
     <script>
       newComment.deleteComment();
