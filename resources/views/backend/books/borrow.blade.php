@@ -25,7 +25,7 @@
                         <form action="{{ route('borrowings.index') }}" method="GET" id="frm-search-borrow">
                             <div class="form-row">
                                 <div class="form-group col-md-6 col-md-push-1">
-                                    <input type="text" class="form-control" id="" name="search" placeholder="{{ __('borrow.find_borrow') }}" value="{{app('request')->input('search')}}">
+                                    <input type="text" class="form-control" name="search" placeholder="{{ __('borrow.find_borrow') }}" value="{{ app('request')->input('search') }}">
                                 </div>
                                 <div class="form-group col-md-2 col-md-push-1">
                                     <select class="form-control" id="filter" name="choose">
@@ -56,9 +56,9 @@
                             <thead>
                             <tr>
                                 <th>@sortablelink('employee_code', __('borrow.employee_code'))</th>
-                                <th>@sortablelink('name', __('borrow.name'))</th>
+                                <th>@sortablelink('user_name', __('borrow.name'))</th>
                                 <th>@sortablelink('email', __('borrow.email'))</th>
-                                <th>@sortablelink('bookname', __('borrow.books'))</th>
+                                <th>@sortablelink('book_name', __('borrow.books'))</th>
                                 <th>@sortablelink('from_date', __('borrow.from_date'))</th>
                                 <th>@sortablelink('to_date', __('borrow.end_date'))</th>
                                 <th>@sortablelink('date_sent_mail', __('borrow.date_sent_mail'))</th>
@@ -69,9 +69,9 @@
                             @foreach ($borrowings as $borrowing)
                                 <tr>
                                     <td>{{ $borrowing->employee_code }}</td>
-                                    <td>{{ $borrowing->name }}</td>
+                                    <td>{{ $borrowing->user_name }}</td>
                                     <td>{{ $borrowing->email }}</td>
-                                    <td>{{ $borrowing->bookname}}</td>
+                                    <td>{{ $borrowing->book_name }}</td>
                                     <td>{{ date(config('define.date_format'), strtotime($borrowing->from_date)) }}</td>
                                     <td>{{ date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
                                     <td>{{ $borrowing->date_send_mail }}</td>
@@ -105,5 +105,5 @@
 <!-- /.content-wrapper -->
 @endsection
 @section('script')
-    <script src="{{ asset('app/js/borrow.js') }}">
+    <script src="{{ asset('app/js/borrow.js') }}"></script>
 @endsection
