@@ -28,7 +28,6 @@ class BookController extends Controller
         DB::beginTransaction();
         try {
             $book = Book::find($id)->delete();
-            Rating::where('book_id', $id)->delete();
             DB::commit();
         } catch (\PDOException $e) {
             DB::rollBack();
