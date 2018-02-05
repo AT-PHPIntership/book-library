@@ -112,7 +112,7 @@ class AdminDeletePostTest extends DuskTestCase
                     ->pause(1000)
                     ->assertSee('Confirm Delete !')
                     ->press('OK')
-                    ->assertSee('Sorry');
+                    ->assertDontSee('Delete success !');
         });
     }
 
