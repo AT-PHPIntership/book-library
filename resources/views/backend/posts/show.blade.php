@@ -48,56 +48,58 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>{{ __('post.detail_post') }}</h1>
+      <h1>
+        {{ __('post.detail_post') }}
+      </h1>
     </section>
     <section class="content">
-      <div class="row">
-        <div class="col-md-2">
-          <!-- Profile Image -->
-          <div class="box box-primary">
-            <div class="box-body box-profile">
-                  <img class="img-thumbnail" src="{{ $post->image_url }}">
+          <div class="row">
+            <div class="col-md-2">
+              <!-- Profile Image -->
+              <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="img-thumbnail post-image" src="{{ $post->image_url }}">
+                </div>
+                <!-- End Profile Image -->
+              </div>
             </div>
-            <!-- End Profile Image -->
-          </div>
-        </div>
-        <div class="col-md-10">
-          <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="{{ $post->type_lable[0] }}" data-toggle="tab">
-                    {{ strtoupper($post->type_lable[1]) }}</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="active tab-pane" id="activity">
-                    <!-- Post -->
-                    <div class="post">
-                        <div>
-                            <div class="h2">
-                                {{ $post->users->name }}
+            <div class="col-md-10">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="{{ $post->type_lable[0] }}" data-toggle="tab" value="">{{ strtoupper($post->type_lable[1]) }}</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="activity">
+                            <!-- Post -->
+                            <div class="post">
+                                <div>
+                                    <div class="h2 post-username">
+                                        {{ $post->users->name }}
+                                    </div>
+                                    <ol class="breadcrumb post-ratings">
+                                        @if ($post->type == App\Model\Post::REVIEW_TYPE)
+                                            <li><b>{{ __('post.score') }} :</b>
+                                                <i>{{ $post->rating or '0' }}</i>
+                                            </li>
+                                        @endif
+                                        <li><b>{{ __('post.date') }} :</b><i class="post-date"> {{ date('d-m-Y', strtotime($post->created_at)) }}</i></li>
+                                        <li>
+                                          <form method="POST" action="{{ route('posts.destroy', $post->id) }}" id="form-delete-post" class="inline">
+                                              {{ csrf_field() }}
+                                              {{ method_field('DELETE') }}
+                                            <button type="button" class="btn btn-danger btn-flat fa fa-trash-o" data-toggle="modal" data-target="#confirmDeletePost"></button>
+                                          </form>
+                                        </li>
+                                    </ol>
+                                </div>
+                                <p class="post-content">
+                                    {{ $post->content }}
+                                </p>
                             </div>
-                            <ol class="breadcrumb">
-                                @if ($post->type == App\Model\Post::REVIEW_TYPE)
-                                    <li><b>{{ __('post.score') }} :</b>
-                                        <i>{{ $post->rating or '0' }}</i>
-                                    </li>
-                                @endif
-                                <li><b>{{ __('post.date') }} :</b><i> {{ $post->created_at }}</i></li>
-                                <li>
-                                  <form method="POST" action="{{ route('posts.destroy', $post->id) }}" id="form-delete-post" class="inline">
-                                      {{ csrf_field() }}
-                                      {{ method_field('DELETE') }}
-                                    <button type="button" class="btn btn-danger btn-flat fa fa-trash-o" data-toggle="modal" data-target="#confirmDeletePost"></button>
-                                  </form>
-                                </li>
-                            </ol>
                         </div>
-                        <p>{{ $post->content }}</p>
                     </div>
                 </div>
-            </div>
           </div>
-        </div>
-      </div>
     </section>
 
     <section class="content">
