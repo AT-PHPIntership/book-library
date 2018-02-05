@@ -29,6 +29,7 @@ class DeleteCommentTest extends DuskTestCase
     {
         parent::setUp();
         $this->user = $this->makeUserLogin();
+        $this->makeData();
     }
 
     /**
@@ -38,7 +39,6 @@ class DeleteCommentTest extends DuskTestCase
     */
     public function testSeeButtonDeleteComment()
     {
-        $this->makeData(1);
         $post = Post::first();
         $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs($this->user)
@@ -80,7 +80,6 @@ class DeleteCommentTest extends DuskTestCase
     */
     public function testSeeModelDeleteComment()
     {
-        $this->makeData(1);
         $post = Post::first();
         $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs($this->user)
@@ -102,7 +101,6 @@ class DeleteCommentTest extends DuskTestCase
     */
     public function testClickButtonClose()
     {
-        $this->makeData(1);
         $post = Post::first();
         $comments = Comment::where('post_id', $post->id)->get();
         $count = count($comments);
@@ -128,7 +126,6 @@ class DeleteCommentTest extends DuskTestCase
     */
     public function testClickButtonOkIsParent()
     {
-        $this->makeData(1);
         $post = Post::first();
         $comments = Comment::where('post_id', $post->id)->get();
         $count = count($comments);
@@ -156,7 +153,6 @@ class DeleteCommentTest extends DuskTestCase
     */
     public function testClickButtonOkIsChildren()
     {
-        $this->makeData(1);
         $post = Post::first();
         $comment = Comment::where('post_id', $post->id)->where('parent_id', '!=', null)->first();
         $this->browse(function (Browser $browser) use ($post, $comment) {
@@ -180,7 +176,7 @@ class DeleteCommentTest extends DuskTestCase
     *
     * @return void
     */
-    public function makeData($row)
+    public function makeData()
     {
         $faker = Faker::create();
 
@@ -193,20 +189,20 @@ class DeleteCommentTest extends DuskTestCase
            'donator_id' => $donator->id,
         ]);
 
-        factory(Post::class, 1)->create([
+        factory(Post::class)->create([
             'user_id' => $this->user->id,
             'book_id' => $book->id,
         ]);
 
         $post = Post::first();
-            factory(Comment::class, 1)->create([
+            factory(Comment::class)->create([
             'post_id' => $post->id,
             'user_id' => $this->user->id,
             'parent_id' => null,
         ]);
 
         $comment = Comment::first();
-        factory(Comment::class, 1)->create([
+        factory(Comment::class)->create([
            'post_id' => $post->id,
            'user_id' => $this->user->id,
            'parent_id' => $comment->id,
