@@ -20,6 +20,7 @@ class DeleteCommentTest extends DuskTestCase
     use DatabaseMigrations;
 
     private $user;
+    
     /**
     * Override function setUp()
     *
