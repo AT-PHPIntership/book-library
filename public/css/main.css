@@ -27,6 +27,12 @@ h1 {
 .box {
     padding-top: 10px;
 }
+#category-delete-message {
+  display:none;
+}
+.delete-progress {
+  display: none;
+}
 .align-center {
   text-align: center
 }
@@ -49,4 +55,7 @@ h1 {
 .comment-list .comment-item .row {
     display: -webkit-flex;
     display: flex;
+}
+.form-row .btn {
+    padding : 6px 6px;
 }

@@ -2,11 +2,12 @@
 
 namespace App\Model;
 
+use Carbon\Carbon;
 use App\Model\User;
 use App\Model\Book;
+use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Kyslik\ColumnSortable\Sortable;
 
 class Borrowing extends Model
 {
@@ -61,4 +62,14 @@ class Borrowing extends Model
     public $sortable = ['from_date', 'to_date', 'date_sent_mail'];
     
     public $sortableAs = ['users.employee_code', 'users.name', 'users.email', 'books.name'];
+
+    /**
+     * Get Attribute Date send email
+     *
+     * @return array
+    */
+    public function getDateSendMailAttribute()
+    {
+        return $this->date_send_email ? Carbon::parse($this->date_send_email)->addHours(config('define.timezone'))->format(config('define.datetime_format')) : "";
+    }
 }
