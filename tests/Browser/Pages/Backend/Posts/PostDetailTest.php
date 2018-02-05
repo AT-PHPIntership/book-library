@@ -204,7 +204,7 @@ class PostDetailTest extends DuskTestCase
     {
         $faker = Faker::create();
         for ($i = 0; $i <= $row; $i++) {
-            factory(Post::class,1)->create([
+            factory(Post::class)->create([
                 'user_id' => $this->user->id,
                 'book_id' => $this->data['book']->id,
             ]);
@@ -240,7 +240,7 @@ class PostDetailTest extends DuskTestCase
         $faker = Faker::create();
 
         for ($i = 0; $i <= $row; $i++) {
-            factory(Post::class,1)->create([
+            factory(Post::class)->create([
                 'user_id' => $this->user->id,
                 'book_id' => $this->data['book']->id,
             ]);
@@ -257,10 +257,10 @@ class PostDetailTest extends DuskTestCase
         $faker = Faker::create();
 
         for ($i = 0; $i <= $row; $i++) {
-            factory(Post::class,1)->create([
+            factory(Post::class)->create([
                 'user_id' => $this->user->id,
                 'book_id' => $this->data['book']->id,
-                'type'    => 1,
+                'type'    => Post::REVIEW_TYPE,
             ]);
         }
         $postIds = DB::table('posts')->pluck('id')->toArray();
@@ -272,10 +272,10 @@ class PostDetailTest extends DuskTestCase
         }
         $posts = DB::table('posts')->get();
         foreach ($posts as $comment) {
-            factory(Rating::class, 1)->create([
+            factory(Rating::class)->create([
                 'book_id' => $comment->book_id,
                 'user_id' => $this->user->id,
-                'rating'  => rand(1,5),
+                'rating'  => rand(1, 5),
             ]);
         }
 
@@ -301,10 +301,10 @@ class PostDetailTest extends DuskTestCase
         $faker = Faker::create();
 
         for ($i = 0; $i <= $row; $i++) {
-            factory(Post::class,1)->create([
+            factory(Post::class)->create([
                 'user_id' => $this->user->id,
                 'book_id' => $this->data['book']->id,
-                'type'    => '2',
+                'type'    => Post::STATUS_TYPE,
             ]);
         }
         $postIds = DB::table('posts')->pluck('id')->toArray();
@@ -337,10 +337,10 @@ class PostDetailTest extends DuskTestCase
         $faker = Faker::create();
 
         for ($i = 0; $i <= $row; $i++) {
-            factory(Post::class,1)->create([
+            factory(Post::class)->create([
                 'user_id' => $this->user->id,
                 'book_id' => $this->data['book']->id,
-                'type'    => 3,
+                'type'    => Post::FIND_TYPE,
             ]);
         }
         $postIds = DB::table('posts')->pluck('id')->toArray();
