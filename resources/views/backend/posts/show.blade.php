@@ -49,7 +49,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        {{ __('post.detail_post')}}
+        {{ __('post.detail_post') }}
       </h1>
     </section>
         <section class="content">
@@ -58,7 +58,7 @@
               <!-- Profile Image -->
               <div class="box box-primary">
                 <div class="box-body box-profile">
-                      <img class="img-thumbnail" src="{{ $post->image_url }}">
+                    <img class="img-thumbnail post-image" src="{{ $post->image_url }}">
                 </div>
                 <!-- End Profile Image -->
               </div>
@@ -66,23 +66,23 @@
             <div class="col-md-10">
               <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="{{ $post->type_lable[0]}}" data-toggle="tab" value="">{{ strtoupper($post->type_lable[1]) }}</a></li>
+                    <li class="active"><a href="{{ $post->type_lable[0] }}" data-toggle="tab" value="">{{ strtoupper($post->type_lable[1]) }}</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="active tab-pane" id="activity">
                         <!-- Post -->
                         <div class="post">
                             <div>
-                                <div class="h2">
-                                    {{$post->users->name}}
+                                <div class="h2 post-username">
+                                    {{ $post->users->name }}
                                 </div>
-                                <ol class="breadcrumb">
+                                <ol class="breadcrumb post-ratings">
                                     @if ($post->type == App\Model\Post::REVIEW_TYPE)
                                         <li><b>{{ __('post.score') }} :</b>
                                             <i>{{ $post->rating or '0' }}</i>
                                         </li>
                                     @endif
-                                    <li><b>{{ __('post.date') }} :</b><i> {{ $post->created_at }}</i></li>
+                                    <li><b>{{ __('post.date') }} :</b><i class="post-date"> {{ date('d-m-Y', strtotime($post->created_at)) }}</i></li>
                                     <li>
                                       <form method="POST" action="{{ route('posts.destroy', $post->id) }}" id="form-delete-post" class="inline">
                                           {{ csrf_field() }}
@@ -92,7 +92,7 @@
                                     </li>
                                 </ol>
                             </div>
-                            <p>
+                            <p class="post-content">
                                 {{ $post->content }}
                             </p>
                         </div>
