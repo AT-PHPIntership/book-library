@@ -51,7 +51,6 @@ class BookController extends Controller
         $timeDelete = Book::withTrashed()->select('deleted_at')->find($id);
         DB::beginTransaction();
         try {
-
             //Restore book and favorites of its.
             $book = Book::withTrashed()->find($id)->restore();
             Favorite::withTrashed()->where('deleted_at', $timeDelete->deleted_at)->where('favoritable_type', 'App\\Model\\Book')->where('favoritable_id', $id)->restore();
@@ -65,7 +64,6 @@ class BookController extends Controller
             $listPostID = Post::withTrashed()->select('id')->where('book_id', $id)->where('deleted_at', $timeDelete->deleted_at)->get();
             Post::withTrashed()->where('book_id', $id)->where('deleted_at', $timeDelete->deleted_at)->restore();
             foreach ($listPostID as $postID) {
-
                 //Restore favorites of each post.
                 Favorite::withTrashed()->where('deleted_at', $timeDelete->deleted_at)->where('favoritable_type', 'App\\Model\\Post')->where('favoritable_id', $postID->id)->restore();
 
@@ -88,4 +86,4 @@ class BookController extends Controller
             return response()->json(['book'=> $book], 200);
         }
     }
-}   
+}
