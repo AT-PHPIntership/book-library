@@ -5,9 +5,13 @@ namespace App\Model;
 use App\Model\Post;
 use App\Model\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Favorite extends Model
 {
+
+    use SoftDeletes;
+
     /**
      * Declare table
      *
