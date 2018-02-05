@@ -31,7 +31,7 @@
           <div class="form-group">
             <label class="control-label col-sm-2" for="id">{{ __('category.id') }}:</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="idCategory" disabled>
+              <input type="text" class="form-control" id="id-category" disabled>
             </div>
           </div>
           <div class="form-group">
