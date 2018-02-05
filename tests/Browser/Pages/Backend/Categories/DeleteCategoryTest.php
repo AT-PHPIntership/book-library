@@ -85,13 +85,16 @@ class DeleteCategoryTest extends DuskTestCase
         ]);
 
         $this->browse(function (Browser $browser) {
+
             $browser->loginAs($this->user)
                     ->visit('/admin/categories')
                     ->resize(1600, 2000)
                     ->click('.pagination li:nth-child(3) a')
                     ->press('#12')
-                    ->pause(4000)
-                    ->press('OK')->pause(2000)
+                    ->pause(4000);
+            $defaultCategoryBookCount = $browser->text('#table-categories tbody tr:nth-child(1) td:nth-child(3)');
+            $categoryCount = $browser->text('.sidebar-menu li:nth-child(6) a .pull-right-container');
+            $browser->press('OK')->pause(2000)
                     ->assertQueryStringHas('page', 2);
             $btnDelete = $browser->elements('#table-categories tbody tr');
             $totalRecord = Category::count();
@@ -106,8 +109,12 @@ class DeleteCategoryTest extends DuskTestCase
                     ->press('#11')
                     ->pause(2000)
                     ->press('OK')
-                    ->pause(1000)
+                    ->pause(2000)->screenshot('cc')
                     ->assertQueryStringHas('page', 1);
+            $newDefaultCategoryBookCount = $browser->text('#table-categories tbody tr:nth-child(1) td:nth-child(3)');
+            $newCategoryCount = $browser->text('.sidebar-menu li:nth-child(6) a .pull-right-container');
+            $this->assertTrue(($defaultCategoryBookCount + 2) == $newDefaultCategoryBookCount);
+            $this->assertTrue(($categoryCount - 2) == $newCategoryCount);
         });
 
         $this->assertDatabaseMissing('categories', [
@@ -117,6 +124,60 @@ class DeleteCategoryTest extends DuskTestCase
         $this->assertDatabaseMissing('categories', [
             'id' => 12,
             'name' => $category[1]->name,
+        ]);
+    }
+
+    /**
+     * Delete category already deleted
+     * 
+     * @return void
+     */
+    public function testDeleteDeletedCategory()
+    {
+        $deletedCategory = Category::findOrFail(2);
+        $this->browse(function (Browser $browser) use ($deletedCategory) {
+            $browser->loginAs($this->user)
+                    ->visit('/admin/categories')
+                    ->resize(1600, 2000)
+                    ->press('#2')
+                    ->pause(2000);
+            $deletedCategory->delete();
+
+            $browser->press('OK')
+                    ->pause(1000)
+                    ->assertSee('Cannot delete this category, category not found')
+                    ->waitUntilMissing('#delete-category-message');
+        });
+    }
+
+    /**
+     * Test delete default category
+     * 
+     * @return void
+     */
+    public function testDeleteDefaultCategory()
+    {
+        $category = Category::findOrFail(1);
+        $this->assertDatabaseHas('categories', [
+            'id' => 1,
+            'name' => $category->name,
+        ]);
+        
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs($this->user)
+                    ->visit('/admin/categories')
+                    ->resize(1600, 2000)
+                    ->press('#2')
+                    ->pause(1000)
+                    ->script("$('.confirm').attr('data-id', 1)");
+            $browser->press('OK')
+                    ->pause(1000)
+                    ->assertSee('You cannot delete this category, because it is a default category!');
+        });
+
+        $this->assertDatabaseHas('categories', [
+            'id' => 1,
+            'name' => $category->name,
         ]);
     }
 
@@ -136,11 +197,13 @@ class DeleteCategoryTest extends DuskTestCase
         ]);
         $categoryIds = DB::table('categories')->pluck('id')->toArray();
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
-        $book = factory(Book::class, 10)->create([
-            'category_id' => $faker->randomElement($categoryIds),
-            'donator_id' => $faker->randomElement($donatorIds),
-            'image'      => 'no-image.png',
-        ]);
+        for ($i = 0, $length = 12; $i < $length; $i++) {
+            $book = factory(Book::class, 1)->create([
+                'category_id' => $categoryIds[$i],
+                'donator_id' => $faker->randomElement($donatorIds),
+                'image'      => 'no-image.png',
+            ]);
+        }
     }
 
 
