@@ -43,10 +43,6 @@ class Borrowing extends Model
         'input' => [
             ['users.name', 'like'],
             ['books.name', 'like'],
-        ],
-        'joins' => [
-            'users' => ['users.id', 'borrowings.user_id'],
-            'books' => ['books.id', 'borrowings.book_id']
         ]
     ];
 
@@ -77,8 +73,9 @@ class Borrowing extends Model
      * @var array $sortable table sort
      */
     public $sortable = ['from_date', 'to_date', 'date_sent_mail'];
-    
-    public $sortableAs = ['employee_code', 'name', 'email', 'bookname'];
+
+    // Sort function base on user, book name.
+    public $sortableAs = ['employee_code', 'user_name', 'email', 'book_name'];
 
     /**
      * Get Attribute Date send email
