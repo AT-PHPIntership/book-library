@@ -14,8 +14,7 @@
             <li class="active">{{ __('borrow.borrowings') }}</li>
         </ol>
     </section>
-    <!-- show message response -->
-    @include('flash::message')
+
     <section class="content">
         <div class="row">
             <div class="col-md-12">
