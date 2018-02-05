@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Libraries\Traits\SearchTrait;
 use Carbon\Carbon;
 use App\Model\User;
 use App\Model\Book;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Borrowing extends Model
 {
-    use SoftDeletes, Sortable;
+    use SoftDeletes, Sortable, SearchTrait;
     
     /**
      * Declare table
@@ -31,6 +32,22 @@ class Borrowing extends Model
         'from_date',
         'to_date',
         'date_send_email',
+    ];
+
+    /**
+     * Filter for search trait
+     *
+     * @var array $searchable table search
+     */
+    protected $searchable = [
+        'input' => [
+            ['users.name', 'like'],
+            ['books.name', 'like'],
+        ],
+        'joins' => [
+            'users' => ['users.id', 'borrowings.user_id'],
+            'books' => ['books.id', 'borrowings.book_id']
+        ]
     ];
 
     /**
@@ -61,7 +78,7 @@ class Borrowing extends Model
      */
     public $sortable = ['from_date', 'to_date', 'date_sent_mail'];
     
-    public $sortableAs = ['users.employee_code', 'users.name', 'users.email', 'books.name'];
+    public $sortableAs = ['employee_code', 'name', 'email', 'bookname'];
 
     /**
      * Get Attribute Date send email
