@@ -37,6 +37,8 @@ test:
     - bower install
     - cp .env.example .env
     - php artisan key:generate
+    - touch storage/logs/laravel.log
+    - sudo chmod -R 777 storage
   override:
     # phpcs circleci status
     - ./vendor/bin/phpcs -n --standard=phpcs.xml
