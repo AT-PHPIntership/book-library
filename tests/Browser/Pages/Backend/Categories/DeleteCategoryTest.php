@@ -109,7 +109,7 @@ class DeleteCategoryTest extends DuskTestCase
                     ->press('#11')
                     ->pause(2000)
                     ->press('OK')
-                    ->pause(2000)->screenshot('cc')
+                    ->pause(2000)
                     ->assertQueryStringHas('page', 1);
             $newDefaultCategoryBookCount = $browser->text('#table-categories tbody tr:nth-child(1) td:nth-child(3)');
             $newCategoryCount = $browser->text('.sidebar-menu li:nth-child(6) a .pull-right-container');
@@ -145,7 +145,7 @@ class DeleteCategoryTest extends DuskTestCase
 
             $browser->press('OK')
                     ->pause(1000)
-                    ->assertSee('Cannot delete this category, category not found')
+                    ->assertSee('Category not found, please refresh page')
                     ->waitUntilMissing('#delete-category-message');
         });
     }
