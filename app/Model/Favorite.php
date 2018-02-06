@@ -5,9 +5,19 @@ namespace App\Model;
 use App\Model\Post;
 use App\Model\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Favorite extends Model
 {
+    use SoftDeletes;
+
+    /**
+     * Value of favoritable_type
+     */
+    const TYPE_POST = 'App\\Model\\Post';
+    const TYPE_COMMENT = 'App\\Model\\Comment';
+    const TYPE_BOOK = 'App\\Model\\Book';
+
     /**
      * Declare table
      *

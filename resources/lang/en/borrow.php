@@ -20,6 +20,11 @@ return [
         'title' => 'Confirm Send Mail',
         'content' => 'Do you want to send email for'
     ],
-    'subject' => 'Reminder Borrowed Book Email'
-
+    'subject' => 'Reminder Borrowed Book Email',
+    'find_borrow' => 'Find users or books',
+    'filter_borrow' => [
+        'all' => 'Users & Books',
+        'users' => 'Users',
+        'books' => 'Books',
+    ],
 ];
