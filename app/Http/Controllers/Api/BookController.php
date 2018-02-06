@@ -60,15 +60,15 @@ class BookController extends Controller
             QrCode::withTrashed()->where('book_id', $id)->where('deleted_at', $timeDelete)->restore();
             Borrowing::withTrashed()->where('book_id', $id)->where('deleted_at', $timeDelete)->restore();
 
-            //Get all posts was restored.
-            $posts = Post::withTrashed()->where('book_id', $id)->where('deleted_at', $timeDelete)->pluck('id')->toArray();
+            //Get all posts ID was restored.
+            $postsID = Post::withTrashed()->where('book_id', $id)->where('deleted_at', $timeDelete)->pluck('id')->toArray();
 
             //Restore all post of this book and its favorite.
             Post::withTrashed()->where('book_id', $id)->where('deleted_at', $timeDelete)->restore();
             Favorite::withTrashed()->where('deleted_at', $timeDelete)->where('favoritable_type', Favorite::TYPE_POST)->whereIn('favoritable_id', $posts)->restore();
 
-            //Get all comments of posts was restored.
-            $comments = Comment::withTrashed()->where('deleted_at', $timeDelete)->whereIn('post_id', $posts)->pluck('id')->toArray();
+            //Get all comments ID of posts was restored.
+            $commentsID = Comment::withTrashed()->where('deleted_at', $timeDelete)->whereIn('post_id', $posts)->pluck('id')->toArray();
 
             //Restore all comments and its favorite.
             Comment::withTrashed()->whereIn('post_id', $posts)->where('deleted_at', $timeDelete)->restore();
