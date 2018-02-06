@@ -20,18 +20,16 @@ class SendEmails extends Command
      *
      * @var string
      */
-    protected $description = 'Send drip e-mails to a user';
+    protected $description = 'Auto Send reminder e-mails to a user';
 
-    protected $borrowing;
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(Borrowing $borrowing)
+    public function __construct()
     {
         parent::__construct();
-        $this->borrowing = $borrowing;
     }
 
     /**
@@ -41,7 +39,8 @@ class SendEmails extends Command
      */
     public function handle()
     {
-        dd($this->borrowing);
-        SendMailsJob::dispath($borrowing);
+        $borrowings = Borrowing::with('books', 'users')->where('to_date', '=', null)->get();
+        SendMailsJob::dispatch($borrowings);
+        $this->info('Send Mail Success');
     }
 }

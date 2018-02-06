@@ -73,7 +73,7 @@
                                     <td>{{ $borrowing->users->email }}</td>
                                     <td>{{ $borrowing->books->name }}</td>
                                     <td>{{ date(config('define.date_format'), strtotime($borrowing->from_date)) }}</td>
-                                    <td>{{ date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
+                                    <td>{{ $borrowing->to_date == null ? '' : date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
                                     <td>{{ $borrowing->date_send_mail }}</td>
                                     <td>
                                         <button type="button" data-action= "{{ route('sendMail', $borrowing->id) }}" 
@@ -104,5 +104,5 @@
 <!-- /.content-wrapper -->
 @endsection
 @section('script')
-    <script src="{{ asset('app/js/borrow.js') }}">
+    <script src="{{ asset('app/js/borrow.js') }}"></script>
 @endsection

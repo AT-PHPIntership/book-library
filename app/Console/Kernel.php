@@ -25,8 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('ahihi')
-                 ->everyMinute();
+        $schedule->command('at-library:send-mail-remind')
+                 ->dailyAt('11:00')
+                 ->timezone('Asia/Ho_Chi_Minh');
     }
 
     /**

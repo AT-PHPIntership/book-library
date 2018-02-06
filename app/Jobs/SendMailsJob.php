@@ -15,15 +15,17 @@ class SendMailsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $user;
+    protected $borrowings;
     /**
      * Create a new job instance.
      *
+     * @param Object $borrowings get value borrowing
+     *
      * @return void
      */
-    public function __construct($borrowing)
+    public function __construct($borrowings)
     {
-        $this->borrowing = $borrowing;
+        $this->borrowings = $borrowings;
     }
 
     /**
@@ -33,10 +35,14 @@ class SendMailsJob implements ShouldQueue
      */
     public function handle()
     {
-        $borrowings = Borrowing::leftjoin('users', 'user_id', 'users.id');
-        dd($borrowings);
-        Mail::to($borrowing->users->email)->send(new BorrowedBookMail($borrowing));
-        $borrowing->date_send_email = Carbon::now();
-        $result = $borrowing->save();
+        foreach ($this->borrowings as $borrowing) {
+            if (canSendMail($borrowing->date_send_email)) {
+                if (Carbon::now()->diffInDays(Carbon::parse($borrowing->from_date)) >= 14) {
+                    Mail::to($borrowing->users->email)->send(new BorrowedBookMail($borrowing));
+                    $borrowing->date_send_email = Carbon::now();
+                    $borrowing->save();
+                }
+            }
+        }
     }
 }
