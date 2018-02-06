@@ -12,6 +12,13 @@ class Favorite extends Model
     use SoftDeletes;
 
     /**
+     * Value of favoritable_type
+     */
+    const TYPE_POST = 'App\\Model\\Post';
+    const TYPE_COMMENT = 'App\\Model\\Comment';
+    const TYPE_BOOK = 'App\\Model\\Book';
+
+    /**
      * Declare table
      *
      * @var string $tabel table name
