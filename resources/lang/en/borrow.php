@@ -22,9 +22,9 @@ return [
     ],
     'subject' => 'Reminder Borrowed Book Email',
     'find_borrow' => 'Find users or books',
-    'filter_borrow' => [
+    'borrow' => [
         'all' => 'Users & Books',
-        'users' => 'Users',
-        'books' => 'Books',
+        'users.name' => 'Users',
+        'books.name' => 'Books',
     ],
 ];
