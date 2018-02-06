@@ -28,8 +28,8 @@
                 <th>{{ __('user.employee_code') }}</th>
                 <th>{{ __('user.employee_name') }}</th>
                 <th>{{ __('user.employee_email') }}</th>
-                <th>{{ __('user.total_donated') }}</th>
-                <th>{{ __('user.total_borrowed') }}</th>
+                <th class="text-center">{{ __('user.total_donated') }}</th>
+                <th class="text-center">{{ __('user.total_borrowed') }}</th>
                 @if (Auth::user()->team == App\Model\User::SA)
                 <th>{{ __('user.role') }}</th>
                 @endif
@@ -42,8 +42,8 @@
                   <td>{{ $user->employee_code }}</td>
                   <td><a class="username" href="{{ route('users.show', ['employeeCode' => $user->employee_code])}}">{{ $user->name }} </a></td>
                   <td>{{ $user->email }}</td>
-                  <td><a class="bookuser" id="donator-id" href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::DONATED]) }}">{{ $user->total_donated }}</td>
-                  <td><a class="bookuser" href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::BORROWED]) }}">{{ $user->total_borrowed }}</td>
+                  <td class="text-center"><a class="bookuser" id="donator-id" href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::DONATED]) }}">{{ $user->total_donated }}</td>
+                  <td class="text-center"><a class="bookuser" href="{{ route('books.index',['uid' => $user->id, 'filter' => App\Model\Book::BORROWED]) }}">{{ $user->total_borrowed }}</td>
                   @if (Auth::user()->team == App\Model\User::SA)
                   <td>
                     <a id="role-{{$user->id}}"
