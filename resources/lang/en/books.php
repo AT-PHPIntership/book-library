@@ -8,4 +8,5 @@ return [
     'average_review_score' => 'Rating',
     'total_borrow' => 'Total borrow',
     'add_book' => 'Add Book',
+    'qrcode' => 'QrCode',
 ];

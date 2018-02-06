@@ -173,6 +173,16 @@ class Book extends Model
     }
 
     /**
+     * Merge two property prefix and code id for qrcode
+     *
+     * @return array
+    */
+    public function getQrcodeBookAttribute()
+    {
+        return $this->qrcode->prefix . $this->qrcode->code_id;
+    }
+
+    /**
      * Upload image
      *
      * @param App\Http\Requests\BookEditRequest $request request

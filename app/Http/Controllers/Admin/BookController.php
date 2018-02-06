@@ -90,13 +90,15 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $columns = [
-            'id',
+            'books.id',
             'name',
             'author',
             'avg_rating',
-            'total_rating'
+            'total_rating',
+            'qrcodes.prefix',
+            'qrcodes.code_id',
         ];
-        $books = Book::select($columns);
+        $books = Book::select($columns)->join('qrcodes', 'qrcodes.book_id', '=', 'books.id');
 
         if ($request->has('search') && $request->has('choose')) {
             $search = $request->search;
