@@ -36,12 +36,26 @@ class SendMailsJob implements ShouldQueue
     public function handle()
     {
         foreach ($this->borrowings as $borrowing) {
-            if (canSendMail($borrowing->date_send_email)) {
-                if (Carbon::now()->diffInDays(Carbon::parse($borrowing->from_date)) >= 14) {
-                    Mail::to($borrowing->users->email)->send(new BorrowedBookMail($borrowing));
-                    $borrowing->date_send_email = Carbon::now();
-                    $borrowing->save();
+            try {
+                if (canSendMail($borrowing->date_send_email)) {
+                    if (Carbon::now()->diffInDays(Carbon::parse($borrowing->from_date)) >= config('define.time_send_mail')) {
+                        $validator = Validator::make(['email' => $borrowing->users->email], [
+                            'email' => 'email',
+                        ]);
+
+                        if ($validator->fails()) {
+                            continue;
+                        }
+                        Mail::to('$borrowing->users->email')->send(new BorrowedBookMail($borrowing));
+                        $borrowing->date_send_email = Carbon::now();
+                        $borrowing->save();
+                        if ($borrowing->save() == false && !empty(Mail::failures())) {
+                            continue;
+                        }
+                    }
                 }
+            } catch (\Exception $e) {
+                $e->getMessage();
             }
         }
     }

@@ -46,6 +46,13 @@
         </div>
 
         <!-- show message response -->
+        <div class="message">
+              @if ($errors->has('message'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('message') }}</strong>
+                </span>
+              @endif
+        </div>
         @include('flash::message')
         
         <div class="row">

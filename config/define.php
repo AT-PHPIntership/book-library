@@ -11,4 +11,5 @@
     'all' => 'all',
     'date_diff' => 3,
     'timezone' => 7,
+    'time_send_mail' => 14
   ];
