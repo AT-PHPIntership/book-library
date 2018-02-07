@@ -54,14 +54,13 @@
                                 <div class="col-md-3">
                                     <ul id="accordion" class="accordion">
                                       <li>
-                                        <div class="link"><i class="fa fa-book"></i>NeverMore<i class="fa fa-chevron-down"></i></div>
+                                        <div class="link"><i class="fa fa-book"></i>{{ __('book.dropmenu') }}<i class="fa fa-chevron-down"></i></div>
                                         <ul class="submenu">
                                           <li>
                                             <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('books.add_book') }}</a>
                                           </li>
                                           <li>
                                             <form id="import-form" action="" method="post" enctype="multipart/form-data">
-                                              {{csrf_field()}}
                                               <input type="file" name="import-data" class="form-control" id="import-book">
                                             </form>
                                           </li>

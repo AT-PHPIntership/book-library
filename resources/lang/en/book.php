@@ -39,5 +39,6 @@ return [
     'import' => [
         'title' => 'Confirm import list book',
         'message' => 'Do you want to import this list',
-    ]
+    ],
+    'dropmenu' => 'More',
 ];
