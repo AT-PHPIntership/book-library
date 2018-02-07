@@ -51,7 +51,7 @@ class BookController extends Controller
         $timeDelete = Book::withTrashed()->where('id', $id)->pluck('deleted_at')->first();
         DB::beginTransaction();
         try {
-            //Restore book and favorites of its.
+            //Restore book and its favorite.
             $book = Book::withTrashed()->find($id)->restore();
             Favorite::withTrashed()->where('deleted_at', $timeDelete)->where('favoritable_type', Favorite::TYPE_BOOK)->where('favoritable_id', $id)->restore();
 
@@ -60,24 +60,19 @@ class BookController extends Controller
             QrCode::withTrashed()->where('book_id', $id)->where('deleted_at', $timeDelete)->restore();
             Borrowing::withTrashed()->where('book_id', $id)->where('deleted_at', $timeDelete)->restore();
 
-            //Restore post. Get list post was restored. Restored all comment and favorites for each post.
-            $posts = Post::withTrashed()->select('id')->where('book_id', $id)->where('deleted_at', $timeDelete)->get();
+            //Get all posts ID was restored.
+            $postsID = Post::withTrashed()->where('book_id', $id)->where('deleted_at', $timeDelete)->pluck('id')->toArray();
+
+            //Restore all post of this book and its favorite.
             Post::withTrashed()->where('book_id', $id)->where('deleted_at', $timeDelete)->restore();
-            foreach ($posts as $post) {
-                //Restore favorites of each post.
-                Favorite::withTrashed()->where('deleted_at', $timeDelete)->where('favoritable_type', Favorite::TYPE_POST)->where('favoritable_id', $post->id)->restore();
+            Favorite::withTrashed()->where('deleted_at', $timeDelete)->where('favoritable_type', Favorite::TYPE_POST)->whereIn('favoritable_id', $postsID)->restore();
 
-                //Get list comment for each post.
-                $comments = Comment::withTrashed()->where('post_id', $post->id)->where('deleted_at', $timeDelete)->get();
+            //Get all comments ID of posts was restored.
+            $commentsID = Comment::withTrashed()->where('deleted_at', $timeDelete)->whereIn('post_id', $postsID)->pluck('id')->toArray();
 
-                //Restore all comment for each post.
-                Comment::withTrashed()->where('post_id', $post->id)->where('deleted_at', $timeDelete)->restore();
-
-                //Restore favorites for each comment.
-                foreach ($comments as $comment) {
-                    Favorite::withTrashed()->where('deleted_at', $timeDelete)->where('favoritable_type', Favorite::TYPE_COMMENT)->where('favoritable_id', $comment->id)->restore();
-                }
-            }
+            //Restore all comments and its favorite.
+            Comment::withTrashed()->whereIn('post_id', $postsID)->where('deleted_at', $timeDelete)->restore();
+            Favorite::withTrashed()->where('deleted_at', $timeDelete)->where('favoritable_type', Favorite::TYPE_COMMENT)->whereIn('favoritable_id', $commentsID)->restore();
             DB::commit();
         } catch (\PDOException $e) {
             DB::rollBack();
