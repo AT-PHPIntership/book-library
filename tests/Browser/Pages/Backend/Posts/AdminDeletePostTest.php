@@ -42,7 +42,7 @@ class AdminDeletePostTest extends DuskTestCase
         $this->browse(function (Browser $browser) use($post) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/posts/' . $post->id)
-                    ->resize(1500, 1000)
+                    ->resize(1200, 1600)
                     ->assertSee('Detail Post')
                     ->click('button.btn-delete-post')
                     ->pause(1000)
@@ -62,7 +62,7 @@ class AdminDeletePostTest extends DuskTestCase
         $this->browse(function (Browser $browser) use($post) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/posts/' . $post->id)
-                    ->resize(1500, 1000)
+                    ->resize(1200, 1600)
                     ->click('button.btn-delete-post')
                     ->pause(1000)
                     ->assertSee('Confirm Delete !')
@@ -84,7 +84,7 @@ class AdminDeletePostTest extends DuskTestCase
         $this->browse(function (Browser $browser) use($post) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/posts/' . $post->id)
-                    ->resize(1500, 1000)
+                    ->resize(1200, 1600)
                     ->click('button.btn-delete-post')
                     ->pause(1000)
                     ->assertSee('Confirm Delete !')
@@ -94,7 +94,7 @@ class AdminDeletePostTest extends DuskTestCase
         });
     }
 
-        /**
+    /**
      * Test click button Ok and delete post fail
      *
      * @return void
@@ -106,7 +106,7 @@ class AdminDeletePostTest extends DuskTestCase
         $this->browse(function (Browser $browser) use($post) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/posts/' . $post->id)
-                    ->resize(1500, 1000);
+                    ->resize(1200, 1600);
             $post->delete();
             $browser->click('button.btn-delete-post')
                     ->pause(1000)
