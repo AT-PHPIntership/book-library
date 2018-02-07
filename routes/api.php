@@ -12,4 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/books', 'Api\BookController@newBook');
+
+Route::group(['namespace' => 'Api'], function () {
+  Route::get('books', 'BookController@newBook');
+});
