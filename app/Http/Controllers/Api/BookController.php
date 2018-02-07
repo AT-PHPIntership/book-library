@@ -32,9 +32,11 @@ class BookController extends Controller
     /**
      * Transform the resource into an array.
      *
+     * @param Request $req requests
+     *
      * @return array
      */
-    public function newBook()
+    public function newBook(Request $req)
     {
         $fields = [
             'id',
@@ -42,7 +44,9 @@ class BookController extends Controller
             'image',
             'avg_rating'
         ];
-        $books = $this->book->select($fields)
+        $search = $req->get('search');
+
+        $books = $this->book->searchs($search)->select($fields)
                             ->orderBy('created_at', 'DESC')
                             ->paginate(20);
         return response()->json([

@@ -27,4 +27,20 @@ trait SearchTrait
             }
         }
     }
+
+    /**
+     * Search the result follow the search request
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query  Model
+     * @param Request                               $search search
+     *
+     * @return void.
+     */
+    public function scopeSearchs($query, $search)
+    {
+        $columns = $this->searchable;
+        foreach ($columns['input'] as $value) {
+            $query->orWhere($value[0], $value[1], '%'.$search.'%');
+        }
+    }
 }
