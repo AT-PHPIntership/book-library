@@ -35,14 +35,13 @@ class AdminShowListBookTest extends DuskTestCase
         $categoryIds = DB::table('categories')->pluck('id')->toArray();
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
-        for ($i = 0; $i <= $rows; $i++) {
+        for ($i = 0;$i <= $rows; $i++) {
             factory(Book::class, 1)->create([
                 'category_id' => $faker->randomElement($categoryIds),
                 'donator_id' => $faker->randomElement($donatorIds),
             ]);
         }
         $bookIds = DB::table('books')->pluck('id')->toArray();
-        
         foreach ($bookIds as $bookId) {
             factory(QrCode::class, 1)->create([
                     'book_id' => $bookId,

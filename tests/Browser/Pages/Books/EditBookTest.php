@@ -40,7 +40,7 @@ class EditBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->resize(1600, 2000)
-                    ->click('.btn-edit-'. $book->id)
+                    ->click('.btn-edit-' . $book->id)
                     ->assertSee('Edit Book')
                     ->assertInputValue('name', $book->name)
                     ->assertInputValue('author', $book->author)

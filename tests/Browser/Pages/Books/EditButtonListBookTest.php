@@ -40,7 +40,7 @@ class EditButtonShowBookTest extends DuskTestCase
         ]);
 
         $bookIds = DB::table('books')->pluck('id')->toArray();
-        for ($i = 0; $i <= 16; $i++) {
+        for ($i = 0;$i <= 16; $i++) {
             factory(QrCode::class, 1)->create([
                 'book_id' => $faker->randomElement($bookIds),
                 'code_id' => $faker->unique()->randomNumber(4),
