@@ -14,5 +14,5 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['namespace' => 'Api'], function () {
-  Route::get('books', 'BookController@newBook');
+  Route::get('books', 'BookController@index');
 });

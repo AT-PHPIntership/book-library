@@ -34,7 +34,7 @@ class BookController extends Controller
      *
      * @return array
      */
-    public function newBook()
+    public function index()
     {
         $fields = [
             'id',
