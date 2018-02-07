@@ -10,6 +10,7 @@ use DB;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryUpdateRequest;
+use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
@@ -40,21 +41,24 @@ class CategoryController extends Controller
         $page = $request->input('page');
         DB::beginTransaction();
         try {
-            $category = Category::findOrFail($id);
+            if ($id == Category::DEFAULT_CATEGORY) {
+                return response()->json(['message' => __('category.denied_default_delete')], Response::HTTP_OK);
+            }
+            $category = Category::find($id);
+            if (empty($category)) {
+                return response()->json(['message' => __('category.not_found_category')], Response::HTTP_OK);
+            }
             $category->deleteAndSetDefault($category);
             $paginateAttr = $this->getRedirectedPage($page);
             $categories = Category::select('id', 'name')->withCount('books')
                                     ->groupBy('id')
                                     ->paginate(config('define.page_length'))
                                     ->setPath('/admin/categories');
-            if ($id == Category::DEFAULT_CATEGORY) {
-                throw new Exception(__('category.denied_default_delete'));
-            }
             DB::commit();
             return view('backend.categories.load-category-list', compact('categories', 'paginateAttr'));
         } catch (Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => $e->getMessage()], 200);
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_OK);
         }
     }
 

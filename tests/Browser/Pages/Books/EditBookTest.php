@@ -294,7 +294,7 @@ class EditBookTest extends DuskTestCase
     public function fakeData()
     {
         $faker = Faker::create();
-        factory(Category::class, 10)->create();
+        factory(Category::class, 3)->create();
         factory(User::class, 10)->create();
         $userIds = DB::table('users')->pluck('id')->toArray();
         $this->donators =  factory(Donator::class, 10)->create([
@@ -303,7 +303,10 @@ class EditBookTest extends DuskTestCase
         $categoryIds = DB::table('categories')->pluck('id')->toArray();
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
         $book = factory(Book::class, 15)->create([
-            'category_id' => $faker->randomElement($categoryIds),
+            'category_id' => $faker->randomElement([
+                '1' => 2,
+                '2' => 3
+            ]),
             'donator_id' => $faker->randomElement($donatorIds),
             'image'      => 'no-image.png',
         ]);
