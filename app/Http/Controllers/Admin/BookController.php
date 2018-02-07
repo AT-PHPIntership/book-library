@@ -99,7 +99,7 @@ class BookController extends Controller
             'qrcodes.code_id',
         ];
 
-        $books = Book::select($columns)->join('qrcodes', 'qrcodes.book_id', '=', 'books.id')->join('borrowings', 'borrowings.book_id', 'books.id');
+        $books = Book::select($columns)->join('qrcodes', 'qrcodes.book_id', '=', 'books.id')->leftJoin('borrowings', 'borrowings.book_id', 'books.id');
         if ($request->has('search') && $request->has('choose')) {
             $search = $request->search;
             $choose = $request->choose;

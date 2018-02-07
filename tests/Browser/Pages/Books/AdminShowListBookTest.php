@@ -26,25 +26,27 @@ class AdminShowListBookTest extends DuskTestCase
     public function makeListOfBook($rows)
     {
         $faker = Faker::create();
-        factory(Category::class)->create();
+
+        $category = factory(Category::class)->create();
+
         factory(User::class)->create();
         $userIds = DB::table('users')->pluck('id')->toArray();
-        factory(Donator::class)->create([
+
+        $donator = factory(Donator::class)->create([
             'user_id' => $faker->unique()->randomElement($userIds)
         ]);
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
         for ($i = 0;$i <= $rows; $i++) {
             factory(Book::class, 1)->create([
-                'category_id' => $faker->randomElement($categoryIds),
-                'donator_id' => $faker->randomElement($donatorIds),
+                'category_id' => $category->id,
+                'donator_id' => $donator->id,
             ]);
         }
-        $bookIds = DB::table('books')->pluck('id')->toArray();
-        foreach ($bookIds as $bookId) {
+        $books = Book::all();
+
+        foreach ($books as $book) {
             factory(QrCode::class, 1)->create([
-                    'book_id' => $bookId,
+                    'book_id' => $book->id,
                     'code_id' => $faker->unique()->randomNumber(3),
                     'prefix' => 'BAT-',
             ]);

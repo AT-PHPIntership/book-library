@@ -62,13 +62,6 @@ class SortBookTest extends DuskTestCase
         }
 
         $bookIds = DB::table('books')->pluck('id')->toArray();
-        for ($i = 0; $i <= $row; $i++)
-        {
-            $borrowing = factory(Borrowing::class, 1)->create([
-                'book_id' =>  $faker->randomElement($bookIds),
-                'user_id' =>  $faker->randomElement($userIds),
-            ]);
-        }
 
         foreach ($bookIds as $bookId) {
             factory(QrCode::class, 1)->create([
