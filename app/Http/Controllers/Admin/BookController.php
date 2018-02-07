@@ -98,8 +98,8 @@ class BookController extends Controller
             'qrcodes.prefix',
             'qrcodes.code_id',
         ];
-        $books = Book::select($columns)->join('qrcodes', 'qrcodes.book_id', '=', 'books.id');
 
+        $books = Book::select($columns)->join('qrcodes', 'qrcodes.book_id', '=', 'books.id')->join('borrowings', 'borrowings.book_id', 'books.id');
         if ($request->has('search') && $request->has('choose')) {
             $search = $request->search;
             $choose = $request->choose;
@@ -107,10 +107,10 @@ class BookController extends Controller
         }
 
         $books = $books->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
+
         if ($request->has('uid') && $request->has('filter')) {
             $uid = $request->uid;
             $filter = $request->filter;
-
             $books = Book::whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
                 $query->where('user_id', '=', $uid);
             })->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));

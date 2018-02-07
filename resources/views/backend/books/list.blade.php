@@ -102,7 +102,7 @@
                                 <td>{{ $book->author }}</td>
                                 <td class="text-center">{{ $book->avg_rating }}</td>
                                 <td class="text-center">{{ $book->borrowings_count }}</td>
-                                <td class="text-center">{{ $book->qrcodeBook }}</td>
+                                <td class="text-center">{{ $book->qrcode->qrcode_book }}</td>
                                 <td align="center">
                                     <a href="{{ route('books.edit', ['book' => $book, 'page' => $_SERVER['REQUEST_URI']]) }}"
                                        class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
