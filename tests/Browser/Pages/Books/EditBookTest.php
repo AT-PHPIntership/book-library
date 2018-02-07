@@ -13,6 +13,7 @@ use App\Model\Book;
 use Faker\Factory as Faker;
 use DB;
 use App\Model\Donator;
+use App\Model\QrCode;
 use Carbon\Carbon;
 
 class EditBookTest extends DuskTestCase
@@ -39,7 +40,7 @@ class EditBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->resize(1600, 2000)
-                    ->click('.btn-edit-15')
+                    ->click('.btn-edit-'. $book->id)
                     ->assertSee('Edit Book')
                     ->assertInputValue('name', $book->name)
                     ->assertInputValue('author', $book->author)
@@ -50,11 +51,11 @@ class EditBookTest extends DuskTestCase
                     ->assertInputValue('description', $book->description)
                     ->assertSourceHas('no-image.png');
         });
-    }  
+    }
 
     /**
      * Example test case
-     * 
+     *
      * @return array
      */
     public function validationTestCase() {
@@ -72,7 +73,7 @@ class EditBookTest extends DuskTestCase
 
     /**
      * @dataProvider validationTestCase
-     * 
+     *
      */
     public function testEditBookValidation($name, $category_id, $author, $price, $donator_id, $year, $description, $image,$messages)
     {
@@ -89,9 +90,9 @@ class EditBookTest extends DuskTestCase
                     ->attach('image', $image);
 
             $this->typeInCKEditor('#cke_description iframe', $browser, $description);
-                        
+
             $browser->press('Submit');
-                
+
             foreach($messages as $message) {
                 $browser->assertSee($message);
             }
@@ -119,7 +120,7 @@ class EditBookTest extends DuskTestCase
                     ->type('year', '2018')
                     ->attach('image', $this->fakeImage());
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
-                
+
             $browser->press('Submit')
                     ->assertSee('Edit Success');
         });
@@ -141,7 +142,7 @@ class EditBookTest extends DuskTestCase
 
     /**
      * Press button edit, then edit book fail
-     * 
+     *
      * @return void
      */
     public function testEditBookFail()
@@ -161,7 +162,7 @@ class EditBookTest extends DuskTestCase
                     ->type('year', '2018')
                     ->attach('image', $this->fakeImage());
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
-                
+
             $browser->press('Submit')
                     ->assertSee('Edit fail. Cannot save data');
 
@@ -271,7 +272,7 @@ class EditBookTest extends DuskTestCase
 
     /**
      * Adding user for testing
-     * 
+     *
      * @return void
      */
     public function fakeUser() {
@@ -287,7 +288,7 @@ class EditBookTest extends DuskTestCase
 
     /**
      * Fake data testing
-     * 
+     *
      * @return void
      */
     public function fakeData()
@@ -306,5 +307,14 @@ class EditBookTest extends DuskTestCase
             'donator_id' => $faker->randomElement($donatorIds),
             'image'      => 'no-image.png',
         ]);
+
+        $bookIds = DB::table('books')->pluck('id')->toArray();
+        for ($i = 0; $i <= 16; $i++) {
+            factory(QrCode::class, 1)->create([
+                'book_id' => $faker->randomElement($bookIds),
+                'code_id' => $faker->unique()->randomNumber(4),
+                'prefix' => 'BAT-'
+            ]);
+        }
     }
 }

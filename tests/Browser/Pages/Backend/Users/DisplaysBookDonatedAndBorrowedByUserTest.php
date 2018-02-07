@@ -9,7 +9,8 @@ use App\Model\User;
 use App\Model\Book;
 use App\Model\Donator;
 use App\Model\Borrowing;
-use App\Model\Category; 
+use App\Model\Category;
+use App\Model\QrCode;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
@@ -62,6 +63,13 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
             'author' => $faker->name,
         ]);
 
+        $bookIds = DB::table('books')->pluck('id')->toArray();
+        factory(QrCode::class, 1)->create([
+            'book_id' =>$faker->unique()->randomElement($bookIds),
+            'code_id' => $faker->unique()->randomNumber(4),
+            'prefix' => 'BAT-'
+        ]);
+
         factory(Borrowing::class)->create([
             'book_id' =>  1,
             'user_id' =>  1,
@@ -78,7 +86,8 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/users');  
+                    ->resize(1200, 1600)
+                    ->visit('/admin/users');
             $fields = [
                 'users.id',
                 'users.employee_code',
@@ -106,7 +115,7 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
      * @return void
      */
     public function testUserNotDonateBook()
-    {   
+    {
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -127,6 +136,7 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
+                    ->resize(1200, 1600)
                     ->visit('admin/books?uid=1&filter=donated')
                     ->assertSee('LIST OF BOOK')
                     ->assertQueryStringHas('uid', '1')
@@ -146,6 +156,7 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
+                    ->resize(1200, 1600)
                     ->visit('admin/books?uid=1&filter=borrowed')
                     ->assertSee('LIST OF BOOK')
                     ->assertQueryStringHas('uid', '1')
@@ -161,10 +172,11 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
      * @return void
      */
     public function testUserNotBorrowBook()
-    {   
+    {
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
+                    ->resize(1200, 1600)
                     ->visit('admin/books?uid=2&filter=borrowed')
                     ->assertSee('LIST OF BOOK')
                     ->assertSee('Sorry, Not be found.')

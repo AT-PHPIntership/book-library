@@ -10,12 +10,26 @@ use App\Model\Category;
 use App\Model\Donator;
 use App\Model\User;
 use App\Model\Borrowing;
+use App\Model\QrCode;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
 class SortBookTest extends DuskTestCase
 {
     use DatabaseMigrations;
+
+    private $user;
+
+    /**
+     * Override function setUp()
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        $this->user = $this->makeUserLogin();
+    }
 
     /**
      * A Data test example.
@@ -42,7 +56,7 @@ class SortBookTest extends DuskTestCase
             factory(Book::class, 1)->create([
                 'category_id' => $faker->randomElement($categoryIds),
                 'donator_id' => $faker->randomElement($donatorIds),
-                'name' => $faker->sentence(rand(2,5)),
+                'name' => $faker->sentence(rand(2, 5)),
                 'author' => $faker->name,
             ]);
         }
@@ -56,18 +70,24 @@ class SortBookTest extends DuskTestCase
             ]);
         }
 
+        foreach ($bookIds as $bookId) {
+            factory(QrCode::class, 1)->create([
+                    'book_id' => $bookId,
+                    'code_id' => $faker->unique()->randomNumber(3),
+                    'prefix' => 'BAT-',
+            ]);
+        }
     }
 
     /**
-     * A User with role 1 test example.
+     * Make user to login
      *
      * @return void
      */
-    public function userLogin()
+    public function makeUserLogin()
     {
-        factory(User::class, 1)->create([
-            'team'          => 'PHP',
-            'role'          => 1,
+        return factory(User::class)->create([
+            'role' => User::ROOT_ADMIN
         ]);
     }
     /**
@@ -77,10 +97,9 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortNameAsc()
     {
-        $this->userLogin();
-        $this->makeData(16);
+        $this->makeData(8);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books')
                     ->clickLink('Name')
                     ->resize(900, 1600)
@@ -106,13 +125,11 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortNamePaginateAsc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books?sort=name&order=asc&page=2')
                     ->resize(900, 1600)
-                    ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-asc');
 
             $books = Book::orderBy('name', 'ASC')->skip(10)->take(6)->get();
@@ -135,10 +152,9 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortNameDesc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books?sort=name&order=asc')
                     ->clickLink('Name')
                     ->resize(900, 1600)
@@ -164,15 +180,13 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortNamePaginateDesc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books?sort=name&order=desc&page=2')
                     ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-desc')
-                    ->screenShot(1);
+                    ->assertVisible('.fa.fa-sort-desc');
 
             $books = Book::orderBy('name', 'Desc')->skip(10)->take(6)->get();
             $checkName = false;
@@ -194,10 +208,9 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAuthorAsc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books')
                     ->clickLink('Author')
                     ->resize(900, 1600)
@@ -224,10 +237,9 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAuthorPaginateAsc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books?sort=author&order=asc&page=2')
                     ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
@@ -253,10 +265,9 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAuthorDesc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books?sort=author&order=asc')
                     ->clickLink('Author')
                     ->resize(900, 1600)
@@ -285,10 +296,9 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAuthorPaginateDesc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books?sort=author&order=desc&page=2')
                     ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
@@ -314,10 +324,9 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAvgRatingAsc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books')
                     ->clickLink('Rating')
                     ->resize(900, 1600)
@@ -344,10 +353,9 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAvgRatingPaginateAsc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books?sort=avg_rating&order=asc&page=2')
                     ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
@@ -373,10 +381,9 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAvgRatingDesc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books?sort=avg_rating&order=asc')
                     ->clickLink('Rating')
                     ->resize(900, 1600)
@@ -402,10 +409,9 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortAvgRatingPaginateDesc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books?sort=avg_rating&order=desc&page=2')
                     ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
@@ -431,10 +437,9 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortTotalBorrowingAsc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books')
                     ->clickLink('Total borrow')
                     ->resize(900, 1600)
@@ -466,10 +471,9 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortTotalBorrowingPaginateAsc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books?sort=borrowings_count&order=asc&page=2')
                     ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')
@@ -501,10 +505,9 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortTotalBorrowingDesc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books?sort=borrowings_count&order=asc')
                     ->clickLink('Total borrow')
                     ->resize(900, 1600)
@@ -537,10 +540,9 @@ class SortBookTest extends DuskTestCase
     */
     public function testSortTotalBorrowingPaginateDesc()
     {
-        $this->userLogin();
         $this->makeData(16);
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs($this->user)
                     ->visit('/admin/books?sort=borrowings_count&order=desc&page=2')
                     ->resize(900, 1600)
                     ->assertSee('LIST OF BOOK')

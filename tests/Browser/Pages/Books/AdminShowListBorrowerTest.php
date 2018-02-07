@@ -77,8 +77,7 @@ class AdminShowListBorrowingsTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                 ->visit('/admin/borrowings/')
                 ->resize(900, 1600)
-                ->assertTitle('Admin | LIST OF BORROWINGS')
-                ->screenshot('sample-screenshot');
+                ->assertTitle('Admin | LIST OF BORROWINGS');
             $elements = $browser->elements('#table-borrowings tbody tr');
             $this->assertCount(10, $elements);
             $this->assertNull($browser->element('.pagination'));
@@ -98,8 +97,7 @@ class AdminShowListBorrowingsTest extends DuskTestCase
             $page = $browser->loginAs(User::find(1))
                 ->visit('/admin/borrowings/')
                 ->resize(900, 1600)
-                ->click('.pagination li:nth-child(3) a')
-                ->screenshot('sample-screenshot');
+                ->click('.pagination li:nth-child(3) a');
 
             $elements = $page->elements('#table-borrowings tbody tr');
             $this->assertCount(5, $elements);
