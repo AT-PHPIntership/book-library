@@ -9,7 +9,6 @@ use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
-
     /**
      * The Book implementation.
      *
@@ -45,10 +44,15 @@ class BookController extends Controller
             'avg_rating'
         ];
         $search = $req->get('search');
-
-        $books = $this->book->searchs($search)->select($fields)
-                            ->orderBy('created_at', 'DESC')
-                            ->paginate(20);
+        if ($search) {
+            $books = $this->book->searchs($search)->select($fields)
+                                ->orderBy('created_at', 'DESC')
+                                ->paginate(20);
+        } else {
+            $books = $this->book->select($fields)
+                                ->orderBy('created_at', 'DESC')
+                                ->paginate(20);
+        }
         return response()->json([
             'books' => $books,
             'success' => true
