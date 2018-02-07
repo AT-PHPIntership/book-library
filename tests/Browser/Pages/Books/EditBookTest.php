@@ -309,11 +309,11 @@ class EditBookTest extends DuskTestCase
         ]);
 
         $bookIds = DB::table('books')->pluck('id')->toArray();
-        for ($i = 0; $i <= 16; $i++) {
+        foreach ($bookIds as $bookId) {
             factory(QrCode::class, 1)->create([
-                'book_id' => $faker->randomElement($bookIds),
-                'code_id' => $faker->unique()->randomNumber(4),
-                'prefix' => 'BAT-'
+                    'book_id' => $bookId,
+                    'code_id' => $faker->unique()->randomNumber(3),
+                    'prefix' => 'BAT-',
             ]);
         }
     }
