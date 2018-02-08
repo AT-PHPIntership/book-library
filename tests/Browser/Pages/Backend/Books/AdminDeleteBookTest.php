@@ -240,20 +240,18 @@ class AdminDeleteBookTest extends BaseTestBook
      *
      * @return void
      */
-    public function testClickEditBookWasDeleted()
+    public function testDisabledButtonEditOfBookWasDeleted()
     {
-        $this->makeListOfBook(1);
-        $bookID = DB::table('books')->pluck('id')->first();
+        $this->makeBookAndItsRelationship();
+        $bookID = DB::table('books')->pluck('id')->get(rand(0,9));
         $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
             $browser->loginAs($userLogin)
             ->resize(1200, 900)
             ->visit('/admin/books')
             ->press('[book-id="'. $bookID. '"]')
-            ->pause(1000)
-            ->press('.btn-edit-'. $bookID)
-            ->pause(1000)
-            ->assertPathIs('/admin/books');
+            ->pause(3000)
+            ->assertVisible('.btn-edit-'. $bookID. '[disabled="disabled"]');
         });
     }
 }
