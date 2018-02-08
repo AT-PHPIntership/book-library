@@ -2,15 +2,20 @@
 
 ### `POST` Add Comment
 ```
-/api/books/{{ $id }}/comment
+/api/post/{{ $id }}/comment
 
  ```
  Add comments under book detail in detail page.
 #### Request header
 | Key | Value |
 |---|---|
-| Accept | application/json |
 | Authorization | {token_type} {access_token} |
+
+#### Request body
+| Key | Value |
+|---|---|
+| content | Content |
+| parent_id | 1 |
 
 #### Sample Response
 ```json
@@ -34,16 +39,21 @@
 
 ### `Post` Add Post
 ```
-/api/books/{{ $id }}/review
+/api/post/{$type}/{$book_id}
 ```
 Add add new review under book detail in detail page.
+#### Request body
+| Key | Value |
+|---|---|
+| content | Content |
+| image | file |
 
 #### Sample Response
 ```json
 {
   "meta": {
     "success": true,
-    "code": 201
+    "status_code": 201
   },
   "data": {
     "id": 38,
