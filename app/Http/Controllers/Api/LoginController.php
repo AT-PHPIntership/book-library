@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class LoginController extends Controller
+class LoginController extends ApiController
 {
     /**
     * Create a new controller instance.
@@ -16,13 +16,13 @@ class LoginController extends Controller
     */
     public function __construct()
     {
-        // $this->middleware('guest')->except('logout');
+        //
     }
 
     /**
      * Handle a login request to the application.
      *
-     * @param App\Http\Requests\Backend\LoginRequest $request request
+     * @param Illuminate\Http\Request $request request
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
