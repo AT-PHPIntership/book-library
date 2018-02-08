@@ -63,94 +63,176 @@ class AdminDeleteBookTest extends BaseTestBook
     }
 
     /**
-     * When click delete button, it change to restore button and the row contains it
-     * change background color to gray. The book was deleted
+     * When click delete button, book's relationship was soft deleted.
      *
      * @return void
      */
-    public function testClickDeleteBook()
+    public function testClickDelete()
     {
-        $this->makeListOfBook(1);
-        $book = DB::table('books')->first();
-        $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
-        $this->browse(function (Browser $browser) use ($userLogin, $book) {
-            $browser->loginAs($userLogin)
-            ->resize(1200, 900)
-            ->visit('/admin/books')
-            ->press('[book-id="'. $book->id. '"]')
-            ->pause(1000)
-            ->assertVisible('.bg-color-gray')
-            ->assertVisible('.fa-history');
-        });
-    }
-
-    /**
-     * When click delete button and reload page, can't see this book.
-     *
-     * @return void
-     */
-    public function testClickDeleteBookAndReloadPage()
-    {
-        $this->makeListOfBook(1);
-        $bookID = DB::table('books')->pluck('id')->first();
+        $this->makeBookAndItsRelationship();
+        $bookID = DB::table('books')->pluck('id')->get(rand(0,9));
         $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
             $browser->loginAs($userLogin)
             ->resize(1200, 900)
             ->visit('/admin/books')
             ->press('[book-id="'. $bookID. '"]')
-            ->pause(1000)
-            ->visit('/admin/books')
-            ->assertMissing('#'. $bookID);
+            ->pause(3000)
+            ->assertMissing('.fa-trash-o[book-id="'. $bookID. '"]')
+            ->assertVisible('.fa-history[book-id="'. $bookID. '"]')
+            ->assertVisible('.bg-color-gray');
         });
+
+        //Book and its favorites.
+        $this->assertSoftDeleted('books', [
+            'id' => $bookID,
+        ]);
+        $favoriteBookIds = DB::table('favorites')->where('favoritable_id', $bookID)->where('favoritable_type', Favorite::TYPE_BOOK)->pluck('id')->toArray();
+        foreach ($favoriteBookIds as $favoriteBookID) {
+            $this->assertSoftDeleted('favorites', [
+                'id' => $favoriteBookID,
+            ]);
+        }
+
+        //QrCodes, borrowings, ratings.
+        $qrcodeIds = DB::table('qrcodes')->where('book_id', $bookID)->pluck('id')->toArray();
+        foreach ($qrcodeIds as $qrcodeID) {
+            $this->assertSoftDeleted('qrcodes', [
+                'id' => $qrcodeID,
+            ]);
+        }
+        $borrowingIds = DB::table('borrowings')->where('book_id', $bookID)->pluck('id')->toArray();
+        foreach ($borrowingIds as $borrowingID) {
+            $this->assertSoftDeleted('borrowings', [
+                'id' => $borrowingID,
+            ]);
+        }
+        $ratingIds = DB::table('ratings')->where('book_id', $bookID)->pluck('id')->toArray();
+        foreach ($ratingIds as $ratingID) {
+            $this->assertSoftDeleted('ratings', [
+                'id' => $ratingID,
+            ]);
+        }
+
+        //Posts and its relationship.
+        $postIds = DB::table('posts')->where('book_id', $bookID)->pluck('id')->toArray();
+        foreach ($postIds as $postID) {
+            $this->assertSoftDeleted('posts', [
+                'id' => $postID,
+            ]);
+        }
+        $favoritePostIds = DB::table('favorites')->whereIn('favoritable_id', $postIds)->where('favoritable_type', Favorite::TYPE_POST)->pluck('id')->toArray();
+        foreach ($favoritePostIds as $favoritePostID) {
+            $this->assertSoftDeleted('favorites', [
+                'id' => $favoritePostID,
+            ]);
+        }
+
+        //Comments and its relationship.            
+        $commentIds = DB::table('comments')->whereIn('post_id', $postIds)->pluck('id')->toArray();
+        foreach ($commentIds as $commentID) {
+            $this->assertSoftDeleted('comments', [
+                'id' => $commentID,
+            ]);
+        }
+        $favoriteCommentIds = DB::table('favorites')->whereIn('favoritable_id', $commentIds)->where('favoritable_type', Favorite::TYPE_COMMENT)->pluck('id')->toArray();
+        foreach ($favoriteCommentIds as $favoriteCommentID) {
+            $this->assertSoftDeleted('favorites', [
+                'id' => $favoriteCommentID,
+            ]);
+        }
     }
 
     /**
-     * When click restore button, this book was restored. Button restore change to button delete.
+     * When click restore button, book's relationship was restored.
      *
      * @return void
      */
     public function testClickRestore()
     {
-        $this->makeListOfBook(1);
-        $bookID = DB::table('books')->pluck('id')->first();
+        $this->makeBookAndItsRelationship();
+        $bookID = DB::table('books')->pluck('id')->get(rand(0,9));
         $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
             $browser->loginAs($userLogin)
             ->resize(1200, 900)
             ->visit('/admin/books')
             ->press('[book-id="'. $bookID. '"]')
-            ->pause(1000)
+            ->pause(3000)
             ->press('[book-id="'. $bookID. '"]')
-            ->pause(1000)
-            ->assertVisible('#'. $bookID)
-            ->assertVisible('.fa-trash-o')
+            ->pause(3000)
+            ->assertVisible('.fa-trash-o[book-id="'. $bookID. '"]')
             ->assertMissing('.bg-color-gray')
             ->assertMissing('.fa-history');
         });
-    }
 
-    /**
-     * When click restore button and reload page, can see this book.
-     *
-     * @return void
-     */
-    public function testClickRestoreAndReloadPage()
-    {
-        $this->makeListOfBook(1);
-        $bookID = DB::table('books')->pluck('id')->first();
-        $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
-        $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
-            $browser->loginAs($userLogin)
-            ->resize(1200, 900)
-            ->visit('/admin/books')
-            ->press('[book-id="'. $bookID. '"]')
-            ->pause(1000)
-            ->press('[book-id="'. $bookID. '"]')
-            ->pause(1000)
-            ->visit('/admin/books')
-            ->assertVisible('#'. $bookID);
-        });
+        //Book and its favorites.
+        $this->assertDatabaseHas('books', [
+                'id' => $bookID,
+                'deleted_at' => null,
+            ]);
+        $favoriteBookIds = DB::table('favorites')->where('favoritable_id', $bookID)->where('favoritable_type', Favorite::TYPE_BOOK)->pluck('id')->toArray();
+        foreach ($favoriteBookIds as $favoriteBookID) {
+            $this->assertDatabaseHas('favorites', [
+                'id' => $favoriteBookID,
+                'deleted_at' => null,
+            ]);
+        }
+
+        //QrCodes, borrowings, ratings.
+        $qrcodeIds = DB::table('qrcodes')->where('book_id', $bookID)->pluck('id')->toArray();
+        foreach ($qrcodeIds as $qrcodeID) {
+            $this->assertDatabaseHas('qrcodes', [
+                'id' => $qrcodeID,
+                'deleted_at' => null,
+            ]);
+        }
+        $borrowingIds = DB::table('borrowings')->where('book_id', $bookID)->pluck('id')->toArray();
+        foreach ($borrowingIds as $borrowingID) {
+            $this->assertDatabaseHas('borrowings', [
+                'id' => $borrowingID,
+                'deleted_at' => null,
+            ]);
+        }
+        $ratingIds = DB::table('ratings')->where('book_id', $bookID)->pluck('id')->toArray();
+        foreach ($ratingIds as $ratingID) {
+            $this->assertDatabaseHas('ratings', [
+                'id' => $ratingID,
+                'deleted_at' => null,
+            ]);
+        }
+
+        //Posts and its relationship.
+        $postIds = DB::table('posts')->where('book_id', $bookID)->pluck('id')->toArray();
+        foreach ($postIds as $postID) {
+            $this->assertDatabaseHas('posts', [
+                'id' => $postID,
+                'deleted_at' => null,
+            ]);
+        }
+        $favoritePostIds = DB::table('favorites')->whereIn('favoritable_id', $postIds)->where('favoritable_type', Favorite::TYPE_POST)->pluck('id')->toArray();
+        foreach ($favoritePostIds as $favoritePostID) {
+            $this->assertDatabaseHas('favorites', [
+                'id' => $favoritePostID,
+                'deleted_at' => null,
+            ]);
+        }
+
+        //Comments and its relationship.            
+        $commentIds = DB::table('comments')->whereIn('post_id', $postIds)->pluck('id')->toArray();
+        foreach ($commentIds as $commentID) {
+            $this->assertDatabaseHas('comments', [
+                'id' => $commentID,
+                'deleted_at' => null,
+            ]);
+        }
+        $favoriteCommentIds = DB::table('favorites')->whereIn('favoritable_id', $commentIds)->where('favoritable_type', Favorite::TYPE_COMMENT)->pluck('id')->toArray();
+        foreach ($favoriteCommentIds as $favoriteCommentID) {
+            $this->assertDatabaseHas('favorites', [
+                'id' => $favoriteCommentID,
+                'deleted_at' => null,
+            ]);
+        }
     }
 
     /**
@@ -173,114 +255,5 @@ class AdminDeleteBookTest extends BaseTestBook
             ->pause(1000)
             ->assertPathIs('/admin/books');
         });
-    }
-
-    /**
-     * When click delete button, book's relationship was soft deleted.
-     *
-     * @return void
-     */
-    public function testDatabaseWhenDeleted()
-    {
-        $this->makeABookAndItsRelationship();
-        $bookID = DB::table('books')->pluck('id')->first();
-        $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
-        $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
-            $browser->loginAs($userLogin)
-                ->resize(1200, 900)
-                ->visit('/admin/books')
-                ->press('[book-id="'. $bookID. '"]')
-                ->pause(1000);
-        });
-        $this->assertSoftDeleted('books', ['id' => $bookID])
-            ->assertSoftDeleted('qrcodes', ['book_id' => $bookID])
-            ->assertSoftDeleted('borrowings', ['book_id' => $bookID])
-            ->assertSoftDeleted('ratings', ['book_id' => $bookID])
-            ->assertSoftDeleted('posts', ['book_id' => $bookID])
-            ->assertSoftDeleted('favorites', [
-                'favoritable_id' => $bookID,
-                'favoritable_type' => Favorite::TYPE_BOOK,
-            ]);
-        $posts = Post::withTrashed()->select('id')->where('book_id', $bookID);
-        foreach ($posts as $post) {
-            $this->assertSoftDeleted('favorites', [
-                'favoritable_id' => $post,
-                'favoritable_type' => Favorite::TYPE_POST,
-            ])
-                ->assertSoftDeleted('comments', ['post_id' => $post]);
-            $comments = Comment::withTrashed()->select('id')->where('post_id', $post);
-            foreach ($comments as $comment) {
-                $this->assertSoftDeleted('favorites', [
-                    'favoritable_id' => $comment,
-                    'favoritable_type' => Favorite::TYPE_COMMENT,
-                ]);
-            }
-        }
-    }
-
-    /**
-     * When click restore button, book's relationship was restored.
-     *
-     * @return void
-     */
-    public function testDatabaseWhenRestored()
-    {
-        $this->makeABookAndItsRelationship();
-        $bookID = DB::table('books')->pluck('id')->first();
-        $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
-        $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
-            $browser->loginAs($userLogin)
-                ->resize(1200, 900)
-                ->visit('/admin/books')
-                ->press('[book-id="'. $bookID. '"]')
-                ->pause(1000)
-                ->press('[book-id="'. $bookID. '"]')
-                ->pause(1000);
-        });
-        $this->assertDatabaseHas('books', [
-                'id' => $bookID,
-                'deleted_at' => null,
-            ])
-            ->assertDatabaseHas('qrcodes', [
-                'book_id' => $bookID,
-                'deleted_at' => null,
-            ])
-            ->assertDatabaseHas('borrowings', [
-                'book_id' => $bookID,
-                'deleted_at' => null,
-            ])
-            ->assertDatabaseHas('ratings', [
-                'book_id' => $bookID,
-                'deleted_at' => null,
-            ])
-            ->assertDatabaseHas('posts', [
-                'book_id' => $bookID,
-                'deleted_at' => null,
-            ])
-            ->assertDatabaseHas('favorites', [
-                'favoritable_id' => $bookID,
-                'favoritable_type' => Favorite::TYPE_BOOK,
-                'deleted_at' => null,
-            ]);
-        $posts = Post::withTrashed()->select('id')->where('book_id', $bookID);
-        foreach ($posts as $post) {
-            $this->assertDatabaseHas('favorites', [
-                'favoritable_id' => $post,
-                'favoritable_type' => Favorite::TYPE_POST,
-                'deleted_at' => null,
-            ])
-                ->assertDatabaseHas('comments', [
-                    'post_id' => $post,
-                    'deleted_at' => null,
-                ]);
-            $comments = Comment::withTrashed()->select('id')->where('post_id', $post);
-            foreach ($comments as $comment) {
-                $this->assertDatabaseHas('favorites', [
-                    'favoritable_id' => $comment,
-                    'favoritable_type' => Favorite::TYPE_COMMENT,
-                    'deleted_at' => null,
-                ]);
-            }
-        }
     }
 }
