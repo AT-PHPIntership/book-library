@@ -5,12 +5,7 @@
 /api/post/{{ $id }}/comment
 
  ```
- Add comments under book detail in detail page.
-#### Request header
-| Key | Value |
-|---|---|
-| Authorization | {token_type} {access_token} |
-
+ Add comment for post.
 #### Request body
 | Key | Value |
 |---|---|
@@ -41,11 +36,19 @@
 ```
 /api/post/{$type}/{$book_id}
 ```
-Add add new review under book detail in detail page.
+Add new post.
 #### Request body
 | Key | Value |
 |---|---|
 | content | Content |
+| image | file |
+
+#### Description
+| Key | Value |
+|---|---|
+| type | Required, Allow value: 1, 2, 3 |
+| book_id | Integer |
+| content | Required, text |
 | image | file |
 
 #### Sample Response
@@ -53,7 +56,7 @@ Add add new review under book detail in detail page.
 {
   "meta": {
     "success": true,
-    "status_code": 201
+    "code": 201
   },
   "data": {
     "id": 38,
