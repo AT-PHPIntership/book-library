@@ -53,4 +53,40 @@ Login by API
     }
 }
 ```
+#### Sample Request body
+##### Password is empty
+```json
+{
+  "email": "an.nguyen@gmail.com",
+  "password": "",
+}
+```
 
+```json
+{
+    "meta": {
+        "status": "failed",
+        "code": 400,
+        "messages": "email_or_password_cannot_blank"
+    },
+    "error": "Email or Password cannot blank"
+}
+```
+#### Sample Request body
+##### Failure password 
+```json
+{
+  "email": "an.nguyen@gmail.com",
+  "password": "abc",
+}
+```
+```json
+{
+    "meta": {
+        "status": "failed",
+        "code": 400,
+        "messages": "email_or_password_not_correct"
+    },
+    "error": "Email or password not correct"
+}
+```
