@@ -11,6 +11,14 @@
 |
 */
 
+Route::get('/api-docs', function () {
+    return view('api-docs');
+});
+
+Route::get('/api-doc-builders', function () {
+    return view('api-doc-builders.index');
+});
+
 //Login
 Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Admin\LoginController@login');
