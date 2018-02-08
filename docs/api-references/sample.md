@@ -1,6 +1,3 @@
-Book Library API
-=======
-
 ## Bird Api - Just sample API
 
 ### `GET` Birds
