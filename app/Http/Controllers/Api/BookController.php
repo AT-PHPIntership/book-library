@@ -32,26 +32,26 @@ class BookController extends Controller
         try {
             //Delete book and its favorite.
             $book = Book::where('id', $id)->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
-            Favorite::where('favoritable_id', $id)->where('favoritable_type', Favorite::TYPE_BOOK)->whereNull('deleted_at')->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
+            Favorite::where('favoritable_id', $id)->where('favoritable_type', Favorite::TYPE_BOOK)->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
 
             //Delete rating, qrcode, borrowing, post.
-            Rating::where('book_id', $id)->whereNull('deleted_at')->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
-            QrCode::where('book_id', $id)->whereNull('deleted_at')->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
-            Borrowing::where('book_id', $id)->whereNull('deleted_at')->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
+            Rating::where('book_id', $id)->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
+            QrCode::where('book_id', $id)->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
+            Borrowing::where('book_id', $id)->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
 
             //Get list post ids.
-            $postsID = Post::where('book_id', $id)->whereNull('deleted_at')->pluck('id')->toArray();
+            $postsID = Post::where('book_id', $id)->pluck('id')->toArray();
 
             //Delete posts and its favorites.
-            Post::where('book_id', $id)->whereNull('deleted_at')->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
-            Favorite::whereIn('favoritable_id', $postsID)->where('favoritable_type', Favorite::TYPE_POST)->whereNull('deleted_at')->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
+            Post::where('book_id', $id)->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
+            Favorite::whereIn('favoritable_id', $postsID)->where('favoritable_type', Favorite::TYPE_POST)->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
 
             //Get all comments ID of posts was deleted.
-            $commentsID = Comment::whereIn('post_id', $postsID)->whereNull('deleted_at')->pluck('id')->toArray();
+            $commentsID = Comment::whereIn('post_id', $postsID)->pluck('id')->toArray();
 
             //Delete all comments and its favorites.
-            Comment::whereIn('post_id', $postsID)->whereNull('deleted_at')->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
-            Favorite::whereIn('favoritable_id', $commentsID)->where('favoritable_type', Favorite::TYPE_COMMENT)->whereNull('deleted_at')->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
+            Comment::whereIn('post_id', $postsID)->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
+            Favorite::whereIn('favoritable_id', $commentsID)->where('favoritable_type', Favorite::TYPE_COMMENT)->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
             DB::commit();
         } catch (\PDOException $e) {
             DB::rollBack();
