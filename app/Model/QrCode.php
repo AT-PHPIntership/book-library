@@ -18,7 +18,7 @@ class QrCode extends Model
     /**
      * QrCode prefix
      */
-    const QRCODE_PREFIX = 'ABT';
+    const QRCODE_PREFIX = 'ATB';
 
     /**
      * Declare table
@@ -56,11 +56,33 @@ class QrCode extends Model
     */
     public static function generateQRCode()
     {
-        $lastestQRCode = self::select('code_id')->withTrashed()->orderby('code_id', 'desc')->first();
+        $lastestQRCode = self::select('code_id')->where('prefix', self::QRCODE_PREFIX)->withTrashed()->orderby('code_id', 'desc')->first();
         $lastestCodeId = $lastestQRCode ? $lastestQRCode->code_id + 1 : QrCode::DEFAULT_CODE_ID;
         return new self([
             'prefix' => QrCode::QRCODE_PREFIX,
             'code_id'=> $lastestCodeId,
         ]);
+    }
+
+    /**
+     * @param array          $qrCodeList get qrcode list
+     * @param App\Model\Book $book       $book
+     *
+     * return void
+     */
+    public static function saveImportQRCode($qrCodeList, $book)
+    {
+        $qrcodeList = explode(',', $qrCodeList);
+        for ($i = 0, $length = count($qrcodeList); $i < $length; $i++) {
+            $qrCode = trim($qrcodeList[$i], ' ');
+            $prefix = substr($qrCode, 0, 4);
+            $codeId = substr($qrCode, 4);
+            $qrcodes = [
+                'book_id' =>$book->id,
+                'prefix' => $prefix,
+                'code_id'=> $codeId,
+            ];
+        };
+        self::lockForUpdate()->firstOrCreate($qrcodes);
     }
 }

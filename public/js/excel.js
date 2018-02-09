@@ -30,10 +30,12 @@ $(document).ready(function() {
   $('#import-book').change(function (){
     $('#confirmImport').modal('show');
   })
+
   //reset file input
-  $('#cancel-import').click(function() {
+  $('#confirmImport').on('hidden.bs.modal', function () {
     $('#import-book').val('');
-  })
+  });
+
   $('#confirm-import').click(function() {
     $('#import-form').submit();
   })

@@ -18,6 +18,9 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Illuminate\Database\QueryException;
 use Exception;
 use Storage;
+use Excel;
+use App\Http\Requests\ImportBookRequest;
+use Carbon\Carbon;
 
 class BookController extends Controller
 {
@@ -53,7 +56,7 @@ class BookController extends Controller
             if ($hasFile) {
                 $book->image = $book->uploadImage($request);
             } else {
-                $book->image = config('image.books.default_path') . '/' . config('image.books.no_image_name');
+                $book->image = config('image.books.default_path') . config('image.books.no_image_name');
             }
             //save new donator, save book
             $book->donator_id = Donator::updateDonator($request->employee_code);
@@ -66,6 +69,7 @@ class BookController extends Controller
         } catch (FileException $e) {
             $errMessage = __('book.message.create_fail') . __('book.message.err_upload_image');
         } catch (QueryException $e) {
+            dd($e->getMessage());
             $errMessage = __('book.message.create_fail') . __('book.message.err_long_data');
         } catch (Exception $e) {
             $errMessage = __('book.message.create_fail');
@@ -138,7 +142,7 @@ class BookController extends Controller
         }
         $defaultPath = config('image.books.default_path');
         $defaultImage = config('image.books.no_image_name');
-        $isNotDefaultImage = ($book->image != ($defaultPath . '/' . $defaultImage)) ? true : false;
+        $isNotDefaultImage = ($book->image != ($defaultPath . $defaultImage)) ? true : false;
         $categories = Category::select($categoryFields)->where('id', '<>', Book::DEFAULT_CATEGORY)->get();
         return view('backend.books.edit', compact('book', 'categories', 'backPath', 'isNotDefaultImage'));
     }
@@ -163,7 +167,7 @@ class BookController extends Controller
                 $oldImage = $book->image;
                 $defaultPath = config('image.books.default_path');
                 $defaultImage = config('image.books.no_image_name');
-                $isNotDefaultImage = ($oldImage != ($defaultPath . '/' . $defaultImage)) ? true : false;
+                $isNotDefaultImage = ($oldImage != ($defaultPath . $defaultImage)) ? true : false;
                 $bookData['image'] = $book->uploadImage($request, $oldImage);
             }
             //save new donator
@@ -205,5 +209,52 @@ class BookController extends Controller
         if ($request->ajax()) {
             return response()->json(['book'=> $book], 200);
         }
+    }
+
+    /**
+     * @param Request $request get request
+     *
+     * @return
+     */
+    public function import(ImportBookRequest $request)
+    {
+        DB::beginTransaction();
+        try {
+            Excel::load($request->file('import-data'), function ($reader) {
+                $reader->ignoreEmpty()->each(function ($cell) {
+                    $this->addBookImport($cell->toArray());
+                });
+            });
+            DB::commit();
+            flash(__('book.import.success'))->success();
+            return redirect()->route('books.index');
+        } catch (Exception $e) {
+            DB::rollBack();
+            flash(__('book.import.fail'))->error();
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * @param array $attributes attribute list
+     *
+     * @return void
+     */
+    public function addBookImport($attributes)
+    {
+        $book = $attributes;
+        $book['category_id'] = Category::lockForUpdate()->firstOrCreate(['name' => $attributes['category']])->id;
+        $book['status'] = (isset($attributes['status']) && $attributes['status'] == 'available') ? 1 : 0;
+        $employeeCode = ($attributes['employee_code'] != "NULL") ? $attributes['employee_code'] : Donator::DEFAULT_DONATOR;
+        $book['donator_id'] = Donator::updateDonator($employeeCode, $attributes['user_name']);
+        $book['author'] = isset($attributes['author']) ? $attributes['author'] : BOOK::DEFAULT_AUTHOR;
+        $book['image'] = config('image.books.default_path') . config('image.books.no_image_name');
+        $book['year'] = isset($attributes['year']) ? $attributes['year'] : Carbon::now()->year;
+        $book['description'] = isset($attributes['description']) ? '<p>' . $attributes['description'] . '</p>' : BOOK::DEFAULT_DESCRIPTION;
+        $book['language'] = $attributes['language'];
+        $book['pages'] = isset($attributes['pages']) ? $attributes['pages'] : Book::DEFAULT_PAGES;
+        $book['price'] = isset($attributes['price']) ? $attributes['price'] : BOOK::DEFAULT_PRICE;
+        $book = Book::lockForUpdate()->updateOrCreate(['name' => $book['name']], $book);
+        QrCode::saveImportQRCode($attributes['qrcode'], $book);
     }
 }

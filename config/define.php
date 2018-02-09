@@ -11,4 +11,10 @@
     'all' => 'all',
     'date_diff' => 3,
     'timezone' => 7,
+      'languages' => [
+          'Vietnamese' => 'Vietnamese',
+          'Japanese' => 'Japanese',
+          'Korean' => 'Korean',
+          'English' => 'English',
+      ]
   ];

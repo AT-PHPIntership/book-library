@@ -40,6 +40,26 @@ class Book extends Model
     const BORROWED = 'borrowed';
 
     /**
+     * Default value of price
+     */
+    const DEFAULT_PRICE = null;
+
+    /**
+     * Default author
+     */
+    const DEFAULT_AUTHOR = null;
+
+    /**
+     * Default pages
+     */
+    const DEFAULT_PAGES = null;
+
+    /**
+     * Default description
+     */
+    const DEFAULT_DESCRIPTION = null;
+
+    /**
      * Declare table
      *
      * @var string $tabel table name
@@ -58,6 +78,8 @@ class Book extends Model
         'year',
         'price',
         'description',
+        'language',
+        'pages',
         'donator_id',
         'avg_rating',
         'total_rating',

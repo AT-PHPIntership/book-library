@@ -15,6 +15,10 @@ return [
     'price' => 'Price',
     'enter_price' => 'Enter price',
     'donator' => 'Donator',
+    'pages' => 'Pages',
+    'enter_pages' => 'Enter pages',
+    'language' => 'Language',
+    'enter_language' => 'Enter language',
     'enter_employee_code' => 'Enter employee id',
     'year' => 'Year',
     'enter_year' => 'Enter year',
@@ -39,5 +43,8 @@ return [
     'import' => [
         'title' => 'Confirm import list book',
         'message' => 'Do you want to import this list',
-    ]
+        'validate_file_type' => 'Only support csv file type',
+        'success' => 'Import list book successfully',
+        'fail' => 'Import list book failure',
+    ],
 ];
