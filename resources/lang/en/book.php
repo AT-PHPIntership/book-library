@@ -37,4 +37,9 @@ return [
         'err_upload_image' => '. Cannot upload image',
         'err_long_data'    => '. Cannot save data',
     ],
+    'notification' => [
+        'sql' => 'SQL',
+        'book_not_found' => 'This book is not found',
+        'content' => 'You should reload page to continue',
+    ],
 ];
