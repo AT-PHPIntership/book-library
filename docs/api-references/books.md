@@ -5,10 +5,16 @@
 /api/books
 ```
 Get list new books with paginate
+
 #### Request Headers
 | Key | Value |
 |---|---|
 |Accept|application\json
+
+#### Request Body
+| Key | Value |
+|---|---|
+| content | Content |
 
 #### Response
 ```json
