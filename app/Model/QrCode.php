@@ -65,10 +65,12 @@ class QrCode extends Model
     }
 
     /**
+     * Save qr for imported list
+     *
      * @param array          $qrCodeList get qrcode list
      * @param App\Model\Book $book       $book
      *
-     * return void
+     * @return void
      */
     public static function saveImportQRCode($qrCodeList, $book)
     {

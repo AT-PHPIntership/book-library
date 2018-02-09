@@ -212,9 +212,11 @@ class BookController extends Controller
     }
 
     /**
+     * Load vcs file and save list into db
+     *
      * @param Request $request get request
      *
-     * @return
+     * @return \Illuminate\Http\Response
      */
     public function import(ImportBookRequest $request)
     {
@@ -236,6 +238,8 @@ class BookController extends Controller
     }
 
     /**
+     * Insert list into db
+     *
      * @param array $attributes attribute list
      *
      * @return void

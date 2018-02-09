@@ -29,17 +29,9 @@ class AddColumnPageAndLanguageToBooksTable extends Migration
      */
     public function down()
     {
-//        Schema::table('books', function (Blueprint $table) {
-//            $table->longText('description')->default('null')->change();
-//            $table->integer('price')->default(0)->change();
-//            $table->string('author')->default('null')->change();
-//        });
         Schema::table('books', function (Blueprint $table) {
             $table->dropColumn('pages');
             $table->dropColumn('language');
-//            $table->longText('description')->nullable(false)->change();
-//            $table->integer('price')->nullable(false)->change();
-//            $table->string('author')->nullable(false)->change();
         });
     }
 }

@@ -59,6 +59,7 @@ class Donator extends Model
      * Update donator user, if not exists then create
      *
      * @param String $employeeCode employeeCode
+     * @param String $name         name
      *
      * @return int
      */

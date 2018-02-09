@@ -28,6 +28,11 @@ class ImportBookRequest extends FormRequest
         ];
     }
 
+    /**
+     * Set validation messages
+     *
+     * @return array
+     */
     public function messages()
     {
         return [
