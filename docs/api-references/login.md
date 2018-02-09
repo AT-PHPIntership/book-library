@@ -1,14 +1,15 @@
-#Login API
+## Login API
+
 ### `POST` Login API from FE
 ```
 api/login
 ```
 Login by API
+
 ### Request header
 |Key|Value|
 |---|---|
 | Accept | application/json |
-| Authorization | {token_type} {access_token} |
 
 #### Parameters
 | Key | Type | Required | Description |
@@ -23,6 +24,7 @@ Login by API
   "password": "123456",
 }
 ```
+
 #### Sample Response
 ```json
 {
@@ -47,7 +49,7 @@ Login by API
 }
 ```
 #### Sample Request body
-##### Password is empty
+Password is empty
 ```json
 {
   "email": "an.nguyen@gmail.com",
@@ -66,7 +68,7 @@ Login by API
 }
 ```
 #### Sample Request body
-##### Failure password 
+Failure password 
 ```json
 {
   "email": "an.nguyen@gmail.com",
