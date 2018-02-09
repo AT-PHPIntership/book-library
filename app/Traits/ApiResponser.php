@@ -22,6 +22,7 @@ trait ApiResponser
         }
                 
         $collection = $this->paginate($collection);
+        $collection = $this->structJson($collection->toArray(), $code);
         return $this->successResponse($collection, $code);
     }
 
@@ -50,5 +51,37 @@ trait ApiResponser
         
         return $paginated;
     }
-    
+
+    /**
+     * Structure of json
+     *
+     * @param array $resonseArray array response
+     * @param int   $code         response status
+     *
+     * @return Illuminate\Support\Collection
+     */
+    public function structJson($resonseArray, $code = 200)
+    {
+        $count = count($resonseArray['data']) % $resonseArray['per_page'];
+        $collection = collect([
+            'meta' => [
+                'status' => 'success',
+                'code' => $code
+            ],
+            'data' => array_values($resonseArray['data']),
+            'pagination' => [
+                'total' =>  $resonseArray['total'],
+                'count' =>  $count != 0 ? $count : $resonseArray['per_page'],
+                'per_page' =>  $resonseArray['per_page'],
+                'current_page' =>  $resonseArray['current_page'],
+                'total_pages' =>  $resonseArray['last_page'],
+                'links' => [
+                   'prev' => $resonseArray['prev_page_url'],
+                   'next' =>$resonseArray['next_page_url']
+                ]
+            ],
+        ]);
+        return $collection;
+    }
+
 }
