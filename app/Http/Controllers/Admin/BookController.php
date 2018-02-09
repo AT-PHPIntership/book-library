@@ -69,7 +69,6 @@ class BookController extends Controller
         } catch (FileException $e) {
             $errMessage = __('book.message.create_fail') . __('book.message.err_upload_image');
         } catch (QueryException $e) {
-            dd($e->getMessage());
             $errMessage = __('book.message.create_fail') . __('book.message.err_long_data');
         } catch (Exception $e) {
             $errMessage = __('book.message.create_fail');

@@ -60,12 +60,8 @@
                                             <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('books.add_book') }}</a>
                                           </li>
                                           <li>
-<<<<<<< HEAD
-                                            <form files="true" id="import-form" action="{{ route('books.import') }}" method="post" enctype="multipart/form-data">
+                                            <form id="import-form" action="{{ route('books.import') }}" method="post" enctype="multipart/form-data">
                                               {{csrf_field()}}
-=======
-                                            <form id="import-form" action="" method="post" enctype="multipart/form-data">
->>>>>>> master
                                               <input type="file" name="import-data" class="form-control" id="import-book">
                                             </form>
                                           </li>
