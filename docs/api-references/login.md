@@ -31,25 +31,18 @@ Login by API
         "code": 200
     },
     "data": {
-        "employee_code": "ATI0274",
-        "probation": false,
-        "id": 350,
-        "first_login": false,
-        "available_for_project_assignment": false,
+        "id": 18,
+        "employee_code": "AT0123",
         "name": "An Nguyen Q.",
-        "has_line_member": false,
-        "teams": [
-            {
-                "id": 22,
-                "name": "PHP"
-            }
-        ],
-        "projects": [],
-        "employee_type": "Intern",
+        "email": "an.nguyen@gmail.com.vn",
+        "team": "PHP",
         "avatar_url": "http://172.16.110.17/images/user/avatar/350/40c1fc7286.png",
-        "access_token": "be88e5d9c6b64fbe7e293e4ac9df9a1a",
-        "expires_at": "2018-02-07 03:54:53 UTC",
-        "joined_company_day": "2017-06-13"
+        "role": 1,
+        "access_token": "40604dab9b3c87be058a3096d4f4f5e8",
+        "expired_at": "2018-02-09 05:38:13",
+        "created_at": "2018-02-01 07:51:59",
+        "updated_at": "2018-02-09 03:37:16",
+        "deleted_at": null
     }
 }
 ```
