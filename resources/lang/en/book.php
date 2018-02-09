@@ -42,4 +42,9 @@ return [
         'book_not_found' => 'This book is not found',
         'content' => 'You should reload page to continue',
     ],
+    'import' => [
+        'title' => 'Confirm import list book',
+        'message' => 'Do you want to import this list',
+    ],
+    'dropmenu' => 'More',
 ];
