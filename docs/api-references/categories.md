@@ -77,9 +77,9 @@ Get list all categories with paginate
         "prev_page_url": null,
         "to": 10,
         "total": 10
-    }
+    },
     "meta": {
-        "status": success,
+        "status": "successfully",
         "code": 200
     }
 }
