@@ -9,6 +9,7 @@ return [
     'confirm_delete_message' => 'Do you want to delete this category?',
     'delete_success' => 'Delete success!',
     'denied_default_delete' => 'You cannot delete this category, because it is a default category!',
+    'not_found_category' => 'Category not found, please refresh page',
     'actions' => 'Actions',
     'rename' => 'Rename Category',
     'update' => 'Update',

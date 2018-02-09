@@ -15,7 +15,7 @@ class AddColumnPageAndLanguageToBooksTable extends Migration
     {
         Schema::table('books', function (Blueprint $table) {
             $table->integer('pages')->unsigned()->nullable()->after('description');
-            $table->string('language')->after('pages');
+            $table->string('language')->nullable()->after('pages');
             $table->longText('description')->nullable()->change();
             $table->integer('price')->nullable()->change();
             $table->string('author')->nullable()->change();

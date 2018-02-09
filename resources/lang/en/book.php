@@ -3,6 +3,7 @@ return [
     'title' => 'BOOK',
     'edit_book' => 'Edit Book',
     'books' => 'Books',
+    'book' => 'Book',
     'edit' => 'Edit',
     'name' => 'Name',
     'enter_name' => 'Enter book name',
@@ -47,4 +48,5 @@ return [
         'success' => 'Import list book successfully',
         'fail' => 'Import list book failure',
     ],
+    'dropmenu' => 'More',
 ];
