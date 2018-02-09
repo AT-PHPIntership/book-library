@@ -15,6 +15,12 @@ class BorrowingController extends Controller
      */
     public function index()
     {
+        $response = $client->request('POST', '/api/login', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer '.$accessToken,
+            ],
+        ]);
         $borrowings = Borrowing::with('books', 'users')
             ->sortable()->orderby('from_date', 'DESC')
             ->paginate(config('define.page_length'));

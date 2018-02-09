@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Api;
+use App\Model\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
@@ -27,9 +28,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        dd(Auth::user());
-        $post = $this->post->create($request->all());
-        dd($post);
+        dd($request->all());
+        $user = User::where('access_token', 'a')->get();
+        dd($user);
 //        $posts = Post::insert()
 ////            ->withCount('books')
 ////            ->groupBy('id')
