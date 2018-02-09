@@ -7,9 +7,4 @@ return [
         'login' => '/auth/login',
         'logout' => '',
     ],
-    'messages_key' => [
-        'not_correct' => 'email_or_password_not_correct',
-        'user' => 'not_an_admin',
-        'not_empty' => 'email_or_password_cannot_blank'
-    ]
 ];
