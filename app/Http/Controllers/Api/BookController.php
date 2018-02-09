@@ -22,12 +22,11 @@ class BookController extends Controller
      * Soft delete "book" and its relationship ("borrowing", "post", "qrcode", "comment"),
      * Hard delete "rating" with id of book.
      *
-     * @param Request $request request
-     * @param int     $id      id of book
+     * @param int $id id of book
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         $timeDelete = Carbon::now();
         DB::beginTransaction();
@@ -71,12 +70,11 @@ class BookController extends Controller
     /**
      * Restore book and its relationship with id of book.
      *
-     * @param Request $request request
-     * @param int     $id      id of book
+     * @param int $id id of book
      *
      * @return \Illuminate\Http\Response
      */
-    public function restore(Request $request, $id)
+    public function restore($id)
     {
         $restored = Book::withTrashed()->whereNotNull('deleted_at')->where('id', $id)->restore();
         if ($restored === 0) {
