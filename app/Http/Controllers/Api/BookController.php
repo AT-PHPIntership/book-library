@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Exception;
 use DB;
 use App\Model\Book;
 use App\Model\Post;
@@ -31,7 +33,11 @@ class BookController extends Controller
         DB::beginTransaction();
         try {
             //Delete book and its favorite.
-            $book = Book::where('id', $id)->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
+            $deleted = Book::where('id', $id)->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
+            if ($deleted === 0) {
+                $message = "This book is not found";
+                return response()->json(['message'=> $message], Response::HTTP_OK);
+            }
             Favorite::where('favoritable_id', $id)->where('favoritable_type', Favorite::TYPE_BOOK)->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
 
             //Delete rating, qrcode, borrowing, post.
@@ -53,11 +59,12 @@ class BookController extends Controller
             Comment::whereIn('post_id', $postsID)->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
             Favorite::whereIn('favoritable_id', $commentsID)->where('favoritable_type', Favorite::TYPE_COMMENT)->update(['deleted_at' => $timeDelete, 'updated_at' => $timeDelete]);
             DB::commit();
-        } catch (\PDOException $e) {
+            $message = "Successfully";
+            return response()->json(['message'=> $message], Response::HTTP_OK);
+        } catch (Exception $e) {
             DB::rollBack();
-        }
-        if ($request->ajax()) {
-            return response()->json(['book'=> $book, 'time' => $timeDelete], 200);
+            $message = "SQL Error";
+            return response()->json(['message'=> $message], Response::HTTP_OK);
         }
     }
 
@@ -71,11 +78,15 @@ class BookController extends Controller
      */
     public function restore(Request $request, $id)
     {
+        $restored = Book::withTrashed()->whereNotNull('deleted_at')->where('id', $id)->restore();
+        if ($restored === 0) {
+            $message = "This book is not found";
+            return response()->json(['message'=> $message], Response::HTTP_OK);
+        }
         $timeDelete = Book::withTrashed()->where('id', $id)->pluck('deleted_at')->first();
         DB::beginTransaction();
         try {
             //Restore book and its favorite.
-            $book = Book::withTrashed()->find($id)->restore();
             Favorite::withTrashed()->where('deleted_at', $timeDelete)->where('favoritable_type', Favorite::TYPE_BOOK)->where('favoritable_id', $id)->restore();
 
             //Restore rating, qrcode, borrowing.
@@ -97,11 +108,12 @@ class BookController extends Controller
             Comment::withTrashed()->whereIn('post_id', $postsID)->where('deleted_at', $timeDelete)->restore();
             Favorite::withTrashed()->where('deleted_at', $timeDelete)->where('favoritable_type', Favorite::TYPE_COMMENT)->whereIn('favoritable_id', $commentsID)->restore();
             DB::commit();
+            $message = "Successfully";
+            return response()->json(['message'=> $message], Response::HTTP_OK);
         } catch (\PDOException $e) {
             DB::rollBack();
-        }
-        if ($request->ajax()) {
-            return response()->json(['book'=> $book], 200);
+            $message = "SQL Error";
+            return response()->json(['message'=> $message], Response::HTTP_OK);
         }
     }
 }
