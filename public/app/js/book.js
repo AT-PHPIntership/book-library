@@ -35,8 +35,22 @@ var book = (function(){
                 _method: 'delete',
             },
             success: function ($data) {
-                setBackGroundAndIcon($id);
-                addEventForAllButton();        
+                if($data.message == "Successfully") {
+                    setBackGroundAndIcon($id);
+                    addEventForAllButton();
+                } else {
+                    $('#reload').on('click', function () {
+                        window.location.reload();
+                    });
+                    if ($data.message == "SQL Error") {
+                        $('#error').html($notification.sql);
+                        $('#notification').modal('show');
+                    } else {
+                        $('#error').html($notification.book_not_found);
+                        $('#notification').modal('show');
+                    }
+                    addEventForAllButton();
+                }
             }
         });
     }
@@ -48,10 +62,25 @@ var book = (function(){
             headers: { 'X-CSRF-TOKEN': $token },
             url: '/api/books/' + $id + '/restore',
             data:{
+                _method: 'put',
             },
             success: function ($data) {
-                setBackGroundAndIcon($id);
-                addEventForAllButton();
+                if($data.message == "Successfully") {
+                    setBackGroundAndIcon($id);
+                    addEventForAllButton();
+                } else {
+                    $('#reload').on('click', function () {
+                        window.location.reload();
+                    });
+                    if ($data.message == "SQL Error") {
+                        $('#error').html($notification.sql);
+                        $('#notification').modal('show');
+                    } else {
+                        $('#error').html($notification.book_not_found);
+                        $('#notification').modal('show');
+                    }
+                    addEventForAllButton();
+                }
             }
         }); 
     }
