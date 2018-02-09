@@ -31,6 +31,21 @@ class AdminDeletePostTest extends DuskTestCase
     }
 
     /**
+     * Test delete post without login
+     *
+     * @return void
+     */
+    public function testDeletePostWithoutLogin()
+    {  
+        $post = Post::first();
+        
+        $this->browse(function (Browser $browser) use($post) {
+            $browser->visit('/admin/posts/' . $post->id)
+                    ->assertPathIs('/login');
+        });
+    }
+
+    /**
      * Test display confirm delete post popup
      *
      * @return void
