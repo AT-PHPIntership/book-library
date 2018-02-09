@@ -37,4 +37,9 @@ return [
         'err_upload_image' => '. Cannot upload image',
         'err_long_data'    => '. Cannot save data',
     ],
+    'import' => [
+        'title' => 'Confirm import list book',
+        'message' => 'Do you want to import this list',
+    ],
+    'dropmenu' => 'More',
 ];
