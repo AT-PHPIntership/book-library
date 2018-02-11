@@ -82,6 +82,8 @@ class Book extends Model
         'input' => [
             ['name', 'like'],
             ['author', 'like'],
+            ['year', 'like'],
+            ['description', 'like'],
         ],
     ];
 
