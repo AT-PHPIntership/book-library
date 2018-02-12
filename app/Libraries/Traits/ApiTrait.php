@@ -39,14 +39,15 @@ trait ApiTrait
      * Add meta success for $data.
      *
      * @param array $data array
+     * @param int   $code Code of success
      *
      * @return Array
      */
-    public function success($data)
+    public function success($data, $code)
     {
         $data['meta'] = [
         'status' => "Successfully",
-        'code'=> Response::HTTP_OK,
+        'code'=> $code,
 
         ];
         return $data;
