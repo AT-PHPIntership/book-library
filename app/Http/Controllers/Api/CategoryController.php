@@ -33,6 +33,6 @@ class CategoryController extends ApiController
             return response()->json($this->fail(Response::HTTP_NOT_FOUND));
         }
         $apiCategories = $this->convertPaginateApi($categories);
-        return response()->json($this->success($apiCategories));
+        return response()->json($this->success($apiCategories, Response::HTTP_OK));
     }
 }
