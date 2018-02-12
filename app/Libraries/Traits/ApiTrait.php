@@ -51,21 +51,4 @@ trait ApiTrait
         ];
         return $data;
     }
-
-    /**
-     * Return error.
-     *
-     * @param int $code Code of error
-     *
-     * @return Array
-     */
-    public function fail($code)
-    {
-        return [
-            'meta' => [
-                'status' => "Fail",
-                'code'=> $code,
-            ],
-        ];
-    }
 }
