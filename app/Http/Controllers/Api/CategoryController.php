@@ -32,7 +32,7 @@ class CategoryController extends ApiController
         if (sizeof($categories['data']) === 0) {
             return response()->json($this->fail(Response::HTTP_NOT_FOUND));
         }
-        $api_categories = $this->convertPaginateApi($categories);
-        return response()->json($this->success($api_categories));
+        $apiCategories = $this->convertPaginateApi($categories);
+        return response()->json($this->success($apiCategories));
     }
 }

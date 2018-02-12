@@ -55,6 +55,8 @@ trait ApiTrait
     /**
      * Return error.
      *
+     * @param int $code Code of error
+     *
      * @return Array
      */
     public function fail($code)
