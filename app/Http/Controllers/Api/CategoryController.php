@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Controller;
 use App\Model\Category;
 use Illuminate\Pagination\Paginator;
 use App\Model\Book;
@@ -13,7 +13,7 @@ use App\Http\Requests\CategoryUpdateRequest;
 use Illuminate\Http\Response;
 use App\Libraries\Traits\ApiTrait;
 
-class CategoryController extends ApiController
+class CategoryController extends Controller
 {
     use ApiTrait;
 
@@ -29,9 +29,6 @@ class CategoryController extends ApiController
             ->groupBy('id')
             ->paginate(config('define.page_length'))
             ->toArray();
-        if (sizeof($categories['data']) === 0) {
-            return response()->json($this->fail(Response::HTTP_NOT_FOUND));
-        }
         $apiCategories = $this->convertPaginateApi($categories);
         return response()->json($this->success($apiCategories, Response::HTTP_OK));
     }
