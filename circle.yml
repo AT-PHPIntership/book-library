@@ -31,6 +31,7 @@ general:
     - "tests/Browser/screenshots"
     - "tests/Browser/console"
     - "server.log"
+    - "storage/logs/laravel.log"
 test:
   pre:
     - npm install bower
