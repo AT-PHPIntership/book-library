@@ -11,14 +11,11 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryUpdateRequest;
 use Illuminate\Http\Response;
-use App\Libraries\Traits\ApiTrait;
 
 class CategoryController extends Controller
 {
-    use ApiTrait;
-
     /**
-     * Response api list categories, its paginate and meta.
+     * Response api list categories, its paginate and success is true.
      *
      * @return \Illuminate\Http\Response
      */
@@ -29,7 +26,7 @@ class CategoryController extends Controller
             ->groupBy('id')
             ->paginate(config('define.page_length'))
             ->toArray();
-        $apiCategories = $this->convertPaginateApi($categories);
-        return response()->json($this->success($apiCategories, Response::HTTP_OK));
+        $categories['success'] = true;
+        return response()->json($categories);
     }
 }
