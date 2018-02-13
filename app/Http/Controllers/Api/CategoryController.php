@@ -4,13 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Model\Category;
-use Illuminate\Pagination\Paginator;
-use App\Model\Book;
-use DB;
-use Exception;
-use Illuminate\Http\Request;
-use App\Http\Requests\CategoryUpdateRequest;
-use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
