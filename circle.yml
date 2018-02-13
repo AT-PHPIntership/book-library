@@ -48,6 +48,6 @@ test:
     # phpunit
     - ./vendor/bin/phpunit
     # laravel dusk
-    - php artisan dusk
+    # - php artisan dusk
     # Copy screenshots
     # - cp -R tests/Browser/screenshots $CIRCLE_ARTIFACTS/screenshots
