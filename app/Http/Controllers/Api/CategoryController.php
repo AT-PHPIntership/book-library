@@ -24,9 +24,8 @@ class CategoryController extends Controller
         $categories = Category::select('id', 'name')
             ->withCount('books')
             ->groupBy('id')
-            ->paginate(config('define.page_length'))
-            ->toArray();
-        $categories['success'] = true;
+            ->paginate(config('define.page_length'));
+        $categories = collect(['success' => true])->merge($categories);
         return response()->json($categories);
     }
 }
