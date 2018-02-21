@@ -35,6 +35,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::resource('qrcodes', 'QrcodeController', ['only' => [
         'index'
     ]]);
+    //Export CSV
+    Route::get('qrcodes/export', 'QrcodeController@exportCSV')->name('qrcodes.export');
     //Mail
     Route::post('mail/{borrowing}/send', 'SendMailController@sendMail')->name('sendMail');
 });
