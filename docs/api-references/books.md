@@ -1,10 +1,10 @@
 ## BOOK - API
 
-### `GET` List new book
+### `GET` List book
 ```
 /api/books
 ```
-Get list new books with paginate
+Get list books with paginate
 
 #### Request Headers
 | Key | Value |
