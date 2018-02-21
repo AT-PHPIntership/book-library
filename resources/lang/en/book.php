@@ -41,6 +41,7 @@ return [
         'sql' => 'SQL',
         'book_not_found' => 'This book is not found',
         'content' => 'You should reload page to continue',
+        'success' => 'Successfully',
     ],
     'import' => [
         'title' => 'Confirm import list book',
