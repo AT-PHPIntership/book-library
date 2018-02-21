@@ -37,7 +37,10 @@ class CategoryApiTest extends TestCase
                     'books_count'
                 ]
             ],
-            'success',
+            'meta' => [
+                'message',
+                'code'
+            ],
             'current_page',
             'first_page_url',
             'from',
