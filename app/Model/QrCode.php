@@ -16,6 +16,11 @@ class QrCode extends Model
     const DEFAULT_CODE_ID = 1;
 
     /**
+     * Default QR codes not print yet is 1
+     */
+    const QR_CODE_NOT_PRINTED = 1;
+
+    /**
      * QrCode prefix
      */
     const QRCODE_PREFIX = 'ATB';
@@ -86,5 +91,27 @@ class QrCode extends Model
             ];
         };
         self::lockForUpdate()->firstOrCreate($qrcodes);
+    }
+    
+    /**
+     * Filtered QR Codes are not printed
+     *
+     * @param String $query query
+     *
+     * @return mixed
+    */
+    public function scopeQRCodesNotPrinted($query)
+    {
+        return $query->where('qrcodes.status', QrCode::QR_CODE_NOT_PRINTED);
+    }
+
+    /**
+     * Merge two property prefix and code id for qrcode
+     *
+     * @return array
+     */
+    public function getQrcodeBookAttribute()
+    {
+        return $this->prefix . $this->code_id;
     }
 }
