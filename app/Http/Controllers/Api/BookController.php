@@ -9,7 +9,7 @@ use App\Http\Controllers\ApiController;
 class BookController extends ApiController
 {
 
-    public function index ()
+    public function index()
     {
         $fields = [
             'id',
@@ -22,6 +22,5 @@ class BookController extends ApiController
                     ->get();
                     
         return $this->showAll($books);
-        
     }   
 }

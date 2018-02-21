@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Traits\ApiResponser;
+use App\Libraries\Traits\ApiResponser;
 
 class ApiController extends Controller
 {
