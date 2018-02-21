@@ -2,6 +2,7 @@
 @section('title',__('books.title_book'))
 @section('content')
 <!-- Modal -->
+@include ('backend.books.partials.import-modal')
 <div id="confirmDelete" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -49,11 +50,25 @@
                     <div class="box-header">
                         <!-- add form search and select for book -->
                         <!-- start -->
-                        <form action="{{ route('books.index') }}" method="GET" id="frm-search">
                             <div class="form-row">
-                                <div class="form-group col-md-3">
-                                    <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('books.add_book') }}</a>
+                                <div class="col-md-3">
+                                    <ul id="accordion" class="accordion">
+                                      <li>
+                                        <div class="link"><i class="fa fa-book"></i>{{ __('book.dropmenu') }}<i class="fa fa-chevron-down"></i></div>
+                                        <ul class="submenu">
+                                          <li>
+                                            <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('books.add_book') }}</a>
+                                          </li>
+                                          <li>
+                                            <form id="import-form" action="" method="post" enctype="multipart/form-data">
+                                              <input type="file" name="import-data" class="form-control" id="import-book">
+                                            </form>
+                                          </li>
+                                        </ul>
+                                      </li>
+                                    </ul>
                                 </div>
+                              <form action="{{ route('books.index') }}" method="GET" id="frm-search">
                                 <div class="form-group col-md-5">
                                     <input type="text" class="form-control" id="search-book" name="search" placeholder="{{ __('general.enter_name')}}" value="{{ Request::get('search')}}">
                                 </div>
@@ -67,8 +82,8 @@
                                 <div class="form-group col-md-1">
                                     <button type="submit" class="btn btn-info form-control" id="submit"><i class="fa fa-search"></i></button>
                                 </div>
+                              </form>
                             </div>
-                        </form>
                        <!-- end -->
                     </div>
                 </div>
@@ -130,4 +145,7 @@
     </section>
   </div>
   <!-- /.content-wrapper -->
+@endsection
+@section('script')
+  <script src="{{ asset('js/excel.js')  }}"></script>
 @endsection
