@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Model\Category;
+use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
@@ -16,9 +17,15 @@ class CategoryController extends Controller
     {
         $categories = Category::select('id', 'name')
             ->withCount('books')
-            ->groupBy('id')
+            ->orderBy('id', 'desc')
             ->paginate(config('define.page_length'));
-        $categories = collect(['success' => true])->merge($categories);
+        $meta = [
+            'meta' => [
+                'message' => 'successfully',
+                'code' => Response::HTTP_OK,
+            ]
+        ];
+        $categories = collect($meta)->merge($categories);
         return response()->json($categories);
     }
 }
