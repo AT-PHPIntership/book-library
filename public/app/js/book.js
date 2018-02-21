@@ -35,20 +35,15 @@ var book = (function(){
                 _method: 'delete',
             },
             success: function ($data) {
-                if($data.message == "Successfully") {
+                if($data.message == $notification.success) {
                     setBackGroundAndIcon($id);
                     addEventForAllButton();
                 } else {
                     $('#reload').on('click', function () {
                         window.location.reload();
                     });
-                    if ($data.message == "SQL Error") {
-                        $('#error').html($notification.sql);
-                        $('#notification').modal('show');
-                    } else {
-                        $('#error').html($notification.book_not_found);
-                        $('#notification').modal('show');
-                    }
+                    $('#error').html($data.message);
+                    $('#notification').modal('show');
                     addEventForAllButton();
                 }
             }
@@ -65,20 +60,15 @@ var book = (function(){
                 _method: 'put',
             },
             success: function ($data) {
-                if($data.message == "Successfully") {
+                if($data.message == $notification.success) {
                     setBackGroundAndIcon($id);
                     addEventForAllButton();
                 } else {
                     $('#reload').on('click', function () {
                         window.location.reload();
                     });
-                    if ($data.message == "SQL Error") {
-                        $('#error').html($notification.sql);
-                        $('#notification').modal('show');
-                    } else {
-                        $('#error').html($notification.book_not_found);
-                        $('#notification').modal('show');
-                    }
+                    $('#error').html($data.message);
+                    $('#notification').modal('show');
                     addEventForAllButton();
                 }
             }
