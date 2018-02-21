@@ -32,6 +32,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::resource('posts', 'PostController');
     Route::resource('borrowings', 'BorrowingController');
     Route::resource('categories', 'CategoryController');
+    Route::resource('qrcodes', 'QrcodeController', ['only' => [
+        'index'
+    ]]);
     //Mail
     Route::post('mail/{borrowing}/send', 'SendMailController@sendMail')->name('sendMail');
 });
