@@ -8,7 +8,11 @@ use App\Http\Controllers\ApiController;
 
 class BookController extends ApiController
 {
-
+    /**
+     * Get list of books
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $fields = [
@@ -22,5 +26,5 @@ class BookController extends ApiController
                     ->get();
                     
         return $this->showAll($books);
-    }   
+    }
 }

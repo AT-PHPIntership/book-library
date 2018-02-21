@@ -10,11 +10,27 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 trait ApiResponser
 {
+    /**
+     * Success response
+     *
+     * @param Collection $data collection
+     * @param int        $code response status
+     *
+     * @return \Illuminate\Http\Response
+     */
     private function successResponse($data, $code)
     {
         return response()->json($data, $code);
     }
 
+    /**
+     * Response list data
+     *
+     * @param Collection $collection collection
+     * @param int        $code       response status
+     *
+     * @return \Illuminate\Http\Response
+     */
     protected function showAll(Collection $collection, $code = 200)
     {
         if ($collection->isEmpty()) {
@@ -26,6 +42,13 @@ trait ApiResponser
         return $this->successResponse($collection, $code);
     }
 
+    /**
+     * Pagination
+     *
+     * @param Collection $collection collection
+     *
+     * @return \Illuminate\Http\Response
+     */
     protected function paginate(Collection $collection)
     {
         $rules = [
@@ -83,5 +106,4 @@ trait ApiResponser
         ]);
         return $collection;
     }
-
 }
