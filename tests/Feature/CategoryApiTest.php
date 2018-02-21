@@ -3,10 +3,13 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Http\Response;   
+use Illuminate\Http\Response;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CategoryApiTest extends TestCase
 {
+    use DatabaseMigrations;
+    
 	/**
      * Receive status code 200 when get list categories.
      *
