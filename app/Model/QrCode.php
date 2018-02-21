@@ -63,4 +63,26 @@ class QrCode extends Model
             'code_id'=> $lastestCodeId,
         ]);
     }
+
+    /**
+     * Filtered QR Codes are not printed
+     *
+     * @param String $query query
+     *
+     * @return mixed
+    */
+    public function scopeQRCodesNotPrinted($query)
+    {
+        return $query->where('qrcodes.status', 1);
+    }
+
+    /**
+     * Merge two property prefix and code id for qrcode
+     *
+     * @return array
+     */
+    public function getQrcodeBookAttribute()
+    {
+        return $this->prefix . $this->code_id;
+    }
 }
