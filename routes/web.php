@@ -11,6 +11,14 @@
 |
 */
 
+Route::get('/api-docs', function () {
+    return view('api-docs');
+});
+
+Route::get('/api-doc-builders', function () {
+    return view('api-doc-builders.index');
+});
+
 //Login
 Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Admin\LoginController@login');
@@ -24,6 +32,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::resource('posts', 'PostController');
     Route::resource('borrowings', 'BorrowingController');
     Route::resource('categories', 'CategoryController');
+    Route::resource('qrcodes', 'QrcodeController', ['only' => [
+        'index'
+    ]]);
     //Mail
     Route::post('mail/{borrowing}/send', 'SendMailController@sendMail')->name('sendMail');
 });

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Routing\middleware;
 
 /*
@@ -17,4 +16,5 @@ use Illuminate\Routing\middleware;
 //Api
 Route::group(['namespace' => 'Api', 'middleware' => 'apiLogin'], function () {
     Route::post('login', 'LoginController@login');
+    Route::get('categories', 'CategoryController@index');
 });

@@ -57,11 +57,11 @@ class Handler extends ExceptionHandler
         if ($request->route()->getPrefix() === 'api') {
             //error 405
             if ($exception instanceof MethodNotAllowedHttpException) {
-                $code = Response::HTTP_BAD_METHOD;
+                $code = Response::HTTP_NOT_FOUND;
                 $message = config('define.messages.404_not_found');
             }
             if ($exception instanceof ModelNotFoundException) {
-                $code = Response::HTTP_BAD_REQUEST;
+                $code = Response::HTTP_BAD_METHOD;
                 $message = config('define.messages.405_method_failure');
             }
             if ($exception instanceof Exception) {
