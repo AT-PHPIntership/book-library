@@ -16,6 +16,11 @@ class QrCode extends Model
     const DEFAULT_CODE_ID = 1;
 
     /**
+     * Default QR codes not print yet is 1
+     */
+    const QR_CODE_NOT_PRINTED = 1;
+
+    /**
      * QrCode prefix
      */
     const QRCODE_PREFIX = 'ABT';
@@ -73,7 +78,7 @@ class QrCode extends Model
     */
     public function scopeQRCodesNotPrinted($query)
     {
-        return $query->where('qrcodes.status', 1);
+        return $query->where('qrcodes.status', QrCode::QR_CODE_NOT_PRINTED);
     }
 
     /**
