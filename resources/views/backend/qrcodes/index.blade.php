@@ -43,6 +43,13 @@
                     </div>
                 </div>
             </div>
+            <!-- .pagination -->
+            <div class="text-center">
+              <nav aria-label="...">
+                {{ $qrcodes->links() }}
+              </nav>
+            </div>
+            <!-- /.pagination -->
         </div>
         <div class="row">
             <div class="col-md-12">

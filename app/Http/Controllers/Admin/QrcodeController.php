@@ -23,7 +23,11 @@ class QrcodeController extends Controller
             'qrcodes.prefix',
             'qrcodes.code_id',
         ];
-        $qrcodes = QrCode::select($fields)->QRCodesNotPrinted()->join('books', 'qrcodes.book_id', 'books.id')->get();
+
+        $qrcodes = QrCode::select($fields)
+            ->QRCodesNotPrinted()
+            ->join('books', 'qrcodes.book_id', 'books.id')
+            ->paginate(config('define.page_length'));
         return view('backend.qrcodes.index', compact('qrcodes'));
     }
 
@@ -50,10 +54,8 @@ class QrcodeController extends Controller
                 });
             })->export('csv');
             ;
-          }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
-        
     }
 }
