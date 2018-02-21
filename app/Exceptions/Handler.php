@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +52,30 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $message = "";
+        $code = 0;
+        if ($request->route()->getPrefix() === 'api') {
+            //error 405
+            if ($exception instanceof MethodNotAllowedHttpException) {
+                $code = Response::HTTP_BAD_METHOD;
+                $message = config('define.messages.404_not_found');
+            }
+            if ($exception instanceof ModelNotFoundException) {
+                $code = Response::HTTP_BAD_REQUEST;
+                $message = config('define.messages.405_method_failure');
+            }
+            if ($exception instanceof Exception) {
+                $code = Response::HTTP_INTERNAL_ERROR;
+                $message = config('define.messages.500_server_error');
+            }
+            return response()->json([
+                'meta' => [
+                    'status' => 'failed',
+                    'code' => $code,
+                    'message' => $message
+                ],
+            ], $code);
+        }
         return parent::render($request, $exception);
     }
 }

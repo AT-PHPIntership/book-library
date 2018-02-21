@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Model\User;
-use GuzzleHttp\Client;
-use Illuminate\Http\Response;
-use GuzzleHttp\Exception\ServerException;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Backend\LoginRequest;
+use App\Model\User;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ServerException;
+use Illuminate\Http\Response;
 
 class LoginController extends ApiController
 {
