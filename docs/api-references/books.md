@@ -48,4 +48,59 @@ Get list books with paginate
         }
     }
 }
+
+```
+### `GET` Top books borrow
+```
+/api/books
+```
+Get top books borrow
+
+#### Request Body
+| Key | Value |
+|---|---|
+| content | Content |
+
+
+#### Response
+```json
+{
+    "meta": {
+        "status" : "successfully",
+        "code" : 200,
+    },
+    "data" : [
+        {
+            "id": 1,
+            "name": "Aida Bode II",
+            "image": "http://book.tech/storage/images/books/math.png",
+            "avg_rating": 1.0,
+        },
+        {
+            "id": 2,
+            "name": "Aida Bode II",
+            "image": "http://book.tech/storage/images/books/math.png",
+            "avg_rating": 2.0,
+        },
+        {
+            "id": 3,
+            "name": "Aida Bode II",
+            "image": "http://book.tech/storage/images/books/math.png",
+            "avg_rating": 3.0,
+        },
+    ],
+    "pagination": {
+       "total": 17,
+       "count": 17,
+       "per_page": 20,
+       "current_page": 1,
+       "total_pages": 1,
+       "first_page_url": "http://library.devp/api/books?page=1",
+       "from": 1,
+       "last_page_url": "http://library.devp/api/books?page=1",
+       "last_page": 1,
+       "next_page_url": null,
+       "path": "http://library.devp/api/books",
+    },
+}
 ```
