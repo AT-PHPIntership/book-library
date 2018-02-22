@@ -22,7 +22,7 @@ class BookController extends ApiController
      *
      * @return void
      */
-    public function index()
+    public function topBorrow()
     {
         $fields = [
             'books.name',
