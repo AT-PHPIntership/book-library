@@ -21,6 +21,11 @@ class QrCode extends Model
     const QR_CODE_NOT_PRINTED = 1;
 
     /**
+     * Default QR codes were printed is 0
+     */
+    const QR_CODE_PRINTED = 0;
+
+    /**
      * QrCode prefix
      */
     const QRCODE_PREFIX = 'ABT';
