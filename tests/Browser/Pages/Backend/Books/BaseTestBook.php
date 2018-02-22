@@ -53,7 +53,7 @@ class BaseTestBook extends DuskTestCase
      *
      * @return Book.
      */
-    public function makeBookAndItsRelationship()
+    public function makeBooksAndItsRelationship()
     {
         //Make 20 category, 20 user, 20 donator.
         $faker = Faker::create();

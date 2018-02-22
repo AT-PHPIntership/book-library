@@ -8,13 +8,6 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use DB;
 use App\Model\Book;
 use App\Model\User;
-use App\Model\Category;
-use App\Model\Donator;
-use App\Model\Borrowing;
-use App\Model\QrCode;
-use App\Model\Rating;
-use App\Model\Post;
-use App\Model\Comment;
 use App\Model\Favorite;
 use Faker\Factory as Faker;
 
@@ -32,7 +25,7 @@ class AdminDeleteBookTest extends BaseTestBook
         $userLogin = factory(User::class)->create(['role' => User::ROLE_USER]);
         $this->browse(function (Browser $browser) use ($userLogin) {
             $browser->loginAs($userLogin)
-            ->resize(1200, 900)
+            ->resize(1600, 1200)
             ->visit('/admin/users')
             ->assertPathIs('/login')
             ->assertSee('You are NOT an Administrator');
@@ -52,7 +45,7 @@ class AdminDeleteBookTest extends BaseTestBook
         $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
             $browser->loginAs($userLogin)
-            ->resize(1200, 900)
+            ->resize(1600, 1200)
             ->visit('/admin/books')
             ->assertSee('LIST OF BOOK')
             ->assertVisible('#'.$bookID)
@@ -63,18 +56,18 @@ class AdminDeleteBookTest extends BaseTestBook
     }
 
     /**
-     * When click delete button, book's relationship was soft deleted.
+     * When click delete button, book and its relationship was soft deleted.
      *
      * @return void
      */
     public function testClickDelete()
     {
-        $this->makeBookAndItsRelationship();
+        $this->makeBooksAndItsRelationship();
         $bookID = DB::table('books')->pluck('id')->get(rand(0,9));
         $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
             $browser->loginAs($userLogin)
-            ->resize(1200, 900)
+            ->resize(1600, 1200)
             ->visit('/admin/books')
             ->press('[book-id="'. $bookID. '"]')
             ->pause(3000)
@@ -144,18 +137,18 @@ class AdminDeleteBookTest extends BaseTestBook
     }
 
     /**
-     * When click restore button, book's relationship was restored.
+     * When click restore button, book and its relationship was restored.
      *
      * @return void
      */
     public function testClickRestore()
     {
-        $this->makeBookAndItsRelationship();
+        $this->makeBooksAndItsRelationship();
         $bookID = DB::table('books')->pluck('id')->get(rand(0,9));
         $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
             $browser->loginAs($userLogin)
-            ->resize(1200, 900)
+            ->resize(1600, 1200)
             ->visit('/admin/books')
             ->press('[book-id="'. $bookID. '"]')
             ->pause(3000)
@@ -168,9 +161,9 @@ class AdminDeleteBookTest extends BaseTestBook
 
         //Book and its favorites.
         $this->assertDatabaseHas('books', [
-                'id' => $bookID,
-                'deleted_at' => null,
-            ]);
+            'id' => $bookID,
+            'deleted_at' => null,
+        ]);
         $favoriteBookIds = DB::table('favorites')->where('favoritable_id', $bookID)->where('favoritable_type', Favorite::TYPE_BOOK)->pluck('id')->toArray();
         foreach ($favoriteBookIds as $favoriteBookID) {
             $this->assertDatabaseHas('favorites', [
@@ -242,16 +235,61 @@ class AdminDeleteBookTest extends BaseTestBook
      */
     public function testDisabledButtonEditOfBookWasDeleted()
     {
-        $this->makeBookAndItsRelationship();
+        $this->makeBooksAndItsRelationship();
         $bookID = DB::table('books')->pluck('id')->get(rand(0,9));
         $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
             $browser->loginAs($userLogin)
-            ->resize(1200, 900)
+            ->resize(1600, 1200)
             ->visit('/admin/books')
             ->press('[book-id="'. $bookID. '"]')
             ->pause(3000)
             ->assertVisible('.btn-edit-'. $bookID. '[disabled="disabled"]');
+        });
+    }
+
+    /**
+     * When delete book was deleted, display modal with message.
+     *
+     * @return void
+     */
+    public function testDeleteBookWasDeleted()
+    {
+        $this->makeBooksAndItsRelationship();
+        $bookID = DB::table('books')->pluck('id')->get(rand(0,9));
+        $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
+        $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
+            $browser->loginAs($userLogin)
+            ->resize(1600, 1200)
+            ->visit('/admin/books');
+            Book::findOrFail($bookID)->delete();    
+            $browser->press('[book-id="'. $bookID. '"]')
+            ->pause(3000)
+            ->assertSee('This book is not found');
+        });
+    }
+
+    /**
+     * When restore book was restored, display modal with message.
+     *
+     * @return void
+     */
+    public function testRestoreBookWasRestored()
+    {
+        $this->makeBooksAndItsRelationship();
+        $bookID = DB::table('books')->pluck('id')->get(rand(0,9));
+        $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
+        $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
+            $browser->loginAs($userLogin)
+            ->resize(1600, 1200)
+            ->visit('/admin/books')
+            ->press('[book-id="'. $bookID. '"]')
+            ->pause(3000);
+            Book::withTrashed()->findOrFail($bookID)->restore();
+            $browser->pause(3000)
+            ->press('[book-id="'. $bookID. '"]')
+            ->pause(3000)
+            ->assertSee('This book is not found');
         });
     }
 }
