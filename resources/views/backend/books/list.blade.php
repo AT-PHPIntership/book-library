@@ -1,31 +1,34 @@
 @extends('backend.layouts.main')
 @section('title',__('books.title_book'))
 @section('content')
+
+<script type="text/javascript">
+  $notification = {!! json_encode(trans('book.notification')) !!};
+</script>
+
 <!-- Modal -->
 @include ('backend.books.partials.import-modal')
-<div id="confirmDelete" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div id="notification" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body text-center">
+          <h3 id="error"></h3>
+          <p>{{ __('book.notification.content') }}</p>
+        </div>
+        <div class="modal-footer">
+          <button id="reload" type="button" class="btn btn-danger ok" data-dismiss="modal">{{ __('confirm.reload') }}</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+        </div>
       </div>
-      <div class="modal-body text-center">
-        <h3>{{ __('book.confirm.title') }}</h3>
-        <p >{{ __('book.confirm.delete') }}
-            <strong class="data-content"></strong>?
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button id="ok" type="button" class="btn btn-danger ok" data-dismiss="modal">{{ __('confirm.ok') }}</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
-      </div>
+      <!-- end content-->
+
     </div>
-    <!-- end content-->
-
   </div>
-</div>
 <!-- end modal-->
 
 <!-- Content Wrapper. Contains page content -->
@@ -100,7 +103,7 @@
             <div class="box">
               <!-- /.box-header -->
               <div class="box-body table-responsive no-padding">
-                  <table class="table table-bordered table-hover" id="table-book">
+                  <table class="table table-bordered" id="table-book">
                        @if (count($books) > 0)
                       <thead>
                           <tr>
@@ -121,9 +124,10 @@
                                 <td class="text-center">{{ $book->avg_rating }}</td>
                                 <td class="text-center">{{ $book->borrowings_count }}</td>
                                 <td align="center">
-                                    <a href="{{ route('books.edit', ['book' => $book, 'page' => $_SERVER['REQUEST_URI']]) }}"
-                                       class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                                    <i class="btn btn-danger btn-lg fa fa-trash-o" id="{{ $book->id }}" data-toggle="modal" data-target="#confirmDelete" data-name="{{ $book->name }}"></i>
+                                    <a href="{{ route('books.edit', ['book' => $book, 'page' => $_SERVER['REQUEST_URI']]) }}">
+                                      <button class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></button>
+                                    </a>
+                                    <i class="width-50 btn btn-danger btn-lg fa fa-trash-o" book-id="{{ $book->id }}"></i>
                                 </td>
                             </tr>
                         @endforeach
@@ -151,5 +155,9 @@
   <!-- /.content-wrapper -->
 @endsection
 @section('script')
+<script src="{{ asset('app/js/book.js') }}"></script>
+<script>
+  $newBook.addEventForAllButton();
+</script>
   <script src="{{ asset('js/excel.js')  }}"></script>
 @endsection

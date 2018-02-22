@@ -144,7 +144,7 @@ class DeleteCategoryTest extends DuskTestCase
             $deletedCategory->delete();
 
             $browser->press('OK')
-                    ->pause(1000)
+                    ->pause(2000)
                     ->assertSee('Category not found, please refresh page')
                     ->waitUntilMissing('#delete-category-message');
         });

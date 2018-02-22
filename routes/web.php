@@ -44,5 +44,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
 //Api
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
     Route::put('users/{id}/roles', 'UserController@updateRole')->middleware('TeamSA');
+    Route::delete('books/{id}', 'BookController@destroy')->middleware('admin');
+    Route::put('books/{id}/restore', 'BookController@restore')->middleware('admin');
     Route::delete('comments/{id}/destroy', 'CommentController@destroy');
 });
