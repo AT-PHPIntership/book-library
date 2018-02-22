@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\QrCode;
 
 class QrcodeController extends Controller
 {
@@ -14,6 +14,18 @@ class QrcodeController extends Controller
      */
     public function index()
     {
-        return view('backend.qrcodes.index');
+        $fields = [
+            'qrcodes.id',
+            'books.name',
+            'books.author',
+            'qrcodes.prefix',
+            'qrcodes.code_id',
+        ];
+
+        $qrcodes = QrCode::select($fields)
+            ->QRCodesNotPrinted()
+            ->join('books', 'qrcodes.book_id', 'books.id')
+            ->paginate(config('define.page_length'));
+        return view('backend.qrcodes.index', compact('qrcodes'));
     }
 }
