@@ -48,7 +48,7 @@ class AdminDeleteBookTest extends BaseTestBook
             ->resize(1600, 1200)
             ->visit('/admin/books')
             ->assertSee('LIST OF BOOK')
-            ->assertVisible('#'.$bookID)
+            ->assertVisible('.fa-trash-o[book-id="'. $bookID. '"]')
             ->assertVisible('.fa-trash-o')
             ->assertMissing('.bg-color-gray')
             ->assertMissing('.fa-history');
