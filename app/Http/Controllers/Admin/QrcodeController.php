@@ -38,6 +38,7 @@ class QrcodeController extends Controller
      */
     public function exportCSV()
     {
+        DB::beginTransaction();
         try {
             $fields = [
                 'qrcodes.id',
@@ -45,17 +46,24 @@ class QrcodeController extends Controller
                 'books.author',
                 DB::raw("CONCAT(qrcodes.prefix, qrcodes.code_id) AS QR_Codes")
             ];
-    
             $datas = QrCode::select($fields)->QRCodesNotPrinted()->join('books', 'qrcodes.book_id', 'books.id')->get();
-    
-            return Excel::create('QRCodes', function ($excel) use ($datas) {
+            
+            foreach ($datas as $data) {
+                $id = $data['id'];
+                QrCode::where('id', $id)
+                    ->update(['status' => QrCode::QR_CODE_PRINTED]);
+            };
+            DB::commit();
+            
+            Excel::create('QRCodes', function ($excel) use ($datas) {
+                
                 $excel->sheet('mySheet', function ($sheet) use ($datas) {
                     $sheet->fromArray($datas);
                 });
             })->export('csv');
-            ;
+            
         } catch (\Exception $e) {
-            return $e->getMessage();
+            DB::rollBack();
         }
     }
 }
