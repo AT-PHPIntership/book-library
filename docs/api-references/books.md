@@ -53,7 +53,7 @@ Get list books with paginate
 ```
 ### `GET` Top books borrow
 ```
-/api/books/borrow/top
+/api/books/top-borrow
 ```
 Get top books borrow
 
@@ -91,12 +91,12 @@ Get top books borrow
         },
     ],
     "current_page": 1,
-    "first_page_url": "http://library.devp/api/books/borrow-top?page=1",
+    "first_page_url": "http://library.devp/api/books/top-borrow?page=1",
     "from": 1,
     "last_page": 1,
-    "last_page_url": "http://library.devp/api/books/borrow-top?page=1",
+    "last_page_url": "http://library.devp/api/books/top-borrow?page=1",
     "next_page_url": null,
-    "path": "http://library.devp/api/books/borrow-top",
+    "path": "http://library.devp/api/books/top-borrow",
     "per_page": 20,
     "prev_page_url": null,
     "to": 20,
