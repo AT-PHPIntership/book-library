@@ -1,6 +1,6 @@
 ## BOOK - API
 
-### `GET` List book
+### `GET` Book
 ```
 /api/books
 ```
@@ -47,6 +47,55 @@ Get list books with paginate
             "next": "http://book.tech/api/books?page=2"
         }
     }
+}
+```
+
+**Search**
+
+```
+/api/books?seach=keyword&choose=option
+```
+Get list books correct seach with paginate
+
+#### Request Headers
+| Key | Value |
+|---|---|
+|Accept|application\json
+
+- The query has something like this:
+
+#### Response
+```json
+{
+    "meta": {
+        "status" : "successfully",
+        "code" : 200,
+    },
+    "data": [
+        {
+            "id": 1,
+            "name": "Aida Bode II",
+            "image": "http://book.tech/storage/images/books/math.png",
+            "avg_rating": 4
+        },
+        {
+            "id": 2,
+            "name": "Aida Bode II",
+            "image": "http://book.tech/storage/images/books/math.png",
+            "avg_rating": 5
+        },
+    ],
+    "current_page": 1,
+    "first_page_url": "http://library.devp/api/books?page=1&seach=Aida+Bode+II&choose=name",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http://library.devp/api/books?page=1&seach=Aida+Bode+II&choose=name",
+    "next_page_url": null,
+    "path": "http://library.devp/api/books?page=1&seach=Aida+Bode+II&choose=name",
+    "per_page": 10,
+    "prev_page_url": null,
+    "to": 10,
+    "total": 10,
 }
 ```
 
