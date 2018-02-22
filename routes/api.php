@@ -15,4 +15,5 @@ use Illuminate\Http\Request;
 
 Route::group(['namespace' => 'Api'], function () {
     Route::get('categories', 'CategoryController@index');
+    Route::get('books/top-review', 'BookController@getTopReview');
 });
