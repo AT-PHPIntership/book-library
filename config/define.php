@@ -14,6 +14,7 @@
     'messages' => [
       '404_not_found' => 'Page Not Found',
       '405_method_error' => 'Method Failure',
-      '500_server_error' => 'Server Error'
+      '500_server_error' => 'Server Error',
+      'token_not_found' => 'AccessToken Not Found'
     ]
   ];
