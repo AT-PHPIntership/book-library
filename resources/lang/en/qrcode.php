@@ -5,5 +5,6 @@ return [
     'qrcodes'       => 'QR Codes',
     'id'            => 'ID',
     'name_of_book'  => 'Name of Book',
-    'author'        => 'Author'
+    'author'        => 'Author',
+    'export'        => 'Export'
 ];
