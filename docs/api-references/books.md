@@ -37,7 +37,6 @@ Get list books with paginate
             "avg_rating": 5
         },
     ],
-    "paginate": {
         "total": 30,
         "count": 20,
         "per_page": 20,
@@ -46,13 +45,12 @@ Get list books with paginate
         "links": {
             "next": "http://book.tech/api/books?page=2"
         }
-    }
 }
 
 ```
 ### `GET` Top books borrow
 ```
-/api/books/topborrow
+/api/books/borrow/top
 ```
 Get top books borrow
 
