@@ -19,6 +19,35 @@ use Carbon\Carbon;
 class BookController extends Controller
 {
     /**
+     * Get top 10 most review
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function getTopReview()
+    {
+        $fields = [
+            'name',
+            'books.image',
+            'avg_rating',
+        ];
+        $reviewBooks = Book::select($fields)->withCount(['posts' => function($query) {
+            $query->where('type', 1);
+        }])->orderBy('posts_count', 'DESC')
+           ->limit(10)
+           ->get();
+        foreach($reviewBooks as $book) {
+            $book['image'] = request()->getHttpHost(). '/' . $book['image'];
+        }
+        return response()->json([
+            'meta' => [
+                'status' => 'successfully',
+                'code' => Response::HTTP_OK,
+            ],
+            'data' => $reviewBooks
+        ], Response::HTTP_OK);
+    }
+    
+    /**
      * Soft delete "book" and its relationship ("borrowing", "post", "qrcode", "comment"),
      * Hard delete "rating" with id of book.
      *
