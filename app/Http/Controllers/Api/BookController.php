@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\ApiController;
 use Illuminate\Http\Response;
-use App\Http\Controllers\Controller;
 use Exception;
 use DB;
 use App\Model\Book;
@@ -16,8 +15,27 @@ use App\Model\Comment;
 use App\Model\Favorite;
 use Carbon\Carbon;
 
-class BookController extends Controller
+class BookController extends ApiController
 {
+    /**
+     * Get top borrow books,
+     *
+     * @return void
+     */
+    public function index()
+    {
+        $fields = [
+            'books.name',
+            DB::raw('COUNT(borrowings.book_id) AS total_borrowed'),
+        ];
+        $topBorrowed = Borrowing::select($fields)
+            ->join('books', 'books.id', '=', 'borrowings.book_id')
+            ->groupBy('books.id')
+            ->orderBy('total_borrowed', 'desc')
+            ->get();
+        return $this->showAll($topBorrowed);
+    }
+
     /**
      * Soft delete "book" and its relationship ("borrowing", "post", "qrcode", "comment"),
      * Hard delete "rating" with id of book.
