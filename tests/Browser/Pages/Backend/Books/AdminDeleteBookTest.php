@@ -25,10 +25,10 @@ class AdminDeleteBookTest extends BaseTestBook
         $userLogin = factory(User::class)->create(['role' => User::ROLE_USER]);
         $this->browse(function (Browser $browser) use ($userLogin) {
             $browser->loginAs($userLogin)
-            ->resize(1600, 1200)
-            ->visit('/admin/users')
-            ->assertPathIs('/login')
-            ->assertSee('You are NOT an Administrator');
+                ->resize(1600, 1200)
+                ->visit('/admin/users')
+                ->assertPathIs('/login')
+                ->assertSee('You are NOT an Administrator');
         });
     }
 
@@ -45,13 +45,13 @@ class AdminDeleteBookTest extends BaseTestBook
         $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
             $browser->loginAs($userLogin)
-            ->resize(1600, 1200)
-            ->visit('/admin/books')
-            ->assertSee('LIST OF BOOK')
-            ->assertVisible('.fa-trash-o[book-id="'. $bookID. '"]')
-            ->assertVisible('.fa-trash-o')
-            ->assertMissing('.bg-color-gray')
-            ->assertMissing('.fa-history');
+                ->resize(1600, 1200)
+                ->visit('/admin/books')
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa-trash-o[book-id="'. $bookID. '"]')
+                ->assertVisible('.fa-trash-o')
+                ->assertMissing('.bg-color-gray')
+                ->assertMissing('.fa-history');
         });
     }
 
@@ -67,13 +67,13 @@ class AdminDeleteBookTest extends BaseTestBook
         $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
             $browser->loginAs($userLogin)
-            ->resize(1600, 1200)
-            ->visit('/admin/books')
-            ->press('[book-id="'. $bookID. '"]')
-            ->pause(3000)
-            ->assertMissing('.fa-trash-o[book-id="'. $bookID. '"]')
-            ->assertVisible('.fa-history[book-id="'. $bookID. '"]')
-            ->assertVisible('.bg-color-gray');
+                ->resize(1600, 1200)
+                ->visit('/admin/books')
+                ->press('[book-id="'. $bookID. '"]')
+                ->pause(3000)
+                ->assertMissing('.fa-trash-o[book-id="'. $bookID. '"]')
+                ->assertVisible('.fa-history[book-id="'. $bookID. '"]')
+                ->assertVisible('.bg-color-gray');
         });
 
         //Book and its favorites.
@@ -148,15 +148,15 @@ class AdminDeleteBookTest extends BaseTestBook
         $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
             $browser->loginAs($userLogin)
-            ->resize(1600, 1200)
-            ->visit('/admin/books')
-            ->press('[book-id="'. $bookID. '"]')
-            ->pause(3000)
-            ->press('[book-id="'. $bookID. '"]')
-            ->pause(3000)
-            ->assertVisible('.fa-trash-o[book-id="'. $bookID. '"]')
-            ->assertMissing('.bg-color-gray')
-            ->assertMissing('.fa-history');
+                ->resize(1600, 1200)
+                ->visit('/admin/books')
+                ->press('[book-id="'. $bookID. '"]')
+                ->pause(3000)
+                ->press('[book-id="'. $bookID. '"]')
+                ->pause(3000)
+                ->assertVisible('.fa-trash-o[book-id="'. $bookID. '"]')
+                ->assertMissing('.bg-color-gray')
+                ->assertMissing('.fa-history');
         });
 
         //Book and its favorites.
@@ -240,11 +240,11 @@ class AdminDeleteBookTest extends BaseTestBook
         $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
             $browser->loginAs($userLogin)
-            ->resize(1600, 1200)
-            ->visit('/admin/books')
-            ->press('[book-id="'. $bookID. '"]')
-            ->pause(3000)
-            ->assertVisible('.btn-edit-'. $bookID. '[disabled="disabled"]');
+                ->resize(1600, 1200)
+                ->visit('/admin/books')
+                ->press('[book-id="'. $bookID. '"]')
+                ->pause(3000)
+                ->assertVisible('.btn-edit-'. $bookID. '[disabled="disabled"]');
         });
     }
 
@@ -260,12 +260,12 @@ class AdminDeleteBookTest extends BaseTestBook
         $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
             $browser->loginAs($userLogin)
-            ->resize(1600, 1200)
-            ->visit('/admin/books');
+                ->resize(1600, 1200)
+                ->visit('/admin/books');
             Book::findOrFail($bookID)->delete();    
             $browser->press('[book-id="'. $bookID. '"]')
-            ->pause(3000)
-            ->assertSee('This book is not found');
+                ->pause(3000)
+                ->assertSee('This book is not found');
         });
     }
 
@@ -281,15 +281,15 @@ class AdminDeleteBookTest extends BaseTestBook
         $userLogin = factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin, $bookID) {
             $browser->loginAs($userLogin)
-            ->resize(1600, 1200)
-            ->visit('/admin/books')
-            ->press('[book-id="'. $bookID. '"]')
-            ->pause(3000);
+                ->resize(1600, 1200)
+                ->visit('/admin/books')
+                ->press('[book-id="'. $bookID. '"]')
+                ->pause(3000);
             Book::withTrashed()->findOrFail($bookID)->restore();
             $browser->pause(3000)
-            ->press('[book-id="'. $bookID. '"]')
-            ->pause(3000)
-            ->assertSee('This book is not found');
+                ->press('[book-id="'. $bookID. '"]')
+                ->pause(3000)
+                ->assertSee('This book is not found');
         });
     }
 }
