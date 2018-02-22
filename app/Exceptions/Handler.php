@@ -54,27 +54,29 @@ class Handler extends ExceptionHandler
     {
         $message = "";
         $code = 0;
-        if ($request->route()->getPrefix() === 'api') {
-            //error 405
-            if ($exception instanceof MethodNotAllowedHttpException) {
-                $code = Response::HTTP_NOT_FOUND;
-                $message = config('define.messages.404_not_found');
+        if ($request->route() != null) {
+            if ($request->route()->getPrefix() === 'api') {
+                //error 405
+                if ($exception instanceof MethodNotAllowedHttpException) {
+                    $code = Response::HTTP_BAD_METHOD;
+                    $message = config('define.messages.405_method_failure');
+                }
+                if ($exception instanceof ModelNotFoundException) {
+                    $code = Response::HTTP_NOT_FOUND;
+                    $message = config('define.messages.404_not_found');
+                }
+                if ($exception instanceof Exception) {
+                    $code = Response::HTTP_INTERNAL_ERROR;
+                    $message = config('define.messages.500_server_error');
+                }
+                return response()->json([
+                    'meta' => [
+                        'status' => 'failed',
+                        'code' => $code,
+                        'message' => $message
+                    ],
+                ], $code);
             }
-            if ($exception instanceof ModelNotFoundException) {
-                $code = Response::HTTP_BAD_METHOD;
-                $message = config('define.messages.405_method_failure');
-            }
-            if ($exception instanceof Exception) {
-                $code = Response::HTTP_INTERNAL_ERROR;
-                $message = config('define.messages.500_server_error');
-            }
-            return response()->json([
-                'meta' => [
-                    'status' => 'failed',
-                    'code' => $code,
-                    'message' => $message
-                ],
-            ], $code);
         }
         return parent::render($request, $exception);
     }
