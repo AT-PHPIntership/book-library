@@ -15,6 +15,7 @@
     </section>
 
     <section class="content">
+        @include('flash::message')
         <!-- /.row -->
         <div class="row">
             <div class="col-md-12">

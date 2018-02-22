@@ -6,5 +6,9 @@ return [
     'id'            => 'ID',
     'name_of_book'  => 'Name of Book',
     'author'        => 'Author',
-    'export'        => 'Export'
+    'export'        => 'Export',
+    'message' => [
+        'success'   => 'Export Successfully',
+        'fail'      => 'Export failed - Data is empty'
+    ],
 ];
