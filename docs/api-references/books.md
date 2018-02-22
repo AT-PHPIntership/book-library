@@ -20,7 +20,7 @@ Get list books with paginate
 ```json
 {
     "meta": {
-        "status" : "success",
+        "message" : "successfully",
         "code" : 200,
     },
     "data": [
@@ -52,7 +52,7 @@ Get list books with paginate
 ```
 ### `GET` Top books borrow
 ```
-/api/books
+/api/books/topborrow
 ```
 Get top books borrow
 
@@ -66,7 +66,7 @@ Get top books borrow
 ```json
 {
     "meta": {
-        "status" : "successfully",
+        "message" : "successfully",
         "code" : 200,
     },
     "data" : [
@@ -89,18 +89,47 @@ Get top books borrow
             "avg_rating": 3.0,
         },
     ],
-    "pagination": {
-       "total": 17,
-       "count": 17,
-       "per_page": 20,
-       "current_page": 1,
-       "total_pages": 1,
-       "first_page_url": "http://library.devp/api/books?page=1",
-       "from": 1,
-       "last_page_url": "http://library.devp/api/books?page=1",
-       "last_page": 1,
-       "next_page_url": null,
-       "path": "http://library.devp/api/books",
+    "current_page": 1,
+    "first_page_url": "http://library.devp/api/books/topborrow?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http://library.devp/api/books/topborrow?page=1",
+    "next_page_url": null,
+    "path": "http://library.devp/api/books/topborrow",
+    "per_page": 20,
+    "prev_page_url": null,
+    "to": 20,
+    "total": 20,
+}
+```
+
+### `GET` Book Detail
+```
+/api/books/{id}
+```
+Get the book's information
+#### Request Headers
+| Key | Value |
+|---|---|
+|Accept|application\json
+#### Response
+```json
+{
+    "meta": {
+        "message" : "successfully",
+        "code" : 200,
     },
+    "data": [
+        {
+            "name": "HTML & CSS",
+            "author": "NagaSiro",
+            "year": 2015,
+            "page number": 275,
+            "price": 200,
+            "image": "http://library.at/books/images/image.png",
+            "description": "Good or bad",
+            "review_score": 4
+        }
+    ]
 }
 ```
