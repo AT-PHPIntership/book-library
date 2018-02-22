@@ -20,7 +20,7 @@ Get list books with paginate
 ```json
 {
     "meta": {
-        "message" : "success",
+        "status" : "successfully",
         "code" : 200,
     },
     "data": [
@@ -50,21 +50,53 @@ Get list books with paginate
 }
 ```
 
+### `GET` Book Detail
+```
+/api/books/{id}
+```
+Get the book's information
+#### Request Headers
+| Key | Value |
+|---|---|
+|Accept|application\json
+#### Response
+```json
+{
+    "meta": {
+        "status" : "successfully",
+        "code" : 200,
+    },
+    "data": [
+        {
+            "name": "HTML & CSS",
+            "author": "NagaSiro",
+            "year": 2015,
+            "page number": 275,
+            "price": 200,
+            "image": "http://library.at/books/images/image.png",
+            "description": "Good or bad",
+            "review_score": 4
+        }
+    ]
+}
+```
+
 ### `GET` Top 10 book review
 ```
-/api/books/topReview
+/api/books/top-review
 ```
 Get top 10 book review
 #### Request Headers
 | Key | Value |
 |---|---|
-|Accept|application\json
+|Accept|application\json|
+|Content-Type|application\json|
 
 ### Response
 ```json
 {
     "meta": {
-        "message": "successfully",
+        "status": "successfully",
         "code": 200
     },
     "data": [
