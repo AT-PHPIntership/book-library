@@ -30,17 +30,26 @@
                                 <tr>
                             </thead>
                             <tbody>
+                                @foreach ($qrcodes as $qrcode)
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{ $qrcode->id }}</td>
+                                    <td>{{ $qrcode->name }}</td>
+                                    <td>{{ $qrcode->author }}</td>
+                                    <td>{{ $qrcode->QrcodeBook }}</td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+            <!-- .pagination -->
+            <div class="text-center">
+              <nav aria-label="...">
+                {{ $qrcodes->links() }}
+              </nav>
+            </div>
+            <!-- /.pagination -->
         </div>
     </section>
 </div>
