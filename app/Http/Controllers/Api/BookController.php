@@ -24,6 +24,7 @@ class BookController extends Controller
      * @var Book
      */
     protected $book;
+
     /**
      * Create a new controller instance.
      *
@@ -35,6 +36,7 @@ class BookController extends Controller
     {
         $this->book = $book;
     }
+
     /**
      * Display the specified resource.
      *
@@ -59,7 +61,7 @@ class BookController extends Controller
         return response()->json([
             "meta" => [
                 "status" => "successfully",
-                "code" => 200
+                "code" => Response::HTTP_OK
             ],
             "data" => $books
             ], Response::HTTP_OK);
