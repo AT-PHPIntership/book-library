@@ -31,6 +31,7 @@ general:
     - "tests/Browser/screenshots"
     - "tests/Browser/console"
     - "server.log"
+    - "storage/logs/laravel.log"
 test:
   pre:
     - npm install bower
@@ -45,7 +46,7 @@ test:
     # phpmd
     - ./vendor/bin/phpmd app text phpmd.xml
     # phpunit
-    - ./vendor/bin/phpunit
+    - ./vendor/bin/phpunit --configuration phpunit.circleci.xml
     # laravel dusk
     - php artisan dusk
     # Copy screenshots

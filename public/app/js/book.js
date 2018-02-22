@@ -35,8 +35,17 @@ var book = (function(){
                 _method: 'delete',
             },
             success: function ($data) {
-                setBackGroundAndIcon($id);
-                addEventForAllButton();        
+                if($data.message == $notification.success) {
+                    setBackGroundAndIcon($id);
+                    addEventForAllButton();
+                } else {
+                    $('#reload').on('click', function () {
+                        window.location.reload();
+                    });
+                    $('#error').html($data.message);
+                    $('#notification').modal('show');
+                    addEventForAllButton();
+                }
             }
         });
     }
@@ -48,10 +57,20 @@ var book = (function(){
             headers: { 'X-CSRF-TOKEN': $token },
             url: '/api/books/' + $id + '/restore',
             data:{
+                _method: 'put',
             },
             success: function ($data) {
-                setBackGroundAndIcon($id);
-                addEventForAllButton();
+                if($data.message == $notification.success) {
+                    setBackGroundAndIcon($id);
+                    addEventForAllButton();
+                } else {
+                    $('#reload').on('click', function () {
+                        window.location.reload();
+                    });
+                    $('#error').html($data.message);
+                    $('#notification').modal('show');
+                    addEventForAllButton();
+                }
             }
         }); 
     }

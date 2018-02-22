@@ -2,6 +2,35 @@
 @section('title',__('books.title_book'))
 @section('content')
 
+<script type="text/javascript">
+  $notification = {!! json_encode(trans('book.notification')) !!};
+</script>
+
+<!-- Modal -->
+@include ('backend.books.partials.import-modal')
+  <div id="notification" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body text-center">
+          <h3 id="error"></h3>
+          <p>{{ __('book.notification.content') }}</p>
+        </div>
+        <div class="modal-footer">
+          <button id="reload" type="button" class="btn btn-danger ok" data-dismiss="modal">{{ __('confirm.reload') }}</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+        </div>
+      </div>
+      <!-- end content-->
+
+    </div>
+  </div>
+<!-- end modal-->
+
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- show message response -->
@@ -24,11 +53,25 @@
                     <div class="box-header">
                         <!-- add form search and select for book -->
                         <!-- start -->
-                        <form action="{{ route('books.index') }}" method="GET" id="frm-search">
                             <div class="form-row">
-                                <div class="form-group col-md-3">
-                                    <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('books.add_book') }}</a>
+                                <div class="col-md-3">
+                                    <ul id="accordion" class="accordion">
+                                      <li>
+                                        <div class="link"><i class="fa fa-book"></i>{{ __('book.dropmenu') }}<i class="fa fa-chevron-down"></i></div>
+                                        <ul class="submenu">
+                                          <li>
+                                            <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('books.add_book') }}</a>
+                                          </li>
+                                          <li>
+                                            <form id="import-form" action="" method="post" enctype="multipart/form-data">
+                                              <input type="file" name="import-data" class="form-control" id="import-book">
+                                            </form>
+                                          </li>
+                                        </ul>
+                                      </li>
+                                    </ul>
                                 </div>
+                              <form action="{{ route('books.index') }}" method="GET" id="frm-search">
                                 <div class="form-group col-md-5">
                                     <input type="text" class="form-control" id="search-book" name="search" placeholder="{{ __('general.enter_name')}}" value="{{ Request::get('search')}}">
                                 </div>
@@ -42,8 +85,8 @@
                                 <div class="form-group col-md-1">
                                     <button type="submit" class="btn btn-info form-control" id="submit"><i class="fa fa-search"></i></button>
                                 </div>
+                              </form>
                             </div>
-                        </form>
                        <!-- end -->
                     </div>
                 </div>
@@ -112,4 +155,5 @@
 <script>
   $newBook.addEventForAllButton();
 </script>
+  <script src="{{ asset('js/excel.js')  }}"></script>
 @endsection
