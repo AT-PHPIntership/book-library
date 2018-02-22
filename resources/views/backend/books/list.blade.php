@@ -8,28 +8,28 @@
 
 <!-- Modal -->
 @include ('backend.books.partials.import-modal')
- <div id="notification" class="modal fade" role="dialog">
-   <div class="modal-dialog">
+  <div id="notification" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
-     <!-- Modal content-->
-     <div class="modal-content">
-       <div class="modal-header">
-         <button type="button" class="close" data-dismiss="modal">&times;</button>
-       </div>
-       <div class="modal-body text-center">
-         <h3 id="error"></h3>
-         <p>{{ __('book.notification.content') }}</p>
-       </div>
-       <div class="modal-footer">
-         <button id="reload" type="button" class="btn btn-danger ok" data-dismiss="modal">{{ __('confirm.reload') }}</button>
-         <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
-       </div>
-     </div>
-     <!-- end content-->
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body text-center">
+          <h3 id="error"></h3>
+          <p>{{ __('book.notification.content') }}</p>
+        </div>
+        <div class="modal-footer">
+          <button id="reload" type="button" class="btn btn-danger ok" data-dismiss="modal">{{ __('confirm.reload') }}</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+        </div>
+      </div>
+      <!-- end content-->
 
-   </div>
- </div>
- <!-- end modal-->
+    </div>
+  </div>
+<!-- end modal-->
 
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
