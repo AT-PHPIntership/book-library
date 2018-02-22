@@ -49,9 +49,13 @@ class BookController extends Controller
         ];
 
         $books = $this->book->select($fields)->findOrFail($id);
+        
         return response()->json([
-            'books' => $books,
-            'success' => true
-        ], Response::HTTP_OK);
+            "meta" => [
+                "status" => "successfully",
+                "code" => 200
+            ],
+            "data" => $books
+            ], Response::HTTP_OK);
     }
 }
