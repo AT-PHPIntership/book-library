@@ -94,7 +94,6 @@ class Handler extends ExceptionHandler
     {
         return response()->json([
                     'meta' => [
-                        'status' => 'failed',
                         'code' => $code,
                         'message' => $message
                     ],
