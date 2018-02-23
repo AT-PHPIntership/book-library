@@ -101,7 +101,7 @@ if (!function_exists('canSendMail')) {
 if (!function_exists('metaResponse')) {
 
     /**
-     * Active menu side bar when routes menu are current route
+     * Add meta response
      *
      * @param Object $data    return data
      * @param int    $code    status of http response
