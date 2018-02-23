@@ -141,4 +141,29 @@ class BookController extends Controller
             return response()->json(['message'=> $message], Response::HTTP_OK);
         }
     }
+    /**
+     * Get api list books, meta and paginate
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $fields = [
+            'id',
+            'name',
+            'image',
+            'avg_rating'
+        ];
+        $books = Book::select($fields)
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(config('define.book.item_limit'));
+        $meta = [
+            'meta' => [
+                'message' => 'successfully',
+                'code' => Response::HTTP_OK,
+            ]
+        ];
+        $books = collect($meta)->merge($books);
+        return response()->json($books);
+    }
 }
