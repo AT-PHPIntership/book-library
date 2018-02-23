@@ -113,7 +113,7 @@ class BookController extends Controller
         }
     }
     /**
-     * Response api list books, its paginate and success is true.
+     * Response api list books, meta and paginate
      *
      * @return \Illuminate\Http\Response
      */
