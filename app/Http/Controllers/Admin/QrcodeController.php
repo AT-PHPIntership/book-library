@@ -48,20 +48,23 @@ class QrcodeController extends Controller
             ];
             $datas = QrCode::select($fields)->QRCodesNotPrinted()->join('books', 'qrcodes.book_id', 'books.id')->get();
             
-            foreach ($datas as $data) {
-                $id = $data['id'];
-                QrCode::where('id', $id)
-                    ->update(['status' => QrCode::QR_CODE_PRINTED]);
-            };
-            DB::commit();
-            
-            Excel::create('QRCodes', function ($excel) use ($datas) {
+            if ($datas->isNotEmpty()) {
+                foreach ($datas as $data) {
+                    $id = $data['id'];
+                    QrCode::where('id', $id)
+                        ->update(['status' => QrCode::QR_CODE_PRINTED]);
+                };
+                DB::commit();
                 
-                $excel->sheet('mySheet', function ($sheet) use ($datas) {
-                    $sheet->fromArray($datas);
-                });
-            })->export('csv');
-            
+                Excel::create('QRCodes', function ($excel) use ($datas) {
+                    $excel->sheet('mySheet', function ($sheet) use ($datas) {
+                        $sheet->fromArray($datas);
+                    });
+                })->export('csv');
+            } else {
+                flash(__('qrcode.message.fail'))->error();
+                return redirect()->route('qrcodes.index');
+            }
         } catch (\Exception $e) {
             DB::rollBack();
         }
