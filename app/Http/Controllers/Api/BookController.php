@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Exception;
 use DB;
 use App\Model\Book;
@@ -14,33 +13,22 @@ use App\Model\Rating;
 use App\Model\Comment;
 use App\Model\Favorite;
 use Carbon\Carbon;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
     /**
-     * Get top borrow books,
+     * Get top borrow books with paginate and meta.
      *
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function topBorrow()
     {
-        $fields = [
-            'books.name',
-            DB::raw('COUNT(borrowings.book_id) AS total_borrowed'),
-        ];
-        $topBorrowed = Borrowing::select($fields)
-            ->join('books', 'books.id', '=', 'borrowings.book_id')
-            ->groupBy('books.id')
-            ->orderBy('total_borrowed', 'desc')
+        $topBorrowed = Book::select(['name'])
+            ->withCount('borrowings')
+            ->orderBy('borrowings_count', 'desc')
             ->paginate(config('define.page_length'));
-        $meta = [
-            'meta' => [
-                'message' => 'successfully',
-                'code' => Response::HTTP_OK,
-            ]
-        ];
-        $topBorrowed = collect($meta)->merge($topBorrowed);
-        return response()->json($topBorrowed);
+        return metaResponse($topBorrowed, Response::HTTP_OK);
     }
 
     /**
