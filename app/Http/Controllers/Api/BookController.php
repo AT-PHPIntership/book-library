@@ -126,7 +126,11 @@ class BookController extends Controller
             'image',
             'avg_rating'
         ];
-        $books = Book::select($fields)->where('name', 'like', "%$request->search%")->orWhere('author', 'like', "%$request->search%")->paginate(config('define.book.item_limit'));
+        $books = Book::select($fields)
+            ->where('name', 'like', "%$request->search%")
+            ->orWhere('author', 'like', "%$request->search%")
+            ->orderby('id', 'desc')
+            ->paginate(config('define.book.item_limit'));
         $meta = [
             'meta' => [
                 'message' => null,
