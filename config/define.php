@@ -11,4 +11,5 @@
     'all' => 'all',
     'date_diff' => 3,
     'timezone' => 7,
+    'item_limit' => 20,
   ];
