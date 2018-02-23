@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Exception;
 use DB;
@@ -15,9 +13,24 @@ use App\Model\Rating;
 use App\Model\Comment;
 use App\Model\Favorite;
 use Carbon\Carbon;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
+    /**
+     * Get top borrow books with paginate and meta.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function topBorrow()
+    {
+        $topBorrowed = Book::select(['name'])
+            ->withCount('borrowings')
+            ->orderBy('borrowings_count', 'desc')
+            ->paginate(config('define.page_length'));
+        return metaResponse($topBorrowed, Response::HTTP_OK);
+    }
+
     /**
      * Soft delete "book" and its relationship ("borrowing", "post", "qrcode", "comment"),
      * Hard delete "rating" with id of book.
