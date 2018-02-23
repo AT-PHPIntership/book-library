@@ -11,9 +11,12 @@ use DB;
 use App\Model\Donator;
 use App\Model\Category;
 use App\Model\User;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class Top10BookReviewTest extends TestCase
 {
+    use DatabaseMigrations;
+
     public function setUp()
     {
         parent::setUp();
