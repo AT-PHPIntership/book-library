@@ -20,7 +20,7 @@ Get list books with paginate
 ```json
 {
     "meta": {
-        "message" : "successfully",
+        "message" : null,
         "code" : 200,
     },
     "data": [
@@ -68,7 +68,7 @@ Get top books borrow
 ```json
 {
     "meta": {
-        "message" : "successfully",
+        "message" : null,
         "code" : 200,
     },
     "data" : [
@@ -148,7 +148,7 @@ Get top books borrow
         "to": 1,
         "total": 2,
         "meta": {
-            "message": "successfully",
+            "message": null,
             "code": 200
         }
     }
@@ -167,7 +167,7 @@ Get the book's information
 ```json
 {
     "meta": {
-        "message" : "successfully",
+        "message" : null,
         "code" : 200,
     },
     "data": [
@@ -200,7 +200,7 @@ Get top 10 book review
 ```json
 {
     "meta": {
-        "message": "successfully",
+        "message": null,
         "code": 200
     },
     "data": [
