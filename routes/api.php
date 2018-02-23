@@ -14,9 +14,11 @@ use Illuminate\Routing\middleware;
 */
 
 //Api
-Route::group(['namespace' => 'Api', 'middleware' => 'apiLogin'], function () {
-	Route::group(['middleware' => 'apiLogin'], function () {
-    	Route::post('login', 'LoginController@login');
-    };
+Route::group(['namespace' => 'Api'], function () {
+    Route::post('login', 'LoginController@login');    
+    Route::group(['middleware' => 'apiLogin'], function () {
+        //
+    });
     Route::get('categories', 'CategoryController@index');
+    Route::get('books', 'BookController@index');
 });

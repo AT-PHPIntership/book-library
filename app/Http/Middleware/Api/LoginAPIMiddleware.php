@@ -24,13 +24,26 @@ class LoginAPIMiddleware
         if ($accessToken != null) {
             $user = User::where('access_token', '=', $accessToken)
                         ->firstOrFail();
-            if (isset($user) && Carbon::parse($user->expired_at)->diffInSeconds(Carbon::now()) > 0) {
+                        // dd(canSendMail($user->expired_at));
+                        if (isset($user) && canSendMail($user->expired_at) == true) {
                 Auth::login($user);
                 return $next($request);
+            } else {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'failure',
+                        'code' => 440,
+                        'message' => config('define.messages.440_login_timeout')
+                    ]
+                ]);
             }
-            throw new Exception(config('define.messages.440_login_timeout'), 440);
         }
-
-        throw new Exception(config('define.messages.token_not_found'), Response::HTTP_NOT_FOUND);
+        return response()->json([
+            'meta' => [
+                'status' => 'failure',
+                'code' => Response::HTTP_NOT_FOUND,
+                'message' => config('define.messages.token_not_found')
+            ]
+        ]);
     }
 }
