@@ -103,9 +103,9 @@ if (!function_exists('metaResponse')) {
     /**
      * Active menu side bar when routes menu are current route
      *
-     * @param Object $data return data
-     * @param int $code status of http response
-     * @param text $message message for request  if success or not
+     * @param Object $data    return data
+     * @param int    $code    status of http response
+     * @param text   $message message for request  if success or not
      *
      * @return \Illuminate\Http\Response
      */
