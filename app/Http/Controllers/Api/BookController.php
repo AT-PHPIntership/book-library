@@ -129,7 +129,7 @@ class BookController extends Controller
         $books = Book::select($fields)
             ->where('name', 'like', "%$request->search%")
             ->orWhere('author', 'like', "%$request->search%")
-            ->orderby('id', 'desc')
+            ->orderBy('created_at', 'desc')
             ->paginate(config('define.book.item_limit'));
         $meta = [
             'meta' => [
