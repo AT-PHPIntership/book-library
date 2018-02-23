@@ -113,7 +113,7 @@ class BookController extends Controller
         }
     }
     /**
-     * Response api list books, meta and paginate
+     * Get api list books, meta and paginate
      *
      * @return \Illuminate\Http\Response
      */
@@ -127,7 +127,7 @@ class BookController extends Controller
         ];
         $books = Book::select($fields)
                     ->orderBy('created_at', 'DESC')
-                    ->paginate(config('define.item_limit'));
+                    ->paginate(config('define.book.item_limit'));
         $meta = [
             'meta' => [
                 'message' => 'successfully',
