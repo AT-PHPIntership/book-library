@@ -128,6 +128,8 @@ class BookController extends Controller
     /**
      * Get api list books, meta and paginate
      *
+     * @param Request $request request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
