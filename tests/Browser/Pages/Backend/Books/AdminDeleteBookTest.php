@@ -16,6 +16,20 @@ class AdminDeleteBookTest extends BaseTestBook
     use DatabaseMigrations;
 
     /**
+     * When go to list books without login, move to '/login'.
+     *
+     * @return void
+     */
+    public function testDeleteBookWithoutLogin()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->resize(1600, 1200)
+                ->visit('/admin/books')
+                ->assertPathIs('/login');
+        });
+    }
+
+    /**
      * If role of user was logining is "User", move to "/login" with message.
      *
      * @return void
@@ -26,7 +40,7 @@ class AdminDeleteBookTest extends BaseTestBook
         $this->browse(function (Browser $browser) use ($userLogin) {
             $browser->loginAs($userLogin)
                 ->resize(1600, 1200)
-                ->visit('/admin/users')
+                ->visit('/admin/books')
                 ->assertPathIs('/login')
                 ->assertSee('You are NOT an Administrator');
         });
@@ -262,7 +276,8 @@ class AdminDeleteBookTest extends BaseTestBook
             $browser->loginAs($userLogin)
                 ->resize(1600, 1200)
                 ->visit('/admin/books');
-            Book::findOrFail($bookID)->delete();    
+        $this->withoutMiddleware();
+        $this->call('DELETE', '/api/books/'. $bookID);
             $browser->press('[book-id="'. $bookID. '"]')
                 ->pause(3000)
                 ->assertSee('This book is not found');
@@ -285,11 +300,139 @@ class AdminDeleteBookTest extends BaseTestBook
                 ->visit('/admin/books')
                 ->press('[book-id="'. $bookID. '"]')
                 ->pause(3000);
-            Book::withTrashed()->findOrFail($bookID)->restore();
-            $browser->pause(3000)
-                ->press('[book-id="'. $bookID. '"]')
+        $this->withoutMiddleware();
+        $this->call('PUT', '/api/books/'. $bookID. '/restore');
+            $browser->press('[book-id="'. $bookID. '"]')
                 ->pause(3000)
                 ->assertSee('This book is not found');
         });
+    }
+
+    /**
+     * When delete books with GET method, book not deleted.
+     *
+     * @return void
+     */
+    public function testDeleteBookWithGetMethod() {
+        $this->makeListOfBook(1);
+        $bookID = DB::table('books')->pluck('id')->first();
+        $this->withoutMiddleware();
+        $this->call('GET', '/api/books/'. $bookID);
+        $this->assertDatabaseHas('books', [
+            'id' => $bookID,
+            'deleted_at' => null
+        ]);
+    }
+
+    /**
+     * When delete books with POST method, book not deleted.
+     *
+     * @return void
+     */
+    public function testDeleteBookWithPostMethod() {
+        $this->makeListOfBook(1);
+        $bookID = DB::table('books')->pluck('id')->first();
+        $this->withoutMiddleware();
+        $this->call('POST', '/api/books/'. $bookID);
+        $this->assertDatabaseHas('books', [
+            'id' => $bookID,
+            'deleted_at' => null
+        ]);
+    }
+
+    /**
+     * When delete books with PUT method, book not deleted.
+     *
+     * @return void
+     */
+    public function testDeleteBookWithPutMethod() {
+        $this->makeListOfBook(1);
+        $bookID = DB::table('books')->pluck('id')->first();
+        $this->withoutMiddleware();
+        $this->call('PUT', '/api/books/'. $bookID);
+        $this->assertDatabaseHas('books', [
+            'id' => $bookID,
+            'deleted_at' => null
+        ]);
+    }
+
+    /**
+     * When delete books with DELETE method, book was deleted.
+     *
+     * @return void
+     */
+    public function testDeleteBookWithDeleteMethod() {
+        $this->makeListOfBook(1);
+        $bookID = DB::table('books')->pluck('id')->first();
+        $this->withoutMiddleware();
+        $this->call('DELETE', '/api/books/'. $bookID);
+        $this->assertSoftDeleted('books', [
+            'id' => $bookID,
+        ]);
+    }
+
+    /**
+     * When restore books with GET method, book not restored.
+     *
+     * @return void
+     */
+    public function testRestoreBookWithGetMethod() {
+        $this->makeListOfBook(1);
+        $bookID = DB::table('books')->pluck('id')->first();
+        $this->withoutMiddleware();
+        $this->call('DELETE', '/api/books/'. $bookID);
+        $this->call('GET', '/api/books/'. $bookID. '/restore');
+        $this->assertSoftDeleted('books', [
+            'id' => $bookID,
+        ]);
+    }
+
+    /**
+     * When restore books with POST method, book not restored.
+     *
+     * @return void
+     */
+    public function testRestoreBookWithPostMethod() {
+        $this->makeListOfBook(1);
+        $bookID = DB::table('books')->pluck('id')->first();
+        $this->withoutMiddleware();
+        $this->call('DELETE', '/api/books/'. $bookID);
+        $this->call('POST', '/api/books/'. $bookID. '/restore');
+        $this->assertSoftDeleted('books', [
+            'id' => $bookID,
+        ]);
+    }
+
+    /**
+     * When restore books with PUT method, book was restored.
+     *
+     * @return void
+     */
+    public function testRestoreBookWithPutMethod() {
+        $this->makeListOfBook(1);
+        $bookID = DB::table('books')->pluck('id')->first();
+        $this->withoutMiddleware();
+        $this->call('DELETE', '/api/books/'. $bookID);
+        $this->call('PUT', '/api/books/'. $bookID. '/restore');
+        $this->assertDatabaseHas('books', [
+            'id' => $bookID,
+            'deleted_at' => null,
+        ]);
+    }
+
+    /**
+     * When restore books with DELETE method, book not restored.
+     *
+     * @return void
+     */
+    public function testRestoreBookWithDeleteMethod() {
+        $this->makeListOfBook(1);
+        $bookID = DB::table('books')->pluck('id')->first();
+        $this->withoutMiddleware();
+        $this->call('DELETE', '/api/books/'. $bookID);
+        $this->call('DELETE', '/api/books/'. $bookID. '/restore');
+        $this->assertSoftDeleted('books', [
+            'id' => $bookID,
+        ]);
     }
 }
