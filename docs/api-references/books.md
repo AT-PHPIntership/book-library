@@ -20,7 +20,7 @@ Get list books with paginate
 ```json
 {
     "meta": {
-        "status" : "successfully",
+        "message" : "successfully",
         "code" : 200,
     },
     "data": [
@@ -37,16 +37,70 @@ Get list books with paginate
             "avg_rating": 5
         },
     ],
-    "paginate": {
-        "total": 30,
-        "count": 20,
-        "per_page": 20,
-        "current_page": 1,
-        "total_pages": 2,
-        "links": {
-            "next": "http://book.tech/api/books?page=2"
-        }
-    }
+    "current_page": 1,
+    "first_page_url": "http://library.devp/api/books?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http://library.devp/api/books?page=1",
+    "next_page_url": null,
+    "path": "http://library.devp/api/books",
+    "per_page": 20,
+    "prev_page_url": null,
+    "to": 20,
+    "total": 2,
+}
+
+```
+### `GET` Top books borrow
+```
+/api/books/top-borrow
+```
+Get top books borrow
+
+#### Request Body
+| Key | Value |
+|---|---|
+| content | Content |
+
+
+#### Response
+```json
+{
+    "meta": {
+        "message" : "successfully",
+        "code" : 200,
+    },
+    "data" : [
+        {
+            "id": 1,
+            "name": "Aida Bode II",
+            "image": "http://book.tech/storage/images/books/math.png",
+            "avg_rating": 1.0,
+        },
+        {
+            "id": 2,
+            "name": "Aida Bode II",
+            "image": "http://book.tech/storage/images/books/math.png",
+            "avg_rating": 2.0,
+        },
+        {
+            "id": 3,
+            "name": "Aida Bode II",
+            "image": "http://book.tech/storage/images/books/math.png",
+            "avg_rating": 3.0,
+        },
+    ],
+    "current_page": 1,
+    "first_page_url": "http://library.devp/api/books/top-borrow?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http://library.devp/api/books/top-borrow?page=1",
+    "next_page_url": null,
+    "path": "http://library.devp/api/books/top-borrow",
+    "per_page": 20,
+    "prev_page_url": null,
+    "to": 20,
+    "total": 20,
 }
 ```
 
@@ -258,7 +312,7 @@ Get the book's information
 ```json
 {
     "meta": {
-        "status" : "successfully",
+        "message" : "successfully",
         "code" : 200,
     },
     "data": [
@@ -291,7 +345,7 @@ Get top 10 book review
 ```json
 {
     "meta": {
-        "status": "successfully",
+        "message": "successfully",
         "code": 200
     },
     "data": [
