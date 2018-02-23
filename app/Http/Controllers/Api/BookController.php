@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\ApiController;
-use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Exception;
 use DB;
 use App\Model\Book;
@@ -15,7 +15,7 @@ use App\Model\Comment;
 use App\Model\Favorite;
 use Carbon\Carbon;
 
-class BookController extends ApiController
+class BookController extends Controller
 {
     /**
      * Get top borrow books,
@@ -32,8 +32,15 @@ class BookController extends ApiController
             ->join('books', 'books.id', '=', 'borrowings.book_id')
             ->groupBy('books.id')
             ->orderBy('total_borrowed', 'desc')
-            ->get();
-        return $this->showAll($topBorrowed);
+            ->paginate(config('define.page_length'));
+        $meta = [
+            'meta' => [
+                'message' => 'successfully',
+                'code' => Response::HTTP_OK,
+            ]
+        ];
+        $topBorrowed = collect($meta)->merge($topBorrowed);
+        return response()->json($topBorrowed);
     }
 
     /**
