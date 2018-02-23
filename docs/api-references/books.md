@@ -51,6 +51,7 @@ Get list books with paginate
 }
 
 ```
+
 ### `GET` Top books borrow
 ```
 /api/books/top-borrow
@@ -104,20 +105,11 @@ Get top books borrow
 }
 ```
 
-## SEARCH BOOK WITH KEYWORD
-```
-    Return json data about search book by name or author.
-```
-
-**Search**
-```
-    .../api/books?search=keyword
-```
-
-**Search with keyword correct**
+### `GET` Search book with keyword.
 ```
     .../api/books?search=Mueller
 ```
+    Get list book with correct keyword.
 
 ### Request header
 | Key | Value |
@@ -154,143 +146,6 @@ Get top books borrow
         "per_page": 10,
         "prev_page_url": null,
         "to": 1,
-        "total": 2,
-        "meta": {
-            "message": "successfully",
-            "code": 200
-        }
-    }
-```
-
-**Search with keyword incorrect**
-```
-    .../api/books?search=Laravel
-```
-
-### Request header
-| Key | Value |
-|---|---|
-| Accept | application/json |
-| Content-type | application/json |
-
-### Response
-```json
-    {
-        "data": [],
-        "current_page": 1,
-        "first_page_url": "http://library.devp/api/books?search=Mueller&page=1",
-        "from": 0,
-        "last_page": 1,
-        "last_page_url": "http://library.devp/api/books?search=Mueller&page=1",
-        "next_page_url": null,
-        "path": "http://library.devp/api/books",
-        "per_page": 10,
-        "prev_page_url": null,
-        "to": 0,
-        "total": 0,
-        "meta": {
-            "message": "successfully",
-            "code": 200
-        }
-    }
-```
-
-**Search with keyword is null**
-```
-    .../api/books?search=
-```
-
-### Request header
-| Key | Value |
-|---|---|
-| Accept | application/json |
-| Content-type | application/json |
-
-### Response
-```json
-    {
-        "data": [
-            {
-                "id": 1,
-                "name": "Aida II",
-                "author": "Roll",
-                "image": "http://book.tech/storage/images/books/math.png",
-                "avg_rating": 4
-            },
-            {
-                "id": 2,
-                "name": "Mueller Parker",
-                "author": "Edison",
-                "image": "http://book.tech/storage/images/books/math.png",
-                "avg_rating": 3
-            },
-            {
-                "id": 3,
-                "name": "Mr. Arnoldo Cruickshank",
-                "author": "Warren Medhurst",
-                "image": "http://book.tech/storage/images/books/math.png",
-                "avg_rating": 2
-            },
-            {
-                "id": 4,
-                "name": "Deion Ward",
-                "author": "Edison",
-                "image": "http://book.tech/storage/images/books/math.png",
-                "avg_rating": 5
-            },
-            {
-                "id": 5,
-                "name": "Hudson",
-                "author": "Edison",
-                "image": "http://book.tech/storage/images/books/math.png",
-                "avg_rating": 3
-            },
-            {
-                "id": 6,
-                "name": "Dr. Leonard Hickle III",
-                "author": "Mauricio Hayes",
-                "image": "http://book.tech/storage/images/books/math.png",
-                "avg_rating": 2
-            },
-            {
-                "id": 7,
-                "name": "Mr. Simeon Brakus",
-                "author": "Boyd Schulist",
-                "image": "http://book.tech/storage/images/books/math.png",
-                "avg_rating": 5
-            },
-            {
-                "id": 8,
-                "name": "Annette Rogahn Sr.",
-                "author": "Koelpin",
-                "image": "http://book.tech/storage/images/books/math.png",
-                "avg_rating": 5
-            },
-            {
-                "id": 9,
-                "name": "Nichole McLaughlin",
-                "author": "Ms. Lori Oberbrunner",
-                "image": "http://book.tech/storage/images/books/math.png",
-                "avg_rating": 3
-            },
-            {
-                "id": 10,
-                "name": "Kelli Weissnat Parker",
-                "author": "Emanuel Rogahn",
-                "image": "http://book.tech/storage/images/books/math.png",
-                "avg_rating": 4
-            }
-        ],
-        "current_page": 1,
-        "first_page_url": "http://library.devp/api/books?search=Mueller&page=1",
-        "from": 1,
-        "last_page": 1,
-        "last_page_url": "http://library.devp/api/books?search=Mueller&page=1",
-        "next_page_url": null,
-        "path": "http://library.devp/api/books",
-        "per_page": 10,
-        "prev_page_url": null,
-        "to": 10,
         "total": 2,
         "meta": {
             "message": "successfully",
