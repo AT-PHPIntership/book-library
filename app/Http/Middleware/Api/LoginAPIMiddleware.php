@@ -28,6 +28,7 @@ class LoginAPIMiddleware
                 Auth::login($user);
                 return $next($request);
             }
+            throw new Exception(config('define.messages.440_login_timeout'), 440);
         }
 
         throw new Exception(config('define.messages.token_not_found'), Response::HTTP_NOT_FOUND);
