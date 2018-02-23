@@ -117,20 +117,19 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $fields = [
             'id',
             'name',
+            'author',
             'image',
             'avg_rating'
         ];
-        $books = Book::select($fields)
-                    ->orderBy('created_at', 'DESC')
-                    ->paginate(config('define.book.item_limit'));
+        $books = Book::select($fields)->where('name', 'like', "%$request->search%")->orWhere('author', 'like', "%$request->search%")->paginate(config('define.book.item_limit'));
         $meta = [
             'meta' => [
-                'message' => 'successfully',
+                'message' => null,
                 'code' => Response::HTTP_OK,
             ]
         ];
