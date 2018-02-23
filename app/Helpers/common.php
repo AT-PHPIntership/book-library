@@ -109,12 +109,12 @@ if (!function_exists('metaResponse')) {
      *
      * @return \Illuminate\Http\Response
      */
-    function metaResponse($data, $code, $status = successfully)
+    function metaResponse($data, $code, $message = null)
     {
         return response()->json([
             'meta' => [
-                'status' => $status,
-                'code' => $code
+                'code' => $code,
+                'message' => $message
             ],
             'data' => $data
         ]);
