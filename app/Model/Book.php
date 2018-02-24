@@ -185,4 +185,23 @@ class Book extends Model
         $path = Storage::disk('public')->putFile($folder, $request->file('image'));
         return $path;
     }
+
+    /**
+     * Get image attribute's value
+     *
+     * @param string $image image string
+     *
+     * @return string
+     */
+    public function getImageAttribute($image)
+    {
+        $defaultPath = config('image.books.default_path');
+        $defaultImage = config('image.books.no_image_name');
+        $isNotDefaultImage = ($image != ($defaultPath . $defaultImage)) ? true : false;
+        $fullImage = asset($image);
+        if ($isNotDefaultImage) {
+            $fullImage = asset(config('image.books.storage') . $image);
+        }
+        return asset($fullImage);
+    }
 }

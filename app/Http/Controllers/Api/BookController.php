@@ -27,7 +27,7 @@ class BookController extends Controller
     {
         $fields = [
             'name',
-            'books.image',
+            'image',
             'avg_rating',
         ];
         $reviewBooks = Book::select($fields)->withCount(['posts' => function ($query) {
@@ -35,12 +35,8 @@ class BookController extends Controller
         }])->orderBy('posts_count', 'DESC')
            ->limit(10)
            ->get();
-        foreach ($reviewBooks as $book) {
-            $book['image'] = request()->getHttpHost(). '/' . $book['image'];
-        }
         return response()->json([
             'meta' => [
-                'status' => 'successfully',
                 'code' => Response::HTTP_OK,
             ],
             'data' => $reviewBooks
