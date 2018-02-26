@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
+use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 use Illuminate\Http\Response;
 use Faker\Factory as Faker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -13,7 +13,7 @@ use App\Model\Donator;
 use App\Model\User;
 use DB;
 
-class BookApiTest extends TestCase
+class BookApiTest extends BaseTestBook
 {
     use DatabaseMigrations;
 
@@ -67,9 +67,9 @@ class BookApiTest extends TestCase
      *
      * @return void
      */
-    public function testJsonStructureListBooks(){
-        $numberBook = 1;
-        $this->makeData($numberBook);
+    public function testJsonStructureListBooks()
+    {
+        $this->makeListOfBook(1);
         $response = $this->json('GET', '/api/books');
         $response->assertJsonStructure($this->JsonStructureListBooks());
     }
@@ -81,8 +81,7 @@ class BookApiTest extends TestCase
      */
     public function testWithPaginationListBooks()
     {
-        $numberBook = 21;
-        $this->makeData($numberBook);
+        $this->makeListOfBook(21);
         $response = $this->json('GET', '/api/books' . '?page=2');
         $response->assertJson([
             'current_page' => 2,
@@ -99,9 +98,9 @@ class BookApiTest extends TestCase
      *
      * @return void
      */
-    public function testCompareDatabaseListBooks(){
-        $numberBook = 1;
-        $this->makeData($numberBook);
+    public function testCompareDatabaseListBooks()
+    {
+        $this->makeListOfBook(1);
         $response = $this->json('GET', '/api/books');
         $data = json_decode($response->getContent());
         $this->assertDatabaseHas('books', [
@@ -117,35 +116,11 @@ class BookApiTest extends TestCase
      *
      * @return void
      */
-    public function testEmptyBooks(){
+    public function testEmptyBooks()
+    {
         $response = $this->json('GET', '/api/books');
         $response->assertJson([
             'data' => []
-        ]);
-    }
-
-    /**
-     * Create virtual database
-     *
-     * @return void
-     */
-    public function makeData($rows)
-    {
-        $faker = Faker::create();
-        
-        factory(Category::class)->create();
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-
-        $userIds = DB::table('users')->pluck('id')->toArray();
-
-        factory(Donator::class)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
-        ]);
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
-
-        factory(Book::class, $rows)->create([
-            'category_id' => $faker->randomElement($categoryIds),
-            'donator_id' => $faker->randomElement($donatorIds),
         ]);
     }
 }
