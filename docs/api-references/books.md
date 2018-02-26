@@ -1,10 +1,6 @@
 ## BOOK - API
 
-<<<<<<< HEAD
 ### `GET` Book
-=======
-### `GET` List book
->>>>>>> e309b5090c482581b3a92ccfa26eefd656089d0a
 ```
 /api/books
 ```
@@ -158,6 +154,7 @@ Get top books borrow
     }
 ```
 
+### `GET` Book Detail
 ```
 /api/books/{id}
 ```

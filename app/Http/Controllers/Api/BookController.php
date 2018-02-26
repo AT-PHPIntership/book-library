@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Exception;
 use DB;
@@ -20,6 +18,26 @@ use Illuminate\Http\Response;
 class BookController extends Controller
 {
     /**
+     * Get top 10 most review
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTopReview()
+    {
+        $fields = [
+            'name',
+            'image',
+            'avg_rating',
+        ];
+        $reviewBooks = Book::select($fields)->withCount(['posts' => function ($query) {
+            $query->where('type', Book::REVIEW_TYPE);
+        }])->orderBy('posts_count', 'DESC')
+           ->limit(Book::TOP_REVIEW_LIMIT)
+           ->get();
+        return metaResponse($reviewBooks, Response::HTTP_OK);
+    }
+    
+    /**
      * Get top borrow books with paginate and meta.
      *
      * @return \Illuminate\Http\Response
@@ -34,6 +52,7 @@ class BookController extends Controller
     }
 
     /**
+     * Soft delete "book" and its relationship ("borrowing", "post", "qrcode", "comment"),
      * Hard delete "rating" with id of book.
      *
      * @param int $id id of book
