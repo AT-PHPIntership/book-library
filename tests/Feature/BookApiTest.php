@@ -96,6 +96,8 @@ class BookApiTest extends BaseTestBook
         $this->makeListOfBook(1);
         $response = $this->json('GET', '/api/books');
         $data = json_decode($response->getContent());
+        $data->data[0]->image = explode(request()->getSchemeAndHttpHost()
+            . '/' . config('image.books.storage'), $data->data[0]->image)[1];
         $this->assertDatabaseHas('books', [
             'id' => $data->data[0]->id,
             'name' => $data->data[0]->name,

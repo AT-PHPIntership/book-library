@@ -66,6 +66,27 @@ class TopBookApiTest extends BaseTestBook
     }
 
     /**
+     * Test result pagination.
+     *
+     * @return void
+     */
+    public function testWithPaginationTopBorrowBooks()
+    {
+        $this->makeListOfBook(21);
+        $response = $this->json('GET', '/api/books/top-borrow' . '?page=2');
+        $response->assertJson([
+            'data' => [
+                'current_page' => 2,
+                'per_page' => 20,
+                'from' => 21,
+                'to' => 21,
+                'last_page' => 2,
+                'next_page_url' => null,
+            ]
+        ]);
+    }
+
+    /**
      * Test structure of json when empty top books.
      *
      * @return void
