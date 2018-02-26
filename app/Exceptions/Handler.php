@@ -3,7 +3,10 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +53,50 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $message = "";
+        $code = 0;
+        if ($request->route() != null) {
+            if ($request->route()->getPrefix() === 'api') {
+                //error 405
+                if ($exception instanceof MethodNotAllowedHttpException) {
+                    $code = Response::HTTP_BAD_METHOD;
+                    $message = config('define.messages.405_method_failure');
+                    $this->showMessageAndCode($code, $message);
+                }
+
+                // error 404
+                if ($exception instanceof ModelNotFoundException) {
+                    $code = Response::HTTP_NOT_FOUND;
+                    $message = config('define.messages.404_not_found');
+                    $this->showMessageAndCode($code, $message);
+                }
+
+                //error exception
+                if ($exception instanceof Exception) {
+                    $code = Response::HTTP_INTERNAL_ERROR;
+                    $message = config('define.messages.500_server_error');
+                    $this->showMessageAndCode($code, $message);
+                }
+            }
+        }
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Return json.
+     *
+     * @param int    $code    number return
+     * @param String $message message
+     *
+     * @return void
+     */
+    public function showMessageAndCode($code, $message)
+    {
+        return response()->json([
+                    'meta' => [
+                        'code' => $code,
+                        'message' => $message
+                    ],
+                ], $code);
     }
 }

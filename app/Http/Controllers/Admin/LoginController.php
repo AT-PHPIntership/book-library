@@ -51,14 +51,10 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        # Collect data form request
-        $data = $request->except('_token');
+       
         try {
             # Try to call API to Portal
-            $client = new Client();
-            $portal = $client->post(config('portal.base_url_api') . config('portal.end_point.login'), ['form_params' => $data]);
-            $portalResponse = json_decode($portal->getBody()->getContents());
-
+            $portalResponse = callAPIPortal($request);
             # Check status API response
             if ($portalResponse->meta->code == Response::HTTP_OK) {
                 $userResponse = $portalResponse->data->user;

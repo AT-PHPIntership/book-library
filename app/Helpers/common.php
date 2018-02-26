@@ -5,6 +5,8 @@ use App\Model\User;
 use App\Model\Book;
 use App\Model\Post;
 use App\Model\Category;
+use GuzzleHttp\Client;
+use App\Rules\ATEmail;
 use Illuminate\Database\Eloquent\Model;
 
 if (!function_exists('getCount')) {
@@ -118,5 +120,27 @@ if (!function_exists('metaResponse')) {
             ],
             'data' => $data
         ]);
+    }
+}
+
+if (!function_exists('callAPIPortal')) {
+
+    /**
+     * Active menu side bar when routes menu are current route
+     *
+     * @param Array $request request
+     *
+     * @return array
+     */
+    function callAPIPortal($request)
+    {
+         # Collect data form request
+         $data = $request->except('_token');
+
+         # Try to call API to Portal
+         $client = new Client();
+         $portal = $client->post(config('portal.base_url_api') . config('portal.end_point.login'), ['form_params' => $data]);
+         $portalResponse = json_decode($portal->getBody()->getContents());
+         return $portalResponse;
     }
 }
