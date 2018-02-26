@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Exception;
 use DB;
@@ -15,36 +13,42 @@ use App\Model\Rating;
 use App\Model\Comment;
 use App\Model\Favorite;
 use Carbon\Carbon;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
     /**
      * Get top 10 most review
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function getTopReview()
     {
         $fields = [
             'name',
-            'books.image',
+            'image',
             'avg_rating',
         ];
-        $reviewBooks = Book::select($fields)->withCount(['posts' => function($query) {
-            $query->where('type', 1);
+        $reviewBooks = Book::select($fields)->withCount(['posts' => function ($query) {
+            $query->where('type', Book::REVIEW_TYPE);
         }])->orderBy('posts_count', 'DESC')
-           ->limit(10)
+           ->limit(Book::TOP_REVIEW_LIMIT)
            ->get();
-        foreach($reviewBooks as $book) {
-            $book['image'] = request()->getHttpHost(). '/' . $book['image'];
-        }
-        return response()->json([
-            'meta' => [
-                'status' => 'successfully',
-                'code' => Response::HTTP_OK,
-            ],
-            'data' => $reviewBooks
-        ], Response::HTTP_OK);
+        return metaResponse($reviewBooks, Response::HTTP_OK);
+    }
+    
+    /**
+     * Get top borrow books with paginate and meta.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function topBorrow()
+    {
+        $topBorrowed = Book::select(['name'])
+            ->withCount('borrowings')
+            ->orderBy('borrowings_count', 'desc')
+            ->paginate(config('define.page_length'));
+        return metaResponse($topBorrowed, Response::HTTP_OK);
     }
     
     /**
@@ -140,5 +144,30 @@ class BookController extends Controller
             $message = __('book.notification.sql');
             return response()->json(['message'=> $message], Response::HTTP_OK);
         }
+    }
+    /**
+     * Get api list books, meta and paginate
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $fields = [
+            'id',
+            'name',
+            'image',
+            'avg_rating'
+        ];
+        $books = Book::select($fields)
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(config('define.book.item_limit'));
+        $meta = [
+            'meta' => [
+                'message' => 'successfully',
+                'code' => Response::HTTP_OK,
+            ]
+        ];
+        $books = collect($meta)->merge($books);
+        return response()->json($books);
     }
 }
