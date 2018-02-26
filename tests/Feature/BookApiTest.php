@@ -68,7 +68,8 @@ class BookApiTest extends TestCase
      * @return void
      */
     public function testJsonStructureListBooks(){
-        $this->makeData();
+        $numberBook = 1;
+        $this->makeData($numberBook);
         $response = $this->json('GET', '/api/books');
         $response->assertJsonStructure($this->JsonStructureListBooks());
     }
@@ -80,15 +81,16 @@ class BookApiTest extends TestCase
      */
     public function testWithPaginationListBooks()
     {
-        $this->makeData();
-        $response = $this->json('GET', '/api/books');
+        $numberBook = 21;
+        $this->makeData($numberBook);
+        $response = $this->json('GET', '/api/books' . '?page=2');
         $response->assertJson([
-            'current_page' => 1,
+            'current_page' => 2,
             'per_page' => 20,
-            'from' => 1,
-            'to' => 20,
-            'last_page' => 1
-        
+            'from' => 21,
+            'to' => 21,
+            'last_page' => 2,
+            'next_page_url' => null
         ]);
     }
 
@@ -98,7 +100,8 @@ class BookApiTest extends TestCase
      * @return void
      */
     public function testCompareDatabaseListBooks(){
-        $this->makeData();
+        $numberBook = 1;
+        $this->makeData($numberBook);
         $response = $this->json('GET', '/api/books');
         $data = json_decode($response->getContent());
         $this->assertDatabaseHas('books', [
@@ -126,7 +129,7 @@ class BookApiTest extends TestCase
      *
      * @return void
      */
-    public function makeData()
+    public function makeData($rows)
     {
         $faker = Faker::create();
         
@@ -140,7 +143,7 @@ class BookApiTest extends TestCase
         ]);
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
-        factory(Book::class)->create([
+        factory(Book::class, $rows)->create([
             'category_id' => $faker->randomElement($categoryIds),
             'donator_id' => $faker->randomElement($donatorIds),
         ]);
