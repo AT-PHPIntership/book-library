@@ -21,6 +21,6 @@ Route::group(['namespace' => 'Api'], function () {
     });
     Route::get('categories', 'CategoryController@index');
     Route::get('books/top-review', 'BookController@getTopReview');
-    oute::get('books/top-borrow', 'BookController@topBorrow');
+    Route::get('books/top-borrow', 'BookController@topBorrow');
     Route::get('books', 'BookController@index');
 });

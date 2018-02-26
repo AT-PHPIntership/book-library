@@ -111,15 +111,16 @@ if (!function_exists('metaResponse')) {
      *
      * @return \Illuminate\Http\Response
      */
-    function metaResponse($data, $code, $message = null)
+    function metaResponse($data, $code = 200, $message = null)
     {
-        return response()->json([
+        $meta = [
             'meta' => [
+                'message' => $message,
                 'code' => $code,
-                'message' => $message
-            ],
-            'data' => $data
-        ]);
+            ]
+        ];
+        $data = collect($meta)->merge($data);
+        return response()->json($data);
     }
 }
 
