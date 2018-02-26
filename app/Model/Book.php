@@ -30,6 +30,16 @@ class Book extends Model
     const DEFAULT_CATEGORY = 1;
 
     /**
+     * Top review book limit
+     */
+    const TOP_REVIEW_LIMIT = 10;
+
+    /**
+     * Review type
+     */
+    const REVIEW_TYPE = 1;
+
+    /**
      * Default value of filter type books is donated books
      */
     const DONATED = 'donated';
@@ -185,5 +195,24 @@ class Book extends Model
         $folder = config('image.books.upload_path');
         $path = Storage::disk('public')->putFile($folder, $request->file('image'));
         return $path;
+    }
+
+    /**
+     * Get image attribute's value
+     *
+     * @param string $image image string
+     *
+     * @return string
+     */
+    public function getImageAttribute($image)
+    {
+        $defaultPath = config('image.books.default_path');
+        $defaultImage = config('image.books.no_image_name');
+        $isNotDefaultImage = ($image != ($defaultPath . $defaultImage)) ? true : false;
+        $fullImage = asset($image);
+        if ($isNotDefaultImage) {
+            $fullImage = asset(config('image.books.storage') . $image);
+        }
+        return asset($fullImage);
     }
 }

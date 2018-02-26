@@ -34,20 +34,6 @@ class BookController extends Controller
     {
         $this->book = $book;
     }
-    
-    /**
-     * Get top borrow books with paginate and meta.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function topBorrow()
-    {
-        $topBorrowed = Book::select(['name'])
-            ->withCount('borrowings')
-            ->orderBy('borrowings_count', 'desc')
-            ->paginate(config('define.page_length'));
-        return metaResponse($topBorrowed, Response::HTTP_OK);
-    }
 
     /**
      * Display the specified resource.
@@ -77,6 +63,40 @@ class BookController extends Controller
             ],
             "data" => $books
             ], Response::HTTP_OK);
+    }
+    
+    /**
+     * Get top 10 most review
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTopReview()
+    {
+        $fields = [
+            'name',
+            'image',
+            'avg_rating',
+        ];
+        $reviewBooks = Book::select($fields)->withCount(['posts' => function ($query) {
+            $query->where('type', Book::REVIEW_TYPE);
+        }])->orderBy('posts_count', 'DESC')
+           ->limit(Book::TOP_REVIEW_LIMIT)
+           ->get();
+        return metaResponse($reviewBooks, Response::HTTP_OK);
+    }
+    
+    /**
+     * Get top borrow books with paginate and meta.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function topBorrow()
+    {
+        $topBorrowed = Book::select(['name'])
+            ->withCount('borrowings')
+            ->orderBy('borrowings_count', 'desc')
+            ->paginate(config('define.page_length'));
+        return metaResponse($topBorrowed, Response::HTTP_OK);
     }
 
     /**
