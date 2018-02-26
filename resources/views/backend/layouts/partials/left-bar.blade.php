@@ -66,7 +66,7 @@
           <i class="fa fa-qrcode" aria-hidden="true"></i>
           <span>{{ __('dashboard.qrcodes') }}</span>
           <span class="pull-right-container">
-              <small class="label pull-right bg-yellow">{{ getCount(App\Model\QrCode::class) }}</small>
+              <small class="label pull-right bg-yellow"></small>
           </span>
         </a>
       </li>
