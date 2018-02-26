@@ -50,7 +50,7 @@ class BookController extends Controller
             ->paginate(config('define.page_length'));
         return metaResponse($topBorrowed, Response::HTTP_OK);
     }
-    
+
     /**
      * Soft delete "book" and its relationship ("borrowing", "post", "qrcode", "comment"),
      * Hard delete "rating" with id of book.

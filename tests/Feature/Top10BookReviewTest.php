@@ -11,6 +11,7 @@ use DB;
 use App\Model\Donator;
 use App\Model\Category;
 use App\Model\User;
+use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class Top10BookReviewTest extends TestCase
@@ -30,7 +31,7 @@ class Top10BookReviewTest extends TestCase
     public function testStatusCode()
     {
         $response = $this->json('GET', 'api/books/top-review');
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     public function testJsonStructure()
@@ -62,13 +63,11 @@ class Top10BookReviewTest extends TestCase
         $faker = Faker::create();
         factory(Category::class, 3)->create();
         factory(User::class, 1)->create();
-        $userIds = DB::table('users')->pluck('id')->toArray();
-        factory(Donator::class, 1)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
-        ]);
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
+        DB::table('users')->pluck('id')->toArray();
+        factory(Donator::class, 1)->create();
+        DB::table('categories')->pluck('id')->toArray();
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
-        $book = factory(Book::class, $totalBook)->create([
+        factory(Book::class, $totalBook)->create([
             'category_id' => $faker->randomElement([
                 '1' => 2,
                 '2' => 3
@@ -86,9 +85,10 @@ class Top10BookReviewTest extends TestCase
     {
         $response = $this->json('GET', 'api/books/top-review');
         $apiData = json_decode($response->getContent());
+        $imagePath = explode(request()->getSchemeAndHttpHost() . '/' . config('image.books.storage'), $apiData->data[0]->image)[1];
         $bookData = [
             'name' => $apiData->data[0]->name,
-            'image' => explode(request()->getSchemeAndHttpHost() . '/' . config('image.books.storage'), $apiData->data[0]->image)[1],
+            'image' => $imagePath,
             'avg_rating' => $apiData->data[0]->avg_rating,
         ];
         $this->assertDatabaseHas('books', $bookData);
