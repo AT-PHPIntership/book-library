@@ -4,22 +4,15 @@ namespace Tests\Feature;
 
 use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 use Illuminate\Http\Response;
-use Faker\Factory as Faker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use App\Model\Book;
-use App\Model\Borrowing;
-use App\Model\Category;
-use App\Model\Donator;
-use App\Model\User;
-use DB;
 
 class BookApiTest extends BaseTestBook
 {
     use DatabaseMigrations;
 
-	/**
+    /**
      * Test status code
-     *
+     *  
      * @return void
      */
     public function testStatusCodeListBooks()
