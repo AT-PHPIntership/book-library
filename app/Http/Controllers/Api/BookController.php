@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Exception;
 use DB;
@@ -15,6 +13,7 @@ use App\Model\Rating;
 use App\Model\Comment;
 use App\Model\Favorite;
 use Carbon\Carbon;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
@@ -24,7 +23,6 @@ class BookController extends Controller
      * @var Book
      */
     protected $book;
-
     /**
      * Create a new controller instance.
      *
@@ -35,6 +33,20 @@ class BookController extends Controller
     public function __construct(Book $book)
     {
         $this->book = $book;
+    }
+    
+    /**
+     * Get top borrow books with paginate and meta.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function topBorrow()
+    {
+        $topBorrowed = Book::select(['name'])
+            ->withCount('borrowings')
+            ->orderBy('borrowings_count', 'desc')
+            ->paginate(config('define.page_length'));
+        return metaResponse($topBorrowed, Response::HTTP_OK);
     }
 
     /**
@@ -50,7 +62,7 @@ class BookController extends Controller
             'name',
             'author',
             'year',
-            'page_number',
+            'number_of_pages',
             'price',
             'image',
             'description',
@@ -66,7 +78,7 @@ class BookController extends Controller
             "data" => $books
             ], Response::HTTP_OK);
     }
-    
+
     /**
      * Soft delete "book" and its relationship ("borrowing", "post", "qrcode", "comment"),
      * Hard delete "rating" with id of book.
@@ -160,5 +172,30 @@ class BookController extends Controller
             $message = __('book.notification.sql');
             return response()->json(['message'=> $message], Response::HTTP_OK);
         }
+    }
+    /**
+     * Get api list books, meta and paginate
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $fields = [
+            'id',
+            'name',
+            'image',
+            'avg_rating'
+        ];
+        $books = Book::select($fields)
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(config('define.book.item_limit'));
+        $meta = [
+            'meta' => [
+                'message' => 'successfully',
+                'code' => Response::HTTP_OK,
+            ]
+        ];
+        $books = collect($meta)->merge($books);
+        return response()->json($books);
     }
 }

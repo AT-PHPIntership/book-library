@@ -62,7 +62,8 @@ class Book extends Model
         'avg_rating',
         'total_rating',
         'image',
-        'status'
+        'status',
+        'number_of_pages'
     ];
 
     /**
