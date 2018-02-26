@@ -30,12 +30,13 @@ class BookController extends Controller
             'avg_rating',
         ];
         $reviewBooks = Book::select($fields)->withCount(['posts' => function ($query) {
-            $query->where('type', 1);
+            $query->where('type', Book::REVIEW_TYPE);
         }])->orderBy('posts_count', 'DESC')
-           ->limit(10)
+           ->limit(Book::TOP_REVIEW_LIMIT)
            ->get();
         return metaResponse($reviewBooks, Response::HTTP_OK);
     }
+    
     /**
      * Get top borrow books with paginate and meta.
      *

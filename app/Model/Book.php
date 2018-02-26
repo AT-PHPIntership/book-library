@@ -30,6 +30,16 @@ class Book extends Model
     const DEFAULT_CATEGORY = 1;
 
     /**
+     * Top review book limit
+     */
+    const TOP_REVIEW_LIMIT = 10;
+
+    /**
+     * Review type
+     */
+    const REVIEW_TYPE = 1;
+
+    /**
      * Default value of filter type books is donated books
      */
     const DONATED = 'donated';
