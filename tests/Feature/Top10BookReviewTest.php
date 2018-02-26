@@ -38,8 +38,8 @@ class Top10BookReviewTest extends TestCase
         $response = $this->json('GET', 'api/books/top-review');
         $response->assertJsonStructure([
             "meta" => [
-                "status",
-                "code"
+                "code",
+                "message"
             ],
             "data" => [
                 [
@@ -74,7 +74,6 @@ class Top10BookReviewTest extends TestCase
                 '2' => 3
             ]),
             'donator_id' => $faker->randomElement($donatorIds),
-            'image'      => 'no-image.png',
         ]);
     }
 
@@ -89,7 +88,7 @@ class Top10BookReviewTest extends TestCase
         $apiData = json_decode($response->getContent());
         $bookData = [
             'name' => $apiData->data[0]->name,
-            'image' => substr(($apiData->data[0]->image), strlen(request()->getHttpHost()) + 1),
+            'image' => explode(request()->getSchemeAndHttpHost() . '/' . config('image.books.storage'), $apiData->data[0]->image)[1],
             'avg_rating' => $apiData->data[0]->avg_rating,
         ];
         $this->assertDatabaseHas('books', $bookData);
