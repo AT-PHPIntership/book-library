@@ -20,5 +20,6 @@
     ],
     'book' => [
       'item_limit' => 20,
-    ]
+    ],
+    'time_send_mail' => 14
   ];
