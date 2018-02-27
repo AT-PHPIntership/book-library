@@ -73,12 +73,6 @@ class UserController extends Controller
         ->leftJoin('books', 'donators.id', 'books.donator_id')
         ->select($fields)
         ->get();
-        return response()->json([
-            "meta" => [
-                "status" => "successfully",
-                "code" => 200
-            ],
-            "data" => $users
-            ], Response::HTTP_OK);
+        return metaResponse($user, Response::HTTP_OK);
     }
 }
