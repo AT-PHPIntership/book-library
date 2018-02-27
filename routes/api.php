@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,4 +14,5 @@ use Illuminate\Http\Request;
 Route::group(['namespace' => 'Api'], function () {
     Route::get('categories', 'CategoryController@index');
     Route::get('books', 'BookController@index');
+	Route::get('users/{id}', 'UserController@show');
 });

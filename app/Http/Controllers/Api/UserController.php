@@ -2,13 +2,32 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DB;
 use App\Model\User;
+use DB;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
+    /**
+     * The Book implementation.
+     *
+     * @var Book
+     */
+    protected $users;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param User $users instance of User
+     *
+     * @return void
+     */
+    public function __construct(User $users)
+    {
+        $this->users = $users;
+    }
+
     /**
      * Change role of user.
      *
@@ -27,5 +46,39 @@ class UserController extends Controller
             $data = -1;
         }
         return response()->json($data);
+    }
+
+    /**
+     * Show information of User.
+     *
+     * @param int $id id of user
+     *
+     * @return mixed
+     */
+    public function show($id)
+    {
+        $fields = [
+            'users.id',
+            'users.employee_code',
+            'users.name',
+            'users.email',
+            'users.team',
+            'users.role',
+            DB::raw('COUNT(DISTINCT(borrowings.book_id)) AS total_borrowed'),
+            DB::raw('COUNT(DISTINCT(books.id)) AS total_donated'),
+        ];
+        
+        $users = $this->users->leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
+        ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
+        ->leftJoin('books', 'donators.id', 'books.donator_id')
+        ->select($fields)
+        ->get();
+        return response()->json([
+            "meta" => [
+                "status" => "successfully",
+                "code" => 200
+            ],
+            "data" => $users
+            ], Response::HTTP_OK);
     }
 }
