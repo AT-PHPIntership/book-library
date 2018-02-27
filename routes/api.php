@@ -16,11 +16,10 @@ use Illuminate\Routing\middleware;
 Route::group(['namespace' => 'Api'], function () {
     Route::post('login', 'LoginController@login');    
     Route::group(['middleware' => 'apiLogin'], function () {
-        //
+		Route::get('users/{id}', 'UserController@show');
     });
     Route::get('categories', 'CategoryController@index');
     Route::get('books/top-review', 'BookController@getTopReview');
     Route::get('books/top-borrow', 'BookController@topBorrow');
     Route::get('books', 'BookController@index');
-	Route::get('users/{id}', 'UserController@show');
 });

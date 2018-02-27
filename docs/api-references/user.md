@@ -110,14 +110,16 @@ api/users/{id}
         "message": null,
         "code": 200
     },
-    "id": 1,
-    "employee_code": "AT-351",
-    "name": "Caden Kulas PhD",
-    "email": "jordyn24@example.org",
-    "team": "Android",
-    "role": 0,
-    "total_borrowed": 0,
-    "total_donated": 4
+    data:{
+        "id": 1,
+        "employee_code": "AT-351",
+        "name": "Caden Kulas PhD",
+        "email": "jordỹn@example.org",
+        "team": "Android",
+        "role": 0,
+        "total_borrowed": 0,
+        "total_donated": 4
+    }
 }
 ```
 ####Sample Response Fail

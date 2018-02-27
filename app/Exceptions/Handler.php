@@ -69,7 +69,6 @@ class Handler extends ExceptionHandler
                     $code = Response::HTTP_NOT_FOUND;
                     $message = config('define.messages.404_not_found');
                     return $this->showMessageAndCode($code, $message);
-                    dd('abc');
                 }
 
                 // error server exxception
