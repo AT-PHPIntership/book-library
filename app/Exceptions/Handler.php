@@ -62,7 +62,7 @@ class Handler extends ExceptionHandler
                     $code = Response::HTTP_BAD_METHOD;
                     $message = config('define.messages.405_method_failure');
                     $this->showMessageAndCode($code, $message);
-                }ServerException
+                }
 
                 // error 404
                 if ($exception instanceof ModelNotFoundException) {
@@ -71,7 +71,7 @@ class Handler extends ExceptionHandler
                     $this->showMessageAndCode($code, $message);
                 }
 
-                // error 404
+                // error server exxception
                 if ($exception instanceof ServerException) {
                     $code = Response::HTTP_INTERNAL_ERROR;
                     $message = config('define.messages.500_server_error');

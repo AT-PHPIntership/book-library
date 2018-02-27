@@ -21,14 +21,14 @@ class LoginController extends ApiController
     public function login(LoginRequest $request)
     {
             $portalResponse = callAPIPortal($request);
-            if ($portalResponse->meta->code == Response::HTTP_OK) {
-                $user = $this->saveUser($portalResponse, $request);
+        if ($portalResponse->meta->code == Response::HTTP_OK) {
+            $user = $this->saveUser($portalResponse, $request);
                 
-                return  response()->json([
-                    'meta' => $portalResponse->meta,
-                    'data' => $user,
-                ], Response::HTTP_OK);
-            }
+            return  response()->json([
+            'meta' => $portalResponse->meta,
+            'data' => $user,
+            ], Response::HTTP_OK);
+        }
     }
     
     /**
