@@ -61,7 +61,7 @@ Get list of status of user with paginate
 ```json
 {
     "meta": {
-        "message": "successfully",
+        "message": "null",
         "code": 200
     },
     "data": [
@@ -122,11 +122,8 @@ Get list of status of user with paginate
 ```json
 {
     "meta": {
-        "message": "Failed",
+        "message": "User not found",
         "code": 404,
-    },
-    "error": {
-        "message": "Data not found!",
     }
 }
 ```
@@ -153,7 +150,7 @@ Get list of status of user with paginate
 ```json
 {
     "meta": {
-        "message": "successfully",
+        "message": "null",
         "code": 200
     },
     "data": [
@@ -196,15 +193,13 @@ Get list of status of user with paginate
     "total": 21
 }
 ```
+
 #### Response - Fail
 ```json
 {
     "meta": {
-        "message": "Failed",
+        "message": "User not found",
         "code": 404,
-    },
-    "error": {
-        "message": "Data not found!",
     }
 }
 ```
@@ -231,7 +226,7 @@ Get list of status of user with paginate
 ```json
 {
     "meta": {
-        "message": "successfully",
+        "message": "null",
         "code": 200
     },
     "data": [
@@ -279,11 +274,8 @@ Get list of status of user with paginate
 ```json
 {
     "meta": {
-        "message": "Failed",
+        "message": "User not found",
         "code": 404,
-    },
-    "error": {
-        "message": "Data not found!",
     }
 }
 ```
@@ -310,7 +302,7 @@ Get list of status of user with paginate
 ```json
 {
     "meta": {
-        "message": "successfully",
+        "message": "null",
         "code": 200
     },
     "data": [
@@ -357,11 +349,8 @@ Get list of status of user with paginate
 ```json
 {
     "meta": {
-        "message": "Failed",
+        "message": "User not found",
         "code": 404,
-    },
-    "error": {
-        "message": "Data not found!",
     }
 }
 ```
