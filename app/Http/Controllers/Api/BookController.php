@@ -35,6 +35,7 @@ class BookController extends Controller
         }])->orderBy('posts_count', 'DESC')
            ->limit(Book::TOP_REVIEW_LIMIT)
            ->get();
+        $reviewBooks = ['data' => $reviewBooks];
         return metaResponse($reviewBooks);
     }
     
