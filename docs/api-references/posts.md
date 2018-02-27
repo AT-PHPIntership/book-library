@@ -39,11 +39,13 @@ Add new post.
   }
 }
 ```
+
 ### `GET` List all posts of user with fitler is all
 ```
-/api/users/{id}
+/api/users/{id}/posts
 ```
 Get list of status of user with paginate
+
 #### Request Headers
 | Key | Value |
 |---|---|
@@ -103,18 +105,19 @@ Get list of status of user with paginate
             "updated_at": "2018-02-26 03:23:09",
         }
     ],
-    "first_page_url": "http://book.tech/api/users/1?page=1",
+    "first_page_url": "http://book.tech/api/users/1/posts?page=1",
     "from": 20,
     "last_page": 2,
-    "last_page_url": "http://book.tech/api/users/1?page=2",
-    "next_page_url": "http://book.tech/api/users/1?page=2",
-    "path": "http://book.tech/api/users/1",
+    "last_page_url": "http://book.tech/api/users/1/posts?page=2",
+    "next_page_url": "http://book.tech/api/users/1/posts?page=2",
+    "path": "http://book.tech/api/users/1/posts",
     "per_page": 20,
     "prev_page_url": null,
     "to": 1,
     "total": 21
 }
 ```
+
 #### Response - Fail
 ```json
 {
@@ -127,11 +130,13 @@ Get list of status of user with paginate
     }
 }
 ```
+
 ### `GET` List all posts of user with fitler is review
 ```
-/api/users/{id}?type=1
+/api/users/{id}/posts?type=review
 ```
 Get list of status of user with paginate
+
 #### Request Headers
 | Key | Value |
 |---|---|
@@ -179,24 +184,37 @@ Get list of status of user with paginate
             "updated_at": "2018-02-26 03:23:09",
         }
     ],
-    "first_page_url": "http://book.tech/api/users/1?type=1&page=1",
+    "first_page_url": "http://book.tech/api/users/1/posts?type=review&page=1",
     "from": 20,
     "last_page": 2,
-    "last_page_url": "http://book.tech/api/users/1?type=1&page=2",
-    "next_page_url": "http://book.tech/api/users/1?type=1&page=2",
-    "path": "http://book.tech/api/users/1?type=1",
+    "last_page_url": "http://book.tech/api/users/1/posts?type=review&page=2",
+    "next_page_url": "http://book.tech/api/users/1/posts?type=review&page=2",
+    "path": "http://book.tech/api/users/1/posts?type=review",
     "per_page": 20,
     "prev_page_url": null,
     "to": 1,
     "total": 21
+}
+```
+#### Response - Fail
+```json
+{
+    "meta": {
+        "message": "Failed",
+        "code": 404,
+    },
+    "error": {
+        "message": "Data not found!",
+    }
 }
 ```
 
 ### `GET` List all posts of user with fitler is status
 ```
-/api/users/{id}?type=2
+/api/users/{id}/posts?type=status
 ```
 Get list of status of user with paginate
+
 #### Request Headers
 | Key | Value |
 |---|---|
@@ -244,12 +262,12 @@ Get list of status of user with paginate
             "updated_at": "2018-02-26 03:23:09",
         }
     ],
-    "first_page_url": "http://book.tech/api/users/1?type=2&page=1",
+    "first_page_url": "http://book.tech/api/users/1/posts?type=status&page=1",
     "from": 20,
     "last_page": 2,
-    "last_page_url": "http://book.tech/api/users/1?type=2&page=2",
-    "next_page_url": "http://book.tech/api/users/1?type=2&page=2",
-    "path": "http://book.tech/api/users/1?type=2",
+    "last_page_url": "http://book.tech/api/users/1/posts?type=status&page=2",
+    "next_page_url": "http://book.tech/api/users/1/posts?type=status&page=2",
+    "path": "http://book.tech/api/users/1/posts?type=status",
     "per_page": 20,
     "prev_page_url": null,
     "to": 1,
@@ -257,11 +275,25 @@ Get list of status of user with paginate
 }
 ```
 
+#### Response - Fail
+```json
+{
+    "meta": {
+        "message": "Failed",
+        "code": 404,
+    },
+    "error": {
+        "message": "Data not found!",
+    }
+}
+```
+
 ### `GET` List all posts of user with fitler is find book
 ```
-/api/users/{id}?type=3
+/api/users/{id}/posts?type=find
 ```
 Get list of status of user with paginate
+
 #### Request Headers
 | Key | Value |
 |---|---|
@@ -309,15 +341,27 @@ Get list of status of user with paginate
             "updated_at": "2018-02-26 03:23:09",
         }
     ],
-    "first_page_url": "http://book.tech/api/users/1?type=3&page=1",
+    "first_page_url": "http://book.tech/api/users/1/posts?type=find&page=1",
     "from": 20,
     "last_page": 2,
-    "last_page_url": "http://book.tech/api/users/1?type=3&page=2",
-    "next_page_url": "http://book.tech/api/users/1?type=3&page=2",
-    "path": "http://book.tech/api/users/1?type=3",
+    "last_page_url": "http://book.tech/api/users/1/posts?type=find&page=2",
+    "next_page_url": "http://book.tech/api/users/1/posts?type=find&page=2",
+    "path": "http://book.tech/api/users/1/posts?type=find",
     "per_page": 20,
     "prev_page_url": null,
     "to": 1,
     "total": 21
+}
+```
+#### Response - Fail
+```json
+{
+    "meta": {
+        "message": "Failed",
+        "code": 404,
+    },
+    "error": {
+        "message": "Data not found!",
+    }
 }
 ```
