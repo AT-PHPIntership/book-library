@@ -74,6 +74,7 @@ class UserController extends Controller
         ->select($fields)
         ->groupby('users.id')
         ->findOrFail($id);
-        return metaResponse($user, Response::HTTP_OK);
+        $data = ['data' => $user];
+        return metaResponse($data);
     }
 }
