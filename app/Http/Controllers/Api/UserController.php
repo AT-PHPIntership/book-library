@@ -68,11 +68,12 @@ class UserController extends Controller
             DB::raw('COUNT(DISTINCT(books.id)) AS total_donated'),
         ];
         
-        $users = $this->users->leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
+        $user = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
         ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
         ->leftJoin('books', 'donators.id', 'books.donator_id')
         ->select($fields)
-        ->get();
+        ->groupby('users.id')
+        ->findOrFail($id);
         return metaResponse($user, Response::HTTP_OK);
     }
 }
