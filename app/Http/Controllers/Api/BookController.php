@@ -14,6 +14,7 @@ use App\Model\Comment;
 use App\Model\Favorite;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
@@ -34,7 +35,7 @@ class BookController extends Controller
         }])->orderBy('posts_count', 'DESC')
            ->limit(Book::TOP_REVIEW_LIMIT)
            ->get();
-        return metaResponse($reviewBooks, Response::HTTP_OK);
+        return metaResponse($reviewBooks);
     }
     
     /**
@@ -48,7 +49,7 @@ class BookController extends Controller
             ->withCount('borrowings')
             ->orderBy('borrowings_count', 'desc')
             ->paginate(config('define.book.item_limit'));
-        return metaResponse($topBorrowed, Response::HTTP_OK);
+        return metaResponse($topBorrowed);
     }
 
     /**
@@ -148,26 +149,24 @@ class BookController extends Controller
     /**
      * Get api list books, meta and paginate
      *
+     * @param Request $request request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $fields = [
             'id',
             'name',
+            'author',
             'image',
             'avg_rating'
         ];
         $books = Book::select($fields)
-                    ->orderBy('created_at', 'DESC')
-                    ->paginate(config('define.book.item_limit'));
-        $meta = [
-            'meta' => [
-                'message' => 'successfully',
-                'code' => Response::HTTP_OK,
-            ]
-        ];
-        $books = collect($meta)->merge($books);
-        return response()->json($books);
+            ->where('name', 'like', "%$request->search%")
+            ->orWhere('author', 'like', "%$request->search%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(config('define.book.item_limit'));
+        return metaResponse($books);
     }
 }

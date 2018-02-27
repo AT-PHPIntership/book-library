@@ -26,13 +26,14 @@ class BookApiTest extends BaseTestBook
      *
      * @return array
      */
-    public function JsonStructureListBooks()
+    public function jsonStructureListBooks()
     {
         return [
             'data' => [
                 [
                     'id',
                     'name',
+                    'author',
                     'image',
                     'avg_rating'
                 ]
@@ -64,7 +65,7 @@ class BookApiTest extends BaseTestBook
     {
         $this->makeListOfBook(1);
         $response = $this->json('GET', '/api/books');
-        $response->assertJsonStructure($this->JsonStructureListBooks());
+        $response->assertJsonStructure($this->jsonStructureListBooks());
     }
 
     /**
@@ -96,12 +97,10 @@ class BookApiTest extends BaseTestBook
         $this->makeListOfBook(1);
         $response = $this->json('GET', '/api/books');
         $data = json_decode($response->getContent());
-        $data->data[0]->image = explode(request()->getSchemeAndHttpHost()
-            . '/' . config('image.books.storage'), $data->data[0]->image)[1];
         $this->assertDatabaseHas('books', [
             'id' => $data->data[0]->id,
             'name' => $data->data[0]->name,
-            'image' => $data->data[0]->image,
+            'image' => explode(request()->getSchemeAndHttpHost() . '/' . config('image.books.storage'), $data->data[0]->image)[1],
             'avg_rating' => $data->data[0]->avg_rating
         ]);
     }

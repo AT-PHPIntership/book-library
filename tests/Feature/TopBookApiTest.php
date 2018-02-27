@@ -32,9 +32,8 @@ class TopBookApiTest extends BaseTestBook
                 'code',
                 'message'
             ],
+            'current_page',
             'data' => [
-                'current_page',
-                'data' => [
                     '*' => [
                         'name',
                         'borrowings_count'
@@ -50,9 +49,9 @@ class TopBookApiTest extends BaseTestBook
                 'prev_page_url',
                 'to',
                 'total'
-            ]
         ];
     }
+
 
     /**
      * Test structure of json.
@@ -60,7 +59,7 @@ class TopBookApiTest extends BaseTestBook
      * @return void
      */
     public function testJsonTopBorrowStructure(){
-        $this->makeListOfBook(10);
+        $this->makeListOfBook(1);
         $response = $this->json('GET', '/api/books/top-borrow');
         $response->assertJsonStructure($this->jsonStructureTopBorrowBooks());
     }
@@ -75,14 +74,12 @@ class TopBookApiTest extends BaseTestBook
         $this->makeListOfBook(21);
         $response = $this->json('GET', '/api/books/top-borrow' . '?page=2');
         $response->assertJson([
-            'data' => [
                 'current_page' => 2,
                 'per_page' => 20,
                 'from' => 21,
                 'to' => 21,
                 'last_page' => 2,
                 'next_page_url' => null,
-            ]
         ]);
     }
 
