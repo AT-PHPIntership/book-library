@@ -5,10 +5,11 @@
 /api/categories
 ```
 Get list all categories with paginate
+
 #### Request Headers
 | Key | Value |
 |---|---|
-|Accept|application\json
+|Accept | application\json |
 
 #### Response
 ```json
@@ -77,7 +78,7 @@ Get list all categories with paginate
     "to": 10,
     "total": 10,
     "meta": {
-        "message": "successfully",
+        "message": null,
         "code": 200
     }
 }
