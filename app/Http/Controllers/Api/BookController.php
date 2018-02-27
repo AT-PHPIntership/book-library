@@ -48,7 +48,7 @@ class BookController extends Controller
         $topBorrowed = Book::select(['name'])
             ->withCount('borrowings')
             ->orderBy('borrowings_count', 'desc')
-            ->paginate(config('define.page_length'));
+            ->paginate(config('define.book.item_limit'));
         return metaResponse($topBorrowed);
     }
 
@@ -167,6 +167,7 @@ class BookController extends Controller
             ->orWhere('author', 'like', "%$request->search%")
             ->orderBy('created_at', 'desc')
             ->paginate(config('define.book.item_limit'));
+        $books->appends(['search' => $request->search])->render();
         return metaResponse($books);
     }
 }
