@@ -23,8 +23,9 @@ class Top10BookReviewTest extends TestCase
         parent::setUp();
         $this->fakeData(2);
     }
+    
     /**
-     * A basic test example.
+     * Test http status code
      *
      * @return void
      */
@@ -34,6 +35,11 @@ class Top10BookReviewTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
+    /**
+     * Test structure
+     * 
+     * @return void
+     */
     public function testJsonStructure()
     {
         $response = $this->json('GET', 'api/books/top-review');
@@ -54,7 +60,7 @@ class Top10BookReviewTest extends TestCase
     }
 
     /**
-     * Fake data testing
+     * Create data
      * 
      * @return void
      */
