@@ -38,7 +38,6 @@ class QrcodeController extends Controller
      */
     public function exportCSV()
     {
-        DB::beginTransaction();
         try {
             $fields = [
                 'qrcodes.id',
@@ -49,13 +48,9 @@ class QrcodeController extends Controller
             $datas = QrCode::select($fields)->QRCodesNotPrinted()->join('books', 'qrcodes.book_id', 'books.id')->get();
             
             if ($datas->isNotEmpty()) {
-                foreach ($datas as $data) {
-                    $id = $data['id'];
-                    QrCode::where('id', $id)
-                        ->update(['status' => QrCode::QR_CODE_PRINTED]);
-                };
-                DB::commit();
-                
+                QrCode::where('status', Qrcode::QR_CODE_NOT_PRINTED)
+                    ->update(['status' => QrCode::QR_CODE_PRINTED]);
+
                 Excel::create('QRCodes', function ($excel) use ($datas) {
                     $excel->sheet('mySheet', function ($sheet) use ($datas) {
                         $sheet->fromArray($datas);
@@ -66,7 +61,7 @@ class QrcodeController extends Controller
                 return redirect()->route('qrcodes.index');
             }
         } catch (\Exception $e) {
-            DB::rollBack();
+            return redirect()->back();
         }
     }
 }
