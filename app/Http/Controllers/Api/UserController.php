@@ -2,30 +2,24 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 use App\Model\User;
 use DB;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
-    /**
-     * The Book implementation.
-     *
-     * @var Book
-     */
-    protected $users;
 
     /**
      * Create a new controller instance.
      *
-     * @param User $users instance of User
-     *
      * @return void
      */
-    public function __construct(User $users)
+    public function __construct()
     {
-        $this->users = $users;
+        //
     }
 
     /**
@@ -74,7 +68,6 @@ class UserController extends Controller
         ->select($fields)
         ->groupby('users.id')
         ->findOrFail($id);
-        $data = ['data' => $user];
-        return metaResponse($data);
+        return metaResponse(['data' => $user]);
     }
 }
