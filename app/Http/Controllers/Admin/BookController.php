@@ -182,7 +182,7 @@ class BookController extends Controller
             $errMessage = __('book.message.edit_fail');
             if ($e instanceof FileException) {
                 $errMessage = __('book.message.edit_fail') . __('book.message.err_upload_image');
-            } else if ($e instanceof QueryException) {
+            } elseif ($e instanceof QueryException) {
                 $errMessage = __('book.message.edit_fail') . __('book.message.err_long_data');
             }
             DB::rollBack();
