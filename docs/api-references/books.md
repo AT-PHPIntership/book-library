@@ -1,6 +1,6 @@
 ## BOOK - API
 
-### `GET` List book
+### `GET` Book
 ```
 /api/books
 ```
@@ -20,7 +20,7 @@ Get list books with paginate
 ```json
 {
     "meta": {
-        "message" : "successfully",
+        "message" : null,
         "code" : 200,
     },
     "data": [
@@ -51,6 +51,7 @@ Get list books with paginate
 }
 
 ```
+
 ### `GET` Top books borrow
 ```
 /api/books/top-borrow
@@ -67,7 +68,7 @@ Get top books borrow
 ```json
 {
     "meta": {
-        "message" : "successfully",
+        "message" : null,
         "code" : 200,
     },
     "data" : [
@@ -104,6 +105,55 @@ Get top books borrow
 }
 ```
 
+### `GET` Search book with keyword.
+```
+    .../api/books?search=Mueller
+```
+    Get list book with correct keyword.
+
+### Request header
+| Key | Value |
+|---|---|
+| Accept | application/json |
+| Content-type | application/json |
+
+### Response
+```json
+    {
+        "data": [
+            {
+                "id": 1,
+                "name": "Aida II",
+                "author": "Mueller",
+                "image": "http://book.tech/storage/images/books/math.png",
+                "avg_rating": 4
+            },
+            {
+                "id": 2,
+                "name": "Mueller Parker",
+                "author": "Edison",
+                "image": "http://book.tech/storage/images/books/math.png",
+                "avg_rating": 5
+            },
+        ],
+        "current_page": 1,
+        "first_page_url": "http://library.devp/api/books?search=Mueller&page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://library.devp/api/books?search=Mueller&page=1",
+        "next_page_url": null,
+        "path": "http://library.devp/api/books",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 1,
+        "total": 2,
+        "meta": {
+            "message": null,
+            "code": 200
+        }
+    }
+```
+
 ### `GET` Book Detail
 ```
 /api/books/{id}
@@ -117,7 +167,7 @@ Get the book's information
 ```json
 {
     "meta": {
-        "message" : "successfully",
+        "message" : null,
         "code" : 200,
     },
     "data": [
@@ -150,7 +200,7 @@ Get top 10 book review
 ```json
 {
     "meta": {
-        "message": "successfully",
+        "message": null,
         "code": 200
     },
     "data": [

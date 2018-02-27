@@ -19,13 +19,6 @@ class CategoryController extends Controller
             ->withCount('books')
             ->orderBy('id', 'desc')
             ->paginate(config('define.page_length'));
-        $meta = [
-            'meta' => [
-                'message' => 'successfully',
-                'code' => Response::HTTP_OK,
-            ]
-        ];
-        $categories = collect($meta)->merge($categories);
-        return response()->json($categories);
+        return metaResponse($categories);
     }
 }
