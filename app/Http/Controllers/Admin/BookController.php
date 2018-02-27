@@ -179,7 +179,7 @@ class BookController extends Controller
             $errMessage = __('book.message.edit_fail');
             if ($e instanceof FileException) {
                 $errMessage = __('book.message.edit_fail') . __('book.message.err_upload_image');
-            } else if ($e instanceof QueryException) {
+            } elseif ($e instanceof QueryException) {
                 $errMessage = __('book.message.edit_fail') . __('book.message.err_long_data');
             }
             DB::rollBack();
@@ -188,22 +188,6 @@ class BookController extends Controller
             }
             flash($errMessage)->error();
             return redirect()->back()->withInput();
-        }
-    }
-
-    /**
-     * Show the form with book data for edit book.
-     *
-     * @param Request $request request
-     * @param int     $id      id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, $id)
-    {
-        $book = Book::find($id)->delete();
-        if ($request->ajax()) {
-            return response()->json(['book'=> $book], 200);
         }
     }
 }

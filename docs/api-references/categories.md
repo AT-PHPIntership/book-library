@@ -5,10 +5,11 @@
 /api/categories
 ```
 Get list all categories with paginate
+
 #### Request Headers
 | Key | Value |
 |---|---|
-|Accept|application\json
+|Accept | application\json |
 
 #### Response
 ```json
@@ -65,21 +66,19 @@ Get list all categories with paginate
             "books_count": 1
         }
     ],
-    "paginate": {
-        "current_page": 1,
-        "first_page_url": "http://library.devp/api/categories?page=1",
-        "from": 1,
-        "last_page": 1,
-        "last_page_url": "http://library.devp/api/categories?page=1",
-        "next_page_url": null,
-        "path": "http://library.devp/api/categories",
-        "per_page": 10,
-        "prev_page_url": null,
-        "to": 10,
-        "total": 10
-    },
+    "current_page": 1,
+    "first_page_url": "http://library.devp/api/categories?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http://library.devp/api/categories?page=1",
+    "next_page_url": null,
+    "path": "http://library.devp/api/categories",
+    "per_page": 10,
+    "prev_page_url": null,
+    "to": 10,
+    "total": 10,
     "meta": {
-        "status": "successfully",
+        "message": null,
         "code": 200
     }
 }
