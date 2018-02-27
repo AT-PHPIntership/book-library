@@ -20,8 +20,6 @@ class LoginController extends ApiController
      */
     public function login(LoginRequest $request)
     {
-        try {
-            # Try to call API to Portal
             $portalResponse = callAPIPortal($request);
             if ($portalResponse->meta->code == Response::HTTP_OK) {
                 $user = $this->saveUser($portalResponse, $request);
@@ -31,14 +29,6 @@ class LoginController extends ApiController
                     'data' => $user,
                 ], Response::HTTP_OK);
             }
-        } catch (ServerException $e) {
-            $portalResponse = json_decode($e->getResponse()->getBody()->getContents());
-            $error = trans('portal.messages.' . $portalResponse->meta->messages);
-            return response()->json([
-                'meta' => $portalResponse->meta,
-                'error' => $error
-            ], Response::HTTP_BAD_REQUEST);
-        }
     }
     
     /**
