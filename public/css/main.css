@@ -11,6 +11,9 @@ h1 {
 .width-70 {
 	width: 70px;
 }
+.width-50 {
+  width: 50px;
+}
 .inline-field {
   padding-left: 0px;
 }
@@ -58,6 +61,9 @@ h1 {
 }
 .form-row .btn {
     padding : 6px 6px;
+}
+.bg-color-gray {
+  background-color: #f7f7f7;
 }
 ul { list-style-type: none; }
 

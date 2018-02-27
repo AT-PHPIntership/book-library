@@ -97,3 +97,27 @@ if (!function_exists('canSendMail')) {
         return ((strtotime($now) >= strtotime($dateSendMail)) && !empty($sendTime)) || empty($sendTime) ? true : false;
     }
 }
+
+if (!function_exists('metaResponse')) {
+
+    /**
+     * Add meta response
+     *
+     * @param Object $data    return data
+     * @param int    $code    status of http response
+     * @param text   $message message for request  if success or not
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function metaResponse($data, $code = 200, $message = null)
+    {
+        $meta = [
+            'meta' => [
+                'message' => $message,
+                'code' => $code,
+            ]
+        ];
+        $data = collect($meta)->merge($data);
+        return response()->json($data);
+    }
+}
