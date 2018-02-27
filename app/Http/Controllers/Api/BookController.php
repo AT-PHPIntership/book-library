@@ -48,7 +48,7 @@ class BookController extends Controller
         $topBorrowed = Book::select(['name'])
             ->withCount('borrowings')
             ->orderBy('borrowings_count', 'desc')
-            ->paginate(config('define.page_length'));
+            ->paginate(config('define.book.item_limit'));
         return metaResponse($topBorrowed);
     }
 
