@@ -85,3 +85,66 @@ Failure password
     "error": "Email or password not correct"
 }
 ```
+
+## User Information API
+### `GET` show information from FE
+```
+api/users/{id}
+```
+### Request header
+|Key|Value|
+|---|---|
+| Accept | application/json |
+|Authorization|{token_type} {access_token}|
+
+#### Parameter
+| Field | Type | Description |
+|-------|------|-------------|
+| id | Number | Id of user |
+
+####Sample Response Success
+```json
+{
+    "meta": {
+        "status": "successfully",
+        "code": 200
+    },
+    "data": {
+        "id": 18,
+        "employee_code": "AT0467",
+        "name": "An Nguyen Q.",
+        "email": "an.nguyen@asiantech.vn",
+        "team": "PHP",
+        "avatar_url": "http://172.16.110.17/images/user/avatar/350/40c1fc7286.png",
+        "role": 0,
+        "access_token": "e959e32c9380fa812ed3495bb44940c6",
+        "expired_at": "2018-02-27 06:08:27",
+        "created_at": "2018-02-27 01:28:25",
+        "updated_at": "2018-02-27 04:07:26",
+        "deleted_at": null
+    }
+}
+```
+####Sample Response Fail
+```json
+{
+    "meta": {
+        "status": "successfully",
+        "code": 200
+    },
+    "data": {
+        "id": 18,
+        "employee_code": "AT0467",
+        "name": "An Nguyen Q.",
+        "email": "an.nguyen@asiantech.vn",
+        "team": "PHP",
+        "avatar_url": "http://172.16.110.17/images/user/avatar/350/40c1fc7286.png",
+        "role": 0,
+        "access_token": "e959e32c9380fa812ed3495bb44940c6",
+        "expired_at": "2018-02-27 06:08:27",
+        "created_at": "2018-02-27 01:28:25",
+        "updated_at": "2018-02-27 04:07:26",
+        "deleted_at": null
+    }
+}
+```

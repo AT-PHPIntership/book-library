@@ -13,4 +13,4 @@ yarn-error.log
 storage/debugbar/
 .env.dusk.local
 /public/bower_components
-.env.testing.local
+.env.test
