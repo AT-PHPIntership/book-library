@@ -11,17 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends ApiController
 {
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Change role of user.
      *
@@ -63,11 +52,11 @@ class UserController extends ApiController
         ];
         
         $user = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
-        ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
-        ->leftJoin('books', 'donators.id', 'books.donator_id')
-        ->select($fields)
-        ->groupby('users.id')
-        ->findOrFail($id);
+                    ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
+                    ->leftJoin('books', 'donators.id', 'books.donator_id')
+                    ->select($fields)
+                    ->groupby('users.id')
+                    ->findOrFail($id);
         return metaResponse(['data' => $user]);
     }
 }
