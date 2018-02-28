@@ -77,13 +77,6 @@ class Handler extends ExceptionHandler
                     $message = config('define.messages.500_server_error');
                     $this->showMessageAndCode($code, $message);
                 }
-
-                //error exception
-                if ($exception instanceof Exception) {
-                    $code = Response::HTTP_INTERNAL_ERROR;
-                    $message = config('define.messages.500_server_error');
-                    $this->showMessageAndCode($code, $message);
-                }
             }
         }
         return parent::render($request, $exception);
