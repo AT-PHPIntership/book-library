@@ -26,7 +26,9 @@ class ApiController extends Controller
     public function __construct(Request $request, User $user)
     {
         $accessToken = $request->headers->get('token');
-        $user = $user->where('access_token', '=', $accessToken)->get();
+        if ($accessToken != null) {
+            $user = $user->where('access_token', '=', $accessToken)->first();
+        }
         $this->user = $user;
     }
 }
