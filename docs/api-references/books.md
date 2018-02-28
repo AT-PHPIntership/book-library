@@ -267,3 +267,55 @@ Get top 10 book review
     ]
 }
 ```
+
+### `GET` Get book reviews
+```
+/api/books/{id}/reviews
+```
+Get book reviews
+#### Request Headers
+| Key | Value |
+|---|---|
+|Accept|application\json|
+|Content-Type|application\json|
+
+### Response
+```json
+{
+    "meta": {
+        "message": null,
+        "code": 200
+    },
+    "current_page": 1,
+    "data": [
+        {
+            "id": 1,
+            "content": "Example content",
+            "type": 1,
+            "name": "Book's name",
+            "team": "SA",
+            "favorites_count": 1,
+            "comments_count": 0
+        },
+        {
+            "id": 2,
+            "content": "Example content",
+            "type": 1,
+            "name": "Book's name",
+            "team": "PHP",
+            "favorites_count": 0,
+            "comments_count": 0
+        },
+    ],
+    "first_page_url": "http://booklibrary.test/api/books/2/reviews?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http://booklibrary.test/api/books/2/reviews?page=1",
+    "next_page_url": null,
+    "path": "http://booklibrary.test/api/books/2/reviews",
+    "per_page": 20,
+    "prev_page_url": null,
+    "to": 2,
+    "total": 2
+}
+```
