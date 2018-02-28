@@ -56,7 +56,7 @@ Get list of status of user with paginate
 | Key | Type | Required | Description |
 |---|---|---|---|
 | id | Integer | required | Id of user |
-| type | Integer | required | Type of post (1: review book, 2: status, 3: find book) |
+| type | Integer | none | Type of post (1: review book, 2: status, 3: find book) |
 
 #### Response
 ```json
@@ -83,7 +83,7 @@ Get list of status of user with paginate
             "id": 2,
             "user_name": "Tam Nguyen T.",          
             "content": "Porro saepe sit dolorem aut",
-            "type": 2,
+            "type": 1,
             "book_name": null,
             "image": null,
             "avg_rating": null,
@@ -96,7 +96,7 @@ Get list of status of user with paginate
             "id": 3,
             "user_name": "Tam Nguyen T.",          
             "content": "Porro saepe sit dolorem aut",
-            "type": 3,
+            "type": 1,
             "book_name": null,
             "image": null,
             "avg_rating": null,
@@ -106,12 +106,12 @@ Get list of status of user with paginate
             "favorites_count": 2
         }
     ],
-    "first_page_url": "http://book.tech/api/users/1/posts?page=1",
+    "first_page_url": "http://book.tech/api/users/1/posts?type=1&page=1",
     "from": 20,
     "last_page": 2,
-    "last_page_url": "http://book.tech/api/users/1/posts?page=2",
-    "next_page_url": "http://book.tech/api/users/1/posts?page=2",
-    "path": "http://book.tech/api/users/1/posts",
+    "last_page_url": "http://book.tech/api/users/1/posts?type=1&page=2",
+    "next_page_url": "http://book.tech/api/users/1/posts?type=1&page=2",
+    "path": "http://book.tech/api/users/1/posts?type=1",
     "per_page": 20,
     "prev_page_url": null,
     "to": 1,
