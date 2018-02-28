@@ -139,11 +139,8 @@ class BookController extends Controller
         } else {
             $backPath = config('define.list_book_path');
         }
-        $defaultPath = config('image.books.default_path');
-        $defaultImage = config('image.books.no_image_name');
-        $isNotDefaultImage = ($book->image != ($defaultPath . $defaultImage)) ? true : false;
         $categories = Category::select($categoryFields)->where('id', '<>', Book::DEFAULT_CATEGORY)->get();
-        return view('backend.books.edit', compact('book', 'categories', 'backPath', 'isNotDefaultImage'));
+        return view('backend.books.edit', compact('book', 'categories', 'backPath'));
     }
 
 
@@ -195,22 +192,6 @@ class BookController extends Controller
     }
 
     /**
-     * Show the form with book data for edit book.
-     *
-     * @param Request $request request
-     * @param int     $id      id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, $id)
-    {
-        $book = Book::find($id)->delete();
-        if ($request->ajax()) {
-            return response()->json(['book'=> $book], 200);
-        }
-    }
-
-    /**
      * Load vcs file and save list into db
      *
      * @param Request $request get request
@@ -245,19 +226,40 @@ class BookController extends Controller
      */
     public function addBookImport($attributes)
     {
-        $book = $attributes;
-        $book['category_id'] = Category::lockForUpdate()->firstOrCreate(['name' => $attributes['category']])->id;
-        $book['status'] = (isset($attributes['status']) && $attributes['status'] == 'available') ? 1 : 0;
+        $qrcodeList = explode(',', $attributes['qrcode']);
+        for ($i = 0, $length = sizeof($qrcodeList); $i < $length; $i++) {
+            $qrCode = trim($qrcodeList[$i], ' ');
+            $qrCode = [
+                'prefix' => substr($qrCode, config('define.qrcode.begin_prefix_pos'), config('define.qrcode.end_prefix_pos')),
+                'code_id' => substr($qrCode, config('define.qrcode.end_prefix_pos'))
+            ];
+            $bookData = Book::updateOrCreateBook($qrCode, $this->convertFitData($attributes));
+            QrCode::saveImportQRCode($qrCode, $bookData);
+        }
+    }
+
+    /**
+     * Get data excel and revert it to book attributes array
+     *
+     * @param array $attributes book's attribute
+     *
+     * @return array
+     */
+    public function convertFitData($attributes)
+    {
         $employeeCode = ($attributes['employee_code'] != "NULL") ? $attributes['employee_code'] : Donator::DEFAULT_DONATOR;
-        $book['donator_id'] = Donator::updateDonator($employeeCode, $attributes['user_name']);
-        $book['author'] = isset($attributes['author']) ? $attributes['author'] : BOOK::DEFAULT_AUTHOR;
-        $book['image'] = config('image.books.default_path') . config('image.books.no_image_name');
-        $book['year'] = isset($attributes['year']) ? $attributes['year'] : Carbon::now()->year;
-        $book['description'] = isset($attributes['description']) ? '<p>' . $attributes['description'] . '</p>' : BOOK::DEFAULT_DESCRIPTION;
-        $book['language'] = $attributes['language'];
-        $book['pages'] = isset($attributes['pages']) ? $attributes['pages'] : Book::DEFAULT_PAGES;
-        $book['price'] = isset($attributes['price']) ? $attributes['price'] : BOOK::DEFAULT_PRICE;
-        $book = Book::lockForUpdate()->updateOrCreate(['name' => $book['name']], $book);
-        QrCode::saveImportQRCode($attributes['qrcode'], $book);
+        return [
+            'name' => $attributes['name'],
+            'category_id' => Category::lockForUpdate()->firstOrCreate(['name' => $attributes['category']])->id,
+            'status' => (isset($attributes['status']) && $attributes['status'] == 'available') ? QrCode::QR_CODE_NOT_PRINTED : QrCode::QR_CODE_PRINTED,
+            'donator_id' => Donator::updateDonator($employeeCode, $attributes['user_name']),
+            'author' => isset($attributes['author']) ? $attributes['author'] : BOOK::DEFAULT_AUTHOR,
+            'image' => config('image.books.default_path') . config('image.books.no_image_name'),
+            'year' => isset($attributes['year']) ? $attributes['year'] : Carbon::now()->year,
+            'description' => isset($attributes['description']) ? '<p>' . $attributes['description'] . '</p>' : BOOK::DEFAULT_DESCRIPTION,
+            'language' => $attributes['language'],
+            'pages' => isset($attributes['pages']) ? $attributes['pages'] : Book::DEFAULT_PAGES,
+            'price' => isset($attributes['price']) ? $attributes['price'] : Book::DEFAULT_PRICE
+        ];
     }
 }

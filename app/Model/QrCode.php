@@ -21,9 +21,14 @@ class QrCode extends Model
     const QR_CODE_NOT_PRINTED = 1;
 
     /**
+     * Default QR codes print yet is 0
+     */
+    const QR_CODE_PRINTED = 0;
+
+    /**
      * QrCode prefix
      */
-    const QRCODE_PREFIX = 'ATB';
+    const QRCODE_PREFIX = 'ATB-';
 
     /**
      * Declare table
@@ -72,25 +77,19 @@ class QrCode extends Model
     /**
      * Save qr for imported list
      *
-     * @param array          $qrCodeList get qrcode list
-     * @param App\Model\Book $book       $book
+     * @param array          $qrCode qrcode's attribute
+     * @param App\Model\Book $book   book
      *
      * @return void
      */
-    public static function saveImportQRCode($qrCodeList, $book)
+    public static function saveImportQRCode($qrCode, $book)
     {
-        $qrcodeList = explode(',', $qrCodeList);
-        for ($i = 0, $length = count($qrcodeList); $i < $length; $i++) {
-            $qrCode = trim($qrcodeList[$i], ' ');
-            $prefix = substr($qrCode, 0, 4);
-            $codeId = substr($qrCode, 4);
-            $qrcodes = [
-                'book_id' =>$book->id,
-                'prefix' => $prefix,
-                'code_id'=> $codeId,
-            ];
-        };
-        self::lockForUpdate()->firstOrCreate($qrcodes);
+        $qrcodeData = [
+            'book_id' =>$book->id,
+            'prefix' => $qrCode['prefix'],
+            'code_id'=> $qrCode['code_id'],
+        ];
+        self::lockForUpdate()->firstOrCreate($qrcodeData);
     }
     
     /**

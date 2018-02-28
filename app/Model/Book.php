@@ -236,4 +236,23 @@ class Book extends Model
         }
         return asset($fullImage);
     }
+
+    /**
+     * Save book from excel
+     *
+     * @param array $qrCode qrcode's attribute
+     * @param array $data   book's data
+     *
+     * @return App\Model\User
+     */
+    public static function updateOrCreateBook($qrCode, $data)
+    {
+        $qrcode = QrCode::withTrashed()->where([['prefix', $qrCode['prefix']], ['code_id', $qrCode['code_id']]]);
+        if ($qrcode->exists()) {
+            $book = Book::withTrashed()->updateOrCreate(['id' => $qrcode->first()['book_id']], $data);
+            return $book;
+        } else {
+            return Book::create($data);
+        }
+    }
 }

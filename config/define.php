@@ -26,5 +26,9 @@
     ],
     'book' => [
       'item_limit' => 20,
+    ],
+    'qrcode' => [
+      'begin_prefix_pos' => 0,
+      'end_prefix_pos' => 4,
     ]
   ];
