@@ -11,5 +11,6 @@ return [
   'web_developer' => 'Web Developer',
   'member' => 'Member',
   'management' => 'Management',
-  'profile' => 'Profile'
+  'profile' => 'Profile',
+  'qrcodes' => 'QR Codes'
 ];

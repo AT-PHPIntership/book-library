@@ -85,3 +85,47 @@ Failure password
     "error": "Email or password not correct"
 }
 ```
+
+## User Information API
+### `GET` show information from FE
+```
+api/users/{id}
+```
+### Request header
+|Key|Value|
+|---|---|
+| Accept | application/json |
+
+#### Parameter
+| Field | Type | Description |
+|-------|------|-------------|
+| id | Number | Id of user |
+
+####Sample Response Success
+```json
+{
+    "meta": {
+        "message": null,
+        "code": 200
+    },
+    "data": {
+        "id": 1,
+        "employee_code": "AT-351",
+        "name": "Caden Kulas PhD",
+        "email": "jordỹn@example.org",
+        "team": "Android",
+        "role": 0,
+        "total_borrowed": 0,
+        "total_donated": 4
+    }
+}
+```
+####Sample Response Fail
+```json
+{
+    "meta": {
+        "code": 404,
+        "message": "Page Not Found"
+    }
+}
+```
