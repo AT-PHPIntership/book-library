@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Exception;
 use DB;
@@ -15,9 +13,87 @@ use App\Model\Rating;
 use App\Model\Comment;
 use App\Model\Favorite;
 use Carbon\Carbon;
+use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+    /**
+     * The Book implementation.
+     *
+     * @var Book
+     */
+    protected $book;
+    /**
+     * Create a new controller instance.
+     *
+     * @param Book $book instance of Book
+     *
+     * @return void
+     */
+    public function __construct(Book $book)
+    {
+        $this->book = $book;
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id of book
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $fields = [
+            'name',
+            'author',
+            'year',
+            'number_of_pages',
+            'price',
+            'image',
+            'description',
+            'avg_rating'
+        ];
+
+        $detailsBook = Book::select($fields)->findOrFail($id);
+        return metaResponse(['data' => $detailsBook]);
+    }
+    
+    /**
+     * Get top 10 most review
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTopReview()
+    {
+        $fields = [
+            'name',
+            'image',
+            'avg_rating',
+        ];
+        $reviewBooks = Book::select($fields)->withCount(['posts' => function ($query) {
+            $query->where('type', Book::REVIEW_TYPE);
+        }])->orderBy('posts_count', 'DESC')
+           ->limit(Book::TOP_REVIEW_LIMIT)
+           ->get();
+        return metaResponse(['data' => $reviewBooks]);
+    }
+    
+    /**
+     * Get top borrow books with paginate and meta.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function topBorrow()
+    {
+        $topBorrowed = Book::select(['name'])
+            ->withCount('borrowings')
+            ->orderBy('borrowings_count', 'desc')
+            ->paginate(config('define.book.item_limit'));
+        return metaResponse($topBorrowed);
+    }
+
     /**
      * Soft delete "book" and its relationship ("borrowing", "post", "qrcode", "comment"),
      * Hard delete "rating" with id of book.
@@ -111,5 +187,29 @@ class BookController extends Controller
             $message = __('book.notification.sql');
             return response()->json(['message'=> $message], Response::HTTP_OK);
         }
+    }
+    /**
+     * Get api list books, meta and paginate
+     *
+     * @param Request $request request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $fields = [
+            'id',
+            'name',
+            'author',
+            'image',
+            'avg_rating'
+        ];
+        $books = Book::select($fields)
+            ->where('name', 'like', "%$request->search%")
+            ->orWhere('author', 'like', "%$request->search%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(config('define.book.item_limit'));
+        $books->appends(['search' => $request->search])->render();
+        return metaResponse($books);
     }
 }

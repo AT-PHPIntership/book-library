@@ -218,14 +218,14 @@ class AdminQRCodesTest extends BaseTestUser
 
         for ($i = 0; $i <= 20; $i++) {
             factory(Book::class)->create([
-                'category_id' => function () {
+                'category_id'   => function () {
                     return factory(Category::class)->create()->id;
                 },
-                'donator_id' => function () {
+                'donator_id'    => function () {
                     return factory(Donator::class)->create()->id;
                 },
-                'name' =>  str_random(10),
-                'author' =>  str_random(8),
+                'name'          =>  str_random(10),
+                'author'        =>  str_random(8),
             ]);
         }
         $bookIds = DB::table('books')->pluck('id')->toArray();

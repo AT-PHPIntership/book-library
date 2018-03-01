@@ -1,6 +1,6 @@
 <?php
 return [
-    'title'         => 'List QR Codes',
+    'title'         => 'List QR Codes Not Printed',
     'admin'         => 'Admin',
     'qrcodes'       => 'QR Codes',
     'id'            => 'ID',
