@@ -279,6 +279,11 @@ Get book reviews
 |Accept|application\json|
 |Content-Type|application\json|
 
+#### Parameters
+| Key | Type | Required | Description |
+|---|---|---|---|
+| id | Integer | required | Book's id |
+
 ### Response
 ```json
 {
