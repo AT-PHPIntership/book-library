@@ -15,6 +15,7 @@
     </section>
 
     <section class="content">
+        @include('flash::message')
         <!-- /.row -->
         <div class="row">
             <div class="col-md-12">
@@ -50,6 +51,11 @@
               </nav>
             </div>
             <!-- /.pagination -->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-primary mb1 bg-olive pull-right" href="{{ route('qrcodes.export') }}">{{ __('qrcode.export') }}</a>
+            </div>
         </div>
     </section>
 </div>

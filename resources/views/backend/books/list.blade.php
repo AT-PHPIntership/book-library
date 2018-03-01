@@ -67,6 +67,9 @@
                                               <input type="file" name="import-data" class="form-control" id="import-book">
                                             </form>
                                           </li>
+                                          <li>
+                                            <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('books.add_book') }}</a>
+                                          </li>
                                         </ul>
                                       </li>
                                     </ul>
