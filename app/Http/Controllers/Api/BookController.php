@@ -19,6 +19,48 @@ use Illuminate\Http\Request;
 class BookController extends Controller
 {
     /**
+     * The Book implementation.
+     *
+     * @var Book
+     */
+    protected $book;
+    /**
+     * Create a new controller instance.
+     *
+     * @param Book $book instance of Book
+     *
+     * @return void
+     */
+    public function __construct(Book $book)
+    {
+        $this->book = $book;
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id of book
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $fields = [
+            'name',
+            'author',
+            'year',
+            'number_of_pages',
+            'price',
+            'image',
+            'description',
+            'avg_rating'
+        ];
+
+        $detailsBook = Book::select($fields)->findOrFail($id);
+        return metaResponse(['data' => $detailsBook]);
+    }
+    
+    /**
      * Get top 10 most review
      *
      * @return \Illuminate\Http\Response
