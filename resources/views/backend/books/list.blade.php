@@ -104,6 +104,7 @@
                       <thead>
                           <tr>
                               <th>@sortablelink('id', __('books.numbers_order'))</th>
+                              <th class="text-info">{{ __('qrcode.qrcode') }}</th>
                               <th>@sortablelink('name', __('books.name'))</th>
                               <th>@sortablelink('author', __('books.author'))</th>
                               <th class="text-center">@sortablelink('avg_rating', __('books.average_review_score'))</th>
@@ -115,6 +116,7 @@
                         @foreach ($books as $book)
                             <tr>
                                 <td>{{ $book->id }}</td>
+                                <td>{{ $book->prefix . $book->code}}</td>
                                 <td>{{ $book->name }}</td>
                                 <td>{{ $book->author }}</td>
                                 <td class="text-center">{{ $book->avg_rating }}</td>
