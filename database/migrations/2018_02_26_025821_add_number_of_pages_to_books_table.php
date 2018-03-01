@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateUniqueColumnCodeIdToQrcodesTable extends Migration
+class AddNumberOfPagesToBooksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class UpdateUniqueColumnCodeIdToQrcodesTable extends Migration
      */
     public function up()
     {
-        Schema::table('qrcodes', function (Blueprint $table) {
-            $table->unique('code_id', 'qrcodes_code_id_unique');
+        Schema::table('books', function (Blueprint $table) {
+            $table->integer('number_of_pages')->nullable()->after('description');
         });
     }
 
@@ -25,8 +25,8 @@ class UpdateUniqueColumnCodeIdToQrcodesTable extends Migration
      */
     public function down()
     {
-        Schema::table('qrcodes', function (Blueprint $table) {
-            $table->dropUnique('qrcodes_code_id_unique');
+        Schema::table('books', function (Blueprint $table) {
+            $table->dropColumn('number_of_pages');
         });
     }
 }

@@ -22,7 +22,7 @@ class CreateQrcodesTable extends Migration
                   ->onDelete('cascade');
             $table->string('prefix');
             $table->integer('code_id');
-            $table->tinyInteger('status')->default(0)->comment="0: printed, 1:will print";
+            $table->tinyInteger('status')->default(1)->comment="0: printed, 1:will print";
             $table->timestamps();
             $table->softDeletes();
         });

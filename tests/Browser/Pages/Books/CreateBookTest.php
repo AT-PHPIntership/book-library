@@ -110,6 +110,8 @@ class CreateBookTest extends DuskTestCase
                     ->type('author', 'Example Author')
                     ->type('price', '10009')
                     ->type('employee_code', 'AT-00001')
+                    ->type('pages', '222')
+                    ->select('language', 1)
                     ->type('year', '2018')
                     ->attach('image', $this->fakeImage());
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
@@ -153,6 +155,8 @@ class CreateBookTest extends DuskTestCase
                     ->type('price', '10009')
                     ->type('employee_code', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lore Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lore')
+                    ->type('pages', '222')
+                    ->select('language', 1)
                     ->type('year', '2018')
                     ->attach('image', $this->fakeImage());
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
