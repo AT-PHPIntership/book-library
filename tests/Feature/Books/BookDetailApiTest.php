@@ -18,11 +18,11 @@ class BookDetailApiTest extends TestCase
      *
      * @return void
      */
-    public function testStatusCode()
+    public function testStatusCodeApiDetailBook()
     {
         $this->makeData();
-        $response = $this->json('GET', 'api/book/1');
-        $response->assertStatus(200);
+        $response = $this->json('GET', 'api/books/1');
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     /**
@@ -30,11 +30,15 @@ class BookDetailApiTest extends TestCase
      *
      * @return void
      */
-    public function testStructJson()
-    {
+    public function testStructJsonApiDetailBook()
+    {                                                                                                                                                                                                                                                                                                             
         $this->makeData();
-        $response = $this->json('GET', 'api/book/1');
-        $response->assertJsonStructure([
+        $response = $this->json('GET', 'api/books/1');
+        $response->assertJsonStructure([                                                                                                                        
+            "meta" => [
+                "message",
+                "code"
+            ],                                                                                                                                                                                                                                                                                                                                                                                                                      
             'data' => [
                 'name',
                 'author',
@@ -44,9 +48,9 @@ class BookDetailApiTest extends TestCase
                 'image',
                 'description',
                 'avg_rating'
-            ]
+            ],
         ]);
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     /**
@@ -56,11 +60,14 @@ class BookDetailApiTest extends TestCase
      */
     public function testFailStatus()
     {
-        $response = $this->json('GET', 'api/book/1');
-        $response->assertStatus(404);
+        $response = $this->json('GET', 'api/books/1');
+        $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
-            'message'
-            ]);
+            "meta" => [
+                'message',
+                "code"
+            ],
+        ]);
     }
 
     /**

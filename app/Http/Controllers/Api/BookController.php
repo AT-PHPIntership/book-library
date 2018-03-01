@@ -14,6 +14,7 @@ use App\Model\Comment;
 use App\Model\Favorite;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
@@ -33,20 +34,6 @@ class BookController extends Controller
     public function __construct(Book $book)
     {
         $this->book = $book;
-    }
-    
-    /**
-     * Get top borrow books with paginate and meta.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function topBorrow()
-    {
-        $topBorrowed = Book::select(['name'])
-            ->withCount('borrowings')
-            ->orderBy('borrowings_count', 'desc')
-            ->paginate(config('define.page_length'));
-        return metaResponse($topBorrowed, Response::HTTP_OK);
     }
 
     /**
@@ -68,15 +55,43 @@ class BookController extends Controller
             'description',
             'avg_rating'
         ];
-        $books = $this->book->select($fields)->findOrFail($id);
-        
-        return response()->json([
-            "meta" => [
-                "status" => "successfully",
-                "code" => Response::HTTP_OK
-            ],
-            "data" => $books
-            ], Response::HTTP_OK);
+
+        $detailsBook = Book::select($fields)->findOrFail($id);
+        return metaResponse(['data' => $detailsBook]);
+    }
+    
+    /**
+     * Get top 10 most review
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTopReview()
+    {
+        $fields = [
+            'name',
+            'image',
+            'avg_rating',
+        ];
+        $reviewBooks = Book::select($fields)->withCount(['posts' => function ($query) {
+            $query->where('type', Book::REVIEW_TYPE);
+        }])->orderBy('posts_count', 'DESC')
+           ->limit(Book::TOP_REVIEW_LIMIT)
+           ->get();
+        return metaResponse(['data' => $reviewBooks]);
+    }
+    
+    /**
+     * Get top borrow books with paginate and meta.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function topBorrow()
+    {
+        $topBorrowed = Book::select(['name'])
+            ->withCount('borrowings')
+            ->orderBy('borrowings_count', 'desc')
+            ->paginate(config('define.book.item_limit'));
+        return metaResponse($topBorrowed);
     }
 
     /**
@@ -137,36 +152,16 @@ class BookController extends Controller
      */
     public function restore($id)
     {
-        $deletedTime = Book::withTrashed()->where('id', $id)->pluck('deleted_at')->first();
-
         DB::beginTransaction();
-        //Get all posts ID was restored and its comments ID.
-        $postsID = Post::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->pluck('id')->toArray();
-        $commentsID = Comment::withTrashed()->where('deleted_at', $deletedTime)->whereIn('post_id', $postsID)->pluck('id')->toArray();
         try {
-            //Restore book and its favorite.
-            $restored = Book::withTrashed()->whereNotNull('deleted_at')->where('id', $id)->restore();
-            if ($restored === 0) {
+            if (Book::restore($id)) {
+                DB::commit();
+                $message = __('book.notification.success');
+                return response()->json(['message'=> $message], Response::HTTP_OK);
+            } else {
                 $message = __('book.notification.book_not_found');
                 return response()->json(['message'=> $message], Response::HTTP_OK);
             }
-            Favorite::withTrashed()->where('deleted_at', $deletedTime)->where('favoritable_type', Favorite::TYPE_BOOK)->where('favoritable_id', $id)->restore();
-
-            //Restore rating, qrcode, borrowing.
-            Rating::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->restore();
-            QrCode::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->restore();
-            Borrowing::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->restore();
-
-            //Restore all post of this book and its favorite.
-            Post::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->restore();
-            Favorite::withTrashed()->where('deleted_at', $deletedTime)->where('favoritable_type', Favorite::TYPE_POST)->whereIn('favoritable_id', $postsID)->restore();
-
-            //Restore all comments and its favorite.
-            Comment::withTrashed()->whereIn('post_id', $postsID)->where('deleted_at', $deletedTime)->restore();
-            Favorite::withTrashed()->where('deleted_at', $deletedTime)->where('favoritable_type', Favorite::TYPE_COMMENT)->whereIn('favoritable_id', $commentsID)->restore();
-            DB::commit();
-            $message = __('book.notification.success');
-            return response()->json(['message'=> $message], Response::HTTP_OK);
         } catch (Exception $e) {
             DB::rollBack();
             $message = __('book.notification.sql');
@@ -176,26 +171,25 @@ class BookController extends Controller
     /**
      * Get api list books, meta and paginate
      *
+     * @param Request $request request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $fields = [
             'id',
             'name',
+            'author',
             'image',
             'avg_rating'
         ];
         $books = Book::select($fields)
-                    ->orderBy('created_at', 'DESC')
-                    ->paginate(config('define.book.item_limit'));
-        $meta = [
-            'meta' => [
-                'message' => 'successfully',
-                'code' => Response::HTTP_OK,
-            ]
-        ];
-        $books = collect($meta)->merge($books);
-        return response()->json($books);
+            ->where('name', 'like', "%$request->search%")
+            ->orWhere('author', 'like', "%$request->search%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(config('define.book.item_limit'));
+        $books->appends(['search' => $request->search])->render();
+        return metaResponse($books);
     }
 }

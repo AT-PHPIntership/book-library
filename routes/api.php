@@ -1,6 +1,5 @@
 <?php
-
-use Illuminate\Http\Request;
+use Illuminate\Routing\middleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +12,15 @@ use Illuminate\Http\Request;
 |
 */
 
+//Api
 Route::group(['namespace' => 'Api'], function () {
-    Route::get('book/{id}', 'BookController@show');
+    Route::post('login', 'LoginController@login');    
+    Route::group(['middleware' => 'apiLogin'], function () {
+        Route::get('users/{id}', 'UserController@show');
+    });
     Route::get('categories', 'CategoryController@index');
-    Route::get('books/top-borrow', 'BookController@topBorrow');
     Route::get('books', 'BookController@index');
+    Route::get('books/top-review', 'BookController@getTopReview');
+    Route::get('books/top-borrow', 'BookController@topBorrow');
+    Route::get('books/{id}', 'BookController@show');
 });

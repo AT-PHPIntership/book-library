@@ -68,12 +68,28 @@
                   <span class="text-danger">{{ $errors->first('employee_code') }}</span>
                 @endif
               </div>
+              <div class="form-group col-sm-6 inline-field">
+                <label for="pages">{{ __('book.pages') }}</label>
+                <input name="pages" type="text" class="form-control" id="pages" placeholder="{{ __('book.enter_pages') }}" value="{{ old('pages') }}" >
+                @if($errors->first('pages'))
+                  <span class="text-danger">{{ $errors->first('pages') }}</span>
+                @endif
+              </div>
+              <div class="form-group col-sm-6 inline-field">
+                <label for="language">{{ __('book.language') }}</label>
+                <select name="language" id="language" class="form-control">
+                  @foreach(config('define.languages') as $key => $value)
+                    <option value="{{ $key }}" {{ (old('language') == $key) ? 'selected' : '' }}>{{ $value }}</option>
+                  @endforeach
+                </select>
+              </div>
               <div class="form-group">
                 <label for="description">{{__('book.description') }}</label></br>
                 <textarea name="description" class="ckeditor" id="description" placeholder="{{ __('book.description') }}">{{ old('description') }}</textarea>
                 @if($errors->first('description'))
                   <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
+              </div>
               <div class="form-group">
                 <label for="exampleInputFile">{{ __('book.image') }}</label>
                 <input id="image" name="image" type="file" id="exampleInputFile">
