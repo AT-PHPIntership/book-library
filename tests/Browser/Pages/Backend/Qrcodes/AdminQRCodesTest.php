@@ -204,6 +204,8 @@ class AdminQRCodesTest extends BaseTestUser
                     ->clickLink('Export')
                     ->pause(2000)
                     ->assertSee('Export failed - Data is empty');
+            $ExportEmptyData = $browser->elements('#table-qrcodes tbody tr');
+            $this->assertCount(0, $ExportEmptyData);
         });
     }
 
