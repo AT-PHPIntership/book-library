@@ -55,15 +55,9 @@ class BookController extends Controller
             'description',
             'avg_rating'
         ];
-        $books = $this->book->select($fields)->findOrFail($id);
-        
-        return response()->json([
-            "meta" => [
-                "status" => "successfully",
-                "code" => Response::HTTP_OK
-            ],
-            "data" => $books
-            ], Response::HTTP_OK);
+
+        $detailsBook = Book::select($fields)->findOrFail($id);
+        return metaResponse(['data' => $detailsBook]);
     }
     
     /**
