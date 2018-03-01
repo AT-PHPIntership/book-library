@@ -16,9 +16,9 @@ class QRCodesTableSeeder extends Seeder
         Model::unguard();
         $bookId = DB::table('books')->pluck('id')->toArray();
         $faker = Faker::create();
-        for ($i = 0; $i <= 16; $i++) {
+        for ($i = 1; $i <= 16; $i++) {
             factory(App\Model\QrCode::class, 1)->create([
-                'book_id' => $faker->randomElement($bookId),
+                'book_id' => $i,
                 'code_id' => $faker->unique()->randomNumber(4),
                 'prefix' => 'BAT-'
             ]);
