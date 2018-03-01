@@ -19,6 +19,11 @@ class Donator extends Model
     protected $table = 'donators';
 
     /**
+     * Default donator
+     */
+    const DEFAULT_DONATOR = 'AT0001';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -54,14 +59,16 @@ class Donator extends Model
      * Update donator user, if not exists then create
      *
      * @param String $employeeCode employeeCode
+     * @param String $name         name
      *
      * @return int
      */
-    public static function updateDonator($employeeCode)
+    public static function updateDonator($employeeCode, $name = null)
     {
         $user = User::where('employee_code', $employeeCode)->first();
         $donatorData = [
             'employee_code' => $employeeCode,
+            'name' => $name,
         ];
         if ($user) {
             $donatorData = [
@@ -71,7 +78,7 @@ class Donator extends Model
                 'name' => $user->name,
             ];
         }
-        $donator = self::updateOrCreate(['employee_code' => $employeeCode], $donatorData);
+        $donator = self::lockForUpdate()->updateOrCreate(['employee_code' => $employeeCode], $donatorData);
         return $donator->id;
     }
 }

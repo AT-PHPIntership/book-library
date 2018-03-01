@@ -152,36 +152,16 @@ class BookController extends Controller
      */
     public function restore($id)
     {
-        $deletedTime = Book::withTrashed()->where('id', $id)->pluck('deleted_at')->first();
-
         DB::beginTransaction();
-        //Get all posts ID was restored and its comments ID.
-        $postsID = Post::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->pluck('id')->toArray();
-        $commentsID = Comment::withTrashed()->where('deleted_at', $deletedTime)->whereIn('post_id', $postsID)->pluck('id')->toArray();
         try {
-            //Restore book and its favorite.
-            $restored = Book::withTrashed()->whereNotNull('deleted_at')->where('id', $id)->restore();
-            if ($restored === 0) {
+            if (Book::restore($id)) {
+                DB::commit();
+                $message = __('book.notification.success');
+                return response()->json(['message'=> $message], Response::HTTP_OK);
+            } else {
                 $message = __('book.notification.book_not_found');
                 return response()->json(['message'=> $message], Response::HTTP_OK);
             }
-            Favorite::withTrashed()->where('deleted_at', $deletedTime)->where('favoritable_type', Favorite::TYPE_BOOK)->where('favoritable_id', $id)->restore();
-
-            //Restore rating, qrcode, borrowing.
-            Rating::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->restore();
-            QrCode::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->restore();
-            Borrowing::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->restore();
-
-            //Restore all post of this book and its favorite.
-            Post::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->restore();
-            Favorite::withTrashed()->where('deleted_at', $deletedTime)->where('favoritable_type', Favorite::TYPE_POST)->whereIn('favoritable_id', $postsID)->restore();
-
-            //Restore all comments and its favorite.
-            Comment::withTrashed()->whereIn('post_id', $postsID)->where('deleted_at', $deletedTime)->restore();
-            Favorite::withTrashed()->where('deleted_at', $deletedTime)->where('favoritable_type', Favorite::TYPE_COMMENT)->whereIn('favoritable_id', $commentsID)->restore();
-            DB::commit();
-            $message = __('book.notification.success');
-            return response()->json(['message'=> $message], Response::HTTP_OK);
         } catch (Exception $e) {
             DB::rollBack();
             $message = __('book.notification.sql');

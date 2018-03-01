@@ -70,6 +70,21 @@
                   <span class="text-danger">{{ $errors->first('employee_code') }}</span>
                 @endif
               </div>
+              <div class="form-group col-sm-6 inline-field">
+                <label for="pages">{{ __('book.pages') }}</label>
+                <input name="pages" type="text" class="form-control" id="pages" placeholder="{{ __('book.enter_pages') }}" value="{{ old('pages') }}" >
+                @if($errors->first('pages'))
+                  <span class="text-danger">{{ $errors->first('pages') }}</span>
+                @endif
+              </div>
+              <div class="form-group col-sm-6 inline-field">
+                <label for="language">{{ __('book.language') }}</label>
+                <select name="language" id="language" class="form-control">
+                  @foreach(config('define.languages') as $key => $value)
+                    <option value="{{ $key }}" {{ (old('language') == $key) ? 'selected' : '' }}>{{ $value }}</option>
+                  @endforeach
+                </select>
+              </div>
               <div class="form-group">
                 <label for="description">{{__('book.description') }}</label></br>
                 <textarea class="ckeditor" name="description" id="description">{{ old('description', $book->description) }}</textarea>
@@ -85,7 +100,7 @@
                 @endif
               </div>
               @if(isset($book->image))
-                <img id="image-db-display" width="150" height="200" src="{{ ($isNotDefaultImage) ? asset(config('image.books.storage') . $book->image) : asset($book->image) }}" alt="no-image">
+                <img id="image-db-display" width="150" height="200" src="{{ $book->image }}" alt="no-image">
                 <img id="image-display" width="150" height="200">
               @endif
 
