@@ -168,6 +168,7 @@ return [
          * Package Service Providers...
          */
         Laracasts\Flash\FlashServiceProvider::class,
+        'Maatwebsite\Excel\ExcelServiceProvider',
         /*
          * Application Service Providers...
          */
@@ -180,6 +181,10 @@ return [
          * Package Sort
          */
         Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
+        /*
+         * Package excel
+         */
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -229,6 +234,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

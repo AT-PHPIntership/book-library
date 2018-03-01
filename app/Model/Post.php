@@ -152,6 +152,8 @@ class Post extends Model
             'posts.type',
             'users.name',
             'users.team',
+            'rating',
+            'posts.created_at'
         ];
 
         return self::select($fields)->withCount('favorites')
