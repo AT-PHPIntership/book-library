@@ -108,7 +108,7 @@ api/users/{id}
         "message": null,
         "code": 200
     },
-    data:{
+    "data": {
         "id": 1,
         "employee_code": "AT-351",
         "name": "Caden Kulas PhD",

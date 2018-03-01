@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Model\Book;
 
 class BookApiTest extends BaseTestBook
 {
@@ -100,6 +101,7 @@ class BookApiTest extends BaseTestBook
         $this->assertDatabaseHas('books', [
             'id' => $data->data[0]->id,
             'name' => $data->data[0]->name,
+            'author' => $data->data[0]->author,
             'image' => explode(request()->getSchemeAndHttpHost() . '/' . config('image.books.storage'), $data->data[0]->image)[1],
             'avg_rating' => $data->data[0]->avg_rating
         ]);
@@ -116,5 +118,102 @@ class BookApiTest extends BaseTestBook
         $response->assertJson([
             'data' => []
         ]);
+    }
+
+    /**
+     * Test search books with correct name.
+     *
+     * @return void
+     */
+    public function testSearchBookCorrectName()
+    {
+        $this->makeListOfBook(1);
+        $book = Book::first();
+        $response = $this->json('GET', '/api/books?search='. $book->name);
+        $response->assertJson([
+            'data' => [
+                [
+                    'id' => $book->id,
+                    'name' => $book->name,
+                    'author' => $book->author,
+                    'image' => $book->image,
+                    'avg_rating' => $book->avg_rating
+                ]
+            ]
+        ]);
+    }
+
+    /**
+     * Test search books with correct author.
+     *
+     * @return void
+     */
+    public function testSearchBookCorrectAuthor()
+    {
+        $this->makeListOfBook(1);
+        $book = Book::first();
+        $response = $this->json('GET', '/api/books?search='. $book->author);
+        $response->assertJson([
+            'data' => [
+                [
+                    'id' => $book->id,
+                    'name' => $book->name,
+                    'author' => $book->author,
+                    'image' => $book->image,
+                    'avg_rating' => $book->avg_rating
+                ]
+            ]
+        ]);
+    }
+
+    /**
+     * Test search books with correct name and author.
+     *
+     * @return void
+     */
+    public function testSearchBookCorrectNameAndAuthor()
+    {
+        $this->makeListOfBook(2);
+        Book::where('id', 1)->update(['name' => '0']);
+        Book::where('id', 2)->update(['author' => '0']);
+        $response = $this->json('GET', '/api/books?search=0');
+        $response->assertJson([
+            'data' => [
+                [
+                    'name' => '0'
+                ],
+                [
+                    'author' => '0'
+                ]
+            ]
+        ]);
+    }
+
+    /**
+     * Test search books with incorrect keyword.
+     *
+     * @return void
+     */
+    public function testSearchBookIncorrectKeyword()
+    {
+        $this->makeListOfBook(10);
+        Book::select('*')->update(['name' => '1', 'author' => '1']);
+        $response = $this->json('GET', '/api/books?search=0');
+        $response->assertJson([
+            'data' => []
+        ]);
+    }
+
+    /**
+     * Test search books without keyword.
+     *
+     * @return void
+     */
+    public function testSearchBookWithoutKeyword()
+    {
+        $this->makeListOfBook(10);
+        $response = $this->json('GET', '/api/books?search=');
+        $content = json_decode($response->getContent());
+        $this->assertTrue(sizeof($content->data) === 10);
     }
 }
