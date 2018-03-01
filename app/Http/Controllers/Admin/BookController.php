@@ -90,30 +90,31 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $columns = [
-            'id',
+            'books.id',
             'name',
             'author',
             'avg_rating',
-            'total_rating'
+            'total_rating',
+            'qrcodes.prefix as prefix',
+            'qrcodes.code_id as code'
         ];
+
         $books = Book::select($columns);
 
+        if ($request->has('uid') && $request->has('filter')) {
+            $uid = $request->uid;
+            $filter = $request->filter;
+            $books = $books->whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
+                $query->where('user_id', $uid);
+            });
+        }
         if ($request->has('search') && $request->has('choose')) {
             $search = $request->search;
             $choose = $request->choose;
             $books = Book::search($search, $choose);
         }
 
-        $books = $books->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
-        if ($request->has('uid') && $request->has('filter')) {
-            $uid = $request->uid;
-            $filter = $request->filter;
-
-            $books = Book::whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
-                $query->where('user_id', '=', $uid);
-            })->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
-        }
-
+        $books = $books->join('qrcodes', 'qrcodes.book_id', '=', 'books.id')->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
         return view('backend.books.list', compact('books'));
     }
 
