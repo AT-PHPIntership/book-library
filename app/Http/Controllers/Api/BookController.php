@@ -170,4 +170,19 @@ class BookController extends Controller
         $books->appends(['search' => $request->search])->render();
         return metaResponse($books);
     }
+
+    /**
+     * Get all book's reviews
+     *
+     * @param integer $id book's id
+     *
+     * @return Illuminate\Http\Response
+     */
+    public function getReview($id)
+    {
+        return metaResponse(Post::getPost()->where([
+            ['posts.type', 1],
+            ['books.id', $id]
+        ])->paginate(config('define.review.limit_render')));
+    }
 }

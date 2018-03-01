@@ -20,5 +20,8 @@
     ],
     'book' => [
       'item_limit' => 20,
+    ],
+    'review' => [
+      'limit_render' => 20,
     ]
   ];
