@@ -28,6 +28,37 @@ class SendMailsJob implements ShouldQueue
         $this->borrowings = $borrowings;
     }
 
+    // /**
+    //  * Execute the job.
+    //  *
+    //  * @return void
+    //  */
+    // public function handle()
+    // {
+    //     foreach ($this->borrowings as $borrowing) {
+    //         try {
+    //             if (canSendMail($borrowing->date_send_email)) {
+    //                 if (Carbon::now()->diffInDays(Carbon::parse($borrowing->from_date)) >= config('define.time_send_mail')) {
+    //                     $validator = Validator::make(['email' => $borrowing->users->email], [
+    //                         'email' => 'email',
+    //                     ]);
+
+    //                     if ($validator->fails()) {
+    //                         continue;
+    //                     }
+    //                     Mail::to('$borrowing->users->email')->send(new BorrowedBookMail($borrowing));
+    //                     $borrowing->date_send_email = Carbon::now();
+    //                     $result = $borrowing->save();
+    //                     if ($result == false && !empty(Mail::failures())) {
+    //                         continue;
+    //                     }
+    //                 }
+    //             }
+    //         } catch (\Exception $e) {
+    //             $e->getMessage();
+    //         }
+    //     }
+    // }
     /**
      * Execute the job.
      *
@@ -37,22 +68,22 @@ class SendMailsJob implements ShouldQueue
     {
         foreach ($this->borrowings as $borrowing) {
             try {
-                if (canSendMail($borrowing->date_send_email)) {
-                    if (Carbon::now()->diffInDays(Carbon::parse($borrowing->from_date)) >= config('define.time_send_mail')) {
-                        $validator = Validator::make(['email' => $borrowing->users->email], [
-                            'email' => 'email',
-                        ]);
+                $borrowing = $borrowing->where('data_send_email', null)
+                                       ->orWhere('data_send_email', '<=', Carbon::now()->subDays(14))
+                                       ->get();
+                
+                $validator = Validator::make(['email' => $borrowing->users->email], [
+                    'email' => 'email',
+                ]);
 
-                        if ($validator->fails()) {
-                            continue;
-                        }
-                        Mail::to('$borrowing->users->email')->send(new BorrowedBookMail($borrowing));
-                        $borrowing->date_send_email = Carbon::now();
-                        $borrowing->save();
-                        if ($borrowing->save() == false && !empty(Mail::failures())) {
-                            continue;
-                        }
-                    }
+                if ($validator->fails()) {
+                    continue;
+                }
+                Mail::to('$borrowing->users->email')->send(new BorrowedBookMail($borrowing));
+                $borrowing->date_send_email = Carbon::now();
+                $result = $borrowing->save();
+                if ($result == false && !empty(Mail::failures())) {
+                    continue;
                 }
             } catch (\Exception $e) {
                 $e->getMessage();
