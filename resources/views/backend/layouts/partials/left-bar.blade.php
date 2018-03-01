@@ -61,6 +61,15 @@
           </span>
         </a>
       </li>
+      <li class="{{ activeRoute(['qrcodes.index', 'qrcodes.exportCSV']) }}">
+        <a href="{{ route('qrcodes.index') }}">
+          <i class="fa fa-qrcode" aria-hidden="true"></i>
+          <span>{{ __('dashboard.qrcodes') }}</span>
+          <span class="pull-right-container">
+              <small class="label pull-right bg-yellow"></small>
+          </span>
+        </a>
+      </li>
     </ul>
   </section>
 </aside>

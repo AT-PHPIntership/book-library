@@ -168,6 +168,7 @@ return [
          * Package Service Providers...
          */
         Laracasts\Flash\FlashServiceProvider::class,
+        'Maatwebsite\Excel\ExcelServiceProvider',
         /*
          * Application Service Providers...
          */
