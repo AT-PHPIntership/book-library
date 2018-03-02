@@ -7,6 +7,7 @@ use App\Model\Borrowing;
 use App\Model\Category;
 use App\Model\Donator;
 use App\Model\User;
+use App\Model\QrCode;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -37,6 +38,15 @@ class EditButtonShowBookTest extends DuskTestCase
             'category_id' => $faker->randomElement($categoryIds),
             'donator_id' => $faker->randomElement($donatorIds),
         ]);
+
+        $bookIds = DB::table('books')->pluck('id')->toArray();
+        for ($i = 0;$i <= 16; $i++) {
+            factory(QrCode::class, 1)->create([
+                'book_id' => $faker->randomElement($bookIds),
+                'code_id' => $faker->unique()->randomNumber(4),
+                'prefix' => 'BAT-'
+            ]);
+        }
     }
 
     /**
@@ -65,8 +75,7 @@ class EditButtonShowBookTest extends DuskTestCase
                 ->click('.btn-edit-1')
                 ->assertPathIs('/admin/books/1/edit')
                 ->assertSee('Edit Book')
-                ->resize(1200, 900)
-                ->screenshot('sample-screenshot');
+                ->resize(1200, 900);
             $elements = $browser->elements('.form-group');
             $this->assertCount(10, $elements);
         });

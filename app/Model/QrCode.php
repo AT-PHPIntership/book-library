@@ -60,6 +60,16 @@ class QrCode extends Model
     }
 
     /**
+     * Merge two property prefix and code id for qrcode
+     *
+     * @return array
+    */
+    public function getQrcodeBookAttribute()
+    {
+        return $this->prefix . $this->code_id;
+    }
+
+    /**
      * Generate new QrCode for new book
      *
      * @return App\Model\Book

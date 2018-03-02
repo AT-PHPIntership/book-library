@@ -6,6 +6,7 @@ use App\Model\Book;
 use App\Model\Borrowing;
 use App\Model\Category;
 use App\Model\Donator;
+use App\Model\QrCode;
 use App\Model\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
@@ -25,18 +26,31 @@ class AdminShowListBookTest extends DuskTestCase
     public function makeListOfBook($rows)
     {
         $faker = Faker::create();
-        factory(Category::class, 10)->create();
-        factory(User::class, 10)->create();
+
+        $category = factory(Category::class)->create();
+
+        factory(User::class)->create();
         $userIds = DB::table('users')->pluck('id')->toArray();
-        factory(Donator::class, 10)->create([
+
+        $donator = factory(Donator::class)->create([
             'user_id' => $faker->unique()->randomElement($userIds)
         ]);
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
-        factory(Book::class, $rows)->create([
-            'category_id' => $faker->randomElement($categoryIds),
-            'donator_id' => $faker->randomElement($donatorIds),
-        ]);
+
+        for ($i = 0;$i <= $rows; $i++) {
+            factory(Book::class, 1)->create([
+                'category_id' => $category->id,
+                'donator_id' => $donator->id,
+            ]);
+        }
+        $books = Book::all();
+
+        foreach ($books as $book) {
+            factory(QrCode::class, 1)->create([
+                    'book_id' => $book->id,
+                    'code_id' => $faker->unique()->randomNumber(3),
+                    'prefix' => 'BAT-',
+            ]);
+        }
     }
 
     /**
@@ -60,14 +74,12 @@ class AdminShowListBookTest extends DuskTestCase
         $this->makeUser();
         $this->makeListOfBook(10);
         $this->browse(function (Browser $browser) {
-        $browser->loginAs(User::find(1))
-                ->visit('/admin/books/')
-                ->resize(900, 1600)
-                ->assertTitle('Admin | LIST OF BOOK')
-                ->screenshot('sample-screenshot');
-        $elements = $browser->elements('#table-book tbody tr');
-        $this->assertCount(10, $elements);
-        $this->assertNull($browser->element('.pagination'));
+            $browser->loginAs(User::find(1))
+                    ->visit('/admin/books/')
+                    ->resize(1200, 1600)
+                    ->assertTitle('Admin | LIST OF BOOK');
+            $elements = $browser->elements('#table-book tbody tr');
+            $this->assertCount(10, $elements);
         });
     }
 
@@ -76,19 +88,18 @@ class AdminShowListBookTest extends DuskTestCase
      *
      * @return void
      */
-    public function testShowPageList()
+    public function testShowPageListBook()
     {
         $this->makeUser();
         $this->makeListOfBook(15);
         $this->browse(function (Browser $browser) {
-            $page = $browser->loginAs(User::find(1))
-                            ->visit('/admin/books')
-                            ->resize(900, 1600)
-                            ->click('.pagination li:nth-child(3) a')
-                            ->screenshot('sample-screenshot');
+            $browser->loginAs(User::find(1))
+                        ->visit('/admin/books')
+                        ->resize(900, 1600)
+                        ->click('.pagination li:nth-child(3) a');
 
-            $elements = $page->elements('#table-book tbody tr');
-            $this->assertCount(5, $elements);
+            $elements = $browser->elements('#table-book tbody tr');
+            $this->assertCount(6, $elements);
             $browser->assertQueryStringHas('page', 2);
             $this->assertNotNull($browser->element('.pagination'));
         });

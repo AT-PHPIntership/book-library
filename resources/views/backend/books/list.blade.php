@@ -112,6 +112,7 @@
                               <th>@sortablelink('author', __('books.author'))</th>
                               <th class="text-center">@sortablelink('avg_rating', __('books.average_review_score'))</th>
                               <th class="text-center">@sortablelink('borrowings_count', __('books.total_borrow'))</th>
+                              <th class="text-center text-info">{{ __('books.qrcode') }}</th>
                               <th class="text-center text-info">{{ __('general.options') }}</th>
                           </tr>
                       </thead>
@@ -123,6 +124,7 @@
                                 <td>{{ $book->author }}</td>
                                 <td class="text-center">{{ $book->avg_rating }}</td>
                                 <td class="text-center">{{ $book->borrowings_count }}</td>
+                                <td class="text-center">{{ $book->qrcode->qrcode_book }}</td>
                                 <td align="center">
                                     <a href="{{ route('books.edit', ['book' => $book, 'page' => $_SERVER['REQUEST_URI']]) }}">
                                       <button class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></button>
