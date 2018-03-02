@@ -14,11 +14,11 @@ class BookDetailApiTest extends TestCase
 {
     use DatabaseMigrations;
     /**
-     * Test status code.
+     * Test status code when connect api success.
      *
      * @return void
      */
-    public function testStatusCodeApiDetailBook()
+    public function testStatusCodeConnectSuccess()
     {
         $this->makeData();
         $response = $this->json('GET', 'api/books/1');
@@ -54,6 +54,29 @@ class BookDetailApiTest extends TestCase
     }
 
     /**
+     * Test compare with database.
+     *
+     * @return void
+     */
+    public function testCompareDatabaseDetailsBook()
+    {
+        $this->makeData();
+        $response = $this->json('GET', 'api/books/1');
+        $datas = json_decode($response->getContent());
+        $arrayCompareDetailsBook = [
+            'name'              => $datas->data->name,
+            'author'            => $datas->data->author,
+            'year'              => $datas->data->year,
+            'price'             => $datas->data->price,
+            'number_of_pages'   => $datas->data->number_of_pages,
+            'image'             => explode(request()->getSchemeAndHttpHost() . '/' . config('image.books.storage'), $datas->data->image)[1],
+            'description'       => $datas->data->description,
+            'avg_rating'        => $datas->data->avg_rating
+        ];
+        $this->assertDatabaseHas('books', $arrayCompareDetailsBook);
+    }
+
+    /**
      * Test status code fail
      *
      * @return void
@@ -61,12 +84,17 @@ class BookDetailApiTest extends TestCase
     public function testFailStatus()
     {
         $response = $this->json('GET', 'api/books/1');
-        $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             "meta" => [
                 'message',
                 "code"
             ],
+        ]);
+        $response->assertJson([
+            "meta" => [
+                'code'      => Response::HTTP_NOT_FOUND,
+            ]
+            
         ]);
     }
 
