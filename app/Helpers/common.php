@@ -8,6 +8,7 @@ use App\Model\Category;
 use GuzzleHttp\Client;
 use App\Rules\ATEmail;
 use Illuminate\Database\Eloquent\Model;
+use GuzzleHttp\Exception\ClientException;
 
 if (!function_exists('getCount')) {
 
@@ -111,14 +112,34 @@ if (!function_exists('callAPIPortal')) {
      */
     function callAPIPortal($request)
     {
-         # Collect data form request
-         $data = $request->except('_token');
-
-         # Try to call API to Portal
-         $client = new Client();
-         $portal = $client->post(config('portal.base_url_api') . config('portal.end_point.login'), ['form_params' => $data]);
-         $portalResponse = json_decode($portal->getBody()->getContents());
-         return $portalResponse;
+        # Collect data form request
+        $data = $request->except('_token');
+        try {
+            # Try to call API to Portal
+            $client = new Client();
+            $portal = $client->post(config('portal.base_url_api') . config('portal.end_point.login'), ['form_params' => $data]);
+            $portalResponse = json_decode($portal->getBody()->getContents());
+            $portalUserResponse = $client->request('GET', config('portal.base_url_api') . config('portal.end_point.user_profiles'), [
+                'headers' => [
+                    'authorization' => $portalResponse->access_token,
+                ],
+            ]);
+            $portalUserResponse = [
+                json_decode($portalUserResponse->getBody()->getContents()),
+                'access_token' => $portalResponse->access_token,
+            ];
+            return $portalUserResponse;
+        } catch (ClientException $e) {
+            # Catch errors from Portal
+            $portalResponse = json_decode($e->getResponse()->getBody()->getContents());
+            $portalResponse = [
+                'errors' => [
+                    'message' => $portalResponse->errors->email_password,
+                    'code'  => $e->getCode()
+                ]
+            ];
+            return $portalResponse;
+        }
     }
 }
 
