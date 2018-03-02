@@ -71,6 +71,11 @@ class UserInformationTest extends TestCase
                 "message",
                 "code"
             ],
-        ])->assertStatus(Response::HTTP_OK);
+        ]);
+        $response->assertJson([
+            "meta" => [
+                "code" => Response::HTTP_NOT_FOUND
+            ]
+        ]);
     }
 }
