@@ -84,7 +84,7 @@ class LoginController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->withErrors(['message' => trans('portal.messages.' . $userResponse->errors->message)]);
+                ->withErrors(['message' => trans('portal.messages.' . $userResponse['errors']['message'])]);
         }
     }
     
