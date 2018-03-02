@@ -13,6 +13,7 @@ use App\Model\User;
 class BookDetailApiTest extends TestCase
 {
     use DatabaseMigrations;
+
     /**
      * Test status code when connect api success.
      *
@@ -35,9 +36,9 @@ class BookDetailApiTest extends TestCase
         $this->makeData();
         $response = $this->json('GET', 'api/books/1');
         $response->assertJsonStructure([                                                                                                                        
-            "meta" => [
-                "message",
-                "code"
+            'meta' => [
+                'message',
+                'code'
             ],                                                                                                                                                                                                                                                                                                                                                                                                                      
             'data' => [
                 'name',
@@ -85,13 +86,13 @@ class BookDetailApiTest extends TestCase
     {
         $response = $this->json('GET', 'api/books/1');
         $response->assertJsonStructure([
-            "meta" => [
+            'meta' => [
                 'message',
-                "code"
+                'code'
             ],
         ]);
         $response->assertJson([
-            "meta" => [
+            'meta' => [
                 'code'      => Response::HTTP_NOT_FOUND,
             ]
             
