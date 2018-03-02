@@ -104,6 +104,6 @@ class Handler extends ExceptionHandler
                         'code' => $code,
                         'message' => $message
                     ],
-                ], Response::HTTP_OK);
+                ], $code);
     }
 }

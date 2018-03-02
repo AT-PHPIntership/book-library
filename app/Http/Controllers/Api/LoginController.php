@@ -8,6 +8,7 @@ use App\Model\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Http\Response;
+use DB;
 
 class LoginController extends ApiController
 {
@@ -20,12 +21,12 @@ class LoginController extends ApiController
      */
     public function login(LoginRequest $request)
     {
-            $portalResponse = callAPIPortal($request);
-            $user = $this->saveUser($portalResponse, $request);
-        if (isset($user['errors']['message'])) {
-            return metaResponse(null, $user['errors']['code'], $user['errors']['message']);
+        $portalResponse = callAPIPortal($request);
+        if (isset($portalResponse['errors']['message'])) {
+            return metaResponse(null, $portalResponse['errors']['code'], $portalResponse['errors']['message']);
         }
-            return  metaResponse(['data' => $user]);
+        $user = $this->saveUser($portalResponse, $request);
+        return  metaResponse(['data' => $user]);
     }
     
     /**
@@ -34,10 +35,11 @@ class LoginController extends ApiController
      * @param array                    $userResponse userResponse
      * @param \Illuminate\Http\Request $request      request
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
     public function saveUser($userResponse, $request)
     {
+        DB::beginTransaction();
         try {
             # Collect user data from response
             $userCondition = [
@@ -54,10 +56,13 @@ class LoginController extends ApiController
                 $user['role'] = User::ROOT_ADMIN;
             }
             # Get user from database OR create User
-            return User::updateOrCreate($userCondition, $user);
+            $user = User::updateOrCreate($userCondition, $user);
+            DB::commit();
+            return $user;
         } catch (\Exception $e) {
             # Catch errors from Portal
-            return $userResponse;
+            DB::rollBack();
+            return metaResponse(null, Response::HTTP_INTERNAL_SERVER_ERROR, config('define.messages.500_server_error'));
         }
     }
 }
