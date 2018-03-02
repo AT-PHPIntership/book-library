@@ -32,6 +32,7 @@ class BookCreateRequest extends FormRequest
             'year' => 'required|digits:4|integer|min:1900|max:'.Carbon::now()->year,
             'description' => 'required|string',
             'image'=> 'image|max:10240',
+            'pages' => 'required|integer',
         ];
     }
 }
