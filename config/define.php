@@ -30,5 +30,8 @@
     'qrcode' => [
       'begin_prefix_pos' => 0,
       'end_prefix_pos' => 4,
+    ],
+    'post' => [
+      'page_length' => 20,
     ]
   ];

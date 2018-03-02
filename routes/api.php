@@ -23,4 +23,5 @@ Route::group(['namespace' => 'Api'], function () {
     Route::get('books/top-review', 'BookController@getTopReview');
     Route::get('books/top-borrow', 'BookController@topBorrow');
     Route::get('books/{id}', 'BookController@show');
+    Route::get('users/{id}/posts', 'PostController@getListPostOfUser');
 });

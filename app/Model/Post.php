@@ -138,4 +138,30 @@ class Post extends Model
                 break;
         }
     }
+
+    /**
+     * Get post data
+     *
+     * @return App\Model\Post
+     */
+    public static function getPost()
+    {
+        $fields = [
+            'posts.id',
+            'users.id as user_id',
+            'users.name as user_name',
+            'posts.content',
+            'posts.type',
+            'books.name as book_name',
+            'books.image',
+            'posts.created_at',
+            'posts.updated_at',
+            'books.avg_rating',
+        ];
+        return self::select($fields)
+                ->join('users', 'users.id', '=', 'posts.user_id')
+                ->leftJoin('books', 'books.id', '=', 'posts.book_id')
+                ->withCount('comments')
+                ->withCount('favorites');
+    }
 }
