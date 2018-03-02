@@ -2,6 +2,7 @@
 return [
     'title'         => 'List QR Codes Not Printed',
     'admin'         => 'Admin',
+    'qrcode'        => 'QR Code',
     'qrcodes'       => 'QR Codes',
     'id'            => 'ID',
     'name_of_book'  => 'Name of Book',
