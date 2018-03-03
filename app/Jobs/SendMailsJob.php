@@ -2,63 +2,22 @@
 
 namespace App\Jobs;
 
-use App\Mail\BorrowedBookMail;
+use Validator;
 use Carbon\Carbon;
+use App\Model\Borrowing;
 use Illuminate\Bus\Queueable;
+use App\Mail\BorrowedBookMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Console\Command;
 
 class SendMailsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $borrowings;
-    /**
-     * Create a new job instance.
-     *
-     * @param Object $borrowings get value borrowing
-     *
-     * @return void
-     */
-    public function __construct($borrowings)
-    {
-        $this->borrowings = $borrowings;
-    }
-
-    // /**
-    //  * Execute the job.
-    //  *
-    //  * @return void
-    //  */
-    // public function handle()
-    // {
-    //     foreach ($this->borrowings as $borrowing) {
-    //         try {
-    //             if (canSendMail($borrowing->date_send_email)) {
-    //                 if (Carbon::now()->diffInDays(Carbon::parse($borrowing->from_date)) >= config('define.time_send_mail')) {
-    //                     $validator = Validator::make(['email' => $borrowing->users->email], [
-    //                         'email' => 'email',
-    //                     ]);
-
-    //                     if ($validator->fails()) {
-    //                         continue;
-    //                     }
-    //                     Mail::to('$borrowing->users->email')->send(new BorrowedBookMail($borrowing));
-    //                     $borrowing->date_send_email = Carbon::now();
-    //                     $result = $borrowing->save();
-    //                     if ($result == false && !empty(Mail::failures())) {
-    //                         continue;
-    //                     }
-    //                 }
-    //             }
-    //         } catch (\Exception $e) {
-    //             $e->getMessage();
-    //         }
-    //     }
-    // }
     /**
      * Execute the job.
      *
@@ -66,12 +25,13 @@ class SendMailsJob implements ShouldQueue
      */
     public function handle()
     {
-        foreach ($this->borrowings as $borrowing) {
+        $borrowings = Borrowing::with('books', 'users')->where('to_date', '=', null)
+                                                       ->where(function ($where) {
+                                                           $where->whereDate('from_date', '>=', Carbon::now()->subDays(config('define.time_send_mail'))->toDateString())
+                                                                 ->orWhere('date_send_email', null);
+                                                       })->get();
+        foreach ($borrowings as $borrowing) {
             try {
-                $borrowing = $borrowing->where('data_send_email', null)
-                                       ->orWhere('data_send_email', '<=', Carbon::now()->subDays(14))
-                                       ->get();
-                
                 $validator = Validator::make(['email' => $borrowing->users->email], [
                     'email' => 'email',
                 ]);
@@ -79,14 +39,15 @@ class SendMailsJob implements ShouldQueue
                 if ($validator->fails()) {
                     continue;
                 }
-                Mail::to('$borrowing->users->email')->send(new BorrowedBookMail($borrowing));
+                Mail::to($borrowing->users->email)->send(new BorrowedBookMail($borrowing));
                 $borrowing->date_send_email = Carbon::now();
                 $result = $borrowing->save();
                 if ($result == false && !empty(Mail::failures())) {
                     continue;
                 }
             } catch (\Exception $e) {
-                $e->getMessage();
+                \Log::info($e->getMessage());
+                continue;
             }
         }
     }

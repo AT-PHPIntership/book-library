@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\SendMailsJob;
+use Carbon\Carbon;
 use App\Model\Borrowing;
+use App\Jobs\SendMailsJob;
 use Illuminate\Console\Command;
 
 class SendEmails extends Command
@@ -39,8 +40,7 @@ class SendEmails extends Command
      */
     public function handle()
     {
-        $borrowings = Borrowing::with('books', 'users')->where('to_date', '=', null)->get();
-        SendMailsJob::dispatch($borrowings);
+        SendMailsJob::dispatch();
         $this->info('Send Mail Success');
     }
 }

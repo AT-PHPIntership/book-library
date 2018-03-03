@@ -63,16 +63,17 @@
                                             <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('books.add_book') }}</a>
                                           </li>
                                           <li>
-                                            <form id="import-form" action="" method="post" enctype="multipart/form-data">
+                                            <form id="import-form" action="{{ route('books.import') }}" method="post" enctype="multipart/form-data">
+                                              {{csrf_field()}}
                                               <input type="file" name="import-data" class="form-control" id="import-book">
                                             </form>
-                                          </li>
-                                          <li>
-                                            <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('books.add_book') }}</a>
                                           </li>
                                         </ul>
                                       </li>
                                     </ul>
+                                    @if($errors->first('import-data'))
+                                      <span class="text-danger">{{ $errors->first('import-data') }}</span>
+                                    @endif
                                 </div>
                               <form action="{{ route('books.index') }}" method="GET" id="frm-search">
                                 <div class="form-group col-md-5">

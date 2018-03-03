@@ -14,6 +14,8 @@ use Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Iatstuti\Database\Support\CascadeSoftDeletes;
 use App\Libraries\Traits\SearchTrait;
+use App\Model\Comment;
+use App\Model\Favorite;
 
 class Book extends Model
 {
@@ -50,6 +52,26 @@ class Book extends Model
     const BORROWED = 'borrowed';
 
     /**
+     * Default value of price
+     */
+    const DEFAULT_PRICE = null;
+
+    /**
+     * Default author
+     */
+    const DEFAULT_AUTHOR = null;
+
+    /**
+     * Default pages
+     */
+    const DEFAULT_PAGES = null;
+
+    /**
+     * Default description
+     */
+    const DEFAULT_DESCRIPTION = null;
+
+    /**
      * Declare table
      *
      * @var string $tabel table name
@@ -68,11 +90,14 @@ class Book extends Model
         'year',
         'price',
         'description',
+        'language',
+        'pages',
         'donator_id',
         'avg_rating',
         'total_rating',
         'image',
-        'status'
+        'status',
+        'number_of_pages'
     ];
 
     /**
@@ -213,5 +238,61 @@ class Book extends Model
             $fullImage = asset(config('image.books.storage') . $image);
         }
         return asset($fullImage);
+    }
+
+    /**
+     * Save book from excel
+     *
+     * @param array $qrCode qrcode's attribute
+     * @param array $data   book's data
+     *
+     * @return App\Model\User
+     */
+    public static function updateOrCreateBook($qrCode, $data)
+    {
+        $qrcode = QrCode::withTrashed()->where([['prefix', $qrCode['prefix']], ['code_id', $qrCode['code_id']]]);
+        if ($qrcode->exists()) {
+            $book = Book::withTrashed()->updateOrCreate(['id' => $qrcode->first()['book_id']], $data);
+            self::restore($qrcode->first()['book_id']);
+            return $book;
+        } else {
+            return Book::create($data);
+        }
+    }
+
+    /**
+     * Restore book and its relationship with id of book.
+     *
+     * @param int $id id of book
+     *
+     * @return boolean
+     */
+    public static function restore($id)
+    {
+        $deletedTime = Book::withTrashed()->where('id', $id)->pluck('deleted_at')->first();
+        //Get all posts ID was restored and its comments ID.
+        $postsID = Post::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->pluck('id')->toArray();
+        $commentsID = Comment::withTrashed()->where('deleted_at', $deletedTime)->whereIn('post_id', $postsID)->pluck('id')->toArray();
+        //Restore book and its favorite.
+        $restored = Book::withTrashed()->whereNotNull('deleted_at')->where('id', $id)->restore();
+        if ($restored === 0) {
+            return false;
+        }
+        Favorite::withTrashed()->where('deleted_at', $deletedTime)->where('favoritable_type', Favorite::TYPE_BOOK)->where('favoritable_id', $id)->restore();
+
+        //Restore rating, qrcode, borrowing.
+        Rating::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->restore();
+        QrCode::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->restore();
+        Borrowing::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->restore();
+
+        //Restore all post of this book and its favorite.
+        Post::withTrashed()->where('book_id', $id)->where('deleted_at', $deletedTime)->restore();
+        Favorite::withTrashed()->where('deleted_at', $deletedTime)->where('favoritable_type', Favorite::TYPE_POST)->whereIn('favoritable_id', $postsID)->restore();
+
+        //Restore all comments and its favorite.
+        Comment::withTrashed()->whereIn('post_id', $postsID)->where('deleted_at', $deletedTime)->restore();
+        Favorite::withTrashed()->where('deleted_at', $deletedTime)->where('favoritable_type', Favorite::TYPE_COMMENT)->whereIn('favoritable_id', $commentsID)->restore();
+
+        return true;
     }
 }

@@ -39,6 +39,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('qrcodes/export', 'QrcodeController@exportCSV')->name('qrcodes.export');
     //Mail
     Route::post('mail/{borrowing}/send', 'SendMailController@sendMail')->name('sendMail');
+    //Excel
+    Route::post('books/import', 'BookController@import')->name('books.import');
 });
 
 //Api

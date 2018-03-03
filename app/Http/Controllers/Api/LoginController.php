@@ -8,6 +8,7 @@ use App\Model\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Http\Response;
+use DB;
 
 class LoginController extends ApiController
 {
@@ -20,45 +21,48 @@ class LoginController extends ApiController
      */
     public function login(LoginRequest $request)
     {
-            $portalResponse = callAPIPortal($request);
-        if ($portalResponse->meta->code == Response::HTTP_OK) {
-            $user = $this->saveUser($portalResponse, $request);
-                
-            return  response()->json([
-            'meta' => $portalResponse->meta,
-            'data' => $user,
-            ], Response::HTTP_OK);
+        $portalResponse = callAPIPortal($request);
+        if (isset($portalResponse['errors']['message'])) {
+            return metaResponse(null, $portalResponse['errors']['code'], $portalResponse['errors']['message']);
         }
+        $user = $this->saveUser($portalResponse, $request);
+        return  metaResponse(['data' => $user]);
     }
     
     /**
      * Save data users
      *
-     * @param App\Http\Controllers\Auth $portalResponse portalResponse
-     * @param \Illuminate\Http\Request  $request        request
+     * @param array                    $userResponse userResponse
+     * @param \Illuminate\Http\Request $request      request
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
-    public function saveUser($portalResponse, $request)
+    public function saveUser($userResponse, $request)
     {
-        $userResponse = $portalResponse->data->user;
-        # Collect user data from response
-        $date = date(config('define.datetime_format'), strtotime($userResponse->expires_at));
-        $userCondition = [
-            'employee_code' => $userResponse->employee_code,
-            'email' => $request->email,
-        ];
-        $user = [
-            'name' => $userResponse->name,
-            'team' => $userResponse->teams[0]->name,
-            'expired_at' => $date,
-            'avatar_url' => $userResponse->avatar_url,
-            'access_token' => $userResponse->access_token,
-        ];
-        if ($userResponse->teams[0]->name == User::SA) {
-            $user['role'] = User::ROOT_ADMIN;
+        DB::beginTransaction();
+        try {
+            # Collect user data from response
+            $userCondition = [
+                'employee_code' => $userResponse[0]->employee_code,
+                'email' => $request->email,
+            ];
+            $user = [
+                'name' => $userResponse[0]->name,
+                'team' => $userResponse[0]->teams[0]->name,
+                'access_token' => $userResponse['access_token'],
+                'avatar_url' => $userResponse[0]->avatar->file,
+            ];
+            if ($userResponse[0]->teams[0]->name == User::SA) {
+                $user['role'] = User::ROOT_ADMIN;
+            }
+            # Get user from database OR create User
+            $user = User::updateOrCreate($userCondition, $user);
+            DB::commit();
+            return $user;
+        } catch (\Exception $e) {
+            # Catch errors from Portal
+            DB::rollBack();
+            return metaResponse(null, Response::HTTP_INTERNAL_SERVER_ERROR, config('define.messages.500_server_error'));
         }
-        # Get user from database OR create User
-        return User::updateOrCreate($userCondition, $user);
     }
 }
