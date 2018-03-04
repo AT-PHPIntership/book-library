@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use GuzzleHttp\Exception\ServerException;
 use App\Http\Requests\Backend\LoginRequest;
+use Exception;
 
 class LoginController extends Controller
 {
@@ -52,51 +52,39 @@ class LoginController extends Controller
        
         try {
             # Try to call API to Portal
-            $portalResponse = callAPIPortal($request);
-            # Check status API response
-            if ($portalResponse->meta->code == Response::HTTP_OK) {
-                $userResponse = $portalResponse->data->user;
-                # Collect user data from response
-                $teamName = $userResponse->teams[0]->name;
-                $date = date(config('define.datetime_format'), strtotime($userResponse->expires_at));
-                $userCondition = [
-                    'employee_code' => $userResponse->employee_code,
-                    'email' => $request->email,
-                ];
-                $user = [
-                    'name' => $userResponse->name,
-                    'team' => $teamName,
-                    'access_token' => $userResponse->access_token,
-                    'expired_at' => $date,
-                    'avatar_url' => $userResponse->avatar_url
-                ];
-                if ($teamName == User::SA) {
-                    $user['role'] = User::ROOT_ADMIN;
-                }
-                # Update user from database OR create User
-                $user = User::updateOrCreate($userCondition, $user);
-                # Set login for user
-                Auth::login($user, $request->filled('remember'));
-                # check redirect to
-                $urlPrevious = session()->get('url_previous');
-                if (empty($urlPrevious) || $urlPrevious == route('login')) {
-                    $urlPrevious = "/";
-                }
-                session()->forget('url_previous');
-                return redirect($urlPrevious);
+            $userResponse = callAPIPortal($request);
+            $teamName = $userResponse[0]->teams[0]->name;
+            $userCondition = [
+                'employee_code' => $userResponse[0]->employee_code,
+                'email' => $request->email,
+            ];
+            $user = [
+                'name' => $userResponse[0]->name,
+                'team' => $teamName,
+                'access_token' => $userResponse['access_token'],
+                'avatar_url' => $userResponse[0]->avatar->file
+            ];
+            if ($teamName == User::SA) {
+                $user['role'] = User::ROOT_ADMIN;
             }
-        } catch (ServerException $e) {
+            # Update user from database OR create User
+            $user = User::updateOrCreate($userCondition, $user);
+            # Set login for user
+            Auth::login($user, $request->filled('remember'));
+            # check redirect to
+            $urlPrevious = session()->get('url_previous');
+            if (empty($urlPrevious) || $urlPrevious == route('login')) {
+                $urlPrevious = "/";
+            }
+            session()->forget('url_previous');
+            return redirect($urlPrevious);
+        } catch (\Exception $e) {
             # Catch errors from Portal
-            $portalResponse = json_decode($e->getResponse()->getBody()->getContents());
+            $userResponse = callAPIPortal($request);
             return redirect()
                 ->back()
                 ->withInput()
-                ->withErrors(['message' => trans('portal.messages.' . $portalResponse->meta->messages)]);
-        } catch (Exception $e) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->withErrors(['message' => $e->getMessage()]);
+                ->withErrors(['message' => trans('portal.messages.' . $userResponse['errors']['message'])]);
         }
     }
     
