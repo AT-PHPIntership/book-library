@@ -202,10 +202,13 @@ class BookController extends Controller
      */
     public function getReview($id)
     {
-        $dataReview = Post::getPost()->join('ratings', 'posts.user_id', 'ratings.user_id')
-            ->where([
-                ['posts.type', 1],
-                ['books.id', $id]
+        $dataReview = Post::getPost()->leftJoin('ratings', function ($join) {
+                $join->on('posts.user_id', '=', 'ratings.user_id');
+                $join->on('posts.book_id', '=', 'ratings.book_id');
+        })->where([
+                ['posts.type', Post::REVIEW_TYPE],
+                ['books.id', $id],
+                ['favorites.favoritable_type', Favorite::TYPE_POST]
             ])->paginate(config('define.review.limit_render'));
         return metaResponse($dataReview);
     }

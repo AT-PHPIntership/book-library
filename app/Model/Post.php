@@ -152,6 +152,7 @@ class Post extends Model
             'posts.type',
             'users.name',
             'users.team',
+            'users.avatar_url',
             'rating',
             'posts.created_at'
         ];
