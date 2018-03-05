@@ -44,6 +44,13 @@ class BaseTestBook extends DuskTestCase
             'category_id' => $faker->randomElement($categoryIds),
             'donator_id' => $faker->randomElement($donatorIds),
         ]);
+        for ($bookID = 1; $bookID <= $rows; $bookID++) {
+            factory(QrCode::class)->create([
+                'book_id' => $bookID,
+                'code_id' => $faker->unique()->randomNumber(4),
+                'prefix' => 'BAT-'
+            ]);
+        }
     }
 
     /**
@@ -71,16 +78,15 @@ class BaseTestBook extends DuskTestCase
             'category_id' => $faker->randomElement($categoryIds),
             'donator_id' => $faker->randomElement($donatorIds),
         ]);
-
-        //Make 20 borrowing, 20 qrcode, 20 rating, 20 post.
+        //Make 20 borrowing, 10 qrcode, 20 rating, 20 post.
         $bookIds = DB::table('books')->pluck('id')->toArray();
         factory(Borrowing::class, 10)->create([
             'user_id' => $faker->randomElement($userIds),
             'book_id' => $faker->randomElement($bookIds),
         ]);
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             factory(QrCode::class)->create([
-                'book_id' => $faker->randomElement($bookIds),
+                'book_id' => $i,
                 'code_id' => $faker->unique()->randomNumber(4),
                 'prefix' => 'BAT-'
             ]);

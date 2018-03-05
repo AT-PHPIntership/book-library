@@ -10,34 +10,13 @@ use App\Model\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
-class AdminShowListBookTest extends DuskTestCase
+class AdminShowListBookTest extends BaseTestBook
 {
     use DatabaseMigrations;
-
-    /**
-     * Create virtual database
-     *
-     * @return void
-     */
-    public function makeListOfBook($rows)
-    {
-        $faker = Faker::create();
-        factory(Category::class, 10)->create();
-        factory(User::class, 10)->create();
-        $userIds = DB::table('users')->pluck('id')->toArray();
-        factory(Donator::class, 10)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
-        ]);
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
-        factory(Book::class, $rows)->create([
-            'category_id' => $faker->randomElement($categoryIds),
-            'donator_id' => $faker->randomElement($donatorIds),
-        ]);
-    }
 
     /**
      * Create virtual database
@@ -63,8 +42,7 @@ class AdminShowListBookTest extends DuskTestCase
         $browser->loginAs(User::find(1))
                 ->visit('/admin/books/')
                 ->resize(900, 1600)
-                ->assertTitle('Admin | LIST OF BOOK')
-                ->screenshot('sample-screenshot');
+                ->assertTitle('Admin | LIST OF BOOK');
         $elements = $browser->elements('#table-book tbody tr');
         $this->assertCount(10, $elements);
         $this->assertNull($browser->element('.pagination'));
@@ -84,9 +62,7 @@ class AdminShowListBookTest extends DuskTestCase
             $page = $browser->loginAs(User::find(1))
                             ->visit('/admin/books')
                             ->resize(900, 1600)
-                            ->click('.pagination li:nth-child(3) a')
-                            ->screenshot('sample-screenshot');
-
+                            ->click('.pagination li:nth-child(3) a');
             $elements = $page->elements('#table-book tbody tr');
             $this->assertCount(5, $elements);
             $browser->assertQueryStringHas('page', 2);

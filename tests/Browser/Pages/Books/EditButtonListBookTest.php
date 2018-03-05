@@ -10,34 +10,13 @@ use App\Model\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
-class EditButtonShowBookTest extends DuskTestCase
+class EditButtonShowBookTest extends BaseTestBook
 {
     use DatabaseMigrations;
-
-    /**
-     * Create virtual listbook database.
-     *
-     * @return void
-     */
-    public function makeListOfBook($rows)
-    {
-        $faker = Faker::create();
-        factory(Category::class, 10)->create();
-        factory(User::class, 10)->create();
-        $userIds = DB::table('users')->pluck('id')->toArray();
-        factory(Donator::class, 10)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
-        ]);
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
-        factory(Book::class, $rows)->create([
-            'category_id' => $faker->randomElement($categoryIds),
-            'donator_id' => $faker->randomElement($donatorIds),
-        ]);
-    }
 
     /**
      * Create virtual user database.
@@ -65,8 +44,7 @@ class EditButtonShowBookTest extends DuskTestCase
                 ->click('.btn-edit-1')
                 ->assertPathIs('/admin/books/1/edit')
                 ->assertSee('Edit Book')
-                ->resize(1200, 900)
-                ->screenshot('sample-screenshot');
+                ->resize(1200, 900);
             $elements = $browser->elements('.form-group');
             $this->assertCount(10, $elements);
         });
@@ -94,8 +72,7 @@ class EditButtonShowBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                 ->visit('/admin/books/1/edit')
                 ->assertSee('Edit Book')
-                ->resize(900, 1600)
-                ->screenshot('sample-screenshot');
+                ->resize(900, 1600);
             $browser->assertInputValue('name', $book->name)
                 ->assertInputValue('author', $book->author)
                 ->assertInputValue('price', $book->price)

@@ -7,6 +7,7 @@ use App\Model\Borrowing;
 use App\Model\Category;
 use App\Model\Donator;
 use App\Model\User;
+use App\Model\QrCode;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -816,6 +817,14 @@ class SortBorrowingsTest extends DuskTestCase
             factory(Borrowing::class)->create([
                 'user_id' => $userId,
                 'book_id' => $faker->randomElement($bookIds),
+            ]);
+        }
+        $bookNumber = DB::table('books')->count();
+        for ($bookID = 1; $bookID <= $bookNumber; $bookID++) {
+            factory(QrCode::class, 1)->create([
+                'book_id' => $bookID,
+                'code_id' => $faker->unique()->randomNumber(4),
+                'prefix' => 'BAT-'
             ]);
         }
     }

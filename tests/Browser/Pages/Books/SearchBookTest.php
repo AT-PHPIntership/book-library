@@ -10,6 +10,7 @@ use App\Model\Category;
 use App\Model\Donator;
 use App\Model\User;
 use App\Model\Borrowing;
+use App\Model\QrCode;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
@@ -60,6 +61,14 @@ class SearchBookTest extends DuskTestCase
             $borrowing = factory(Borrowing::class, 1)->create([
                 'book_id' =>  $faker->randomElement($bookIds),
                 'user_id' =>  $faker->randomElement($userIds),
+            ]);
+        }
+        $bookNumber = DB::table('books')->count();
+        for ($bookID = 1; $bookID <= $bookNumber; $bookID++) {
+            factory(QrCode::class, 1)->create([
+                'book_id' => $bookID,
+                'code_id' => $faker->unique()->randomNumber(4),
+                'prefix' => 'BAT-'
             ]);
         }
     }

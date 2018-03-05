@@ -35,6 +35,8 @@ class CreateQrcodesTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         Schema::dropIfExists('qrcodes');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }

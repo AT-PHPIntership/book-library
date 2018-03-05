@@ -10,6 +10,7 @@ use App\Model\Category;
 use App\Model\Donator;
 use App\Model\User;
 use App\Model\Borrowing;
+use App\Model\QrCode;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
@@ -55,7 +56,14 @@ class SortBookTest extends DuskTestCase
                 'user_id' =>  $faker->randomElement($userIds),
             ]);
         }
-
+        $bookNumber = DB::table('books')->count();
+        for ($bookID = 1; $bookID <= $bookNumber; $bookID++) {
+            factory(QrCode::class, 1)->create([
+                'book_id' => $bookID,
+                'code_id' => $faker->unique()->randomNumber(4),
+                'prefix' => 'BAT-'
+            ]);
+        }
     }
 
     /**
@@ -83,13 +91,13 @@ class SortBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books')
                     ->clickLink('Name')
-                    ->resize(900, 1600)
+                    ->resize(1600, 2000)
                     ->assertSee('LIST OF BOOK')
                     ->assertVisible('.fa.fa-sort-asc');
             $books = Book::orderBy('name', 'ASC')->limit(10)->get();
             $checkName = false;
             foreach ($books as $index => $book) {
-                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
+                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
                 $checkName = $book->name == $bookName;
                 if (!$checkName) {
                     break;
@@ -118,7 +126,7 @@ class SortBookTest extends DuskTestCase
             $books = Book::orderBy('name', 'ASC')->skip(10)->take(6)->get();
             $checkName = false;
             foreach ($books as $index => $book) {
-                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
+                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
                 $checkName = $book->name === $bookName;
                 if (!$checkName) {
                     break;
@@ -147,7 +155,7 @@ class SortBookTest extends DuskTestCase
             $books = Book::orderBy('name', 'DESC')->limit(10)->get();
             $checkName = false;
             foreach ($books as $index => $book) {
-                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
+                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
                 $checkName = $book->name === $bookName;
                 if (!$checkName) {
                     break;
@@ -177,7 +185,7 @@ class SortBookTest extends DuskTestCase
             $books = Book::orderBy('name', 'Desc')->skip(10)->take(6)->get();
             $checkName = false;
             foreach ($books as $index => $book) {
-                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
+                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
                 $checkName = $book->name === $bookName;
                 if (!$checkName) {
                     break;
@@ -207,7 +215,7 @@ class SortBookTest extends DuskTestCase
             $books = Book::orderBy('author', 'ASC')->limit(10)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
-                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
+                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
                 $checkAuthor = $book->author === $bookAuthor;
                 if (!$checkAuthor) {
                     break;
@@ -236,7 +244,7 @@ class SortBookTest extends DuskTestCase
             $books = Book::orderBy('author', 'ASC')->skip(10)->take(6)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
-                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
+                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
                 $checkAuthor = $book->author === $bookAuthor;
                 if (!$checkAuthor) {
                     break;
@@ -266,7 +274,7 @@ class SortBookTest extends DuskTestCase
             $books = Book::orderBy('author', 'Desc')->limit(10)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
-                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
+                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
 
                 $checkAuthor = $book->author === $bookAuthor;
 
@@ -297,7 +305,7 @@ class SortBookTest extends DuskTestCase
             $books = Book::orderBy('author', 'DESC')->skip(10)->take(6)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
-                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
+                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
                 $checkAuthor = $book->author === $bookAuthor;
                 if (!$checkAuthor) {
                     break;
@@ -327,7 +335,7 @@ class SortBookTest extends DuskTestCase
             $books = Book::orderBy('avg_rating', 'Asc')->limit(10)->get();
             $checkAvgRating = false;
             foreach ($books as $index => $book) {
-                $bookAvgRating = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
+                $bookAvgRating = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
                 $checkAvgRating = $book->avg_rating == $bookAvgRating;
                 if (!$checkAvgRating) {
                     break;
@@ -356,7 +364,7 @@ class SortBookTest extends DuskTestCase
             $books = Book::orderBy('avg_rating', 'ASC')->skip(10)->take(6)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
-                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
+                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
                 $checkAuthor = $book->avg_rating == $bookAuthor;
                 if (!$checkAuthor) {
                     break;
@@ -385,7 +393,7 @@ class SortBookTest extends DuskTestCase
             $books = Book::orderBy('avg_rating', 'Desc')->limit(10)->get();
             $checkAvgRating = false;
             foreach ($books as $index => $book) {
-                $bookAvgRating = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
+                $bookAvgRating = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
                 $checkAvgRating = $book->avg_rating == $bookAvgRating;
                 if (!$checkAvgRating) {
                     break;
@@ -414,7 +422,7 @@ class SortBookTest extends DuskTestCase
             $books = Book::orderBy('avg_rating', 'DESC')->skip(10)->take(6)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
-                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
+                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
                 $checkAuthor = $book->avg_rating == $bookAuthor;
                 if (!$checkAuthor) {
                     break;
@@ -449,7 +457,7 @@ class SortBookTest extends DuskTestCase
                    ->limit(10)->get();
             $checkTotal = false;
             foreach ($books as $index => $book) {
-                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
+                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
                 $checkTotal = $book->borrowing == $bookTotal;
                 if (!$checkTotal) {
                     break;
@@ -484,7 +492,7 @@ class SortBookTest extends DuskTestCase
 
             $checkTotal = false;
             foreach ($books as $index => $book) {
-                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
+                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
                 $checkTotal = $book->borrowing == $bookTotal;
                 if (!$checkTotal) {
                     break;
@@ -520,7 +528,7 @@ class SortBookTest extends DuskTestCase
 
             $checkTotal = false;
             foreach ($books as $index => $book) {
-                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
+                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
                 $checkTotal = $book->borrowing == $bookTotal;
                 if (!$checkTotal) {
                     break;
@@ -555,7 +563,7 @@ class SortBookTest extends DuskTestCase
 
             $checkTotal = false;
             foreach ($books as $index => $book) {
-                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
+                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
                 $checkTotal = $book->borrowing == $bookTotal;
 
                 if (!$checkTotal) {

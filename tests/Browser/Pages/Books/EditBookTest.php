@@ -6,6 +6,7 @@ use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use App\Model\Category;
 use App\Model\User;
+use App\Model\QrCode;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Facebook\WebDriver\WebDriverBy;
 use Illuminate\Http\UploadedFile;
@@ -315,5 +316,13 @@ class EditBookTest extends DuskTestCase
             'donator_id' => $faker->randomElement($donatorIds),
             'image'      => 'no-image.png',
         ]);
+        $bookNumber = DB::table('books')->count();
+        for ($bookID = 1; $bookID <= $bookNumber; $bookID++) {
+            factory(QrCode::class, 1)->create([
+                'book_id' => $bookID,
+                'code_id' => $faker->unique()->randomNumber(4),
+                'prefix' => 'BAT-'
+            ]);
+        }
     }
 }
