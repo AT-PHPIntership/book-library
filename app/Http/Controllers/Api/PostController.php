@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Model\Post;
 use App\Model\User;
 use App\Model\Book;
+use App\Model\Rating;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PostController extends ApiController
 {
@@ -35,22 +37,31 @@ class PostController extends ApiController
         $userId = $this->user->id;
         $content = $request->get('content');
         $bookId = $request->get('book_id');
-        $image = Book::select('image')->where('id', $bookId)->first();
         $findBook = $request->get('find_book');
         if (isset($bookId)) {
             $type = Post::REVIEW_TYPE;
-        } else if ($findBook === 0) {
+        } elseif ($findBook === 0) {
             $type = Post::STATUS_TYPE;
         } else {
             $type = Post::FIND_TYPE;
         }
         $reviewPost = Post::create([
-        'user_id'=> $userId,
-        'content' => $content,
-        'bookId' => $bookId,
-        'type' => $type,
-        'image' => $image,
+            'user_id'=> $userId,
+            'content' => $content,
+            'book_id' => $bookId,
+            'type' => $type,
         ]);
-        return metaResponse($reviewPost);
+        if ($request->get('rating')) {
+            $ratingPost = Rating::create([
+                'user_id'=> $userId,
+                'book_id' => $bookId,
+                'rating' => $request->get('rating'),
+            ]);
+        }
+        $data = [
+            'reviewPost' => $reviewPost,
+            'ratingPost' => $ratingPost,
+        ];
+        return metaResponse($data, Response::HTTP_CREATED);
     }
 }
