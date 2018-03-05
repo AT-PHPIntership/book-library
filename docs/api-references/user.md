@@ -29,7 +29,7 @@ Login by API
 ```json
 {
     "meta": {
-        "status": "successfully",
+        "message": null,
         "code": 200
     },
     "data": {
@@ -41,7 +41,6 @@ Login by API
         "avatar_url": "http://172.16.110.17/images/user/avatar/350/40c1fc7286.png",
         "role": 1,
         "access_token": "40604dab9b3c87be058a3096d4f4f5e8",
-        "expired_at": "2018-02-09 05:38:13",
         "created_at": "2018-02-01 07:51:59",
         "updated_at": "2018-02-09 03:37:16",
         "deleted_at": null
@@ -57,16 +56,6 @@ Password is empty
 }
 ```
 
-```json
-{
-    "meta": {
-        "status": "failed",
-        "code": 400,
-        "messages": "email_or_password_cannot_blank"
-    },
-    "error": "Email or Password cannot blank"
-}
-```
 #### Sample Request body
 Failure password 
 ```json
@@ -78,11 +67,9 @@ Failure password
 ```json
 {
     "meta": {
-        "status": "failed",
-        "code": 400,
-        "messages": "email_or_password_not_correct"
+        "message": "login_failure",
+        "code" : 400
     },
-    "error": "Email or password not correct"
 }
 ```
 
