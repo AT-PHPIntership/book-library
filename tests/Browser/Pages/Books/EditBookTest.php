@@ -318,7 +318,7 @@ class EditBookTest extends DuskTestCase
         ]);
         $bookNumber = DB::table('books')->count();
         for ($bookID = 1; $bookID <= $bookNumber; $bookID++) {
-            factory(QrCode::class, 1)->create([
+            factory(QrCode::class)->create([
                 'book_id' => $bookID,
                 'code_id' => $faker->unique()->randomNumber(4),
                 'prefix' => 'BAT-'
