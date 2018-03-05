@@ -67,7 +67,9 @@
             <div class="text-center">
               <nav aria-label="...">
                 <ul class="pagination">
-                  {{ $users->links() }}
+                  @if($users instanceof \Illuminate\Pagination\AbstractPaginator)
+                    {{  $users ->links() }}
+                  @endif
                 </ul>
               </nav>
             </div>
