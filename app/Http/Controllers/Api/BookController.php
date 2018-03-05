@@ -202,7 +202,7 @@ class BookController extends Controller
      */
     public function getReview($id)
     {
-        $dataReview = Post::getPost(['rating'])->leftJoin('ratings', function ($join) {
+        $dataReview = Post::getPost(['ratings.id as rating_id', 'rating'])->leftJoin('ratings', function ($join) {
                 $join->on('posts.user_id', '=', 'ratings.user_id');
                 $join->on('posts.book_id', '=', 'ratings.book_id');
         })->where([
