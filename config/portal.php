@@ -1,10 +1,11 @@
 <?php
 
 return [
-    'base_url_api' => 'http://172.16.110.17/api/v1',
+    'base_url_api' => 'http://172.16.110.158/api/v2',
     
     'end_point' => [
-        'login' => '/auth/login',
+        'login' => '/auths',
+        'user_profiles' => '/users/profiles',
         'logout' => '',
     ]
 ];

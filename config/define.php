@@ -11,6 +11,12 @@
     'all' => 'all',
     'date_diff' => 3,
     'timezone' => 7,
+    'languages' => [
+        'Vietnamese' => 'Vietnamese',
+        'Japanese' => 'Japanese',
+        'Korean' => 'Korean',
+        'English' => 'English',
+    ],
     'messages' => [
       '404_not_found' => 'Page Not Found',
       '405_method_error' => 'Method Failure',
@@ -20,5 +26,9 @@
     ],
     'book' => [
       'item_limit' => 20,
+    ],
+    'qrcode' => [
+      'begin_prefix_pos' => 0,
+      'end_prefix_pos' => 4,
     ]
   ];

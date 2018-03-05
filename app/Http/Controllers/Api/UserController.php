@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use DB;
+use App\Http\Controllers\Api\ApiController;
 use App\Model\User;
+use DB;
+use Illuminate\Http\Response;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * Change role of user.
@@ -27,5 +29,34 @@ class UserController extends Controller
             $data = -1;
         }
         return response()->json($data);
+    }
+
+    /**
+     * Show information of User.
+     *
+     * @param int $id id of user
+     *
+     * @return mixed
+     */
+    public function show($id)
+    {
+        $fields = [
+            'users.id',
+            'users.employee_code',
+            'users.name',
+            'users.email',
+            'users.team',
+            'users.role',
+            DB::raw('COUNT(DISTINCT(borrowings.book_id)) AS total_borrowed'),
+            DB::raw('COUNT(DISTINCT(books.id)) AS total_donated'),
+        ];
+        
+        $user = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
+                    ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
+                    ->leftJoin('books', 'donators.id', 'books.donator_id')
+                    ->select($fields)
+                    ->groupby('users.id')
+                    ->findOrFail($id);
+        return metaResponse(['data' => $user]);
     }
 }

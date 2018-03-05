@@ -81,7 +81,7 @@ class SetRoleTest extends BaseTestUser
                     ->assertSeeIn('#role-1', 'User')
                     ->assertVisible('#role-1', 'background-color: #d73925')
                     ->press('#role-1')
-                    ->pause(1000)
+                    ->pause(3000)
                     ->assertSeeIn('#role-1', 'Admin')
                     ->assertVisible('#role-1', 'background-color: #00a65a'); 
         });
@@ -103,7 +103,7 @@ class SetRoleTest extends BaseTestUser
                     ->assertSeeIn('#role-1', 'Admin')
                     ->assertVisible('#role-1', 'background-color: #00a65a')
                     ->press('#role-1')
-                    ->pause(1000)
+                    ->pause(3000)
                     ->assertSeeIn('#role-1', 'User')
                     ->assertVisible('#role-1', 'background-color: #d73925');
         });

@@ -68,7 +68,7 @@ class EditButtonShowBookTest extends DuskTestCase
                 ->resize(1200, 900)
                 ->screenshot('sample-screenshot');
             $elements = $browser->elements('.form-group');
-            $this->assertCount(8, $elements);
+            $this->assertCount(10, $elements);
         });
     }
 
