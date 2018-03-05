@@ -142,9 +142,11 @@ class Post extends Model
     /**
      * Get post data
      *
+     * @param array $addingFields adding some needed fields
+     *
      * @return App\Model\Post
      */
-    public static function getPost()
+    public static function getPost($addingFields = null)
     {
         $fields = [
             'posts.id',
@@ -153,9 +155,12 @@ class Post extends Model
             'users.name',
             'users.team',
             'users.avatar_url',
-            'rating',
             'posts.created_at'
         ];
+
+        if ($addingFields != null) {
+            $fields = array_merge($fields, $addingFields);
+        }
 
         return self::select($fields)->withCount('favorites')
                                     ->withCount('comments')
