@@ -27,11 +27,19 @@
     'book' => [
       'item_limit' => 20,
     ],
+    'review' => [
+      'limit_render' => 20,
+    ],
     'qrcode' => [
       'begin_prefix_pos' => 0,
       'end_prefix_pos' => 4,
     ],
     'post' => [
       'page_length' => 20,
+    ],
+    'type_post' => [
+      \App\Model\Post::REVIEW_TYPE, 
+      \App\Model\Post::STATUS_TYPE, 
+      \App\Model\Post::FIND_TYPE,       
     ]
   ];

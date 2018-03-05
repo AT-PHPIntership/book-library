@@ -120,7 +120,7 @@ class Post extends Model
     }
 
     /**
-    * Custom format lable type by review, status, find book
+     * Custom format lable type by review, status, find book
      *
      * @return mixed
      */
@@ -142,26 +142,30 @@ class Post extends Model
     /**
      * Get post data
      *
+     * @param array $addingFields adding some needed fields
+     *
      * @return App\Model\Post
      */
-    public static function getPost()
+    public static function getPost($addingFields = null)
     {
         $fields = [
             'posts.id',
-            'users.id as user_id',
-            'users.name as user_name',
             'posts.content',
             'posts.type',
-            'books.name as book_name',
-            'books.image',
-            'posts.created_at',
-            'posts.updated_at',
-            'books.avg_rating',
+            'users.name as user_name',
+            'users.team',
+            'users.avatar_url',
+            'posts.created_at'
         ];
-        return self::select($fields)
-                ->join('users', 'users.id', '=', 'posts.user_id')
-                ->leftJoin('books', 'books.id', '=', 'posts.book_id')
-                ->withCount('comments')
-                ->withCount('favorites');
+
+        if ($addingFields != null) {
+            $fields = array_merge($fields, $addingFields);
+        }
+
+        return self::select($fields)->withCount('favorites')
+                                    ->withCount('comments')
+                                    ->join('users', 'posts.user_id', 'users.id')
+                                    ->leftJoin('favorites', 'users.id', 'favorites.user_id')
+                                    ->leftJoin('books', 'posts.book_id', 'books.id');
     }
 }

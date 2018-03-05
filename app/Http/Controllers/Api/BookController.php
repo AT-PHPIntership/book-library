@@ -192,4 +192,24 @@ class BookController extends Controller
         $books->appends(['search' => $request->search])->render();
         return metaResponse($books);
     }
+
+    /**
+     * Get all book's reviews
+     *
+     * @param integer $id book's id
+     *
+     * @return Illuminate\Http\Response
+     */
+    public function getReview($id)
+    {
+        $dataReview = Post::getPost(['rating'])->leftJoin('ratings', function ($join) {
+                $join->on('posts.user_id', '=', 'ratings.user_id');
+                $join->on('posts.book_id', '=', 'ratings.book_id');
+        })->where([
+                ['posts.type', Post::REVIEW_TYPE],
+                ['books.id', $id],
+                ['favorites.favoritable_type', Favorite::TYPE_POST]
+            ])->paginate(config('define.review.limit_render'));
+        return metaResponse($dataReview);
+    }
 }
