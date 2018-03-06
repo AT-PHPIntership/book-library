@@ -70,8 +70,6 @@ Update the comment
     "code": 200
   },
   "data": {
-    "id": 2,
-    "user_id": 5,
     "content": "new comment",
   }
 }
