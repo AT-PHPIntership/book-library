@@ -18,13 +18,16 @@ trait SearchTrait
     public function scopeSearch($query, $search, $filter)
     {
         $columns = $this->searchable;
-        foreach ($columns['input'] as $value) {
-            if ($filter === $value[0]) {
-                $query->where($value[0], $value[1], '%'.$search.'%');
+
+        $query->where(function ($where) use ($columns, $search, $filter) {
+            foreach ($columns['input'] as $value) {
+                if ($filter === $value[0]) {
+                    $where->orWhere($value[0], $value[1], '%'.$search.'%');
+                }
+                if ($filter == config('define.all')) {
+                    $where->orWhere($value[0], $value[1], '%'.$search.'%');
+                }
             }
-            if ($filter == config('define.all')) {
-                $query->orWhere($value[0], $value[1], '%'.$search.'%');
-            }
-        }
+        });
     }
 }
