@@ -17,6 +17,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('login', 'LoginController@login');    
     Route::group(['middleware' => 'apiLogin'], function () {
         Route::get('users/{id}', 'UserController@show');
+        Route::get('users/{id}/posts', 'PostController@getListPostOfUser');
     });
     Route::get('categories', 'CategoryController@index');
     Route::get('books', 'BookController@index');
@@ -24,5 +25,4 @@ Route::group(['namespace' => 'Api'], function () {
     Route::get('books/top-borrow', 'BookController@topBorrow');
     Route::get('books/{id}/reviews', 'BookController@getReview');
     Route::get('books/{id}', 'BookController@show');
-    Route::get('users/{id}/posts', 'PostController@getListPostOfUser');
 });

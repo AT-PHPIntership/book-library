@@ -13,7 +13,7 @@ class PostController extends Controller
      * Get list post of user
      *
      * @param Request $request request
-     * @param int     $id      id of book
+     * @param int     $id      id of user
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,15 +23,15 @@ class PostController extends Controller
             'books.name as book_name',
             'books.image',
             'posts.updated_at',
-            'books.avg_rating'
+            'books.avg_rating',
         ];
         $posts = Post::getPost($fields)
-                    ->where('users.id', $id);
+                        ->where('users.id', $id);
         if ($request->has('type')) {
-            $type_posts = config('define.type_post');
+            $postTypes = config('define.type_post');
             $type = $request->type;
-            foreach ($type_posts as $type_post) {
-                if ($type_post == $type) {
+            foreach ($postTypes as $postType) {
+                if ($postType == $type) {
                     $posts = $posts->where('type', $type);
                 }
             }

@@ -24,16 +24,15 @@ class LoginAPIMiddleware
         if ($accessToken != null) {
             $user = User::where('access_token', '=', $accessToken)
                         ->firstOrFail();
-            if (Carbon::parse($user->expired_at) > Carbon::now()) {
+            if ($user) {
                 return $next($request);
-            } else {
-                return response()->json([
-                    'meta' => [
-                        'code' => 440,
-                        'message' => config('define.messages.440_login_timeout')
-                    ]
-                ]);
             }
+            return response()->json([
+                'meta' => [
+                    'code' => Response::HTTP_NOT_FOUND,
+                    'message' => config('define.messages.token_not_found')
+                ]
+            ]);
         }
         return response()->json([
             'meta' => [
