@@ -171,7 +171,7 @@ class DeleteCategoryTest extends DuskTestCase
                     ->pause(1000)
                     ->script("$('.confirm').attr('data-id', 1)");
             $browser->press('OK')
-                    ->pause(1000)
+                    ->pause(2000)
                     ->assertSee('You cannot delete this category, because it is a default category!');
         });
 
