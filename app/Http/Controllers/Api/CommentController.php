@@ -48,13 +48,14 @@ class CommentController extends ApiController
      * Create api new comment.
      *
      * @param Request $request CreateCommentRequest
+     * @param Int     $id      Id of post
      *
      * @return Response
      */
     public function store(ApiNewCommentRequest $request, $id)
     {
         //Validate post id
-        if(!Post::find($id)) {
+        if (!Post::find($id)) {
             return $this->showMessageAndCode(config('define.messages.post_not_found'), Response::HTTP_NOT_FOUND);
         }
         $request['post_id'] = $id;
