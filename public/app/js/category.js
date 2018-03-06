@@ -8,7 +8,7 @@ var category = (function(){
     classBtnEditNameCategories = document.getElementsByClassName('btn-show-edit-modal');
     for (let classBtnEditNameCategory of classBtnEditNameCategories) {
       classBtnEditNameCategory.addEventListener('click', function () {
-        $('#idCategory').val($(this).attr('data-id'));
+        $('#id-category').val($(this).attr('data-id'));
         $('#name-category').val($(this).attr('data-name'));
       });
     }
@@ -17,7 +17,7 @@ var category = (function(){
   var updateNameCategory = function() {
     $('.btn-update-name-category').on('click', function () {
       token = $('meta[name="csrf_token"]').attr('content');
-      id = $("#idCategory").val();
+      id = $("#id-category").val();
       name = $('#name-category').val();
       $.ajax({
         type: 'PUT',

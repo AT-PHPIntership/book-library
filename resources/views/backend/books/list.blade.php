@@ -1,30 +1,34 @@
 @extends('backend.layouts.main')
 @section('title',__('books.title_book'))
 @section('content')
+
+<script type="text/javascript">
+  $notification = {!! json_encode(trans('book.notification')) !!};
+</script>
+
 <!-- Modal -->
-<div id="confirmDelete" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+@include ('backend.books.partials.import-modal')
+  <div id="notification" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body text-center">
+          <h3 id="error"></h3>
+          <p>{{ __('book.notification.content') }}</p>
+        </div>
+        <div class="modal-footer">
+          <button id="reload" type="button" class="btn btn-danger ok" data-dismiss="modal">{{ __('confirm.reload') }}</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
+        </div>
       </div>
-      <div class="modal-body text-center">
-        <h3>{{ __('book.confirm.title') }}</h3>
-        <p >{{ __('book.confirm.delete') }}
-            <strong class="data-content"></strong>?
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button id="ok" type="button" class="btn btn-danger ok" data-dismiss="modal">{{ __('confirm.ok') }}</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('confirm.close') }}</button>
-      </div>
+      <!-- end content-->
+
     </div>
-    <!-- end content-->
-
   </div>
-</div>
 <!-- end modal-->
 
 <!-- Content Wrapper. Contains page content -->
@@ -49,11 +53,29 @@
                     <div class="box-header">
                         <!-- add form search and select for book -->
                         <!-- start -->
-                        <form action="{{ route('books.index') }}" method="GET" id="frm-search">
                             <div class="form-row">
-                                <div class="form-group col-md-3">
-                                    <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('books.add_book') }}</a>
+                                <div class="col-md-3">
+                                    <ul id="accordion" class="accordion">
+                                      <li>
+                                        <div class="link"><i class="fa fa-book"></i>{{ __('book.dropmenu') }}<i class="fa fa-chevron-down"></i></div>
+                                        <ul class="submenu">
+                                          <li>
+                                            <a class="btn btn-success" href="{{ route('books.create') }}">{{ __('books.add_book') }}</a>
+                                          </li>
+                                          <li>
+                                            <form id="import-form" action="{{ route('books.import') }}" method="post" enctype="multipart/form-data">
+                                              {{csrf_field()}}
+                                              <input type="file" name="import-data" class="form-control" id="import-book">
+                                            </form>
+                                          </li>
+                                        </ul>
+                                      </li>
+                                    </ul>
+                                    @if($errors->first('import-data'))
+                                      <span class="text-danger">{{ $errors->first('import-data') }}</span>
+                                    @endif
                                 </div>
+                              <form action="{{ route('books.index') }}" method="GET" id="frm-search">
                                 <div class="form-group col-md-5">
                                     <input type="text" class="form-control" id="search-book" name="search" placeholder="{{ __('general.enter_name')}}" value="{{ Request::get('search')}}">
                                 </div>
@@ -67,8 +89,16 @@
                                 <div class="form-group col-md-1">
                                     <button type="submit" class="btn btn-info form-control" id="submit"><i class="fa fa-search"></i></button>
                                 </div>
+                              </form>
+                                @if (\Request::has('uid') && \Request::has('filter'))
+                                <div class="form-group col-md-5">
+                                    <input type="hidden" class="form-control" id="uid-book" name="uid" value="{{ Request::input('uid') != null ? Request::input('uid') : null}}">
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <input type="hidden" class="form-control" id="filter-book" name="filter" value="{{ Request::input('filter') != null ? Request::input('filter') : null}}">
+                                </div>
+                                @endif
                             </div>
-                        </form>
                        <!-- end -->
                     </div>
                 </div>
@@ -81,7 +111,7 @@
             <div class="box">
               <!-- /.box-header -->
               <div class="box-body table-responsive no-padding">
-                  <table class="table table-bordered table-hover" id="table-book">
+                  <table class="table table-bordered" id="table-book">
                        @if (count($books) > 0)
                       <thead>
                           <tr>
@@ -102,9 +132,10 @@
                                 <td class="text-center">{{ $book->avg_rating }}</td>
                                 <td class="text-center">{{ $book->borrowings_count }}</td>
                                 <td align="center">
-                                    <a href="{{ route('books.edit', ['book' => $book, 'page' => $_SERVER['REQUEST_URI']]) }}"
-                                       class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></a>
-                                    <i class="btn btn-danger btn-lg fa fa-trash-o" id="{{ $book->id }}" data-toggle="modal" data-target="#confirmDelete" data-name="{{ $book->name }}"></i>
+                                    <a href="{{ route('books.edit', ['book' => $book, 'page' => $_SERVER['REQUEST_URI']]) }}">
+                                      <button class= "btn btn-edit-{{ $book->id }} btn-primary btn-lg fa fa-pencil-square-o btn-custom-option pull-left-center"></button>
+                                    </a>
+                                    <i class="width-50 btn btn-danger btn-lg fa fa-trash-o" book-id="{{ $book->id }}"></i>
                                 </td>
                             </tr>
                         @endforeach
@@ -119,7 +150,10 @@
                       @endif
                   </table>
                   <div class="text-center">
-                       {{ $books->appends(\Request::except('page'))->appends(['search' => Request::get('search'), 'choose' => Request::get('choose')])->render()}}
+                    @if($books instanceof \Illuminate\Pagination\AbstractPaginator)
+                       {{ $books->appends(\Request::except('page'))->appends(['search' => Request::get('search'), 'choose' => Request::get('choose'),
+                        'uid' => Request::get('uid'), 'filter' => Request::get('filter'), 'limit' => Request::get('limit')])->render()}}
+                    @endif
                   </div>
               </div>
               <!-- /.box-body -->
@@ -130,4 +164,11 @@
     </section>
   </div>
   <!-- /.content-wrapper -->
+@endsection
+@section('script')
+<script src="{{ asset('app/js/book.js') }}"></script>
+<script>
+  $newBook.addEventForAllButton();
+</script>
+  <script src="{{ asset('js/excel.js')  }}"></script>
 @endsection

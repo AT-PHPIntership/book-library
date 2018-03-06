@@ -59,14 +59,14 @@ class EditBookTest extends DuskTestCase
      */
     public function validationTestCase() {
         return [
-            ['', '7', 'Example Author', '10009', 'AT-00001', '2018', 'This is description', $this->fakeImage(), ['The name field is required']],
-            ['Example Book', '7', '', '10009', 'AT-00001', '2018', 'This is description', $this->fakeImage(),['The author field is required']],
-            ['Example Book', '7', 'Example Author', '', 'AT-00001', '2018', 'This is description', $this->fakeImage(),['The price field is required']],
-            ['Example Book', '7', 'Example Author', 'abc', 'AT-00001', '2018', 'This is description', $this->fakeImage(),['The price must be a number']],
-            ['Example Book', '7', 'Example Author', '10009', '', '2018', 'This is description', $this->fakeImage(),['The employee code field is required']],
-            ['Example Book', '7', 'Example Author', '10009', 'AT-00001', '1800', 'This is description', $this->fakeImage(),['The year must be at least 1900']],
-            ['Example Book', '7', 'Example Author', '10009', 'AT-00001', '2020', 'This is description', $this->fakeImage(),['The year may not be greater than ' . Carbon::now()->year]],
-            ['Example Book', '7', 'Example Author', '10009', 'AT-00001', '2018', 'This is description', $this->fakeNotImage(),['The image must be an image']],
+            ['', '7', 'Example Author', '10009', 'AT-00001', '222', '2', '2018', 'This is description', $this->fakeImage(), ['The name field is required']],
+            ['Example Book', '7', '', '10009', 'AT-00001', '222', '2', '2018', 'This is description', $this->fakeImage(),['The author field is required']],
+            ['Example Book', '7', 'Example Author', '', 'AT-00001', '222', '2', '2018', 'This is description', $this->fakeImage(),['The price field is required']],
+            ['Example Book', '7', 'Example Author', 'abc', 'AT-00001', '222', '2', '2018', 'This is description', $this->fakeImage(),['The price must be a number']],
+            ['Example Book', '7', 'Example Author', '10009', '', '222', '2', '2018', 'This is description', $this->fakeImage(),['The employee code field is required']],
+            ['Example Book', '7', 'Example Author', '10009', 'AT-00001', '222', '2', '1800', 'This is description', $this->fakeImage(),['The year must be at least 1900']],
+            ['Example Book', '7', 'Example Author', '10009', 'AT-00001', '222', '2', '2020', 'This is description', $this->fakeImage(),['The year may not be greater than ' . Carbon::now()->year]],
+            ['Example Book', '7', 'Example Author', '10009', 'AT-00001', '222', '2', '2018', 'This is description', $this->fakeNotImage(),['The image must be an image']],
         ];
     }
 
@@ -74,9 +74,9 @@ class EditBookTest extends DuskTestCase
      * @dataProvider validationTestCase
      * 
      */
-    public function testEditBookValidation($name, $category_id, $author, $price, $donator_id, $year, $description, $image,$messages)
+    public function testEditBookValidation($name, $category_id, $author, $price, $donator_id, $pages, $language, $year, $description, $image,$messages)
     {
-        $this->browse(function (Browser $browser) use ($name, $category_id, $author, $price, $donator_id, $year, $description, $image, $messages) {
+        $this->browse(function (Browser $browser) use ($name, $category_id, $author, $price, $donator_id, $pages, $language, $year, $description, $image, $messages) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/books/1/edit')
                     ->resize(1600, 2000)
@@ -85,6 +85,8 @@ class EditBookTest extends DuskTestCase
                     ->type('author', $author)
                     ->type('price', $price)
                     ->type('employee_code', $donator_id)
+                    ->type('pages', $pages)
+                    ->select('language', $language)
                     ->type('year', $year)
                     ->attach('image', $image);
 
@@ -116,6 +118,8 @@ class EditBookTest extends DuskTestCase
                     ->type('author', 'Example Author')
                     ->type('price', '10009')
                     ->type('employee_code', 'AT-00001')
+                    ->type('pages', '222')
+                    ->select('language', 1)
                     ->type('year', '2018')
                     ->attach('image', $this->fakeImage());
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
@@ -158,6 +162,8 @@ class EditBookTest extends DuskTestCase
                     ->type('price', '10009')
                     ->type('employee_code', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lore Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lore')
+                    ->type('pages', '222')
+                    ->select('language', 1)
                     ->type('year', '2018')
                     ->attach('image', $this->fakeImage());
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
@@ -293,7 +299,7 @@ class EditBookTest extends DuskTestCase
     public function fakeData()
     {
         $faker = Faker::create();
-        factory(Category::class, 10)->create();
+        factory(Category::class, 3)->create();
         factory(User::class, 10)->create();
         $userIds = DB::table('users')->pluck('id')->toArray();
         $this->donators =  factory(Donator::class, 10)->create([
@@ -302,7 +308,10 @@ class EditBookTest extends DuskTestCase
         $categoryIds = DB::table('categories')->pluck('id')->toArray();
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
         $book = factory(Book::class, 15)->create([
-            'category_id' => $faker->randomElement($categoryIds),
+            'category_id' => $faker->randomElement([
+                '1' => 2,
+                '2' => 3
+            ]),
             'donator_id' => $faker->randomElement($donatorIds),
             'image'      => 'no-image.png',
         ]);

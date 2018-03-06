@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use DB;
 use App\Model\User;
+use App\Model\Book;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of User.
      *
+     *@param Request $request request
+     *
      * @return mixed
      */
-    public function index()
+    public function index(Request $request)
     {
         $fields = [
             'users.id',
@@ -26,13 +29,21 @@ class UserController extends Controller
             DB::raw('COUNT(DISTINCT(borrowings.book_id)) AS total_borrowed'),
             DB::raw('COUNT(DISTINCT(books.id)) AS total_donated'),
         ];
-        
-        $users = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
-        ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
-        ->leftJoin('books', 'donators.id', 'books.donator_id')
-        ->select($fields)
-        ->groupBy('users.id')
-        ->paginate(config('define.page_length'));
+        $users = User::select($fields)
+                    ->leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
+                    ->groupBy('users.id')
+                    ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
+                    ->leftJoin('books', 'donators.id', 'books.donator_id');
+        // get value filter and limit on url
+        $filter = $request->input('filter');
+        $limit = $request->input('limit');
+        if ($filter == Book::DONATED) {
+            $users = $users->orderby('total_donated', 'DESC')
+                            ->limit($limit)
+                            ->get();
+        } else {
+            $users = $users->paginate(config('define.page_length'));
+        }
         return view('backend.users.index', compact('users'));
     }
 
