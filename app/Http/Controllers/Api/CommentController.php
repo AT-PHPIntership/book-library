@@ -7,6 +7,7 @@ use App\Model\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommentUpdateRequest;
 use App\Http\Controllers\Api\ApiController;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -28,18 +29,18 @@ class CommentController extends ApiController
     /**
      * Update comment in Posts
      *
-     * @param Request $request request
-     * @param int     $id      id of comment
+     * @param CommentUpdateRequest  $request Request update comment
+     * @param int                   $id      id of comment
      *
      * @return mixed
      */
-    public function update(Request $request, $id)
+    public function update(CommentUpdateRequest $request, $id)
     {
         try {
             $comment = Comment::findOrFail($id);
             $userId = $this->user->id;
             if ($comment->user_id != $userId) {
-                return response()->json(['message' => 'You dont have permission to edit'], 403);
+                return metaResponse(null, Response::HTTP_FORBIDDEN, 'You dont have permission to edit');
             }
         } catch (ModelNotFoundException $e) {
             return response()->json([
