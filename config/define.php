@@ -17,9 +17,6 @@
         'Korean' => 'Korean',
         'English' => 'English',
     ],
-    'book' => [
-      'item_limit' => 20
-    ],
     'messages' => [
       '404_not_found' => 'Page Not Found',
       '405_method_error' => 'Method Failure',
@@ -29,7 +26,12 @@
       'empty_comment' => 'Empty Comment',
       'post_not_found' => 'Post Not Found',
       'error_occurred' => 'Has Error Occurred, Please Try Again',
-      'parent_id_not_found' => 'Parent Id Not Found',
+      'parent_id_not_found' => 'Parent Id Not Found'
+    ],
+    'book' => [
+      'item_limit' => 20,
+    ],
+    'qrcode' => [
       'begin_prefix_pos' => 0,
       'end_prefix_pos' => 4,
     ]
