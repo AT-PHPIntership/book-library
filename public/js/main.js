@@ -53,3 +53,9 @@ $(window).on('load', function(){
 $(window).on('load', function(){
   $('.alert').delay(5000).slideUp(400);
 });
+
+$(document).ready(function() {
+  $('.user-menu').click(function() {
+    $('.dropdown-menu').toggle();
+  })
+ });

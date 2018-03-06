@@ -90,6 +90,14 @@
                                     <button type="submit" class="btn btn-info form-control" id="submit"><i class="fa fa-search"></i></button>
                                 </div>
                               </form>
+                                @if (\Request::has('uid') && \Request::has('filter'))
+                                <div class="form-group col-md-5">
+                                    <input type="hidden" class="form-control" id="uid-book" name="uid" value="{{ Request::input('uid') != null ? Request::input('uid') : null}}">
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <input type="hidden" class="form-control" id="filter-book" name="filter" value="{{ Request::input('filter') != null ? Request::input('filter') : null}}">
+                                </div>
+                                @endif
                             </div>
                        <!-- end -->
                     </div>
@@ -144,7 +152,10 @@
                       @endif
                   </table>
                   <div class="text-center">
-                       {{ $books->appends(\Request::except('page'))->appends(['search' => Request::get('search'), 'choose' => Request::get('choose')])->render()}}
+                    @if($books instanceof \Illuminate\Pagination\AbstractPaginator)
+                       {{ $books->appends(\Request::except('page'))->appends(['search' => Request::get('search'), 'choose' => Request::get('choose'),
+                        'uid' => Request::get('uid'), 'filter' => Request::get('filter'), 'limit' => Request::get('limit')])->render()}}
+                    @endif
                   </div>
               </div>
               <!-- /.box-body -->
