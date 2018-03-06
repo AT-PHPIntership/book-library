@@ -163,6 +163,6 @@ if (!function_exists('metaResponse')) {
             ]
         ];
         $data = collect($meta)->merge($data);
-        return response()->json($data,$code);
+        return response()->json($data, $code);
     }
 }

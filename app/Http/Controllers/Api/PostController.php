@@ -53,9 +53,9 @@ class PostController extends ApiController
         ]);
         if ($request->get('rating')) {
             $ratingPost = Rating::create([
-                    'user_id'=> $userId,
-                    'book_id' => $bookId,
-                    'rating' => $request->get('rating'),
+                'user_id'=> $userId,
+                'book_id' => $bookId,
+                'rating' => $request->get('rating'),
             ]);
         }
         $data = [
