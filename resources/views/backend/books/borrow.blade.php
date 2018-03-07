@@ -46,6 +46,13 @@
         </div>
 
         <!-- show message response -->
+        <div class="message">
+              @if ($errors->has('message'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('message') }}</strong>
+                </span>
+              @endif
+        </div>
         @include('flash::message')
         
         <div class="row">
@@ -73,7 +80,7 @@
                                     <td>{{ $borrowing->users->email }}</td>
                                     <td>{{ $borrowing->books->name }}</td>
                                     <td>{{ date(config('define.date_format'), strtotime($borrowing->from_date)) }}</td>
-                                    <td>{{ date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
+                                    <td>{{ $borrowing->to_date == null ? '' : date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
                                     <td>{{ $borrowing->date_send_mail }}</td>
                                     <td>
                                         <button type="button" data-action= "{{ route('sendMail', $borrowing->id) }}" 
