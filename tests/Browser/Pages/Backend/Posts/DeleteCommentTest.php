@@ -2,18 +2,18 @@
 
 namespace Tests\Browser\Pages\Backend\Posts;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Faker\Factory as Faker;
+use DB;
 use App\Model\User;
 use App\Model\Book;
 use App\Model\Post;
-use App\Model\Category;
+use App\Model\Rating;
 use App\Model\Donator;
 use App\Model\Comment;
-use App\Model\Rating;
-use DB;
+use App\Model\Category;
+use Tests\DuskTestCase;
+use Laravel\Dusk\Browser;
+use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class DeleteCommentTest extends DuskTestCase
 {
@@ -43,14 +43,14 @@ class DeleteCommentTest extends DuskTestCase
         $post = Post::first();
         $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs($this->user)
-                    ->resize(1200, 1600)
-                    ->visit('/admin/posts')
-                    ->assertSee('List Posts')
-                    ->assertVisible('.btn.btn-success')
-                    ->click('.btn.btn-success')
-                    ->visit('/admin/posts/' . $post->id)
-                    ->assertPathIs('/admin/posts/' . $post->id)
-                    ->assertVisible('.glyphicon.glyphicon-remove.text-warning');
+                ->resize(1200, 1600)
+                ->visit('/admin/posts')
+                ->assertSee('List Posts')
+                ->assertVisible('.btn.btn-success')
+                ->click('.btn.btn-success')
+                ->visit('/admin/posts/' . $post->id)
+                ->assertPathIs('/admin/posts/' . $post->id)
+                ->assertVisible('.glyphicon.glyphicon-remove.text-warning');
         });
     }
 
@@ -63,14 +63,14 @@ class DeleteCommentTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->user)
-                    ->resize(1200, 1600)
-                    ->visit('/admin/posts')
-                    ->assertSee('List Posts')
-                    ->visit('/admin/posts/100')
-                    ->assertDontSee('Detail Post')
-                    ->pause(1000)
-                    ->assertPathIs('/admin/posts')
-                    ->assertSee('List Posts');
+                ->resize(1200, 1600)
+                ->visit('/admin/posts')
+                ->assertSee('List Posts')
+                ->visit('/admin/posts/100')
+                ->assertDontSee('Detail Post')
+                ->pause(1000)
+                ->assertPathIs('/admin/posts')
+                ->assertSee('List Posts');
         });
     }
 
@@ -84,14 +84,14 @@ class DeleteCommentTest extends DuskTestCase
         $post = Post::first();
         $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs($this->user)
-                    ->resize(1200, 1600)
-                    ->visit('/admin/posts/' . $post->id)
-                    ->assertPathIs('/admin/posts/' . $post->id)
-                    ->click('.glyphicon.glyphicon-remove.text-warning')
-                    ->pause(1000)
-                    ->assertSee('Confirm Delete')
-                    ->assertSee('OK')
-                    ->assertSee('Close');
+                ->resize(1200, 1600)
+                ->visit('/admin/posts/' . $post->id)
+                ->assertPathIs('/admin/posts/' . $post->id)
+                ->click('.glyphicon.glyphicon-remove.text-warning')
+                ->pause(1000)
+                ->assertSee('Confirm Delete')
+                ->assertSee('OK')
+                ->assertSee('Close');
         });
     }
 
@@ -108,14 +108,14 @@ class DeleteCommentTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($post, $count) {
             $browser->loginAs($this->user)
-                    ->resize(1200, 1600)
-                    ->visit('/admin/posts/' . $post->id)
-                    ->assertPathIs('/admin/posts/' . $post->id);
+                ->resize(1200, 1600)
+                ->visit('/admin/posts/' . $post->id)
+                ->assertPathIs('/admin/posts/' . $post->id);
             $this->assertTrue(2 == $count);
             $browser->click('.glyphicon.glyphicon-remove.text-warning')
-                    ->pause(1000)
-                    ->press('Close')
-                    ->assertPathIs('/admin/posts/' . $post->id);
+                ->pause(1000)
+                ->press('Close')
+                ->assertPathIs('/admin/posts/' . $post->id);
             $this->assertTrue(2 == $count);
         });
     }
@@ -133,15 +133,15 @@ class DeleteCommentTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($post, $count) {
             $browser->loginAs($this->user)
-                    ->resize(1200, 1600)
-                    ->visit('/admin/posts/' . $post->id)
-                    ->assertPathIs('/admin/posts/' . $post->id);
+                ->resize(1200, 1600)
+                ->visit('/admin/posts/' . $post->id)
+                ->assertPathIs('/admin/posts/' . $post->id);
             $this->assertTrue(2 == $count);
             $browser->click('.glyphicon.glyphicon-remove.text-warning')
-                    ->pause(1000)
-                    ->press('OK')
-                    ->pause(1000)
-                    ->assertSee('Success! Delete Comments');
+                ->pause(1000)
+                ->press('OK')
+                ->pause(1000)
+                ->assertSee('Success! Delete Comments');
             $commentLast = Comment::where('post_id', $post->id)->get();
             $this->assertTrue(0 == count($commentLast));
         });
@@ -158,15 +158,15 @@ class DeleteCommentTest extends DuskTestCase
         $comment = Comment::where('post_id', $post->id)->where('parent_id', '!=', null)->first();
         $this->browse(function (Browser $browser) use ($post, $comment) {
             $browser->loginAs($this->user)
-                    ->resize(1200, 1600)
-                    ->visit('/admin/posts/' . $post->id)
-                    ->assertPathIs('/admin/posts/' . $post->id);
+                ->resize(1200, 1600)
+                ->visit('/admin/posts/' . $post->id)
+                ->assertPathIs('/admin/posts/' . $post->id);
             $this->assertTrue(1 == count($comment));
             $browser->click('.glyphicon.glyphicon-remove.text-warning')
-                    ->pause(1000)
-                    ->press('OK')
-                    ->pause(1000)
-                    ->assertSee('Success! Delete Comments');
+                ->pause(1000)
+                ->press('OK')
+                ->pause(1000)
+                ->assertSee('Success! Delete Comments');
             $commentLast = Comment::where('post_id', $post->id)->where('parent_id', '!=', null)->first();
             $this->assertTrue(0 == count($commentLast));
         });
@@ -186,8 +186,8 @@ class DeleteCommentTest extends DuskTestCase
            'user_id' => $this->user->id
         ]);
         $book = factory(Book::class)->create([
-           'category_id' => $category->id,
-           'donator_id' => $donator->id,
+           'category_id'    => $category->id,
+           'donator_id'     => $donator->id,
         ]);
 
         factory(Post::class)->create([
@@ -197,16 +197,16 @@ class DeleteCommentTest extends DuskTestCase
 
         $post = Post::first();
             factory(Comment::class)->create([
-            'post_id' => $post->id,
-            'user_id' => $this->user->id,
+            'post_id'   => $post->id,
+            'user_id'   => $this->user->id,
             'parent_id' => null,
         ]);
 
         $comment = Comment::first();
         factory(Comment::class)->create([
-           'post_id' => $post->id,
-           'user_id' => $this->user->id,
-           'parent_id' => $comment->id,
+           'post_id'    => $post->id,
+           'user_id'    => $this->user->id,
+           'parent_id'  => $comment->id,
         ]);
     }
 

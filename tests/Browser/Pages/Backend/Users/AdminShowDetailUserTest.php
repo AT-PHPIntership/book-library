@@ -2,9 +2,9 @@
 
 namespace Tests\Browser\Pages\Backend\Users;
 
+use App\Model\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use App\Model\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AdminShowDetailUserTest extends DuskTestCase
@@ -18,8 +18,8 @@ class AdminShowDetailUserTest extends DuskTestCase
     public function userLogin()
     {
         return factory(User::class)->create([
-            'role' => '1',
-            'avatar_url' => 'http://127.0.0.1/images/user/avatar/avatar-default.png',
+            'role'          => '1',
+            'avatar_url'    => 'http://127.0.0.1/images/user/avatar/avatar-default.png',
         ]);
     }
 
@@ -73,8 +73,7 @@ class AdminShowDetailUserTest extends DuskTestCase
     {
         $user = $this->userLogin();
         $this->browse(function (Browser $browser) use ($user) {
-            $browser->loginAs($user)
-                ->visit('/admin/users/' . $user->employee_code);
+            $browser->loginAs($user)->visit('/admin/users/' . $user->employee_code);
                 $this->assertTrue($browser->text('.username') === $user->name);
                 $this->assertTrue($browser->text('.email') === $user->email);
                 $this->assertTrue($browser->text('.join_date') === date('d-m-Y', strtotime($user->created_at)));

@@ -2,16 +2,16 @@
 
 namespace Tests\Browser\tests\Browser\Pages\BackEnd\Books;
 
-use App\Model\Book;
-use App\Model\Borrowing;
-use App\Model\Category;
-use App\Model\Donator;
 use App\Model\User;
+use App\Model\Book;
+use App\Model\Donator;
 use Tests\DuskTestCase;
+use App\Model\Category;
+use App\Model\Borrowing;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AdminShowListBorrowingsTest extends DuskTestCase
 {
@@ -37,8 +37,8 @@ class AdminShowListBorrowingsTest extends DuskTestCase
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
         factory(Book::class, 10)->create([
-            'category_id' => $faker->randomElement($categoryIds),
-            'donator_id' => $faker->randomElement($donatorIds),
+            'category_id'   => $faker->randomElement($categoryIds),
+            'donator_id'    => $faker->randomElement($donatorIds),
         ]);
 
         $bookIds = DB::table('books')->pluck('id')->toArray();

@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Model\Category;
-use Illuminate\Pagination\Paginator;
-use App\Model\Book;
 use DB;
 use Exception;
+use App\Model\Book;
+use App\Model\Category;
 use Illuminate\Http\Request;
-use App\Http\Requests\CategoryUpdateRequest;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Pagination\Paginator;
+use App\Http\Requests\CategoryUpdateRequest;
 
 class CategoryController extends Controller
 {
@@ -22,9 +22,9 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::select('id', 'name')
-                                ->withCount('books')
-                                ->groupBy('id')
-                                ->paginate(config('define.page_length'));
+            ->withCount('books')
+            ->groupBy('id')
+            ->paginate(config('define.page_length'));
         return view('backend.categories.index', compact('categories'));
     }
 
@@ -50,10 +50,11 @@ class CategoryController extends Controller
             }
             $category->deleteAndSetDefault($category);
             $paginateAttr = $this->getRedirectedPage($page);
-            $categories = Category::select('id', 'name')->withCount('books')
-                                    ->groupBy('id')
-                                    ->paginate(config('define.page_length'))
-                                    ->setPath('/admin/categories');
+            $categories = Category::select('id', 'name')
+                ->withCount('books')
+                ->groupBy('id')
+                ->paginate(config('define.page_length'))
+                ->setPath('/admin/categories');
             DB::commit();
             return view('backend.categories.load-category-list', compact('categories', 'paginateAttr'));
         } catch (Exception $e) {

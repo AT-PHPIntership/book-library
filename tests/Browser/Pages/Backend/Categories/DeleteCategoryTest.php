@@ -2,15 +2,15 @@
 
 namespace Tests\Browser;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use App\Model\Category;
-use App\Model\Book;
-use Faker\Factory as Faker;
 use DB;
-use App\Model\Donator;
+use App\Model\Book;
 use App\Model\User;
+use App\Model\Donator;
+use Tests\DuskTestCase;
+use App\Model\Category;
+use Laravel\Dusk\Browser;
+use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class DeleteCategoryTest extends DuskTestCase
 {
@@ -38,9 +38,9 @@ class DeleteCategoryTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->user)
-                    ->visit('/admin/categories')
-                    ->resize(1600, 2000)
-                    ->assertVisible('.delete-category', 'background-color: #dd4b39');
+                ->visit('/admin/categories')
+                ->resize(1600, 2000)
+                ->assertVisible('.delete-category', 'background-color: #dd4b39');
         });
     }
 
@@ -53,16 +53,16 @@ class DeleteCategoryTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->user)
-                    ->visit('/admin/categories')
-                    ->resize(1600, 2000)
-                    ->press('#2')
-                    ->waitForText('Do you want to delete this category?')
-                    ->assertSee('OK')
-                    ->assertSee('Close');
+                ->visit('/admin/categories')
+                ->resize(1600, 2000)
+                ->press('#2')
+                ->waitForText('Do you want to delete this category?')
+                ->assertSee('OK')
+                ->assertSee('Close');
 
             $browser->press('Close')
-                    ->pause(1000)
-                    ->assertDontSee('Do you want to delete this category?');
+                ->pause(1000)
+                ->assertDontSee('Do you want to delete this category?');
         });
     }
 
@@ -76,41 +76,42 @@ class DeleteCategoryTest extends DuskTestCase
         $category = Category::offset(10)->limit(2)->get();
 
         $this->assertDatabaseHas('categories', [
-            'id' => 11,
-            'name' => $category[0]->name,
+            'id'    => 11,
+            'name'  => $category[0]->name,
         ]);
         $this->assertDatabaseHas('categories', [
-            'id' => 12,
-            'name' => $category[1]->name,
+            'id'    => 12,
+            'name'  => $category[1]->name,
         ]);
 
         $this->browse(function (Browser $browser) {
 
             $browser->loginAs($this->user)
-                    ->visit('/admin/categories')
-                    ->resize(1600, 2000)
-                    ->click('.pagination li:nth-child(3) a')
-                    ->press('#12')
-                    ->pause(4000);
+                ->visit('/admin/categories')
+                ->resize(1600, 2000)
+                ->click('.pagination li:nth-child(3) a')
+                ->press('#12')
+                ->pause(4000);
             $defaultCategoryBookCount = $browser->text('#table-categories tbody tr:nth-child(1) td:nth-child(3)');
             $categoryCount = $browser->text('.sidebar-menu li:nth-child(6) a .pull-right-container');
-            $browser->press('OK')->pause(2000)
-                    ->assertQueryStringHas('page', 2);
+            $browser->press('OK')
+                ->pause(2000)
+                ->assertQueryStringHas('page', 2);
             $btnDelete = $browser->elements('#table-categories tbody tr');
             $totalRecord = Category::count();
             $browser->waitForText('Delete success')
-                    ->pause(5500)
-                    ->assertDontSee('Delete success');
+                ->pause(5500)
+                ->assertDontSee('Delete success');
             $this->assertCount($totalRecord % config('define.page_length'), $btnDelete);
 
             $browser->visit('/admin/categories')
-                    ->click('.pagination li:nth-child(3) a')
-                    ->pause(2000)
-                    ->press('#11')
-                    ->pause(2000)
-                    ->press('OK')
-                    ->pause(2000)
-                    ->assertQueryStringHas('page', 1);
+                ->click('.pagination li:nth-child(3) a')
+                ->pause(2000)
+                ->press('#11')
+                ->pause(2000)
+                ->press('OK')
+                ->pause(2000)
+                ->assertQueryStringHas('page', 1);
             $newDefaultCategoryBookCount = $browser->text('#table-categories tbody tr:nth-child(1) td:nth-child(3)');
             $newCategoryCount = $browser->text('.sidebar-menu li:nth-child(6) a .pull-right-container');
             $this->assertTrue(($defaultCategoryBookCount + 2) == $newDefaultCategoryBookCount);
@@ -118,12 +119,12 @@ class DeleteCategoryTest extends DuskTestCase
         });
 
         $this->assertDatabaseMissing('categories', [
-            'id' => 11,
-            'name' => $category[0]->name,
+            'id'        => 11,
+            'name'      => $category[0]->name,
         ]);
         $this->assertDatabaseMissing('categories', [
-            'id' => 12,
-            'name' => $category[1]->name,
+            'id'        => 12,
+            'name'      => $category[1]->name,
         ]);
     }
 
@@ -137,16 +138,16 @@ class DeleteCategoryTest extends DuskTestCase
         $deletedCategory = Category::findOrFail(2);
         $this->browse(function (Browser $browser) use ($deletedCategory) {
             $browser->loginAs($this->user)
-                    ->visit('/admin/categories')
-                    ->resize(1600, 2000)
-                    ->press('#2')
-                    ->pause(2000);
+                ->visit('/admin/categories')
+                ->resize(1600, 2000)
+                ->press('#2')
+                ->pause(2000);
             $deletedCategory->delete();
 
             $browser->press('OK')
-                    ->pause(2000)
-                    ->assertSee('Category not found, please refresh page')
-                    ->waitUntilMissing('#delete-category-message');
+                ->pause(2000)
+                ->assertSee('Category not found, please refresh page')
+                ->waitUntilMissing('#delete-category-message');
         });
     }
 
@@ -159,25 +160,25 @@ class DeleteCategoryTest extends DuskTestCase
     {
         $category = Category::findOrFail(1);
         $this->assertDatabaseHas('categories', [
-            'id' => 1,
-            'name' => $category->name,
+            'id'        => 1,
+            'name'      => $category->name,
         ]);
         
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->user)
-                    ->visit('/admin/categories')
-                    ->resize(1600, 2000)
-                    ->press('#2')
-                    ->pause(1000)
-                    ->script("$('.confirm').attr('data-id', 1)");
+                ->visit('/admin/categories')
+                ->resize(1600, 2000)
+                ->press('#2')
+                ->pause(1000)
+                ->script("$('.confirm').attr('data-id', 1)");
             $browser->press('OK')
-                    ->pause(1000)
-                    ->assertSee('You cannot delete this category, because it is a default category!');
+                ->pause(1000)
+                ->assertSee('You cannot delete this category, because it is a default category!');
         });
 
         $this->assertDatabaseHas('categories', [
-            'id' => 1,
-            'name' => $category->name,
+            'id'        => 1,
+            'name'      => $category->name,
         ]);
     }
 
@@ -199,9 +200,9 @@ class DeleteCategoryTest extends DuskTestCase
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
         for ($i = 0, $length = 12; $i < $length; $i++) {
             $book = factory(Book::class, 1)->create([
-                'category_id' => $categoryIds[$i],
-                'donator_id' => $faker->randomElement($donatorIds),
-                'image'      => 'no-image.png',
+                'category_id'   => $categoryIds[$i],
+                'donator_id'    => $faker->randomElement($donatorIds),
+                'image'         => 'no-image.png',
             ]);
         }
     }
@@ -220,7 +221,7 @@ class DeleteCategoryTest extends DuskTestCase
             'team'          => 'SA',
             'role'          => 1,
         ];
-        factory(User::class, 1)->create($user);
+        factory(User::class)->create($user);
         return $user = User::findOrFail(1);
     }
 }

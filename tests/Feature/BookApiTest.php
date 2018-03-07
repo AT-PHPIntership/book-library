@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use Tests\Browser\Pages\Backend\Books\BaseTestBook;
-use Illuminate\Http\Response;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Model\Book;
+use Illuminate\Http\Response;
+use Tests\Browser\Pages\Backend\Books\BaseTestBook;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class BookApiTest extends BaseTestBook
 {
@@ -99,11 +99,11 @@ class BookApiTest extends BaseTestBook
         $response = $this->json('GET', '/api/books');
         $data = json_decode($response->getContent());
         $this->assertDatabaseHas('books', [
-            'id' => $data->data[0]->id,
-            'name' => $data->data[0]->name,
-            'author' => $data->data[0]->author,
-            'image' => explode(request()->getSchemeAndHttpHost() . '/' . config('image.books.storage'), $data->data[0]->image)[1],
-            'avg_rating' => $data->data[0]->avg_rating
+            'id'            => $data->data[0]->id,
+            'name'          => $data->data[0]->name,
+            'author'        => $data->data[0]->author,
+            'image'         => explode(request()->getSchemeAndHttpHost() . '/' . config('image.books.storage'), $data->data[0]->image)[1],
+            'avg_rating'    => $data->data[0]->avg_rating
         ]);
     }
 
@@ -133,11 +133,11 @@ class BookApiTest extends BaseTestBook
         $response->assertJson([
             'data' => [
                 [
-                    'id' => $book->id,
-                    'name' => $book->name,
-                    'author' => $book->author,
-                    'image' => $book->image,
-                    'avg_rating' => $book->avg_rating
+                    'id'            => $book->id,
+                    'name'          => $book->name,
+                    'author'        => $book->author,
+                    'image'         => $book->image,
+                    'avg_rating'    => $book->avg_rating
                 ]
             ]
         ]);
@@ -156,11 +156,11 @@ class BookApiTest extends BaseTestBook
         $response->assertJson([
             'data' => [
                 [
-                    'id' => $book->id,
-                    'name' => $book->name,
-                    'author' => $book->author,
-                    'image' => $book->image,
-                    'avg_rating' => $book->avg_rating
+                    'id'            => $book->id,
+                    'name'          => $book->name,
+                    'author'        => $book->author,
+                    'image'         => $book->image,
+                    'avg_rating'    => $book->avg_rating
                 ]
             ]
         ]);

@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 use Illuminate\Http\Response;
+use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class TopBookApiTest extends BaseTestBook
@@ -74,12 +74,12 @@ class TopBookApiTest extends BaseTestBook
         $this->makeListOfBook(21);
         $response = $this->json('GET', '/api/books/top-borrow' . '?page=2');
         $response->assertJson([
-                'current_page' => 2,
-                'per_page' => 20,
-                'from' => 21,
-                'to' => 21,
-                'last_page' => 2,
-                'next_page_url' => null,
+            'current_page' => 2,
+            'per_page' => 20,
+            'from' => 21,
+            'to' => 21,
+            'last_page' => 2,
+            'next_page_url' => null,
         ]);
     }
 

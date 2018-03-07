@@ -2,16 +2,16 @@
 
 namespace Tests\Feature;
 
+use DB;
 use Tests\TestCase;
+use App\Model\Book;
+use App\Model\User;
+use App\Model\Category;
+use App\Model\Donator;
+use Faker\Factory as Faker;
+use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Model\Book;
-use Faker\Factory as Faker;
-use DB;
-use App\Model\Donator;
-use App\Model\Category;
-use App\Model\User;
-use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class Top10BookReviewTest extends TestCase

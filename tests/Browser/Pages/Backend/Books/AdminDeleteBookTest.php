@@ -2,14 +2,14 @@
 
 namespace Tests\Browser\Pages\Backend\Books;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use DB;
 use App\Model\Book;
 use App\Model\User;
+use Tests\DuskTestCase;
 use App\Model\Favorite;
+use Laravel\Dusk\Browser;
 use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AdminDeleteBookTest extends BaseTestBook
 {
@@ -175,14 +175,14 @@ class AdminDeleteBookTest extends BaseTestBook
 
         //Book and its favorites.
         $this->assertDatabaseHas('books', [
-            'id' => $bookID,
-            'deleted_at' => null,
+            'id'            => $bookID,
+            'deleted_at'    => null,
         ]);
         $favoriteBookIds = DB::table('favorites')->where('favoritable_id', $bookID)->where('favoritable_type', Favorite::TYPE_BOOK)->pluck('id')->toArray();
         foreach ($favoriteBookIds as $favoriteBookID) {
             $this->assertDatabaseHas('favorites', [
-                'id' => $favoriteBookID,
-                'deleted_at' => null,
+                'id'            => $favoriteBookID,
+                'deleted_at'    => null,
             ]);
         }
 
@@ -190,22 +190,22 @@ class AdminDeleteBookTest extends BaseTestBook
         $qrcodeIds = DB::table('qrcodes')->where('book_id', $bookID)->pluck('id')->toArray();
         foreach ($qrcodeIds as $qrcodeID) {
             $this->assertDatabaseHas('qrcodes', [
-                'id' => $qrcodeID,
-                'deleted_at' => null,
+                'id'            => $qrcodeID,
+                'deleted_at'    => null,
             ]);
         }
         $borrowingIds = DB::table('borrowings')->where('book_id', $bookID)->pluck('id')->toArray();
         foreach ($borrowingIds as $borrowingID) {
             $this->assertDatabaseHas('borrowings', [
-                'id' => $borrowingID,
-                'deleted_at' => null,
+                'id'            => $borrowingID,
+                'deleted_at'    => null,
             ]);
         }
         $ratingIds = DB::table('ratings')->where('book_id', $bookID)->pluck('id')->toArray();
         foreach ($ratingIds as $ratingID) {
             $this->assertDatabaseHas('ratings', [
-                'id' => $ratingID,
-                'deleted_at' => null,
+                'id'            => $ratingID,
+                'deleted_at'    => null,
             ]);
         }
 
@@ -213,15 +213,15 @@ class AdminDeleteBookTest extends BaseTestBook
         $postIds = DB::table('posts')->where('book_id', $bookID)->pluck('id')->toArray();
         foreach ($postIds as $postID) {
             $this->assertDatabaseHas('posts', [
-                'id' => $postID,
-                'deleted_at' => null,
+                'id'            => $postID,
+                'deleted_at'    => null,
             ]);
         }
         $favoritePostIds = DB::table('favorites')->whereIn('favoritable_id', $postIds)->where('favoritable_type', Favorite::TYPE_POST)->pluck('id')->toArray();
         foreach ($favoritePostIds as $favoritePostID) {
             $this->assertDatabaseHas('favorites', [
-                'id' => $favoritePostID,
-                'deleted_at' => null,
+                'id'            => $favoritePostID,
+                'deleted_at'    => null,
             ]);
         }
 
@@ -229,15 +229,15 @@ class AdminDeleteBookTest extends BaseTestBook
         $commentIds = DB::table('comments')->whereIn('post_id', $postIds)->pluck('id')->toArray();
         foreach ($commentIds as $commentID) {
             $this->assertDatabaseHas('comments', [
-                'id' => $commentID,
-                'deleted_at' => null,
+                'id'            => $commentID,
+                'deleted_at'    => null,
             ]);
         }
         $favoriteCommentIds = DB::table('favorites')->whereIn('favoritable_id', $commentIds)->where('favoritable_type', Favorite::TYPE_COMMENT)->pluck('id')->toArray();
         foreach ($favoriteCommentIds as $favoriteCommentID) {
             $this->assertDatabaseHas('favorites', [
-                'id' => $favoriteCommentID,
-                'deleted_at' => null,
+                'id'            => $favoriteCommentID,
+                'deleted_at'    => null,
             ]);
         }
     }
@@ -319,8 +319,8 @@ class AdminDeleteBookTest extends BaseTestBook
         $this->withoutMiddleware();
         $this->call('GET', '/api/books/'. $bookID);
         $this->assertDatabaseHas('books', [
-            'id' => $bookID,
-            'deleted_at' => null
+            'id'            => $bookID,
+            'deleted_at'    => null
         ]);
     }
 
@@ -335,8 +335,8 @@ class AdminDeleteBookTest extends BaseTestBook
         $this->withoutMiddleware();
         $this->call('POST', '/api/books/'. $bookID);
         $this->assertDatabaseHas('books', [
-            'id' => $bookID,
-            'deleted_at' => null
+            'id'            => $bookID,
+            'deleted_at'    => null
         ]);
     }
 
@@ -351,8 +351,8 @@ class AdminDeleteBookTest extends BaseTestBook
         $this->withoutMiddleware();
         $this->call('PUT', '/api/books/'. $bookID);
         $this->assertDatabaseHas('books', [
-            'id' => $bookID,
-            'deleted_at' => null
+            'id'            => $bookID,
+            'deleted_at'    => null
         ]);
     }
 
@@ -415,8 +415,8 @@ class AdminDeleteBookTest extends BaseTestBook
         $this->call('DELETE', '/api/books/'. $bookID);
         $this->call('PUT', '/api/books/'. $bookID. '/restore');
         $this->assertDatabaseHas('books', [
-            'id' => $bookID,
-            'deleted_at' => null,
+            'id'            => $bookID,
+            'deleted_at'    => null,
         ]);
     }
 

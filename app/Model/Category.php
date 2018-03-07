@@ -2,9 +2,9 @@
 
 namespace App\Model;
 
+use DB;
 use App\Model\Book;
 use Illuminate\Database\Eloquent\Model;
-use DB;
 
 class Category extends Model
 {

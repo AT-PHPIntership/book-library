@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Carbon\Carbon;
+use Illuminate\Foundation\Http\FormRequest;
 
 class BookEditRequest extends FormRequest
 {
@@ -25,14 +25,14 @@ class BookEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'author' => 'required',
-            'price' => 'required|numeric',
+            'name'          => 'required',
+            'author'        => 'required',
+            'price'         => 'required|numeric',
             'employee_code' => 'required',
-            'year' => 'required|digits:4|integer|min:1900|max:'.Carbon::now()->year,
-            'description' => 'required|string',
-            'image'=> 'image|max:10240',
-            'pages' => 'required|integer',
+            'year'          => 'required|digits:4|integer|min:1900|max:'.Carbon::now()->year,
+            'description'   => 'required|string',
+            'image'         => 'image|max:10240',
+            'pages'         => 'required|integer',
         ];
     }
 }

@@ -1,15 +1,15 @@
 <?php
 namespace Tests\Browser\Pages\Backend\Categories;
 
-use App\Model\Book;
-use App\Model\Category;
 use App\Model\User;
+use App\Model\Book;
 use App\Model\Donator;
+use App\Model\Category;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AdminListCategoriesTest extends DuskTestCase
 {
@@ -37,10 +37,10 @@ class AdminListCategoriesTest extends DuskTestCase
         $user = $this->makeAdminToLogin();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
-                    ->visit('/admin')
-                    ->clickLink('CATEGORIES')
-                    ->assertPathIs('/admin/categories')
-                    ->assertSee('List Categories');
+                ->visit('/admin')
+                ->clickLink('CATEGORIES')
+                ->assertPathIs('/admin/categories')
+                ->assertSee('List Categories');
         });
     }
 
@@ -76,8 +76,8 @@ class AdminListCategoriesTest extends DuskTestCase
         factory(Donator::class)->create();
         for ($i = 0; $i <= $rows; $i++) {
             factory(Book::class)->create([
-                'category_id' => $faker->randomElement($categoryIds),
-                'donator_id' => 1
+                'category_id'   => $faker->randomElement($categoryIds),
+                'donator_id'    => 1
             ]);
         }
     }
@@ -92,9 +92,9 @@ class AdminListCategoriesTest extends DuskTestCase
         $user = $this->makeAdminToLogin();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
-                    ->visit('/admin/categories')
-                    ->resize(900, 1600)
-                    ->assertSee('List Categories');
+                ->visit('/admin/categories')
+                ->resize(900, 1600)
+                ->assertSee('List Categories');
             $elements = $browser->elements('#table-categories tbody tr');
             $this->assertCount(0, $elements);
         });
@@ -111,9 +111,9 @@ class AdminListCategoriesTest extends DuskTestCase
         $user = $this->makeAdminToLogin();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
-                    ->visit('/admin/categories')
-                    ->resize(900, 1600)
-                    ->assertSee('List Categories');
+                ->visit('/admin/categories')
+                ->resize(900, 1600)
+                ->assertSee('List Categories');
             $elements = $browser->elements('#table-categories tbody tr');
             $this->assertCount(8, $elements);
         });
@@ -130,10 +130,10 @@ class AdminListCategoriesTest extends DuskTestCase
         $user = $this->makeAdminToLogin();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
-                    ->visit('/admin/categories')
-                    ->resize(900, 1600)
-                    ->assertSee('List Categories');
-            $elements = $browser->elements('.pagination li');
+                ->visit('/admin/categories')
+                ->resize(900, 1600)
+                ->assertSee('List Categories');
+            $elements   = $browser->elements('.pagination li');
             $numberPage = count($elements) - 2;
             $this->assertTrue($numberPage == ceil(25 / (config('define.page_length'))));
         });
@@ -150,10 +150,10 @@ class AdminListCategoriesTest extends DuskTestCase
         $user = $this->makeAdminToLogin();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
-                    ->visit('/admin/categories')
-                    ->resize(900, 1600)
-                    ->assertSee('List Categories')
-                    ->click('.pagination li:nth-child(3) a');
+                ->visit('/admin/categories')
+                ->resize(900, 1600)
+                ->assertSee('List Categories')
+                ->click('.pagination li:nth-child(3) a');
             $elements = $browser->elements('#table-categories tbody tr');
             $this->assertCount(5, $elements);
             $browser->assertQueryStringHas('page', 2);

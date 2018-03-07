@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Model\Comment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Model\Comment;
 use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends Controller

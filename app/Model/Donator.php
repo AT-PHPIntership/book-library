@@ -68,14 +68,14 @@ class Donator extends Model
         $user = User::where('employee_code', $employeeCode)->first();
         $donatorData = [
             'employee_code' => $employeeCode,
-            'name' => $name,
+            'name'          => $name,
         ];
         if ($user) {
             $donatorData = [
-                'user_id' => $user->id,
+                'user_id'       => $user->id,
                 'employee_code' => $employeeCode,
-                'email' => $user->email,
-                'name' => $user->name,
+                'email'         => $user->email,
+                'name'          => $user->name,
             ];
         }
         $donator = self::lockForUpdate()->updateOrCreate(['employee_code' => $employeeCode], $donatorData);

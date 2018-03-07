@@ -2,16 +2,16 @@
 
 namespace Tests\Browser\Pages\Backend\Users;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Faker\Factory as Faker;
-use App\Model\User;
-use App\Model\Category;
-use App\Model\Donator;
-use App\Model\Book;
-use App\Model\Borrowing;
 use DB;
+use App\Model\User;
+use App\Model\Book;
+use App\Model\Donator;
+use App\Model\Category;
+use Tests\DuskTestCase;
+use App\Model\Borrowing;
+use Laravel\Dusk\Browser;
+use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AdminListUsersTest extends DuskTestCase
 {
@@ -27,10 +27,10 @@ class AdminListUsersTest extends DuskTestCase
         $this->makeUserLogin();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin')
-                    ->clickLink('USERS')
-                    ->assertPathIs('/admin/users')
-                    ->assertSee('List Users');
+                ->visit('/admin')
+                ->clickLink('USERS')
+                ->assertPathIs('/admin/users')
+                ->assertSee('List Users');
         });
     }
     
@@ -46,8 +46,8 @@ class AdminListUsersTest extends DuskTestCase
         $this->makeData($numberUser);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/users')
-                    ->assertSee('List Users');
+                ->visit('/admin/users')
+                ->assertSee('List Users');
             $elements = $browser->elements('#example2 tbody tr');
             $this->assertCount(config('define.page_length'), $elements);
         });
@@ -65,8 +65,8 @@ class AdminListUsersTest extends DuskTestCase
         $this->makeData($numberUser);
         $this->browse(function (Browser $browser) use ($numberUser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/users')
-                    ->assertSee('List Users');
+                ->visit('/admin/users')
+                ->assertSee('List Users');
             $elements = $browser->elements('.pagination li');
             $numberPage = count($elements) - 2;
             $this->assertTrue($numberPage == ceil($numberUser / (config('define.page_length'))));
@@ -85,9 +85,9 @@ class AdminListUsersTest extends DuskTestCase
         $this->makeData($numberUser);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/users?page=2')
-                    ->assertSee('List Users')
-                    ->assertQueryStringHas('page', 2);
+                ->visit('/admin/users?page=2')
+                ->assertSee('List Users')
+                ->assertQueryStringHas('page', 2);
             $numberUser = 12;
             $elements = $browser->elements('#example2 tbody tr');
             $this->assertCount($numberUser % (config('define.page_length')), $elements); 

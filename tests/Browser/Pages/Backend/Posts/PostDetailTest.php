@@ -2,18 +2,18 @@
 
 namespace Tests\Browser\Pages\Backend\Posts;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Faker\Factory as Faker;
-use App\Model\User;
+use DB;
 use App\Model\Book;
+use App\Model\User;
 use App\Model\Post;
-use App\Model\Category;
+use App\Model\Rating;
 use App\Model\Donator;
 use App\Model\Comment;
-use App\Model\Rating;
-use DB;
+use App\Model\Category;
+use Tests\DuskTestCase;
+use Laravel\Dusk\Browser;
+use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class PostDetailTest extends DuskTestCase
 {
@@ -45,11 +45,11 @@ class PostDetailTest extends DuskTestCase
         $this->makeData(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->user)
-                    ->resize(1200, 1600)
-                    ->visit('/admin/posts')
-                    ->assertSee('List Posts')
-                    ->assertSee('Detail')
-                    ->assertVisible('.btn.btn-success');
+                ->resize(1200, 1600)
+                ->visit('/admin/posts')
+                ->assertSee('List Posts')
+                ->assertSee('Detail')
+                ->assertVisible('.btn.btn-success');
         });
     }
 
@@ -64,12 +64,12 @@ class PostDetailTest extends DuskTestCase
         $post = Post::first();
         $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs($this->user)
-                    ->resize(1200, 1600)
-                    ->visit('/admin/posts/' . $post->id)
-                    ->assertPathIs('/admin/posts/' . $post->id)
-                    ->assertSee('Detail Post')
-                    ->assertSee('Date')
-                    ->assertVisible('.post-image[src="' . $post->image_url . '"]');
+                ->resize(1200, 1600)
+                ->visit('/admin/posts/' . $post->id)
+                ->assertPathIs('/admin/posts/' . $post->id)
+                ->assertSee('Detail Post')
+                ->assertSee('Date')
+                ->assertVisible('.post-image[src="' . $post->image_url . '"]');
             $this->assertTrue($browser->text('.post-username') == $post->users->name);
             $this->assertTrue($browser->text('.post-date') == date('d-m-Y', strtotime($post->created_at)));
             $this->assertTrue($browser->text('.post-content') == $post->content);
@@ -87,13 +87,13 @@ class PostDetailTest extends DuskTestCase
         $post = Post::first();
         $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs($this->user)
-                    ->resize(1200, 1600)
-                    ->visit('/admin/posts/' . $post->id)
-                    ->assertPathIs('/admin/posts/' . $post->id)
-                    ->assertSee('Detail Post')
-                    ->assertSee('Date')
-                    ->assertDontSee('Comments')
-                    ->assertVisible('.post-image[src="' . $post->image_url . '"]');
+                ->resize(1200, 1600)
+                ->visit('/admin/posts/' . $post->id)
+                ->assertPathIs('/admin/posts/' . $post->id)
+                ->assertSee('Detail Post')
+                ->assertSee('Date')
+                ->assertDontSee('Comments')
+                ->assertVisible('.post-image[src="' . $post->image_url . '"]');
             $this->assertTrue($browser->text('.post-username') == $post->users->name);
             $this->assertTrue($browser->text('.post-date') == date('d-m-Y', strtotime($post->created_at)));
             $this->assertTrue($browser->text('.post-content') == $post->content);
@@ -111,15 +111,15 @@ class PostDetailTest extends DuskTestCase
         $post = Post::first();
         $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs($this->user)
-                    ->resize(1200, 1600)
-                    ->visit('/admin/posts/' . $post->id)
-                    ->assertPathIs('/admin/posts/' . $post->id)
-                    ->assertSee('Detail Post')
-                    ->assertSee('REVIEW')
-                    ->assertSee('Date')
-                    ->assertSee('Score')
-                    ->assertValue('i', $post->rating)
-                    ->assertVisible('.post-image[src="' . $post->image_url . '"]');
+                ->resize(1200, 1600)
+                ->visit('/admin/posts/' . $post->id)
+                ->assertPathIs('/admin/posts/' . $post->id)
+                ->assertSee('Detail Post')
+                ->assertSee('REVIEW')
+                ->assertSee('Date')
+                ->assertSee('Score')
+                ->assertValue('i', $post->rating)
+                ->assertVisible('.post-image[src="' . $post->image_url . '"]');
             $this->assertTrue($browser->text('.post-username') == $post->users->name);
             $this->assertTrue($browser->text('.post-date') == date('d-m-Y', strtotime($post->created_at)));
             $this->assertTrue($browser->text('.post-content') == $post->content);
@@ -137,14 +137,14 @@ class PostDetailTest extends DuskTestCase
         $post = Post::first();
         $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs($this->user)
-                    ->resize(1200, 1600)
-                    ->visit('/admin/posts/' . $post->id)
-                    ->assertPathIs('/admin/posts/' . $post->id)
-                    ->assertSee('Detail Post')
-                    ->assertSee('Date')
-                    ->assertSee('STATUS')
-                    ->assertDontSee('Score')
-                    ->assertVisible('.post-image[src="' . $post->image_url . '"]');
+                ->resize(1200, 1600)
+                ->visit('/admin/posts/' . $post->id)
+                ->assertPathIs('/admin/posts/' . $post->id)
+                ->assertSee('Detail Post')
+                ->assertSee('Date')
+                ->assertSee('STATUS')
+                ->assertDontSee('Score')
+                ->assertVisible('.post-image[src="' . $post->image_url . '"]');
             $this->assertTrue($browser->text('.post-username') == $post->users->name);
             $this->assertTrue($browser->text('.post-date') == date('d-m-Y', strtotime($post->created_at)));
             $this->assertTrue($browser->text('.post-content') == $post->content);
@@ -162,14 +162,14 @@ class PostDetailTest extends DuskTestCase
         $post = Post::first();
         $this->browse(function (Browser $browser) use ($post) {
             $browser->loginAs($this->user)
-                    ->resize(1200, 1600)
-                    ->visit('/admin/posts/' . $post->id)
-                    ->assertPathIs('/admin/posts/' . $post->id)
-                    ->assertSee('Detail Post')
-                    ->assertSee('Date')
-                    ->assertSee('FIND BOOK')
-                    ->assertDontSee('Score')
-                    ->assertVisible('.post-image[src="' . $post->image_url . '"]');
+                ->resize(1200, 1600)
+                ->visit('/admin/posts/' . $post->id)
+                ->assertPathIs('/admin/posts/' . $post->id)
+                ->assertSee('Detail Post')
+                ->assertSee('Date')
+                ->assertSee('FIND BOOK')
+                ->assertDontSee('Score')
+                ->assertVisible('.post-image[src="' . $post->image_url . '"]');
             $this->assertTrue($browser->text('.post-username') == $post->users->name);
             $this->assertTrue($browser->text('.post-date') == date('d-m-Y', strtotime($post->created_at)));
             $this->assertTrue($browser->text('.post-content') == $post->content);
@@ -183,14 +183,14 @@ class PostDetailTest extends DuskTestCase
      */
     public function getData()
     {
-        $category = factory(Category::class)->create();
-        $donator = factory(Donator::class)->create([
+        $category   = factory(Category::class)->create();
+        $donator    = factory(Donator::class)->create([
             'user_id' => $this->user->id,
         ]);
 
         $book = factory(Book::class)->create([
-            'category_id' => $category->id,
-            'donator_id' => $donator->id,
+            'category_id'   => $category->id,
+            'donator_id'    => $donator->id,
         ]);
         return ['category' => $category, 'donator' => $donator, 'book' => $book];
     }
@@ -222,8 +222,8 @@ class PostDetailTest extends DuskTestCase
         foreach ($comments as $comment) {
             if (isset($comment->post_id)) {
                 factory(Comment::class)->create([
-                    'post_id' => $comment->post_id,
-                    'user_id' =>  $this->user->id,
+                    'post_id'   => $comment->post_id,
+                    'user_id'   =>  $this->user->id,
                     'parent_id' => $comment->id
                 ]);
             }
@@ -283,8 +283,8 @@ class PostDetailTest extends DuskTestCase
         foreach ($comments as $comment) {
             if (isset($comment->post_id)) {
                 factory(Comment::class)->create([
-                    'post_id' => $comment->post_id,
-                    'user_id' => $this->user->id,
+                    'post_id'   => $comment->post_id,
+                    'user_id'   => $this->user->id,
                     'parent_id' => $comment->id
                 ]);
             }
@@ -319,8 +319,8 @@ class PostDetailTest extends DuskTestCase
         foreach ($comments as $comment) {
             if (isset($comment->post_id)) {
                 factory(Comment::class)->create([
-                    'post_id' => $comment->post_id,
-                    'user_id' => $this->user->id,
+                    'post_id'   => $comment->post_id,
+                    'user_id'   => $this->user->id,
                     'parent_id' => $comment->id
                 ]);
             }

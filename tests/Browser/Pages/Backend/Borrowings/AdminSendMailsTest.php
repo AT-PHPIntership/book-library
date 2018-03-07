@@ -40,8 +40,8 @@ class AdminSendMailsTest extends DuskTestCase
         $faker = Faker::create();
 
         for ($i = 1; $i <= $row; $i++) {
-            factory(Category::class, 1)->create();
-            factory(User::class, 1)->create();            
+            factory(Category::class)->create();
+            factory(User::class)->create();            
         }
 
         $categoryIds = DB::table('categories')->pluck('id')->toArray();
@@ -53,9 +53,9 @@ class AdminSendMailsTest extends DuskTestCase
         }
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
         for($i = 1; $i <= $row; $i++) {
-            factory(Book::class, 1)->create([
-                'category_id' => $faker->randomElement($categoryIds),
-                'donator_id' => $faker->randomElement($donatorIds),
+            factory(Book::class)->create([
+                'category_id'   => $faker->randomElement($categoryIds),
+                'donator_id'    => $faker->randomElement($donatorIds),
             ]);
         }
         
@@ -79,10 +79,10 @@ class AdminSendMailsTest extends DuskTestCase
         $user = $this->makeAdminToLogin();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
-                    ->visit('/admin')
-                    ->clickLink('BORROWS')
-                    ->assertPathIs('/admin/borrowings')
-                    ->assertSee('List Borrowers');
+                ->visit('/admin')
+                ->clickLink('BORROWS')
+                ->assertPathIs('/admin/borrowings')
+                ->assertSee('List Borrowers');
         });
     }
 
@@ -98,12 +98,12 @@ class AdminSendMailsTest extends DuskTestCase
         $borrower = Borrowing::findOrFail(1);
         $this->browse(function (Browser $browser) use ($user, $borrower) {
             $browser->loginAs($user)
-                    ->visit('/admin/borrowings')
-                    ->resize(1600, 2000)
-                    ->click('#1')
-                    ->assertSee($borrower->users->name)
-                    ->pause(1000)
-                    ->assertSee('Confirm Send Mail');
+                ->visit('/admin/borrowings')
+                ->resize(1600, 2000)
+                ->click('#1')
+                ->assertSee($borrower->users->name)
+                ->pause(1000)
+                ->assertSee('Confirm Send Mail');
         });
     }
 
@@ -119,15 +119,15 @@ class AdminSendMailsTest extends DuskTestCase
         $borrower = Borrowing::findOrFail(1);
         $this->browse(function (Browser $browser) use ($user, $borrower) {
             $browser->loginAs($user)
-                    ->visit('/admin/borrowings')
-                    ->resize(1600, 2000)
-                    ->click('#1')
-                    ->assertSee($borrower->users->name)
-                    ->pause(1000)
-                    ->assertSee('Confirm Send Mail')
-                    ->press('OK')
-                    ->pause(3000)                    
-                    ->assertSee('Send Mail Success');
+                ->visit('/admin/borrowings')
+                ->resize(1600, 2000)
+                ->click('#1')
+                ->assertSee($borrower->users->name)
+                ->pause(1000)
+                ->assertSee('Confirm Send Mail')
+                ->press('OK')
+                ->pause(3000)                    
+                ->assertSee('Send Mail Success');
         });
     }
 
@@ -143,15 +143,15 @@ class AdminSendMailsTest extends DuskTestCase
         $borrower = Borrowing::findOrFail(1);
         $this->browse(function (Browser $browser) use ($user, $borrower) {
             $browser->loginAs($user)
-                    ->visit('/admin/borrowings')
-                    ->resize(1600, 2000)
-                    ->click('#1')
-                    ->assertSee($borrower->users->name)
-                    ->pause(1000)                    
-                    ->assertSee('Confirm Send Mail')
-                    ->press('Close')
-                    ->pause(1000)                    
-                    ->assertDontSee('Confirm Send Mail');
+                ->visit('/admin/borrowings')
+                ->resize(1600, 2000)
+                ->click('#1')
+                ->assertSee($borrower->users->name)
+                ->pause(1000)                    
+                ->assertSee('Confirm Send Mail')
+                ->press('Close')
+                ->pause(1000)                    
+                ->assertDontSee('Confirm Send Mail');
         });
     }
 }
