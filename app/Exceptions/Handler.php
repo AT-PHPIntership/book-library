@@ -1,13 +1,11 @@
 <?php
-
 namespace App\Exceptions;
-
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-
+use Illuminate\Validation\ValidationException;
 class Handler extends ExceptionHandler
 {
     /**
@@ -18,7 +16,6 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         //
     ];
-
     /**
      * A list of the inputs that are never flashed for validation exceptions.
      *
@@ -28,7 +25,6 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
-
     /**
      * Report or log an exception.
      *
@@ -42,7 +38,6 @@ class Handler extends ExceptionHandler
     {
         parent::report($exception);
     }
-
     /**
      * Render an exception into an HTTP response.
      *
@@ -57,27 +52,31 @@ class Handler extends ExceptionHandler
         $code = 0;
         if ($request->route() != null) {
             if ($request->route()->getPrefix() === 'api') {
+                //error 400
+                if ($exception instanceof ValidationException) {
+                    $code = Response::HTTP_BAD_REQUEST;
+                    $message = $exception->errors();
+                    return $this->showMessageAndCode($code, $message);
+                }
+
                 //error 405
                 if ($exception instanceof MethodNotAllowedHttpException) {
                     $code = Response::HTTP_BAD_METHOD;
                     $message = config('define.messages.405_method_failure');
                     return $this->showMessageAndCode($code, $message);
                 }
-
                 // error 404
                 if ($exception instanceof ModelNotFoundException) {
                     $code = Response::HTTP_NOT_FOUND;
                     $message = config('define.messages.404_not_found');
                     return $this->showMessageAndCode($code, $message);
                 }
-
                 // error server exxception
                 if ($exception instanceof ServerException) {
                     $code = Response::HTTP_INTERNAL_SERVER_ERROR;
                     $message = config('define.messages.500_server_error');
                     return $this->showMessageAndCode($code, $message);
                 }
-
                 // error the rest of exception
                 if ($exception instanceof \Exception) {
                     $code = Response::HTTP_INTERNAL_SERVER_ERROR;
@@ -88,7 +87,6 @@ class Handler extends ExceptionHandler
         }
         return parent::render($request, $exception);
     }
-
     /**
      * Return json.
      *
@@ -100,10 +98,10 @@ class Handler extends ExceptionHandler
     public function showMessageAndCode($code, $message)
     {
         return response()->json([
-                    'meta' => [
-                        'code' => $code,
-                        'message' => $message
-                    ],
-                ], $code);
+            'meta' => [
+                'code' => $code,
+                'message' => $message
+            ],
+        ], $code);
     }
 }
