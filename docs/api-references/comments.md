@@ -38,3 +38,58 @@
   }
 }
 ```
+
+### `GET` Get review comments
+```
+/api/posts/{id}/comments
+```
+Get review book comments
+#### Request Headers
+| Key | Value |
+|---|---|
+|Accept|application\json|
+|Content-Type|application\json|
+
+#### Parameters
+| Key | Type | Required | Description |
+|---|---|---|---|
+| id | Integer | required | Post's id |
+
+### Response
+```json
+{
+    "meta": {
+        "message": null,
+        "code": 200
+    },
+    "current_page": 1,
+    "data": [
+        {
+            "id": 2,
+            "content": "This is comment",
+            "created_at": "2018-03-01 07:36:37",
+            "name": "My name is name",
+            "team": "SA",
+            "avatar_url": null
+        },
+        {
+            "id": 3,
+            "content": "This is comment",
+            "created_at": "2018-03-01 07:36:37",
+            "name": "My name is name",
+            "team": "PHP",
+            "avatar_url": null
+        }
+    ],
+    "first_page_url": "http://booklibrary.test/api/posts/1/comments?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http://booklibrary.test/api/posts/1/comments?page=1",
+    "next_page_url": null,
+    "path": "http://booklibrary.test/api/posts/1/comments",
+    "per_page": 10,
+    "prev_page_url": null,
+    "to": 7,
+    "total": 7
+}
+```
