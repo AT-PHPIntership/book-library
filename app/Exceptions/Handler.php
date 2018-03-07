@@ -59,7 +59,7 @@ class Handler extends ExceptionHandler
         if ($request->route() != null) {
             if ($request->route()->getPrefix() === 'api') {
                  //error 400
-                 if ($exception instanceof ValidationException) {
+                if ($exception instanceof ValidationException) {
                     $code = Response::HTTP_BAD_REQUEST;
                     $message = $exception->errors();
                     return $this->showMessageAndCode($code, $message);

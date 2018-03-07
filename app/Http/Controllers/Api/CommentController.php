@@ -29,8 +29,8 @@ class CommentController extends ApiController
     /**
      * Update comment in Posts
      *
-     * @param CommentUpdateRequest  $request Request update comment
-     * @param int                   $id      id of comment
+     * @param CommentUpdateRequest $request Request update comment
+     * @param int                  $id      id of comment
      *
      * @return mixed
      */
