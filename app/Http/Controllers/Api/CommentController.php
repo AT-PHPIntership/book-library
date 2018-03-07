@@ -9,7 +9,6 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentUpdateRequest;
 use App\Http\Controllers\Api\ApiController;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CommentController extends ApiController
 {
@@ -42,7 +41,7 @@ class CommentController extends ApiController
             if ($comment->user_id != $userId) {
                 return metaResponse(null, Response::HTTP_FORBIDDEN, 'You dont have permission to edit');
             }
-        } catch (ModelNotFoundException $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'error' => [
                     'message' => 'Comment not found'
@@ -51,7 +50,7 @@ class CommentController extends ApiController
         }
         $comment->fill($request->all());
         $comment->save();
-        return metaResponse($comment);
+        return metaResponse(['data' => $comment]);
     }
 
     /**
