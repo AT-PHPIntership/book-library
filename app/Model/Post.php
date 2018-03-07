@@ -165,7 +165,7 @@ class Post extends Model
         return self::select($fields)->withCount('favorites')
                                     ->withCount('comments')
                                     ->join('users', 'posts.user_id', 'users.id')
-                                    ->leftJoin('favorites', 'users.id', 'favorites.user_id')
-                                    ->leftJoin('books', 'posts.book_id', 'books.id');
+                                    ->join('favorites', 'users.id', 'favorites.user_id')
+                                    ->join('books', 'posts.book_id', 'books.id');
     }
 }

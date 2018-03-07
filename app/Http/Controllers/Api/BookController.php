@@ -200,7 +200,7 @@ class BookController extends Controller
      *
      * @return Illuminate\Http\Response
      */
-    public function getReview($id)
+    public function getReviewsOfBook($id)
     {
         $dataReview = Post::getPost(['ratings.id as rating_id', 'rating'])->leftJoin('ratings', function ($join) {
                 $join->on('posts.user_id', '=', 'ratings.user_id');
