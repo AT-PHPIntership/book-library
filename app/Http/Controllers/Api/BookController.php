@@ -208,7 +208,6 @@ class BookController extends Controller
         })->where([
                 ['posts.type', Post::REVIEW_TYPE],
                 ['books.id', $id],
-                ['favorites.favoritable_type', Favorite::TYPE_POST]
             ])->paginate(config('define.review.limit_render'));
         return metaResponse($dataReview);
     }
