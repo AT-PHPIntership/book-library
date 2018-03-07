@@ -99,4 +99,56 @@ class Comment extends Model
             $comment->children()->delete();
         });
     }
+
+    /**
+     * Get general query for parent comment or child comment
+     *
+     * @return App\Model\Comment
+     */
+    public static function getComment()
+    {
+        $fields = [
+            'comments.id',
+            'comments.content',
+            'comments.created_at',
+            'users.name',
+            'users.team',
+            'users.avatar_url'
+        ];
+
+        return self::select($fields)->withCount('favorites')
+            ->join('users', 'users.id', 'comments.user_id');
+    }
+
+    /**
+     * Get all parent's comments of post
+     *
+     * @param integer $postId post's id
+     *
+     * @return array
+     */
+    public static function getParentComments($postId)
+    {
+        return self::getComment()
+            ->where([
+                ['post_id', $postId],
+                ['parent_id', null]
+            ])
+            ->orderBy('comments.created_at', 'desc')
+            ->paginate(config('define.comment.limit_render'));
+    }
+
+    /**
+     * Get all child's comments of comment
+     *
+     * @param integer $parentId parent comment's id
+     *
+     * @return array
+     */
+    public static function getChildComments($parentId)
+    {
+        return self::getComment()->where('parent_id', $parentId)
+            ->orderBy('comments.created_at', 'desc')
+            ->paginate(config('define.comment.limit_render'));
+    }
 }

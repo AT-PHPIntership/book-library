@@ -30,5 +30,8 @@
     'qrcode' => [
       'begin_prefix_pos' => 0,
       'end_prefix_pos' => 4,
+    ],
+    'comment' => [
+      'limit_render' => 10,
     ]
   ];
