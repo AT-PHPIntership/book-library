@@ -1,6 +1,6 @@
 <?php
 return [
-    'ok'        => 'OK',
-    'close'     => 'Close',
-    'reload'    => 'Reload'
+    'ok' => 'OK',
+    'close' => 'Close',
+    'reload' => 'Reload'
 ];

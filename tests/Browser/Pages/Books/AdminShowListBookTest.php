@@ -64,7 +64,6 @@ class AdminShowListBookTest extends DuskTestCase
             ->visit('/admin/books/')
             ->resize(900, 1600)
             ->assertTitle('Admin | LIST OF BOOK')
-            ->screenshot('sample-screenshot');
         $elements = $browser->elements('#table-book tbody tr');
         $this->assertCount(10, $elements);
         $this->assertNull($browser->element('.pagination'));
@@ -84,8 +83,7 @@ class AdminShowListBookTest extends DuskTestCase
             $page = $browser->loginAs(User::find(1))
                 ->visit('/admin/books')
                 ->resize(900, 1600)
-                ->click('.pagination li:nth-child(3) a')
-                ->screenshot('sample-screenshot');
+                ->click('.pagination li:nth-child(3) a');
             $elements = $page->elements('#table-book tbody tr');
             $this->assertCount(5, $elements);
             $browser->assertQueryStringHas('page', 2);

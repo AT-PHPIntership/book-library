@@ -2,11 +2,11 @@
 
 namespace Tests\Browser;
 
-use App\Model\User;
 use App\Model\Book;
+use App\Model\User;
 use App\Model\Donator;
-use App\Model\Category;
 use Tests\DuskTestCase;
+use App\Model\Category;
 use App\Model\Borrowing;
 use Laravel\Dusk\Browser;
 use Faker\Factory as Faker;
@@ -40,18 +40,18 @@ class SearchBookTest extends DuskTestCase
         for ($i = 0; $i <= $row; $i++)
         {
             factory(Book::class,1)->create([
-                'category_id'   => $faker->randomElement($categoryIds),
-                'donator_id'    => $faker->randomElement($donatorIds),
-                'name'          => $faker->sentence(rand(2,5)),
-                'author'        => $faker->name,
+                'category_id' => $faker->randomElement($categoryIds),
+                'donator_id' => $faker->randomElement($donatorIds),
+                'name' => $faker->sentence(rand(2,5)),
+                'author' => $faker->name,
             ]);
         }
 
-        factory(Book::class)->create([
-            'category_id'   => $faker->randomElement($categoryIds),
-            'donator_id'    => $faker->randomElement($donatorIds),
-            'name'          => 'JavaScript and Jquey',
-            'author'        => 'Murach’s',
+        factory(Book::class, 1)->create([
+            'category_id' => $faker->randomElement($categoryIds),
+            'donator_id' => $faker->randomElement($donatorIds),
+            'name' => 'JavaScript and Jquey',
+            'author' => 'Murach’s',
         ]);
 
         $bookIds = DB::table('books')->pluck('id')->toArray();
@@ -71,9 +71,9 @@ class SearchBookTest extends DuskTestCase
     */
     public function userLogin()
     {
-        factory(User::class)->create([
-           'team'   => 'PHP',
-           'role'   => 1,
+        factory(User::class, 1)->create([
+           'team' => 'PHP',
+           'role' => 1,
         ]);
     }
 

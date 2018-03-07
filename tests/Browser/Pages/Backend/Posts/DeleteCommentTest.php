@@ -186,8 +186,8 @@ class DeleteCommentTest extends DuskTestCase
            'user_id' => $this->user->id
         ]);
         $book = factory(Book::class)->create([
-           'category_id'    => $category->id,
-           'donator_id'     => $donator->id,
+           'category_id' => $category->id,
+           'donator_id' => $donator->id,
         ]);
 
         factory(Post::class)->create([
@@ -197,16 +197,16 @@ class DeleteCommentTest extends DuskTestCase
 
         $post = Post::first();
             factory(Comment::class)->create([
-            'post_id'   => $post->id,
-            'user_id'   => $this->user->id,
+            'post_id' => $post->id,
+            'user_id' => $this->user->id,
             'parent_id' => null,
         ]);
 
         $comment = Comment::first();
         factory(Comment::class)->create([
-           'post_id'    => $post->id,
-           'user_id'    => $this->user->id,
-           'parent_id'  => $comment->id,
+           'post_id' => $post->id,
+           'user_id' => $this->user->id,
+           'parent_id' => $comment->id,
         ]);
     }
 

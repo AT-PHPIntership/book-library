@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Exception;
 use App\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Backend\LoginRequest;
+use Exception;
 
 class LoginController extends Controller
 {
@@ -36,11 +36,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        session()->put(
-            'url_previous',
-            session()->get('_previous')['url']
-        );
-
+        session()->put('url_previous', session()->get('_previous')['url']);
         return view('backend.users.login');
     }
 
@@ -56,17 +52,17 @@ class LoginController extends Controller
        
         try {
             # Try to call API to Portal
-            $userResponse   = callAPIPortal($request);
-            $teamName       = $userResponse[0]->teams[0]->name;
-            $userCondition  = [
+            $userResponse = callAPIPortal($request);
+            $teamName = $userResponse[0]->teams[0]->name;
+            $userCondition = [
                 'employee_code' => $userResponse[0]->employee_code,
-                'email'         => $request->email,
+                'email' => $request->email,
             ];
             $user = [
-                'name'          => $userResponse[0]->name,
-                'team'          => $teamName,
-                'access_token'  => $userResponse['access_token'],
-                'avatar_url'    => $userResponse[0]->avatar->file
+                'name' => $userResponse[0]->name,
+                'team' => $teamName,
+                'access_token' => $userResponse['access_token'],
+                'avatar_url' => $userResponse[0]->avatar->file
             ];
             if ($teamName == User::SA) {
                 $user['role'] = User::ROOT_ADMIN;
@@ -102,6 +98,7 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
+
         $request->session()->invalidate();
 
         return redirect('/login');

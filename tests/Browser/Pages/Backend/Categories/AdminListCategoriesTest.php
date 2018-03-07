@@ -1,8 +1,8 @@
 <?php
 namespace Tests\Browser\Pages\Backend\Categories;
 
-use App\Model\User;
 use App\Model\Book;
+use App\Model\User;
 use App\Model\Donator;
 use App\Model\Category;
 use Tests\DuskTestCase;
@@ -76,8 +76,8 @@ class AdminListCategoriesTest extends DuskTestCase
         factory(Donator::class)->create();
         for ($i = 0; $i <= $rows; $i++) {
             factory(Book::class)->create([
-                'category_id'   => $faker->randomElement($categoryIds),
-                'donator_id'    => 1
+                'category_id' => $faker->randomElement($categoryIds),
+                'donator_id' => 1
             ]);
         }
     }
@@ -133,7 +133,7 @@ class AdminListCategoriesTest extends DuskTestCase
                 ->visit('/admin/categories')
                 ->resize(900, 1600)
                 ->assertSee('List Categories');
-            $elements   = $browser->elements('.pagination li');
+            $elements = $browser->elements('.pagination li');
             $numberPage = count($elements) - 2;
             $this->assertTrue($numberPage == ceil(25 / (config('define.page_length'))));
         });

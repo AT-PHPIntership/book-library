@@ -499,10 +499,10 @@ class SortBookTest extends BaseTestUser
         for ($i = 0; $i <= $row; $i++)
         {
             factory(Book::class)->create([
-                'category_id'   => $faker->randomElement($categoryIds),
-                'donator_id'    => $faker->randomElement($donatorIds),
-                'name'          => $faker->sentence(rand(2,5)),
-                'author'        => $faker->name,
+                'category_id' => $faker->randomElement($categoryIds),
+                'donator_id' => $faker->randomElement($donatorIds),
+                'name' => $faker->sentence(rand(2,5)),
+                'author' => $faker->name,
             ]);
         }
         $bookIds = DB::table('books')->pluck('id')->toArray();

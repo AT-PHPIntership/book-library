@@ -2,20 +2,20 @@
 
 namespace App\Model;
 
-use Storage;
 use App\Model\User;
 use App\Model\Rating;
 use App\Model\QrCode;
-use App\Model\Comment;
 use App\Model\Donator;
-use App\Model\Favorite;
 use App\Model\Borrowing;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
-use App\Libraries\Traits\SearchTrait;
 use Illuminate\Database\Eloquent\Model;
+use Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Iatstuti\Database\Support\CascadeSoftDeletes;
+use App\Libraries\Traits\SearchTrait;
+use App\Model\Comment;
+use App\Model\Favorite;
 
 class Book extends Model
 {
@@ -230,10 +230,10 @@ class Book extends Model
      */
     public function getImageAttribute($image)
     {
-        $defaultPath        = config('image.books.default_path');
-        $defaultImage       = config('image.books.no_image_name');
-        $isNotDefaultImage  = ($image != ($defaultPath . $defaultImage)) ? true : false;
-        $fullImage          = asset($image);
+        $defaultPath = config('image.books.default_path');
+        $defaultImage = config('image.books.no_image_name');
+        $isNotDefaultImage = ($image != ($defaultPath . $defaultImage)) ? true : false;
+        $fullImage = asset($image);
         if ($isNotDefaultImage) {
             $fullImage = asset(config('image.books.storage') . $image);
         }

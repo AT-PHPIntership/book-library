@@ -35,24 +35,24 @@ $factory->define(App\Model\User::class, function (Faker $faker) {
 $factory->define(App\Model\Donator::class, function (Faker $faker) {
     return [
         'employee_code' => 'AT-' . rand(10000, 99999),
-        'email'         => $faker->name.'@asiantech.vn',
+        'email'                  => $faker->name.'@asiantech.vn',
     ];
 });
 
 $factory->define(App\Model\Book::class, function (Faker $faker) {
     return [
-        'name'              => $faker->name,
-        'author'            => $faker->name,
-        'year'              => $faker->year,
-        'description'       => $faker->text,
-        'pages'             => $faker->numberBetween($min = 100, $max = 1000),
-        'language'          => $faker->languageCode,
-        'price'             => $faker->numberBetween($min = 1000, $max = 9000),
-        'number_of_pages'   => $faker->numberBetween($min = 100, $max = 800),
-        'avg_rating'        => $faker->numberBetween($min = 1, $max = 5),
-        'total_rating'      => $faker->numberBetween($min = 1, $max = 20),
-        'image'             => $faker->image,
-        'status'            => $faker->numberBetween($min = 0, $max = 1),
+        'name'         => $faker->name,
+        'author'       => $faker->name,
+        'year'         => $faker->year,
+        'description'  => $faker->text,
+        'pages'        => $faker->numberBetween($min = 100, $max = 1000),
+        'language'     => $faker->languageCode,
+        'price'        => $faker->numberBetween($min = 1000, $max = 9000),
+        'number_of_pages'  => $faker->numberBetween($min = 100, $max = 800),
+        'avg_rating'   => $faker->numberBetween($min = 1, $max = 5),
+        'total_rating' => $faker->numberBetween($min = 1, $max = 20),
+        'image'        => $faker->image,
+        'status'       => $faker->numberBetween($min = 0, $max = 1),
     ];
 });
 

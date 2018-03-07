@@ -76,12 +76,12 @@ class DeleteCategoryTest extends DuskTestCase
         $category = Category::offset(10)->limit(2)->get();
 
         $this->assertDatabaseHas('categories', [
-            'id'    => 11,
-            'name'  => $category[0]->name,
+            'id' => 11,
+            'name' => $category[0]->name,
         ]);
         $this->assertDatabaseHas('categories', [
-            'id'    => 12,
-            'name'  => $category[1]->name,
+            'id' => 12,
+            'name' => $category[1]->name,
         ]);
 
         $this->browse(function (Browser $browser) {
@@ -94,9 +94,8 @@ class DeleteCategoryTest extends DuskTestCase
                 ->pause(4000);
             $defaultCategoryBookCount = $browser->text('#table-categories tbody tr:nth-child(1) td:nth-child(3)');
             $categoryCount = $browser->text('.sidebar-menu li:nth-child(6) a .pull-right-container');
-            $browser->press('OK')
-                ->pause(2000)
-                ->assertQueryStringHas('page', 2);
+            $browser->press('OK')->pause(2000)
+                    ->assertQueryStringHas('page', 2);
             $btnDelete = $browser->elements('#table-categories tbody tr');
             $totalRecord = Category::count();
             $browser->waitForText('Delete success')
@@ -119,12 +118,12 @@ class DeleteCategoryTest extends DuskTestCase
         });
 
         $this->assertDatabaseMissing('categories', [
-            'id'        => 11,
-            'name'      => $category[0]->name,
+            'id' => 11,
+            'name' => $category[0]->name,
         ]);
         $this->assertDatabaseMissing('categories', [
-            'id'        => 12,
-            'name'      => $category[1]->name,
+            'id' => 12,
+            'name' => $category[1]->name,
         ]);
     }
 
@@ -160,8 +159,8 @@ class DeleteCategoryTest extends DuskTestCase
     {
         $category = Category::findOrFail(1);
         $this->assertDatabaseHas('categories', [
-            'id'        => 1,
-            'name'      => $category->name,
+            'id' => 1,
+            'name' => $category->name,
         ]);
         
         $this->browse(function (Browser $browser) {
@@ -177,8 +176,8 @@ class DeleteCategoryTest extends DuskTestCase
         });
 
         $this->assertDatabaseHas('categories', [
-            'id'        => 1,
-            'name'      => $category->name,
+            'id' => 1,
+            'name' => $category->name,
         ]);
     }
 
@@ -200,9 +199,9 @@ class DeleteCategoryTest extends DuskTestCase
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
         for ($i = 0, $length = 12; $i < $length; $i++) {
             $book = factory(Book::class, 1)->create([
-                'category_id'   => $categoryIds[$i],
-                'donator_id'    => $faker->randomElement($donatorIds),
-                'image'         => 'no-image.png',
+                'category_id' => $categoryIds[$i],
+                'donator_id' => $faker->randomElement($donatorIds),
+                'image' => 'no-image.png',
             ]);
         }
     }
@@ -216,10 +215,10 @@ class DeleteCategoryTest extends DuskTestCase
     public function fakeUser() {
         $user = [
             'employee_code' => 'AT0286',
-            'name'          => 'faker',
-            'email'         => 'faker',
-            'team'          => 'SA',
-            'role'          => 1,
+            'name' => 'faker',
+            'email' => 'faker',
+            'team' => 'SA',
+            'role' => 1,
         ];
         factory(User::class)->create($user);
         return $user = User::findOrFail(1);

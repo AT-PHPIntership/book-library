@@ -3,8 +3,8 @@
 namespace Tests\Browser\Pages\Backend\Users;
 
 use DB;
-use App\Model\User;
 use App\Model\Book;
+use App\Model\User;
 use App\Model\Donator;
 use App\Model\Category;
 use Tests\DuskTestCase;

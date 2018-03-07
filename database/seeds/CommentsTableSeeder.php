@@ -27,9 +27,9 @@ class CommentsTableSeeder extends Seeder
         $comments = DB::table('comments')->get();
         foreach ($comments as $value) {
             if (isset($value->post_id)) {
-                factory(App\Model\Comment::class)->create([
-                    'post_id'   => $value->post_id,
-                    'user_id'   => $faker->randomElement($userId),
+                factory(App\Model\Comment::class, 1)->create([
+                    'post_id' => $value->post_id,
+                    'user_id' => $faker->randomElement($userId),
                     'parent_id' => $value->id
                 ]);
             }

@@ -84,7 +84,7 @@ class CategoryController extends Controller
         $uri = "/admin/categories?page=" . $page;
         return [
             'uri' => $uri,
-            'page'=> $page
+            'page' => $page
         ];
     }
 

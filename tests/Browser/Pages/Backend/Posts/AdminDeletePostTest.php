@@ -6,8 +6,8 @@ use DB;
 use App\Model\User;
 use App\Model\Book;
 use App\Model\Post;
-use Tests\DuskTestCase;
 use App\Model\Donator;
+use Tests\DuskTestCase;
 use App\Model\Category;
 use Laravel\Dusk\Browser;
 use Faker\Factory as Faker;
@@ -203,8 +203,8 @@ class AdminDeletePostTest extends DuskTestCase
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
 
         factory(Book::class)->create([
-            'category_id'   => $faker->randomElement($categoryIds),
-            'donator_id'    => $faker->randomElement($donatorIds),
+            'category_id' => $faker->randomElement($categoryIds),
+            'donator_id' => $faker->randomElement($donatorIds),
         ]);
         $bookIds = DB::table('books')->pluck('id')->toArray();
 

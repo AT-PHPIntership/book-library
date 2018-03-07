@@ -3,11 +3,11 @@
 namespace Tests\Feature;
 
 use DB;
-use Tests\TestCase;
 use App\Model\Book;
+use Tests\TestCase;
 use App\Model\User;
-use App\Model\Category;
 use App\Model\Donator;
+use App\Model\Category;
 use Faker\Factory as Faker;
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\WithFaker;

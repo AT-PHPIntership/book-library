@@ -24,7 +24,7 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
      */
     public function testRouteDisplayBooks()
     {
-        factory(User::class)->create([
+        factory(User::class, 1)->create([
             'role' => 1
         ]);
         $this->browse(function (Browser $browser) {
@@ -56,10 +56,10 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
         ]);
 
         factory(Book::class)->create([
-            'category_id'   => 1,
-            'donator_id'    => 1,
-            'name'          => $faker->sentence(rand(2,5)),
-            'author'        => $faker->name,
+            'category_id' => 1,
+            'donator_id' => 1,
+            'name' => $faker->sentence(rand(2,5)),
+            'author' => $faker->name,
         ]);
 
         factory(Borrowing::class)->create([

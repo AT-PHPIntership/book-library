@@ -69,8 +69,8 @@ class QrCode extends Model
         $lastestQRCode = self::select('code_id')->where('prefix', self::QRCODE_PREFIX)->withTrashed()->orderby('code_id', 'desc')->first();
         $lastestCodeId = $lastestQRCode ? $lastestQRCode->code_id + 1 : QrCode::DEFAULT_CODE_ID;
         return new self([
-            'prefix'    => QrCode::QRCODE_PREFIX,
-            'code_id'   => $lastestCodeId,
+            'prefix' => QrCode::QRCODE_PREFIX,
+            'code_id'=> $lastestCodeId,
         ]);
     }
 
@@ -85,9 +85,9 @@ class QrCode extends Model
     public static function saveImportQRCode($qrCode, $book)
     {
         $qrcodeData = [
-            'book_id'   => $book->id,
-            'prefix'    => $qrCode['prefix'],
-            'code_id'   => $qrCode['code_id'],
+            'book_id' =>$book->id,
+            'prefix' => $qrCode['prefix'],
+            'code_id'=> $qrCode['code_id'],
         ];
         self::lockForUpdate()->firstOrCreate($qrcodeData);
     }

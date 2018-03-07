@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use App\Model\User;
 use App\Model\Book;
 use App\Model\Donator;
-use Tests\DuskTestCase;
 use App\Model\Category;
+use Tests\DuskTestCase;
 use App\Model\Borrowing;
 use Laravel\Dusk\Browser;
 use Faker\Factory as Faker;
@@ -44,9 +44,9 @@ class SortBorrowingsTest extends DuskTestCase
                 ->clickLink('Employee code')
                 ->assertVisible('.fa.fa-sort-asc');
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
-            ->Join('books', 'borrowings.book_id', '=', 'books.id')
-            ->orderBy('employee_code', 'ASC')
-            ->limit(10)->get();
+                ->Join('books', 'borrowings.book_id', '=', 'books.id')
+                ->orderBy('employee_code', 'ASC')
+                ->limit(10)->get();
 
             $checkEmployeeCode = false;
             foreach ($borrowings as $index => $borrowing) {
@@ -175,7 +175,6 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('users.name', 'asc')
                 ->skip(10)->take(5)->get();
-
             $checkName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingName = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
@@ -207,7 +206,6 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('users.name', 'desc')
                 ->skip(10)->take(5)->get();
-
             $checkName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingName = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
@@ -239,7 +237,6 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('users.name', 'desc')
                 ->limit(10)->get();
-
             $checkName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingName = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
@@ -270,7 +267,6 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('users.name', 'asc')
                 ->limit(10)->get();
-
             $checkName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingName = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
@@ -397,7 +393,6 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('email', 'asc')
                 ->skip(10)->take(5)->get();
-
             $checkEmail = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingEmail = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
@@ -428,7 +423,6 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('books.name', 'asc')
                 ->limit(10)->get();
-
             $checkBookName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingBook = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
@@ -460,7 +454,6 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('books.name', 'desc')
                 ->limit(10)->get();
-
             $checkBookName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingBook = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
@@ -492,7 +485,6 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('books.name', 'desc')
                 ->skip(10)->take(5)->get();
-
             $checkBookName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingBook = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
@@ -524,7 +516,6 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('books.name', 'asc')
                 ->skip(10)->take(5)->get();
-
             $checkBookName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingBook = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
@@ -587,7 +578,6 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('from_date', 'desc')
                 ->limit(10)->get();
-
             $checkFromDate = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingFromDate = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
@@ -651,7 +641,6 @@ class SortBorrowingsTest extends DuskTestCase
                 ->skip(10)->take(5)->get();
             $elements = $page->elements('#table-borrowings tbody tr');
             $this->assertCount(5, $elements);
-
             $checkFromDate = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingFromDate = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
@@ -682,7 +671,6 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('to_date', 'asc')
                 ->limit(10)->get();
-
             $checkToDate = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingToDate = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
@@ -714,7 +702,6 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('to_date', 'desc')
                 ->limit(10)->get();
-
             $checkToDate = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingToDate = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');

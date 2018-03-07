@@ -103,8 +103,8 @@ class BookController extends Controller
 
         $search = $request->search;
         $choose = $request->choose;
-        $uid    = $request->uid;
-        $limit  = $request->limit;
+        $uid = $request->uid;
+        $limit = $request->limit;
         $filter = $request->filter;
 
         $books = Book::search($search, $choose)->select($columns)->withCount('borrowings')->sortable();
@@ -120,13 +120,11 @@ class BookController extends Controller
                 ->appends(['search' => $search, 'choose' => $choose, 'uid' => $uid, 'limit' => $limit, 'filter' => $filter]);
         } elseif ($filter == Book::BORROWED) {
             $books = $books->orderBy('borrowings_count', 'DESC')
-                ->limit($limit)
-                ->get();
+                    ->limit($limit)
+                    ->get();
         } else {
-            $books = $books->orderby('id', 'desc')
-                ->sortable()
-                ->paginate(config('define.page_length'))
-                ->appends(['search' => $search, 'choose' => $choose, 'uid' => $uid, 'limit' => $limit, 'filter' => $filter]);
+            $books = $books->orderby('id', 'desc')->sortable()->paginate(config('define.page_length'))
+            ->appends(['search' => $search, 'choose' => $choose, 'uid' => $uid, 'limit' => $limit, 'filter' => $filter]);
         }
         return view('backend.books.list', compact('books'));
     }
@@ -171,11 +169,11 @@ class BookController extends Controller
             // save image path, move image to directory
             $hasImage = $request->hasFile('image');
             if ($hasImage) {
-                $oldImage           = $book->image;
-                $defaultPath        = config('image.books.default_path');
-                $defaultImage       = config('image.books.no_image_name');
-                $isNotDefaultImage  = ($oldImage != ($defaultPath . $defaultImage)) ? true : false;
-                $bookData['image']  = $book->uploadImage($request, $oldImage);
+                $oldImage = $book->image;
+                $defaultPath = config('image.books.default_path');
+                $defaultImage = config('image.books.no_image_name');
+                $isNotDefaultImage = ($oldImage != ($defaultPath . $defaultImage)) ? true : false;
+                $bookData['image'] = $book->uploadImage($request, $oldImage);
             }
             //save new donator
             $bookData['donator_id'] = Donator::updateDonator($request->employee_code);
@@ -241,8 +239,8 @@ class BookController extends Controller
         for ($i = 0, $length = sizeof($qrcodeList); $i < $length; $i++) {
             $qrCode = trim($qrcodeList[$i], ' ');
             $qrCode = [
-                'prefix'    => substr($qrCode, config('define.qrcode.begin_prefix_pos'), config('define.qrcode.end_prefix_pos')),
-                'code_id'   => substr($qrCode, config('define.qrcode.end_prefix_pos'))
+                'prefix' => substr($qrCode, config('define.qrcode.begin_prefix_pos'), config('define.qrcode.end_prefix_pos')),
+                'code_id' => substr($qrCode, config('define.qrcode.end_prefix_pos'))
             ];
             $bookData = Book::updateOrCreateBook($qrCode, $this->convertFitData($attributes));
             QrCode::saveImportQRCode($qrCode, $bookData);
@@ -260,17 +258,17 @@ class BookController extends Controller
     {
         $employeeCode = ($attributes['employee_code'] != "NULL") ? $attributes['employee_code'] : Donator::DEFAULT_DONATOR;
         return [
-            'name'          => $attributes['name'],
-            'category_id'   => Category::lockForUpdate()->firstOrCreate(['name' => $attributes['category']])->id,
-            'status'        => (isset($attributes['status']) && $attributes['status'] == 'available') ? QrCode::QR_CODE_NOT_PRINTED : QrCode::QR_CODE_PRINTED,
-            'donator_id'    => Donator::updateDonator($employeeCode, $attributes['user_name']),
-            'author'        => isset($attributes['author']) ? $attributes['author'] : BOOK::DEFAULT_AUTHOR,
-            'image'         => config('image.books.default_path') . config('image.books.no_image_name'),
-            'year'          => isset($attributes['year']) ? $attributes['year'] : Carbon::now()->year,
-            'description'   => isset($attributes['description']) ? '<p>' . $attributes['description'] . '</p>' : BOOK::DEFAULT_DESCRIPTION,
-            'language'      => $attributes['language'],
-            'pages'         => isset($attributes['pages']) ? $attributes['pages'] : Book::DEFAULT_PAGES,
-            'price'         => isset($attributes['price']) ? $attributes['price'] : Book::DEFAULT_PRICE
+            'name' => $attributes['name'],
+            'category_id' => Category::lockForUpdate()->firstOrCreate(['name' => $attributes['category']])->id,
+            'status' => (isset($attributes['status']) && $attributes['status'] == 'available') ? QrCode::QR_CODE_NOT_PRINTED : QrCode::QR_CODE_PRINTED,
+            'donator_id' => Donator::updateDonator($employeeCode, $attributes['user_name']),
+            'author' => isset($attributes['author']) ? $attributes['author'] : BOOK::DEFAULT_AUTHOR,
+            'image' => config('image.books.default_path') . config('image.books.no_image_name'),
+            'year' => isset($attributes['year']) ? $attributes['year'] : Carbon::now()->year,
+            'description' => isset($attributes['description']) ? '<p>' . $attributes['description'] . '</p>' : BOOK::DEFAULT_DESCRIPTION,
+            'language' => $attributes['language'],
+            'pages' => isset($attributes['pages']) ? $attributes['pages'] : Book::DEFAULT_PAGES,
+            'price' => isset($attributes['price']) ? $attributes['price'] : Book::DEFAULT_PRICE
         ];
     }
 }

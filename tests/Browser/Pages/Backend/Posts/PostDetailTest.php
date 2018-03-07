@@ -3,8 +3,8 @@
 namespace Tests\Browser\Pages\Backend\Posts;
 
 use DB;
-use App\Model\Book;
 use App\Model\User;
+use App\Model\Book;
 use App\Model\Post;
 use App\Model\Rating;
 use App\Model\Donator;
@@ -183,14 +183,14 @@ class PostDetailTest extends DuskTestCase
      */
     public function getData()
     {
-        $category   = factory(Category::class)->create();
-        $donator    = factory(Donator::class)->create([
+        $category = factory(Category::class)->create();
+        $donator = factory(Donator::class)->create([
             'user_id' => $this->user->id,
         ]);
 
         $book = factory(Book::class)->create([
-            'category_id'   => $category->id,
-            'donator_id'    => $donator->id,
+            'category_id' => $category->id,
+            'donator_id' => $donator->id,
         ]);
         return ['category' => $category, 'donator' => $donator, 'book' => $book];
     }
@@ -222,8 +222,8 @@ class PostDetailTest extends DuskTestCase
         foreach ($comments as $comment) {
             if (isset($comment->post_id)) {
                 factory(Comment::class)->create([
-                    'post_id'   => $comment->post_id,
-                    'user_id'   =>  $this->user->id,
+                    'post_id' => $comment->post_id,
+                    'user_id' =>  $this->user->id,
                     'parent_id' => $comment->id
                 ]);
             }
@@ -260,7 +260,7 @@ class PostDetailTest extends DuskTestCase
             factory(Post::class)->create([
                 'user_id' => $this->user->id,
                 'book_id' => $this->data['book']->id,
-                'type'    => Post::REVIEW_TYPE,
+                'type' => Post::REVIEW_TYPE,
             ]);
         }
         $postIds = DB::table('posts')->pluck('id')->toArray();
@@ -275,7 +275,7 @@ class PostDetailTest extends DuskTestCase
             factory(Rating::class)->create([
                 'book_id' => $comment->book_id,
                 'user_id' => $this->user->id,
-                'rating'  => rand(1, 5),
+                'rating' => rand(1, 5),
             ]);
         }
 
@@ -283,8 +283,8 @@ class PostDetailTest extends DuskTestCase
         foreach ($comments as $comment) {
             if (isset($comment->post_id)) {
                 factory(Comment::class)->create([
-                    'post_id'   => $comment->post_id,
-                    'user_id'   => $this->user->id,
+                    'post_id' => $comment->post_id,
+                    'user_id' => $this->user->id,
                     'parent_id' => $comment->id
                 ]);
             }
@@ -304,7 +304,7 @@ class PostDetailTest extends DuskTestCase
             factory(Post::class)->create([
                 'user_id' => $this->user->id,
                 'book_id' => $this->data['book']->id,
-                'type'    => Post::STATUS_TYPE,
+                'type'  => Post::STATUS_TYPE,
             ]);
         }
         $postIds = DB::table('posts')->pluck('id')->toArray();
@@ -319,8 +319,8 @@ class PostDetailTest extends DuskTestCase
         foreach ($comments as $comment) {
             if (isset($comment->post_id)) {
                 factory(Comment::class)->create([
-                    'post_id'   => $comment->post_id,
-                    'user_id'   => $this->user->id,
+                    'post_id' => $comment->post_id,
+                    'user_id' => $this->user->id,
                     'parent_id' => $comment->id
                 ]);
             }
@@ -340,7 +340,7 @@ class PostDetailTest extends DuskTestCase
             factory(Post::class)->create([
                 'user_id' => $this->user->id,
                 'book_id' => $this->data['book']->id,
-                'type'    => Post::FIND_TYPE,
+                'type' => Post::FIND_TYPE,
             ]);
         }
         $postIds = DB::table('posts')->pluck('id')->toArray();

@@ -82,7 +82,6 @@ class CreateBookTest extends DuskTestCase
                 ->type('employee_code', $donator_id)
                 ->type('year', $year)
                 ->attach('image', $image);
-
             $this->typeInCKEditor('#cke_description iframe', $browser, $description);
                         
             $browser->press('Submit');
@@ -118,7 +117,7 @@ class CreateBookTest extends DuskTestCase
             
 
             $browser->press('Submit')
-                ->assertSee('Create Success');
+                    ->assertSee('Create Success');
             $this->assertDatabaseHas('books', [
                 'id' => 1,
                 'category_id' => $category->id,
@@ -130,7 +129,8 @@ class CreateBookTest extends DuskTestCase
                 'description' => '<p>This is a description</p>',
                 "avg_rating" => 0,
                 "total_rating" => 0,
-                "status" => 1
+                "status" => 1,
+
             ]);
             
         });
@@ -161,7 +161,7 @@ class CreateBookTest extends DuskTestCase
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
                 
             $browser->press('Submit')
-                    ->assertSee('Create Fail. Cannot save data');
+                ->assertSee('Create Fail. Cannot save data');
 
             $this->assertDatabaseMissing('books', [
                 'id' => 1,
@@ -266,11 +266,11 @@ class CreateBookTest extends DuskTestCase
     public function fakeUser() {
         $user = [
             'employee_code' => 'AT0286',
-            'name'          => 'SA Dinh Thi.',
-            'email'         => 'sa.as@asiantech.vn',
-            'team'          => 'SA',
-            'role'          => 1,
+            'name' => 'SA Dinh Thi.',
+            'email' => 'sa.as@asiantech.vn',
+            'team' => 'SA',
+            'role' => 1,
         ];
-        $user = factory(User::class, 1)->create($user);
+        $user = factory(User::class)->create($user);
     }
 }

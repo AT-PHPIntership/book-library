@@ -89,7 +89,6 @@ class EditBookTest extends DuskTestCase
                 ->select('language', $language)
                 ->type('year', $year)
                 ->attach('image', $image);
-
             $this->typeInCKEditor('#cke_description iframe', $browser, $description);
                         
             $browser->press('Submit');
@@ -125,7 +124,7 @@ class EditBookTest extends DuskTestCase
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
                 
             $browser->press('Submit')
-                ->assertSee('Edit Success');
+                    ->assertSee('Edit Success');
         });
 
         $this->assertDatabaseHas('books', [
@@ -201,7 +200,6 @@ class EditBookTest extends DuskTestCase
                 ->click('.btn-edit-1')
                 ->clickLink('Back')
                 ->assertQueryStringHas('page', 2);
-
             $browser->visit('admin/books/1/edit')
                 ->resize(1600, 2000)
                 ->clickLink('Back')
@@ -283,10 +281,10 @@ class EditBookTest extends DuskTestCase
     public function fakeUser() {
         $user = [
             'employee_code' => 'AT0286',
-            'name'          => 'SA Dinh Thi.',
-            'email'         => 'sa.as@asiantech.vn',
-            'team'          => 'SA',
-            'role'          => 1,
+            'name' => 'SA Dinh Thi.',
+            'email' => 'sa.as@asiantech.vn',
+            'team' => 'SA',
+            'role' => 1,
         ];
         $user = factory(User::class, 1)->create($user);
     }

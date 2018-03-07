@@ -40,8 +40,8 @@ class AdminSendMailsTest extends DuskTestCase
         $faker = Faker::create();
 
         for ($i = 1; $i <= $row; $i++) {
-            factory(Category::class)->create();
-            factory(User::class)->create();            
+            factory(Category::class, 1)->create();
+            factory(User::class, 1)->create();            
         }
 
         $categoryIds = DB::table('categories')->pluck('id')->toArray();
@@ -53,9 +53,9 @@ class AdminSendMailsTest extends DuskTestCase
         }
         $donatorIds = DB::table('donators')->pluck('id')->toArray();
         for($i = 1; $i <= $row; $i++) {
-            factory(Book::class)->create([
-                'category_id'   => $faker->randomElement($categoryIds),
-                'donator_id'    => $faker->randomElement($donatorIds),
+            factory(Book::class, 1)->create([
+                'category_id' => $faker->randomElement($categoryIds),
+                'donator_id' => $faker->randomElement($donatorIds),
             ]);
         }
         
