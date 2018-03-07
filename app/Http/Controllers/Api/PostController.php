@@ -28,39 +28,37 @@ class PostController extends ApiController
     }
 
 /**
- * Store new resource
+ * Add new Post
  *
  * @param CreatePostRequest $request request
  *
  * @return \Illuminate\Http\Response
  */
-public function store(CreatePostRequest $request)
-{
-    if ($request->type != Post::REVIEW_TYPE) {
-        $request['book_id'] = null;
-    }
-    $request['user_id'] = $this->user->id;
-
-    DB::beginTransaction();
-    try {
-        // Create post
-        $post = Post::create($request->all());
-
-        // Create rating when post's type is review
-        $ratingPost = null;
-
-        if ($request->type == Post::REVIEW_TYPE) {
-            $ratingPost = Rating::create($request->all());
+    public function store(CreatePostRequest $request)
+    {
+        if ($request->type != Post::REVIEW_TYPE) {
+            $request['book_id'] = null;
         }
-        DB::commit();
-        $data = [
-            'reviewPost' => $post,
-            'ratingPost' => $ratingPost,
-        ];
+        $request['user_id'] = $this->user->id;
+
+        DB::beginTransaction();
+        try {
+            // Create post
+            $post = Post::create($request->all());
+
+            // Create rating when post's type is review
+            if ($request->type == Post::REVIEW_TYPE) {
+                $ratingPost = Rating::create($request->all());
+            }
+            DB::commit();
+            $data = [
+                'reviewPost' => $post,
+                'ratingPost' => $ratingPost ?? null,
+            ];
+        } catch (Exception $e) {
+            DB::rollback();
+            \Log::error($e);
+        }
         return metaResponse($data, Response::HTTP_CREATED);
-    } catch (Exception $e) {
-        DB::rollBack();
-        dd($e);
     }
-}
 }

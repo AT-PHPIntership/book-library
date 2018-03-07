@@ -21,6 +21,8 @@ class CreatePostRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
+     * @param Request $request request for add post
+     *
      * @return array
      */
     public function rules(Request $request)
