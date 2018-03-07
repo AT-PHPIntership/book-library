@@ -31,12 +31,15 @@ class SendMailController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()
-                        ->withErrors(['message' => trans('portal.messages.not_an_email')])
-                        ->withInput();
+                ->withErrors(['message' => trans('portal.messages.not_an_email')])
+                ->withInput();
         }
+
         Mail::to($borrowing->users->email)->send(new BorrowedBookMail($borrowing));
+        
         $borrowing->date_send_email = Carbon::now();
         $result = $borrowing->save();
+        
         if ($result && empty(Mail::failures())) {
             flash(__('borrow.messages.send_mail_success'))->success();
         } else {

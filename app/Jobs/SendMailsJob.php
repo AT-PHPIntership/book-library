@@ -25,11 +25,12 @@ class SendMailsJob implements ShouldQueue
      */
     public function handle()
     {
-        $borrowings = Borrowing::with('books', 'users')->where('to_date', '=', null)
-                                                       ->where(function ($where) {
-                                                           $where->whereDate('from_date', '>=', Carbon::now()->subDays(config('define.time_send_mail'))->toDateString())
-                                                                 ->orWhere('date_send_email', null);
-                                                       })->get();
+        $borrowings = Borrowing::with('books', 'users')->whereNull('to_date')
+            ->where(function ($where) {
+                $where->whereDate('from_date', '>=', Carbon::now()->subDays(config('define.time_send_mail'))->toDateString())
+                    ->orWhere('date_send_email', null);
+            })->get();
+            
         foreach ($borrowings as $borrowing) {
             try {
                 $validator = Validator::make(['email' => $borrowing->users->email], [
@@ -37,12 +38,17 @@ class SendMailsJob implements ShouldQueue
                 ]);
 
                 if ($validator->fails()) {
+                    \Log::info($validator->fails());
                     continue;
                 }
+
                 Mail::to($borrowing->users->email)->send(new BorrowedBookMail($borrowing));
+                
                 $borrowing->date_send_email = Carbon::now();
                 $result = $borrowing->save();
+
                 if ($result == false && !empty(Mail::failures())) {
+                    \Log::info(Mail::failures());
                     continue;
                 }
             } catch (\Exception $e) {
