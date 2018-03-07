@@ -6,7 +6,6 @@ use App\Model\User;
 use App\Model\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentUpdateRequest;
 use App\Http\Controllers\Api\ApiController;
 
