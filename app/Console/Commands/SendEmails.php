@@ -41,6 +41,6 @@ class SendEmails extends Command
     public function handle()
     {
         SendMailsJob::dispatch();
-        $this->info('Send Mail Success');
+        $this->info('Complete Send Mail');
     }
 }

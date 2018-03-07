@@ -30,15 +30,19 @@ class SendMailsJob implements ShouldQueue
                 $where->whereDate('from_date', '>=', Carbon::now()->subDays(config('define.time_send_mail'))->toDateString())
                     ->orWhere('date_send_email', null);
             })->get();
-            
+        
+        \Log::info("Schedule sent mail to remined borrowing book");
+
         foreach ($borrowings as $borrowing) {
+            \Log::info("Start send mail to: " . $borrowing->users->email);
+
             try {
                 $validator = Validator::make(['email' => $borrowing->users->email], [
                     'email' => 'email',
                 ]);
 
                 if ($validator->fails()) {
-                    \Log::info($validator->fails());
+                    \Log::error($validator->fails());
                     continue;
                 }
 
@@ -48,13 +52,15 @@ class SendMailsJob implements ShouldQueue
                 $result = $borrowing->save();
 
                 if ($result == false && !empty(Mail::failures())) {
-                    \Log::info(Mail::failures());
+                    \Log::error(Mail::failures());
                     continue;
                 }
+                \Log::info("Complete Send Mail");
             } catch (\Exception $e) {
-                \Log::info($e->getMessage());
+                \Log::error($e->getMessage());
                 continue;
             }
+            \Log::info("End schedule sent mail to remined borrowing book");
         }
     }
 }
