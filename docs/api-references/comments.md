@@ -37,6 +37,43 @@
     "deleted_at": null
   }
 }
+
+```
+### `PUT` Update comments
+```
+/api/comments/{id}
+```
+Update the comment
+#### Request Headers
+| Key | Value |
+|---|---|
+|Accept|application\json
+|Content-Type|application/json
+|Authorization|{token_type} {access_token}|
+
+#### Parameters
+| Key | Type | Required | Description |
+|---|---|---|---|
+| content | String | required | content of comment |
+
+#### Sample Request
+```json
+{
+	"content": "new comment",
+}
+```
+
+#### Response
+```json
+{
+  "meta": {
+    "success": true,
+    "code": 200
+  },
+  "data": {
+    "content": "new comment",
+  }
+}
 ```
 
 ### `GET` Get review comments
