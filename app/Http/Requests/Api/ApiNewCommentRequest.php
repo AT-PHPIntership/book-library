@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class ApiNewCommentRequest extends FormRequest
 {
@@ -21,11 +22,12 @@ class ApiNewCommentRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
-        return [
-            'content' => 'required',
-            'parent_id' => 'numeric',
-        ];
+        $rules['content'] = 'required';
+        if ($request->parent_id !== null) {
+            $rules['parent_id'] = 'numeric';
+        }
+        return $rules;
     }
 }

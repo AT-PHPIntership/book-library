@@ -56,35 +56,28 @@ class CommentController extends ApiController
     {
         //Validate post id
         if (!Post::find($id)) {
-            return $this->showMessageAndCode(config('define.messages.post_not_found'), Response::HTTP_NOT_FOUND);
+            return metaResponse(null, Response::HTTP_NOT_FOUND, config('define.messages.post_not_found'));
         }
-        $request['post_id'] = $id;
+
+        //Validate exsist parent_id comment
+        if (!Comment::find($request->parent_id)) {
+            return metaResponse(null, Response::HTTP_NOT_FOUND, config('define.messages.parent_id_not_found'));
+        }
+
+        //Validate exsist user
+        if (!User::find($this->user->id)) {
+            return metaResponse(null, Response::HTTP_NOT_FOUND, config('define.messages.user_not_found'));
+        }
+
         $request['user_id'] = $this->user->id;
+        $request['post_id'] = $id;
 
         //Add new Comment
         try {
             $comment = Comment::create($request->all());
         } catch (\Exception $e) {
-            return $this->showMessageAndCode(config('define.messages.error_occurred'), Response::HTTP_BAD_REQUEST);
+            return metaResponse(null, Response::HTTP_BAD_REQUEST, config('define.messages.error_occurred'));
         }
         return metaResponse(['data' => $comment], Response::HTTP_CREATED);
-    }
-
-    /**
-     * Show message and code.
-     *
-     * @param String $message message return
-     * @param int    $code    code return
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function showMessageAndCode($message, $code)
-    {
-        return response()->json([
-            'meta' => [
-                'code' => $code,
-                'message' => $message
-            ],
-        ], $code);
     }
 }

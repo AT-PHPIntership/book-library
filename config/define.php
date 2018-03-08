@@ -26,7 +26,8 @@
       'empty_comment' => 'Empty Comment',
       'post_not_found' => 'Post Not Found',
       'error_occurred' => 'Has Error Occurred, Please Try Again',
-      'parent_id_not_found' => 'Parent Id Not Found'
+      'parent_id_not_found' => 'Parent Id Not Found',
+      'user_not_found' => 'User Not Found'
     ],
     'book' => [
       'item_limit' => 20,
