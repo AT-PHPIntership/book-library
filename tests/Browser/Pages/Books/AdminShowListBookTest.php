@@ -36,7 +36,6 @@ class AdminShowListBookTest extends BaseTestBook
      */
     public function testShowListBook()
     {
-        $this->makeUser();
         $this->makeListOfBook(10);
         $this->browse(function (Browser $browser) {
         $browser->loginAs(User::find(1))
@@ -56,7 +55,6 @@ class AdminShowListBookTest extends BaseTestBook
      */
     public function testShowPageList()
     {
-        $this->makeUser();
         $this->makeListOfBook(15);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
@@ -77,7 +75,6 @@ class AdminShowListBookTest extends BaseTestBook
      */
     public function testEmptyPage()
     {
-        $this->makeUser();
         $this->browse(function (Browser $browser) {
         $browser->loginAs(User::find(1))
                 ->visit('/admin/books')

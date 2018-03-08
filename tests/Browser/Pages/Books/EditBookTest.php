@@ -142,7 +142,7 @@ class EditBookTest extends BaseTestBook
         $this->assertDatabaseHas('books', [
             'id' => 1,
             'category_id' => $category->id,
-            'donator_id' => ($this->donators->count() + 1),
+            'donator_id' => DB::table('donators')->count(),
             'name' => 'Example Book',
             'author' => 'Example Author',
             'year' => '2018',
