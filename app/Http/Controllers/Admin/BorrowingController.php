@@ -19,13 +19,14 @@ class BorrowingController extends Controller
     public function index(Request $request)
     {
         $filters = [
-            'users.id',
+            'borrowings.id',
             'users.employee_code',
             'users.name as user_name',
             'users.email',
             'books.name as book_name',
             'borrowings.from_date',
             'borrowings.to_date',
+            'borrowings.date_send_email',
         ];
         $borrowings = Borrowing::select($filters)
             ->leftJoin('users', 'borrowings.user_id', 'users.id')
@@ -35,7 +36,7 @@ class BorrowingController extends Controller
             $choose = $request->choose;
             $borrowings = $borrowings->search($search, $choose);
         }
-        $borrowings = $borrowings->sortable()->orderby('users.id', 'DESC')->paginate(config('define.page_length'));
+        $borrowings = $borrowings->sortable()->orderby('borrowings.id', 'DESC')->paginate(config('define.page_length'));
         return view('backend.books.borrow', compact('borrowings'));
     }
 }
