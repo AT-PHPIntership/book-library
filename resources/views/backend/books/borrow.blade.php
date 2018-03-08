@@ -84,7 +84,7 @@
                                     <td>{{ $borrowing->date_send_mail }}</td>
                                     <td>
                                         <button type="button" data-action= "{{ route('sendMail', $borrowing->id) }}" 
-                                        class="btn btn-warning btn-check fa-trash-o ion ion-android-drafts" data-name="{{ $borrowing->users_name }}" data-toggle="modal" data-target="#confirmSendMail" id="{{ $borrowing->id }}" {{ canSendMail($borrowing->date_send_email) ? '' : 'disabled' }}>
+                                        class="btn btn-warning btn-check fa-trash-o ion ion-android-drafts" data-name="{{ $borrowing->user_name }}" data-toggle="modal" data-target="#confirmSendMail" id="{{ $borrowing->id }}" {{ canSendMail($borrowing->date_send_email) ? '' : 'disabled' }}>
                                         </button>
                                     </td>         
                                 </tr>

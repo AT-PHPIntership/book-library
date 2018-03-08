@@ -2,17 +2,17 @@
 
 namespace Tests\Browser\tests\Browser\Pages\BackEnd\Books;
 
-use Carbon\Carbon;
-use App\Model\User;
 use App\Model\Book;
-use App\Model\Donator;
-use App\Model\Category;
-use Tests\DuskTestCase;
 use App\Model\Borrowing;
+use App\Model\Category;
+use App\Model\Donator;
+use App\Model\User;
+use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Faker\Factory as Faker;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
+use Carbon\Carbon;
 
 class SortBorrowingsTest extends DuskTestCase
 {
@@ -39,10 +39,10 @@ class SortBorrowingsTest extends DuskTestCase
         $this->makeborrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                ->visit('/admin/borrowings/')
-                ->resize(900, 1600)
-                ->clickLink('Employee code')
-                ->assertVisible('.fa.fa-sort-asc');
+                    ->visit('/admin/borrowings/')
+                    ->resize(900, 1600)
+                    ->clickLink('Employee code')
+                    ->assertVisible('.fa.fa-sort-asc');
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('employee_code', 'ASC')
@@ -70,11 +70,11 @@ class SortBorrowingsTest extends DuskTestCase
         $this->makeborrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                ->visit('/admin/borrowings/')
-                ->resize(900, 1600)
-                ->clickLink('Employee code')
-                ->clickLink('Employee code')
-                ->assertVisible('.fa.fa-sort-desc');
+                    ->visit('/admin/borrowings/')
+                    ->resize(900, 1600)
+                    ->clickLink('Employee code')
+                    ->clickLink('Employee code')
+                    ->assertVisible('.fa.fa-sort-desc');
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('employee_code', 'desc')
@@ -102,9 +102,9 @@ class SortBorrowingsTest extends DuskTestCase
         $this->makeborrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                ->visit('/admin/borrowings?sort=users.employee_code&order=desc&page=2')
-                ->resize(900, 1600)
-                ->assertVisible('.fa.fa-sort-desc');
+                    ->visit('/admin/borrowings?sort=employee_code&order=desc&page=2')
+                    ->resize(900, 1600)
+                    ->assertVisible('.fa.fa-sort-desc');
             $elements = $page->elements('#table-borrowings tbody tr');
             $this->assertCount(5, $elements);
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
@@ -134,9 +134,9 @@ class SortBorrowingsTest extends DuskTestCase
         $this->makeborrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                ->visit('/admin/borrowings?sort=users.employee_code&order=asc&page=2')
-                ->resize(900, 1600)
-                ->assertVisible('.fa.fa-sort-asc');
+                    ->visit('/admin/borrowings?sort=employee_code&order=asc&page=2')
+                    ->resize(900, 1600)
+                    ->assertVisible('.fa.fa-sort-asc');
             $elements = $page->elements('#table-borrowings tbody tr');
             $this->assertCount(5, $elements);
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
@@ -166,15 +166,16 @@ class SortBorrowingsTest extends DuskTestCase
         $this->makeborrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                ->visit('/admin/borrowings?sort=users.name&order=asc&page=2')
-                ->assertVisible('.fa.fa-sort-asc')
-                ->resize(900, 1600);
+                    ->visit('/admin/borrowings?sort=user_name&order=asc&page=2')
+                    ->assertVisible('.fa.fa-sort-asc')
+                    ->resize(900, 1600);
             $elements = $page->elements('#table-borrowings tbody tr');
             $this->assertCount(5, $elements);
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('users.name', 'asc')
                 ->skip(10)->take(5)->get();
+
             $checkName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingName = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
@@ -197,15 +198,16 @@ class SortBorrowingsTest extends DuskTestCase
         $this->makeborrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                ->visit('/admin/borrowings?sort=users.name&order=desc&page=2')
-                ->assertVisible('.fa.fa-sort-desc')
-                ->resize(900, 1600);
+                    ->visit('/admin/borrowings?sort=user_name&order=desc&page=2')
+                    ->assertVisible('.fa.fa-sort-desc')
+                    ->resize(900, 1600);
             $elements = $page->elements('#table-borrowings tbody tr');
             $this->assertCount(5, $elements);
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('users.name', 'desc')
                 ->skip(10)->take(5)->get();
+
             $checkName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingName = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
@@ -228,15 +230,16 @@ class SortBorrowingsTest extends DuskTestCase
         $this->makeborrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                ->visit('/admin/borrowings/')
-                ->resize(900, 1600)
-                ->clickLink('Name')
-                ->clickLink('Name')
-                ->assertVisible('.fa.fa-sort-desc');
+                    ->visit('/admin/borrowings/')
+                    ->resize(900, 1600)
+                    ->clickLink('Name')
+                    ->clickLink('Name')
+                    ->assertVisible('.fa.fa-sort-desc');
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('users.name', 'desc')
                 ->limit(10)->get();
+
             $checkName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingName = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
@@ -259,14 +262,15 @@ class SortBorrowingsTest extends DuskTestCase
         $this->makeborrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                ->visit('/admin/borrowings/')
-                ->resize(900, 1600)
-                ->clickLink('Name')
-                ->assertVisible('.fa.fa-sort-asc');
+                    ->visit('/admin/borrowings/')
+                    ->resize(900, 1600)
+                    ->clickLink('Name')
+                    ->assertVisible('.fa.fa-sort-asc');
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('users.name', 'asc')
                 ->limit(10)->get();
+
             $checkName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingName = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
@@ -393,6 +397,7 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('email', 'asc')
                 ->skip(10)->take(5)->get();
+
             $checkEmail = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingEmail = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
@@ -423,6 +428,7 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('books.name', 'asc')
                 ->limit(10)->get();
+
             $checkBookName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingBook = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
@@ -454,6 +460,7 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('books.name', 'desc')
                 ->limit(10)->get();
+
             $checkBookName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingBook = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
@@ -476,15 +483,16 @@ class SortBorrowingsTest extends DuskTestCase
         $this->makeborrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                ->visit('/admin/borrowings?sort=books.name&order=desc&page=2')
-                ->resize(900, 1600)
-                ->assertVisible('.fa.fa-sort-desc');
+                            ->visit('/admin/borrowings?sort=book_name&order=desc&page=2')
+                            ->resize(900, 1600)
+                            ->assertVisible('.fa.fa-sort-desc');
             $elements = $page->elements('#table-borrowings tbody tr');
             $this->assertCount(5, $elements);
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('books.name', 'desc')
                 ->skip(10)->take(5)->get();
+
             $checkBookName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingBook = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
@@ -507,15 +515,16 @@ class SortBorrowingsTest extends DuskTestCase
         $this->makeborrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                ->visit('/admin/borrowings?sort=books.name&order=asc&page=2')
-                ->resize(900, 1600)
-                ->assertVisible('.fa.fa-sort-asc');
+                            ->visit('/admin/borrowings?sort=book_name&order=asc&page=2')
+                            ->resize(900, 1600)
+                            ->assertVisible('.fa.fa-sort-asc');
             $elements = $page->elements('#table-borrowings tbody tr');
             $this->assertCount(5, $elements);
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('books.name', 'asc')
                 ->skip(10)->take(5)->get();
+
             $checkBookName = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingBook = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
@@ -578,6 +587,7 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('from_date', 'desc')
                 ->limit(10)->get();
+
             $checkFromDate = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingFromDate = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
@@ -600,9 +610,9 @@ class SortBorrowingsTest extends DuskTestCase
         $this->makeborrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                ->visit('/admin/borrowings?sort=from_date&order=desc&page=2')
-                ->resize(900, 1600)
-                ->assertVisible('.fa.fa-sort-desc');
+                            ->visit('/admin/borrowings?sort=from_date&order=desc&page=2')
+                            ->resize(900, 1600)
+                            ->assertVisible('.fa.fa-sort-desc');
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('from_date', 'desc')
@@ -632,15 +642,16 @@ class SortBorrowingsTest extends DuskTestCase
         $this->makeborrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                ->visit('/admin/borrowings?sort=from_date&order=asc&page=2')
-                ->resize(900, 1600)
-                ->assertVisible('.fa.fa-sort-asc');
+                            ->visit('/admin/borrowings?sort=from_date&order=asc&page=2')
+                            ->resize(900, 1600)
+                            ->assertVisible('.fa.fa-sort-asc');
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('from_date', 'asc')
                 ->skip(10)->take(5)->get();
             $elements = $page->elements('#table-borrowings tbody tr');
             $this->assertCount(5, $elements);
+
             $checkFromDate = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingFromDate = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
@@ -671,6 +682,7 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('to_date', 'asc')
                 ->limit(10)->get();
+
             $checkToDate = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingToDate = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
@@ -702,6 +714,7 @@ class SortBorrowingsTest extends DuskTestCase
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('to_date', 'desc')
                 ->limit(10)->get();
+
             $checkToDate = false;
             foreach ($borrowings as $index => $borrowing) {
                 $borrowingToDate = $browser->text('#table-borrowings tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
@@ -724,9 +737,9 @@ class SortBorrowingsTest extends DuskTestCase
         $this->makeborrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                ->visit('/admin/borrowings?sort=to_date&order=desc&page=2')
-                ->resize(900, 1600)
-                ->assertVisible('.fa.fa-sort-desc');
+                            ->visit('/admin/borrowings?sort=to_date&order=desc&page=2')
+                            ->resize(900, 1600)
+                            ->assertVisible('.fa.fa-sort-desc');
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('to_date', 'desc')
@@ -756,9 +769,9 @@ class SortBorrowingsTest extends DuskTestCase
         $this->makeborrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                ->visit('/admin/borrowings?sort=to_date&order=asc&page=2')
-                ->resize(900, 1600)
-                ->assertVisible('.fa.fa-sort-asc');
+                            ->visit('/admin/borrowings?sort=to_date&order=asc&page=2')
+                            ->resize(900, 1600)
+                            ->assertVisible('.fa.fa-sort-asc');
             $borrowings = Borrowing::Join('users', 'borrowings.user_id', '=', 'users.id')
                 ->Join('books', 'borrowings.book_id', '=', 'books.id')
                 ->orderBy('to_date', 'asc')
