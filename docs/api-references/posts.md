@@ -148,19 +148,6 @@ Delete the post
     "meta": {
         "message": "null",
         "code": 200
-    },
-    "data": [
-        {
-            "id": 1,
-            "user_id": 2, 
-            "book_id": 1,        
-            "type": 1,
-            "content": "Sit eos non quos. Hic temporibus nam iure",
-            "image": "http://book.tech/storage/images/books/book.png",
-            "created_at": "2018-02-26 03:23:09",
-            "updated": "2018-02-26 03:23:09",
-            "deleted_at": "2018-03-08 03:23:09"
-        }
-    ]
+    }
 }
 ```
