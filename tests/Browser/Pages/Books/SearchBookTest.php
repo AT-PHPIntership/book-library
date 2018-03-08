@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 use App\Model\Book;
 use App\Model\Category;
 use App\Model\Donator;
@@ -14,63 +15,33 @@ use App\Model\QrCode;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
-class SearchBookTest extends DuskTestCase
+class SearchBookTest extends BaseTestBook
 {
     use DatabaseMigrations;
 
     /**
-     * A Dusk test example.
+     * Create user with role "Admin".
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        factory(User::class)->create(['role' => User::ROLE_ADMIN]);
+    }
+
+    /**
+     * Make a list of books that have a book with the name and author specified, make a list of borrowings.
+     *
+     * @param Int $row number of book.
      *
      * @return void
      */
     public function makeData($row)
     {
         $faker = Faker::create();
-
-        factory(Category::class, 5)->create();
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-
-        factory(User::class, 5)->create();
-        $userIds = DB::table('users')->pluck('id')->toArray();
-
-        factory(Donator::class, 5)->create([
-            'user_id' => $faker->randomElement($userIds)
-        ]);
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
-
-        for ($i = 0; $i <= $row; $i++)
-        {
-            factory(Book::class,1)->create([
-                'category_id' => $faker->randomElement($categoryIds),
-                'donator_id' => $faker->randomElement($donatorIds),
-                'name' => $faker->sentence(rand(2,5)),
-                'author' => $faker->name,
-            ]);
-        }
-
-        factory(Book::class, 1)->create([
-            'category_id' => $faker->randomElement($categoryIds),
-            'donator_id' => $faker->randomElement($donatorIds),
-            'name' => 'JavaScript and Jquey',
-            'author' => 'Murach’s',
-        ]);
-
-        $bookIds = DB::table('books')->pluck('id')->toArray();
-        for ($i = 0; $i <= $row; $i++)
-        {
-            $borrowing = factory(Borrowing::class, 1)->create([
-                'book_id' =>  $faker->randomElement($bookIds),
-                'user_id' =>  $faker->randomElement($userIds),
-            ]);
-        }
-        $bookNumber = DB::table('books')->count();
-        for ($bookID = 1; $bookID <= $bookNumber; $bookID++) {
-            factory(QrCode::class)->create([
-                'book_id' => $bookID,
-                'code_id' => $faker->unique()->randomNumber(4),
-                'prefix' => 'BAT-'
-            ]);
-        }
+        $this->makeListOfBook($row);
+        Book::first()->update(['name' => 'JavaScript and Jquey', 'author' => 'Murach’s']);
     }
 
     /**
@@ -93,7 +64,6 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSeeInputNullSelectAll()
     {
-        $this->userLogin();
         $this->makeData(6);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -108,7 +78,7 @@ class SearchBookTest extends DuskTestCase
                     ->assertQueryStringHas('search', '')
                     ->assertQueryStringHas('choose', 'all');
             $elements = $browser->elements('#table-book tbody tr');
-            $this->assertCount(8, $elements);
+            $this->assertCount(6, $elements);
         });
     }
 
@@ -119,7 +89,6 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSeeInputNullSelectName()
     {
-        $this->userLogin();
         $this->makeData(6);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -134,7 +103,7 @@ class SearchBookTest extends DuskTestCase
                     ->assertQueryStringHas('search', '')
                     ->assertQueryStringHas('choose', 'name');
             $elements = $browser->elements('#table-book tbody tr');
-            $this->assertCount(8, $elements);
+            $this->assertCount(6, $elements);
         });
     }
 
@@ -145,7 +114,6 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSeeInputNullSelectAuthor()
     {
-        $this->userLogin();
         $this->makeData(6);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -160,7 +128,7 @@ class SearchBookTest extends DuskTestCase
                     ->assertQueryStringHas('search', '')
                     ->assertQueryStringHas('choose', 'author');
             $elements = $browser->elements('#table-book tbody tr');
-            $this->assertCount(8, $elements);
+            $this->assertCount(6, $elements);
         });
     }
 
@@ -171,7 +139,6 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSearchNameSelectAll()
     {
-        $this->userLogin();
         $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -198,7 +165,6 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSearchAuthorSelectAll()
     {
-        $this->userLogin();
         $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -225,7 +191,6 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSearchNameSelectName()
     {
-        $this->userLogin();
         $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -252,7 +217,6 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSearchAuthorSelectAuthor()
     {
-        $this->userLogin();
         $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -279,7 +243,6 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSearchNameAuthorIncorrectSelectAll()
     {
-        $this->userLogin();
         $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -305,7 +268,6 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSearchNameIncorrectSelectName()
     {
-        $this->userLogin();
         $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -331,7 +293,6 @@ class SearchBookTest extends DuskTestCase
      */
     public function testSearchAuthorIncorrectSelectAuthor()
     {
-        $this->userLogin();
         $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))

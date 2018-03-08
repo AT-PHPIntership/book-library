@@ -13,6 +13,7 @@ use Laravel\Dusk\Browser;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 use Tests\Browser\Pages\Backend\Users\BaseTestUser;
+use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class SortBookTest extends BaseTestUser
@@ -30,7 +31,8 @@ class SortBookTest extends BaseTestUser
     {
         parent::setUp();
         $this->adminUserToLogin = $this->makeAdminUserToLogin();
-        $this->makeData(16);
+        $baseTestBook = new BaseTestBook();
+        $baseTestBook->makeListOfBook(16);
     }
 
     /**
@@ -477,54 +479,5 @@ class SortBookTest extends BaseTestUser
             }
             $this->assertTrue($checkName);
         });
-    }
-
-    /**
-     * A Data test example.
-     *
-     * @return void
-     */
-    public function makeData($row)
-    {
-        $faker = Faker::create();
-
-        factory(Category::class, 5)->create();
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-
-        factory(User::class, 5)->create();
-        $userIds = DB::table('users')->pluck('id')->toArray();
-
-        factory(Donator::class, 5)->create([
-            'user_id' => $faker->randomElement($userIds)
-        ]);
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
-
-        for ($i = 0; $i <= $row; $i++)
-        {
-            factory(Book::class)->create([
-                'category_id' => $faker->randomElement($categoryIds),
-                'donator_id' => $faker->randomElement($donatorIds),
-                'name' => $faker->sentence(rand(2,5)),
-                'author' => $faker->name,
-            ]);
-        }
-        $bookIds = DB::table('books')->pluck('id')->toArray();
-        
-        for ($i = 0; $i <= $row; $i++)
-        {
-            $borrowing = factory(Borrowing::class)->create([
-                'book_id' =>  $faker->randomElement($bookIds),
-                'user_id' =>  $faker->randomElement($userIds),
-            ]);
-        }
-
-        $bookNumber = DB::table('books')->count();
-        for ($bookID = 1; $bookID <= $bookNumber; $bookID++) {
-            factory(QrCode::class)->create([
-                'book_id' => $bookID,
-                'code_id' => $faker->unique()->randomNumber(4),
-                'prefix' => 'BAT-'
-            ]);
-        }
     }
 }

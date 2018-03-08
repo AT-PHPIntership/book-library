@@ -19,14 +19,14 @@ class AdminShowListBookTest extends BaseTestBook
     use DatabaseMigrations;
 
     /**
-     * Create virtual database
+     * Create user with role "Admin".
      *
      * @return void
      */
-    public function makeUser(){
-        factory(User::class)->create([
-            'role' => User::ROOT_ADMIN
-        ]);
+    public function setUp()
+    {
+        parent::setUp();
+        factory(User::class)->create(['role' => User::ROLE_ADMIN]);
     }
 
     /**

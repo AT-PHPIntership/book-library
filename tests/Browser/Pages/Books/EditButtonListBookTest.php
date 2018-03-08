@@ -19,14 +19,14 @@ class EditButtonShowBookTest extends BaseTestBook
     use DatabaseMigrations;
 
     /**
-     * Create virtual user database.
+     * Create user with role "Admin".
      *
      * @return void
      */
-    public function makeUser(){
-        factory(User::class)->create([
-            'role' => User::ROOT_ADMIN
-        ]);
+    public function setUp()
+    {
+        parent::setUp();
+        factory(User::class)->create(['role' => User::ROLE_ADMIN]);
     }
 
     /**
@@ -36,7 +36,6 @@ class EditButtonShowBookTest extends BaseTestBook
      */
     public function testClickEditButton()
     {
-        $this->makeUser();
         $this->makeListOfBook(1);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -57,7 +56,6 @@ class EditButtonShowBookTest extends BaseTestBook
      */
     public function testShowCorrectNameOfEachLabel()
     {
-        $this->makeUser();
         $donator = factory(Donator::class)->create([
             'employee_code' => 'AT-0001',
         ]);

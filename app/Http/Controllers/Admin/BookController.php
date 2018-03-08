@@ -118,7 +118,7 @@ class BookController extends Controller
         }
 
         if ($request->has('search') && $request->has('choose')) {
-            $books = Book::search($search, $choose);
+            $books = $books->search($search, $choose);
         }
 
         $books = $books->join('qrcodes', 'qrcodes.book_id', 'books.id')->withCount('borrowings')->sortable();

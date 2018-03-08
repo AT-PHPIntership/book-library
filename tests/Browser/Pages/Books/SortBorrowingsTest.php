@@ -10,12 +10,13 @@ use App\Model\User;
 use App\Model\QrCode;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
+use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 use Carbon\Carbon;
 
-class SortBorrowingsTest extends DuskTestCase
+class SortBorrowingsTest extends BaseTestBook
 {
     use DatabaseMigrations;
 
@@ -27,7 +28,7 @@ class SortBorrowingsTest extends DuskTestCase
     public function setUp()
      {
          parent::setUp();
-         $this->makeUserLogin();
+         factory(User::class)->create(['role' => User::ROLE_ADMIN]);
      }
 
     /**
@@ -37,7 +38,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortEmployeeCodeASC()
     {
-        $this->makeborrowings(10);
+        $this->makeBorrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/borrowings/')
@@ -68,7 +69,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortEmployeeCodeDESC()
     {
-        $this->makeborrowings(10);
+        $this->makeBorrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/borrowings/')
@@ -100,7 +101,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortEmployeeCodeDESCWithPagination()
     {
-        $this->makeborrowings(14);
+        $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                     ->visit('/admin/borrowings?sort=users.employee_code&order=desc&page=2')
@@ -132,7 +133,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortEmployeeCodeASCWithPagination()
     {
-        $this->makeborrowings(14);
+        $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                     ->visit('/admin/borrowings?sort=users.employee_code&order=asc&page=2')
@@ -164,7 +165,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortNameASCWithPagination()
     {
-        $this->makeborrowings(14);
+        $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                     ->visit('/admin/borrowings?sort=users.name&order=asc&page=2')
@@ -196,7 +197,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortNameDESCWithPagination()
     {
-        $this->makeborrowings(14);
+        $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                     ->visit('/admin/borrowings?sort=users.name&order=desc&page=2')
@@ -228,7 +229,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortNameDESC()
     {
-        $this->makeborrowings(10);
+        $this->makeBorrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/borrowings/')
@@ -260,7 +261,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortNameASC()
     {
-        $this->makeborrowings(10);
+        $this->makeBorrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/admin/borrowings/')
@@ -291,7 +292,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortEmailASC()
     {
-        $this->makeborrowings(10);
+        $this->makeBorrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                 ->visit('/admin/borrowings/')
@@ -322,7 +323,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortEmailDESC()
     {
-        $this->makeborrowings(10);
+        $this->makeBorrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                 ->resize(900, 1600)
@@ -354,7 +355,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortEmailDESCWithPagination()
     {
-        $this->makeborrowings(14);
+        $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                 ->resize(900, 1600)
@@ -386,7 +387,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortEmailASCWithPagination()
     {
-        $this->makeborrowings(14);
+        $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                 ->resize(900, 1600)
@@ -418,7 +419,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortBookASC()
     {
-        $this->makeborrowings(10);
+        $this->makeBorrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                 ->visit('/admin/borrowings/')
@@ -449,7 +450,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortBookDESC()
     {
-        $this->makeborrowings(10);
+        $this->makeBorrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                 ->visit('/admin/borrowings/')
@@ -481,7 +482,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortBookDESCWithPagination()
     {
-        $this->makeborrowings(14);
+        $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                             ->visit('/admin/borrowings?sort=books.name&order=desc&page=2')
@@ -513,7 +514,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortBookASCWithPagination()
     {
-        $this->makeborrowings(14);
+        $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                             ->visit('/admin/borrowings?sort=books.name&order=asc&page=2')
@@ -545,7 +546,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortFromDateASC()
     {
-        $this->makeborrowings(10);
+        $this->makeBorrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                 ->visit('/admin/borrowings/')
@@ -576,7 +577,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortFromDateDESC()
     {
-        $this->makeborrowings(10);
+        $this->makeBorrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                 ->visit('/admin/borrowings/')
@@ -608,7 +609,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortFromDateDESCWithPaginaiton()
     {
-        $this->makeborrowings(14);
+        $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                             ->visit('/admin/borrowings?sort=from_date&order=desc&page=2')
@@ -640,7 +641,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortFromDateASCWithPaginaiton()
     {
-        $this->makeborrowings(14);
+        $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                             ->visit('/admin/borrowings?sort=from_date&order=asc&page=2')
@@ -672,7 +673,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortEndDateASC()
     {
-        $this->makeborrowings(10);
+        $this->makeBorrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                 ->visit('/admin/borrowings/')
@@ -703,7 +704,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortEndDateDESC()
     {
-        $this->makeborrowings(10);
+        $this->makeBorrowings(10);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                 ->visit('/admin/borrowings/')
@@ -735,7 +736,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortEndDateDESCWithPaginaiton()
     {
-        $this->makeborrowings(14);
+        $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                             ->visit('/admin/borrowings?sort=to_date&order=desc&page=2')
@@ -767,7 +768,7 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function testSortEndDateASCWithPaginaiton()
     {
-        $this->makeborrowings(14);
+        $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                             ->visit('/admin/borrowings?sort=to_date&order=asc&page=2')
@@ -799,45 +800,15 @@ class SortBorrowingsTest extends DuskTestCase
      */
     public function makeBorrowings($rows)
     {
+        $this->makeListOfBook(10);
         $faker = Faker::create();
-        factory(Category::class)->create();
-        factory(User::class, $rows)->create();
         $userIds = DB::table('users')->pluck('id')->toArray();
-        factory(Donator::class, 10)->create([
-            'user_id' => $faker->unique()->randomElement($userIds),
-        ]);
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
-        factory(Book::class, $rows+1)->create([
-            'category_id' => $faker->randomElement($categoryIds),
-            'donator_id' => $faker->randomElement($donatorIds),
-        ]);
         $bookIds = DB::table('books')->pluck('id')->toArray();
-        foreach ($userIds as $userId) {
+        for ($i=0; $i<= $rows; $i++){
             factory(Borrowing::class)->create([
-                'user_id' => $userId,
+                'user_id' => $faker->randomElement($userIds),
                 'book_id' => $faker->randomElement($bookIds),
             ]);
         }
-        $bookNumber = DB::table('books')->count();
-        for ($bookID = 1; $bookID <= $bookNumber; $bookID++) {
-            factory(QrCode::class)->create([
-                'book_id' => $bookID,
-                'code_id' => $faker->unique()->randomNumber(4),
-                'prefix' => 'BAT-'
-            ]);
-        }
-    }
-
-    /**
-     * Create user for login as admin
-     *
-     * @return void
-     */
-    public function makeUserLogin()
-    {
-        factory(User::class)->create([
-            'role' => User::ROOT_ADMIN
-        ]);
     }
 }
