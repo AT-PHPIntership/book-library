@@ -41,8 +41,7 @@ class BorrowedBookMail extends Mailable
         $locale = App::getLocale();
         $subject =  __('borrow.subject');
         return $this->view('backend.email.'.$locale.'.mail-reminder')
-                    ->with(['borrowing' => $this->borrowing])
-                    ->from(Auth::user()->email, Auth::user()->name)
-                    ->subject($subject);
+            ->with(['borrowing' => $this->borrowing])
+            ->subject($subject);
     }
 }

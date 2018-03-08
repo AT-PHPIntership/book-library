@@ -80,4 +80,18 @@ class CommentController extends ApiController
         }
         return metaResponse(['data' => $comment], Response::HTTP_CREATED);
     }
+    
+    /**
+     * Get all child comment for one comment
+     *
+     * @param integer $id parent comment's id
+     *
+     * @return Illuminate\Http\Response
+     */
+    public function getChildComments($id)
+    {
+        $comments = Comment::getChildComments($id);
+        
+        return metaResponse($comments);
+    }
 }
