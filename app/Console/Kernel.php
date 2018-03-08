@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\SendEmails::class,
     ];
 
     /**
@@ -23,11 +23,12 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
-    // protected function schedule(Schedule $schedule)
-    // {
-    //     // $schedule->command('inspire')
-    //     //          ->hourly();
-    // }
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('at-library:send-mail-remind')
+            ->dailyAt(config('define.time_in_day_send_mail'))
+            ->timezone(config('define.time_zone'));
+    }
 
     /**
      * Register the commands for the application.
