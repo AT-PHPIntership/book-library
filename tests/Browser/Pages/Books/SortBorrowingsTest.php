@@ -353,7 +353,7 @@ class SortBorrowingsTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                 ->resize(900, 1600)
-                ->visit('/admin/borrowings?sort=users.email&order=desc&page=2')
+                ->visit('/admin/borrowings?sort=email&order=desc&page=2')
                 ->assertVisible('.fa.fa-sort-desc');
             $elements = $page->elements('#table-borrowings tbody tr');
             $this->assertCount(5, $elements);
@@ -385,7 +385,7 @@ class SortBorrowingsTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                 ->resize(900, 1600)
-                ->visit('/admin/borrowings?sort=users.email&order=asc&page=2')
+                ->visit('/admin/borrowings?sort=email&order=asc&page=2')
                 ->assertVisible('.fa.fa-sort-asc');
             $elements = $page->elements('#table-borrowings tbody tr');
             $this->assertCount(5, $elements);
