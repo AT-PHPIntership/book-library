@@ -24,4 +24,6 @@ Route::group(['namespace' => 'Api'], function () {
     Route::get('books/top-review', 'BookController@getTopReview');
     Route::get('books/top-borrow', 'BookController@topBorrow');
     Route::get('books/{id}', 'BookController@show');
+    Route::get('posts/{id}/comments', 'PostController@getCommentsOfPost');
+    Route::get('comments/{id}/child-comments', 'CommentController@getChildComments');
 });

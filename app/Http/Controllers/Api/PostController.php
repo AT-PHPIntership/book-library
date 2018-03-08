@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Model\Post;
 use App\Model\User;
 use App\Model\Rating;
+use App\Model\Comment;
 use App\Http\Requests\Api\CreatePostRequest;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -27,13 +28,13 @@ class PostController extends ApiController
         parent::__construct($request, $user);
     }
 
-/**
- * Add new Post
- *
- * @param CreatePostRequest $request request
- *
- * @return \Illuminate\Http\Response
- */
+    /**
+     * Add new Post
+     *
+     * @param CreatePostRequest $request request
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function store(CreatePostRequest $request)
     {
         if ($request->type != Post::REVIEW_TYPE) {
@@ -60,5 +61,19 @@ class PostController extends ApiController
             \Log::error($e);
         }
         return metaResponse($data, Response::HTTP_CREATED);
+
+        /**
+         * Get all post's comments
+         *
+         * @param integer $id post's id
+         *
+         * @return Illuminate\Http\Response
+         */
+        public function getCommentsOfPost($id)
+        {
+            $comments = Comment::getParentComments($id);
+
+            return metaResponse($comments);
+        }
     }
 }
