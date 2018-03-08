@@ -153,8 +153,8 @@ class BaseTestBook extends DuskTestCase
         for ($i = 1; $i <= 20; $i++) {
             factory(Favorite::class)->create([
                 'user_id' => $faker->randomElement($userIds),
-            'favoritable_id' => $faker->randomElement($commentIds),
-            'favoritable_type' => Favorite::TYPE_COMMENT
+                'favoritable_id' => $faker->randomElement($commentIds),
+                'favoritable_type' => Favorite::TYPE_COMMENT
             ]);
         }
     }
