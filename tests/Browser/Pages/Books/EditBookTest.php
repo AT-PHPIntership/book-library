@@ -6,7 +6,6 @@ use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use App\Model\Category;
 use App\Model\User;
-use App\Model\QrCode;
 use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Facebook\WebDriver\WebDriverBy;
