@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Carbon\Carbon;
-use App\Model\Borrowing;
-use App\Mail\BorrowedBookMail;
 use App\Http\Controllers\Controller;
+use App\Mail\BorrowedBookMail;
+use App\Model\Borrowing;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+use Validator;
 
 class SendMailController extends Controller
 {
@@ -23,9 +25,21 @@ class SendMailController extends Controller
             flash(__('borrow.messages.sent_mail'))->warning();
             return redirect()->back()->withInput();
         }
+        $validator = Validator::make(['email' => $borrowing->users->email], [
+            'email' => 'email',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors(['message' => trans('portal.messages.not_an_email')])
+                ->withInput();
+        }
+
         Mail::to($borrowing->users->email)->send(new BorrowedBookMail($borrowing));
+        
         $borrowing->date_send_email = Carbon::now();
         $result = $borrowing->save();
+        
         if ($result && empty(Mail::failures())) {
             flash(__('borrow.messages.send_mail_success'))->success();
         } else {

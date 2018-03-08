@@ -25,24 +25,28 @@ dependencies:
         background: true
     - "sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080"
     - "sudo iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 80 -j REDIRECT --to-ports 8080"
+    - "sudo chmod -R 777 storage"
 general:
   artifacts:
     - "tests/Browser/screenshots"
     - "tests/Browser/console"
     - "server.log"
+    - "storage/logs/laravel.log"
 test:
   pre:
     - npm install bower
     - bower install
     - cp .env.example .env
     - php artisan key:generate
+    - touch storage/logs/laravel.log
+    - sudo chmod -R 777 storage
   override:
     # phpcs circleci status
     - ./vendor/bin/phpcs -n --standard=phpcs.xml
     # phpmd
     - ./vendor/bin/phpmd app text phpmd.xml
     # phpunit
-    - ./vendor/bin/phpunit
+    - ./vendor/bin/phpunit --configuration phpunit.circleci.xml
     # laravel dusk
     - php artisan dusk
     # Copy screenshots

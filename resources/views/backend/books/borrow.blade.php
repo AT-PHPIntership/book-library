@@ -25,7 +25,7 @@
                         <form action="{{ route('borrowings.index') }}" method="GET" id="frm-search-borrow">
                             <div class="form-row">
                                 <div class="form-group col-md-6 col-md-push-1">
-                                    <input type="text" class="form-control" name="search" placeholder="{{ __('borrow.find_borrow') }}" value="{{app('request')->input('search')}}">
+                                    <input type="text" class="form-control" name="search" placeholder="{{ __('borrow.find_borrow') }}" value="{{ app('request')->input('search') }}">
                                 </div>
                                 <div class="form-group col-md-2 col-md-push-1">
                                     <select class="form-control" id="filter" name="choose">
@@ -46,6 +46,13 @@
         </div>
 
         <!-- show message response -->
+        <div class="message">
+              @if ($errors->has('message'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('message') }}</strong>
+                </span>
+              @endif
+        </div>
         @include('flash::message')
         
         <div class="row">
@@ -73,11 +80,11 @@
                                     <td>{{ $borrowing->email }}</td>
                                     <td>{{ $borrowing->book_name }}</td>
                                     <td>{{ date(config('define.date_format'), strtotime($borrowing->from_date)) }}</td>
-                                    <td>{{ date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
+                                    <td>{{ $borrowing->to_date == null ? '' : date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
                                     <td>{{ $borrowing->date_send_mail }}</td>
                                     <td>
                                         <button type="button" data-action= "{{ route('sendMail', $borrowing->id) }}" 
-                                        class="btn btn-warning btn-check fa-trash-o ion ion-android-drafts" data-name="{{ $borrowing->name }}" data-toggle="modal" data-target="#confirmSendMail" id="{{ $borrowing->id }}" {{ canSendMail($borrowing->date_send_email) ? '' : 'disabled' }}>
+                                        class="btn btn-warning btn-check fa-trash-o ion ion-android-drafts" data-name="{{ $borrowing->users_name }}" data-toggle="modal" data-target="#confirmSendMail" id="{{ $borrowing->id }}" {{ canSendMail($borrowing->date_send_email) ? '' : 'disabled' }}>
                                         </button>
                                     </td>         
                                 </tr>

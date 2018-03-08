@@ -11,4 +11,27 @@
     'all' => 'all',
     'date_diff' => 3,
     'timezone' => 7,
+    'languages' => [
+        'Vietnamese' => 'Vietnamese',
+        'Japanese' => 'Japanese',
+        'Korean' => 'Korean',
+        'English' => 'English',
+    ],
+    'messages' => [
+      '404_not_found' => 'Page Not Found',
+      '405_method_error' => 'Method Failure',
+      '500_server_error' => 'Server Error',
+      'token_not_found' => 'AccessToken Not Found',
+      '440_login_timeout' => 'Login Timeout'
+    ],
+    'book' => [
+      'item_limit' => 20,
+    ],
+    'time_send_mail' => 14,
+    'qrcode' => [
+      'begin_prefix_pos' => 0,
+      'end_prefix_pos' => 4,
+    ],
+    'time_in_day_send_mail' => '11:00',
+    'time_zone' => 'Asia/Ho_Chi_Minh'
   ];

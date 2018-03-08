@@ -220,6 +220,7 @@ class AdminSearchBorrowTest extends BaseTestUser
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
                     ->visit('/admin/borrowings')
+                    ->resize(1600, 2000)
                     ->type('search', 'hayantt')
                     ->select('choose', 'users')
                     ->click('#search-borrow')
@@ -240,14 +241,15 @@ class AdminSearchBorrowTest extends BaseTestUser
 
         factory(Category::class)->create();
 
+        
+        factory(User::class, 5)->create();
+        $userIds = DB::table('users')->pluck('id')->toArray();
+        
         factory(User::class)->create([
             'id' => '161',
             'name' => 'hayantt'
         ]);
-
-        factory(User::class, 5)->create();
-        $userIds = DB::table('users')->pluck('id')->toArray();
-
+        
         factory(Donator::class)->create();
 
         factory(Book::class, 5)->create([
