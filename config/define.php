@@ -30,8 +30,14 @@
     'review' => [
       'limit_render' => 20,
     ],
+    'time_send_mail' => 14,
     'qrcode' => [
       'begin_prefix_pos' => 0,
       'end_prefix_pos' => 4,
-    ]
+    ],
+    'comment' => [
+      'limit_render' => 10,
+    ],
+    'time_in_day_send_mail' => '11:00',
+    'time_zone' => 'Asia/Ho_Chi_Minh'
   ];

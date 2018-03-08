@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Model\Book;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\BookCreateRequest;
-use App\Model\Category;
-use Illuminate\Pagination\Paginator;
 use DB;
-use App\Model\User;
-use App\Model\Donator;
-use App\Http\Requests\BookEditRequest;
 use File;
-use App\Model\QrCode;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Illuminate\Database\QueryException;
-use Exception;
-use Storage;
 use Excel;
-use App\Http\Requests\ImportBookRequest;
+use Storage;
+use Exception;
 use Carbon\Carbon;
+use App\Model\Book;
+use App\Model\User;
+use App\Model\QrCode;
+use App\Model\Donator;
+use App\Model\Category;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\BookEditRequest;
+use Illuminate\Database\QueryException;
+use App\Http\Requests\ImportBookRequest;
+use App\Http\Requests\BookCreateRequest;
+use App\Http\Requests\CheckFilterRequest;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class BookController extends Controller
 {
@@ -90,7 +91,7 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(CheckFilterRequest $request)
     {
         $columns = [
             'id',
@@ -99,24 +100,32 @@ class BookController extends Controller
             'avg_rating',
             'total_rating'
         ];
-        $books = Book::select($columns);
 
-        if ($request->has('search') && $request->has('choose')) {
-            $search = $request->search;
-            $choose = $request->choose;
-            $books = Book::search($search, $choose);
-        }
+        $search = $request->search;
+        $choose = $request->choose;
+        $uid = $request->uid;
+        $limit = $request->limit;
+        $filter = $request->filter;
 
-        $books = $books->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
-        if ($request->has('uid') && $request->has('filter')) {
-            $uid = $request->uid;
-            $filter = $request->filter;
-
+        $books = Book::search($search, $choose)->select($columns)->withCount('borrowings')->sortable();
+    
+        if ($request->has('uid')) {
+            if ($filter == null) {
+                $filter = Book::BORROWED;
+            }
             $books = Book::whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
                 $query->where('user_id', '=', $uid);
-            })->withCount('borrowings')->sortable()->orderby('id', 'desc')->paginate(config('define.page_length'));
+            })->withCount('borrowings')->sortable()->search($search, $choose)
+                ->orderby('id', 'desc')->paginate(config('define.page_length'))
+                ->appends(['search' => $search, 'choose' => $choose, 'uid' => $uid, 'limit' => $limit, 'filter' => $filter]);
+        } elseif ($filter == Book::BORROWED) {
+            $books = $books->orderBy('borrowings_count', 'DESC')
+                    ->limit($limit)
+                    ->get();
+        } else {
+            $books = $books->orderby('id', 'desc')->sortable()->paginate(config('define.page_length'))
+            ->appends(['search' => $search, 'choose' => $choose, 'uid' => $uid, 'limit' => $limit, 'filter' => $filter]);
         }
-
         return view('backend.books.list', compact('books'));
     }
 
