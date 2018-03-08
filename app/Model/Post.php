@@ -147,7 +147,7 @@ class Post extends Model
      *
      * @return App\Model\Post
      */
-    public static function getTypeOfPost($type, $addingFields = null)
+    public static function getPostsByType($type, $addingFields = null)
     {
         $fields = [
             'posts.id',
