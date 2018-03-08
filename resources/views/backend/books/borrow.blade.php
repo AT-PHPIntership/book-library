@@ -25,12 +25,12 @@
                         <form action="{{ route('borrowings.index') }}" method="GET" id="frm-search-borrow">
                             <div class="form-row">
                                 <div class="form-group col-md-6 col-md-push-1">
-                                    <input type="text" class="form-control" name="search-borrow" placeholder="{{ __('borrow.find_borrow') }}">
+                                    <input type="text" class="form-control" name="search" placeholder="{{ __('borrow.find_borrow') }}" value="{{ app('request')->input('search') }}">
                                 </div>
                                 <div class="form-group col-md-2 col-md-push-1">
-                                    <select class="form-control" id="filter" name="filter">
-                                        @foreach (__('borrow.filter_borrow') as $key => $value)
-                                            <option value="{{ $key }}" {{ $key == Request::get('filter') ? 'selected' : '' }}>{{ $value }}</option>
+                                    <select class="form-control" id="filter" name="choose">
+                                        @foreach (__('borrow.borrow') as $key => $value)
+                                            <option value="{{ $key }}" {{ $key == Request::get('choose') ? 'selected' : '' }}>{{ $value }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -62,10 +62,10 @@
                         <table id="table-borrowings" class="table table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th>@sortablelink('users.employee_code', __('borrow.employee_code'))</th>
-                                <th>@sortablelink('users.name', __('borrow.name'))</th>
-                                <th>@sortablelink('users.email', __('borrow.email'))</th>
-                                <th>@sortablelink('books.name', __('borrow.books'))</th>
+                                <th>@sortablelink('employee_code', __('borrow.employee_code'))</th>
+                                <th>@sortablelink('user_name', __('borrow.name'))</th>
+                                <th>@sortablelink('email', __('borrow.email'))</th>
+                                <th>@sortablelink('book_name', __('borrow.books'))</th>
                                 <th>@sortablelink('from_date', __('borrow.from_date'))</th>
                                 <th>@sortablelink('to_date', __('borrow.end_date'))</th>
                                 <th>@sortablelink('date_sent_mail', __('borrow.date_sent_mail'))</th>
@@ -75,16 +75,16 @@
                             <tbody>
                             @foreach ($borrowings as $borrowing)
                                 <tr>
-                                    <td>{{ $borrowing->users->employee_code }}</td>
-                                    <td>{{ $borrowing->users->name }}</td>
-                                    <td>{{ $borrowing->users->email }}</td>
-                                    <td>{{ $borrowing->books->name }}</td>
+                                    <td>{{ $borrowing->employee_code }}</td>
+                                    <td>{{ $borrowing->user_name }}</td>
+                                    <td>{{ $borrowing->email }}</td>
+                                    <td>{{ $borrowing->book_name }}</td>
                                     <td>{{ date(config('define.date_format'), strtotime($borrowing->from_date)) }}</td>
                                     <td>{{ $borrowing->to_date == null ? '' : date(config('define.date_format'), strtotime($borrowing->to_date)) }}</td>
                                     <td>{{ $borrowing->date_send_mail }}</td>
                                     <td>
                                         <button type="button" data-action= "{{ route('sendMail', $borrowing->id) }}" 
-                                        class="btn btn-warning btn-check fa-trash-o ion ion-android-drafts" data-name="{{ $borrowing->users->name }}" data-toggle="modal" data-target="#confirmSendMail" id="{{ $borrowing->id }}" {{ canSendMail($borrowing->date_send_email) ? '' : 'disabled' }}>
+                                        class="btn btn-warning btn-check fa-trash-o ion ion-android-drafts" data-name="{{ $borrowing->users_name }}" data-toggle="modal" data-target="#confirmSendMail" id="{{ $borrowing->id }}" {{ canSendMail($borrowing->date_send_email) ? '' : 'disabled' }}>
                                         </button>
                                     </td>         
                                 </tr>
@@ -95,9 +95,10 @@
                             </tbody>
                         </table>
                     </div>
-                <!-- /.box-body -->
-                <div class="text-center">
-                    {{ $borrowings->appends(\Request::except('page'))->render()}}
+                    <!-- /.box-body -->
+                    <div class="text-center">
+                        {{ $borrowings->appends(\Request::except('page'))->appends(['search' => Request::get('search'), 'choose' => Request::get('choose')])->render()}}
+                    </div>
                 </div>
                 <!-- /.box -->
             </div>
