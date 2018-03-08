@@ -11,7 +11,6 @@ use App\Model\Category;
 use App\Model\Donator;
 use App\Model\User;
 use App\Model\Borrowing;
-use App\Model\QrCode;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 

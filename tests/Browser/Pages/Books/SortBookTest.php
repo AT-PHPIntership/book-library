@@ -8,7 +8,6 @@ use App\Model\Donator;
 use App\Model\Category;
 use Tests\DuskTestCase;
 use App\Model\Borrowing;
-use App\Model\QrCode;
 use Laravel\Dusk\Browser;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;

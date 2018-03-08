@@ -7,7 +7,6 @@ use App\Model\Borrowing;
 use App\Model\Category;
 use App\Model\Donator;
 use App\Model\User;
-use App\Model\QrCode;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\Backend\Books\BaseTestBook;
