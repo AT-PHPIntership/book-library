@@ -104,7 +104,7 @@ class SortBorrowingsTest extends BaseTestBook
         $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                    ->visit('/admin/borrowings?sort=users.employee_code&order=desc&page=2')
+                    ->visit('/admin/borrowings?sort=employee_code&order=desc&page=2')
                     ->resize(900, 1600)
                     ->assertVisible('.fa.fa-sort-desc');
             $elements = $page->elements('#table-borrowings tbody tr');
@@ -136,7 +136,7 @@ class SortBorrowingsTest extends BaseTestBook
         $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                    ->visit('/admin/borrowings?sort=users.employee_code&order=asc&page=2')
+                    ->visit('/admin/borrowings?sort=employee_code&order=asc&page=2')
                     ->resize(900, 1600)
                     ->assertVisible('.fa.fa-sort-asc');
             $elements = $page->elements('#table-borrowings tbody tr');
@@ -168,7 +168,7 @@ class SortBorrowingsTest extends BaseTestBook
         $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                    ->visit('/admin/borrowings?sort=users.name&order=asc&page=2')
+                    ->visit('/admin/borrowings?sort=user_name&order=asc&page=2')
                     ->assertVisible('.fa.fa-sort-asc')
                     ->resize(900, 1600);
             $elements = $page->elements('#table-borrowings tbody tr');
@@ -200,7 +200,7 @@ class SortBorrowingsTest extends BaseTestBook
         $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                    ->visit('/admin/borrowings?sort=users.name&order=desc&page=2')
+                    ->visit('/admin/borrowings?sort=user_name&order=desc&page=2')
                     ->assertVisible('.fa.fa-sort-desc')
                     ->resize(900, 1600);
             $elements = $page->elements('#table-borrowings tbody tr');
@@ -359,7 +359,7 @@ class SortBorrowingsTest extends BaseTestBook
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                 ->resize(900, 1600)
-                ->visit('/admin/borrowings?sort=users.email&order=desc&page=2')
+                ->visit('/admin/borrowings?sort=email&order=desc&page=2')
                 ->assertVisible('.fa.fa-sort-desc');
             $elements = $page->elements('#table-borrowings tbody tr');
             $this->assertCount(5, $elements);
@@ -391,7 +391,7 @@ class SortBorrowingsTest extends BaseTestBook
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                 ->resize(900, 1600)
-                ->visit('/admin/borrowings?sort=users.email&order=asc&page=2')
+                ->visit('/admin/borrowings?sort=email&order=asc&page=2')
                 ->assertVisible('.fa.fa-sort-asc');
             $elements = $page->elements('#table-borrowings tbody tr');
             $this->assertCount(5, $elements);
@@ -485,7 +485,7 @@ class SortBorrowingsTest extends BaseTestBook
         $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                            ->visit('/admin/borrowings?sort=books.name&order=desc&page=2')
+                            ->visit('/admin/borrowings?sort=book_name&order=desc&page=2')
                             ->resize(900, 1600)
                             ->assertVisible('.fa.fa-sort-desc');
             $elements = $page->elements('#table-borrowings tbody tr');
@@ -517,7 +517,7 @@ class SortBorrowingsTest extends BaseTestBook
         $this->makeBorrowings(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                            ->visit('/admin/borrowings?sort=books.name&order=asc&page=2')
+                            ->visit('/admin/borrowings?sort=book_name&order=asc&page=2')
                             ->resize(900, 1600)
                             ->assertVisible('.fa.fa-sort-asc');
             $elements = $page->elements('#table-borrowings tbody tr');
