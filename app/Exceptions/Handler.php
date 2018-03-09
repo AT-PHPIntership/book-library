@@ -78,6 +78,7 @@ class Handler extends ExceptionHandler
                     $message = config('define.messages.404_not_found');
                     return $this->showMessageAndCode($code, $message);
                 }
+
                 // error server exxception
                 if ($exception instanceof ServerException) {
                     $code = Response::HTTP_INTERNAL_SERVER_ERROR;
