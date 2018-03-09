@@ -117,16 +117,17 @@ class BookController extends Controller
             });
         }
 
-        if ($request->has('search') && $request->has('choose')) {
-            $books = $books->search($search, $choose);
-        }
-
-        $books = $books->join('qrcodes', 'qrcodes.book_id', 'books.id')->withCount('borrowings')->sortable();
+        $books = $books->search($search, $choose)
+            ->join('qrcodes', 'qrcodes.book_id', 'books.id')
+            ->withCount('borrowings')
+            ->sortable();
         
         if ($request->has('limit')) {
             $books = $books->orderBy('borrowings_count', 'DESC')->limit($limit)->get();
         } else {
-            $books = $books->orderBy('id', 'desc')->paginate(config('define.page_length'))->appends(['search' => $search, 'choose' => $choose, 'uid' => $uid, 'filter' => $filter]);
+            $books = $books->orderBy('id', 'desc')
+                ->paginate(config('define.page_length'))
+                ->appends(['search' => $search, 'choose' => $choose, 'uid' => $uid, 'filter' => $filter]);
         }
 
         return view('backend.books.list', compact('books'));
