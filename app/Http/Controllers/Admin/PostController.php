@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use DB;
 use App\Model\Post;
 use App\Model\Rating;
 use App\Model\Comment;
-use DB;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
 
 class PostController extends Controller
@@ -27,9 +27,9 @@ class PostController extends Controller
             'posts.created_at',
         ];
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
-                    ->select($fields)
-                    ->withCount('comments')
-                    ->paginate(config('define.page_length'));
+            ->select($fields)
+            ->withCount('comments')
+            ->paginate(config('define.page_length'));
         return view('backend.posts.index', compact('posts'));
     }
 
@@ -43,12 +43,11 @@ class PostController extends Controller
     public function show($id)
     {
         $comments = Comment::where('post_id', $id)->get();
-
         $post = Post::select('posts.*', 'ratings.rating')
-                ->leftJoin('ratings', function ($join) {
-                    $join->on('posts.user_id', '=', 'ratings.user_id');
-                    $join->on('posts.book_id', '=', 'ratings.book_id');
-                })->find($id);
+            ->leftJoin('ratings', function ($join) {
+                $join->on('posts.user_id', '=', 'ratings.user_id');
+                $join->on('posts.book_id', '=', 'ratings.book_id');
+            })->find($id);
         if (!$post) {
             return redirect('admin/posts');
         }

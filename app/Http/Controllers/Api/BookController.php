@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use Exception;
 use DB;
-use App\Model\Book;
+use Exception;
+use Carbon\Carbon;
 use App\Model\Post;
-use App\Model\Borrowing;
+use App\Model\Book;
 use App\Model\QrCode;
 use App\Model\Rating;
 use App\Model\Comment;
 use App\Model\Favorite;
-use Carbon\Carbon;
-use Illuminate\Http\Response;
+use App\Model\Borrowing;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 
 class BookController extends Controller
 {
@@ -55,7 +55,6 @@ class BookController extends Controller
             'description',
             'avg_rating'
         ];
-
         $detailsBook = Book::select($fields)->findOrFail($id);
         return metaResponse(['data' => $detailsBook]);
     }
@@ -191,5 +190,23 @@ class BookController extends Controller
             ->paginate(config('define.book.item_limit'));
         $books->appends(['search' => $request->search])->render();
         return metaResponse($books);
+    }
+
+    /**
+     * Get all book's reviews
+     *
+     * @param integer $id book's id
+     *
+     * @return Illuminate\Http\Response
+     */
+    public function getReviewsOfBook($id)
+    {
+        $dataReview = Post::getPostsByType(POST::REVIEW_TYPE, ['ratings.id as rating_id', 'rating'])
+            ->join('books', 'posts.book_id', 'books.id')
+            ->leftJoin('ratings', function ($join) {
+                $join->on('posts.user_id', '=', 'ratings.user_id');
+                $join->on('posts.book_id', '=', 'ratings.book_id');
+            })->where('books.id', $id)->paginate(config('define.review.limit_render'));
+        return metaResponse($dataReview);
     }
 }
