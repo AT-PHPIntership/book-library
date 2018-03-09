@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Model\Post;
 use App\Model\User;
-use App\Model\Book;
 use App\Model\Rating;
-use Illuminate\Http\Request;
+use App\Model\Comment;
+use App\Http\Requests\Api\CreatePostRequest;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
+use Exception;
+use DB;
 
 class PostController extends ApiController
 {
@@ -26,42 +29,51 @@ class PostController extends ApiController
     }
 
     /**
-     * Add new review Post
+     * Add new Post
      *
-     * @param Request $request request
+     * @param CreatePostRequest $request request
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreatePostRequest $request)
     {
-        $userId = $this->user->id;
-        $content = $request->get('content');
-        $bookId = $request->get('book_id');
-        $findBook = $request->get('find_book');
-        if (isset($bookId)) {
-            $type = Post::REVIEW_TYPE;
-        } elseif ($findBook === 0) {
-            $type = Post::STATUS_TYPE;
-        } else {
-            $type = Post::FIND_TYPE;
+        if ($request->type != Post::REVIEW_TYPE) {
+            $request['book_id'] = null;
         }
-        $reviewPost = Post::create([
-            'user_id'=> $userId,
-            'content' => $content,
-            'book_id' => $bookId,
-            'type' => $type,
-        ]);
-        if ($request->get('rating')) {
-            $ratingPost = Rating::create([
-                'user_id'=> $userId,
-                'book_id' => $bookId,
-                'rating' => $request->get('rating'),
-            ]);
+        $request['user_id'] = $this->user->id;
+
+        DB::beginTransaction();
+        try {
+            // Create post
+            $post = Post::create($request->all());
+
+            // Create rating when post's type is review
+            if ($request->type == Post::REVIEW_TYPE) {
+                $ratingPost = Rating::create($request->all());
+            }
+            DB::commit();
+            $data = [
+                'reviewPost' => $post,
+                'ratingPost' => $ratingPost ?? null,
+            ];
+        } catch (Exception $e) {
+            DB::rollback();
+            \Log::error($e);
         }
-        $data = [
-            'reviewPost' => $reviewPost,
-            'ratingPost' => $ratingPost,
-        ];
         return metaResponse($data, Response::HTTP_CREATED);
+
+        /**
+         * Get all post's comments
+         *
+         * @param integer $id post's id
+         *
+         * @return Illuminate\Http\Response
+         */
+        public function getCommentsOfPost($id)
+        {
+            $comments = Comment::getParentComments($id);
+
+            return metaResponse($comments);
+        }
     }
 }
