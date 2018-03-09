@@ -26,10 +26,9 @@ class ApiNewCommentRequest extends FormRequest
      */
     public function rules(Request $request)
     {
-        $rules['content'] = 'required';
-        if ($request->parent_id !== null) {
-            $rules['parent_id'] = 'numeric';
-        }
-        return $rules;
+        return [
+            'content' => 'required',
+            'parent_id' => 'numeric|exists:comments,id'
+        ];
     }
 }

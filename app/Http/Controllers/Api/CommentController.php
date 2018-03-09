@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Model\Comment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\ApiController;
-use App\Model\Comment;
 use App\Model\Post;
 use Symfony\Component\HttpFoundation\Response;
 use App\Model\User;
@@ -53,32 +52,20 @@ class CommentController extends ApiController
      *
      * @return Response
      */
-    public function store(ApiNewCommentRequest $request, $id)
+    public function store(ApiNewCommentRequest $request, Post $post)
     {
-        //Validate post id
-        if (!Post::find($id)) {
-            return metaResponse(null, Response::HTTP_NOT_FOUND, config('define.messages.post_not_found'));
-        }
-
-        //Validate exsist parent_id comment
-        if (!Comment::find($request->parent_id)) {
-            return metaResponse(null, Response::HTTP_NOT_FOUND, config('define.messages.parent_id_not_found'));
-        }
-
-        //Validate exsist user
-        if (!User::find($this->user->id)) {
-            return metaResponse(null, Response::HTTP_NOT_FOUND, config('define.messages.user_not_found'));
-        }
-
         $request['user_id'] = $this->user->id;
-        $request['post_id'] = $id;
+        $request['post_id'] = $post->id;
 
         //Add new Comment
         try {
             $comment = Comment::create($request->all());
         } catch (\Exception $e) {
+            \Log::error($e);
             return metaResponse(null, Response::HTTP_BAD_REQUEST, config('define.messages.error_occurred'));
         }
+
+        $comment = Comment::find($comment->id);
         return metaResponse(['data' => $comment], Response::HTTP_CREATED);
     }
     
