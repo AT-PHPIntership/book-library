@@ -48,7 +48,7 @@ class CommentController extends ApiController
      * Create api new comment.
      *
      * @param Request $request CreateCommentRequest
-     * @param Int     $id      Id of post
+     * @param Post    $post    Comment of this post
      *
      * @return Response
      */

@@ -24,7 +24,7 @@ class ApiNewCommentRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(Request $request)
+    public function rules()
     {
         return [
             'content' => 'required',
