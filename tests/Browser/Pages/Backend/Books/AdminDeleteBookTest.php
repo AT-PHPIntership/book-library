@@ -2,14 +2,14 @@
 
 namespace Tests\Browser\Pages\Backend\Books;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use DB;
 use App\Model\Book;
 use App\Model\User;
 use App\Model\Favorite;
+use Tests\DuskTestCase;
+use Laravel\Dusk\Browser;
 use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AdminDeleteBookTest extends BaseTestBook
 {

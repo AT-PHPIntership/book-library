@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Pages\Books;
 
 use App\Model\User;
 use App\Model\Book;
@@ -43,10 +43,10 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books?sort=name&order=asc&page=2')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-asc');
+                ->visit('/admin/books?sort=name&order=asc&page=2')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-asc');
             $books = Book::orderBy('name', 'ASC')->skip(10)->take(6)->get();
             $checkName = false;
             foreach ($books as $index => $book) {
@@ -69,11 +69,11 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books?sort=name&order=asc')
-                    ->clickLink('Name')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-desc');
+                ->visit('/admin/books?sort=name&order=asc')
+                ->clickLink('Name')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-desc');
             $books = Book::orderBy('name', 'DESC')->limit(10)->get();
             $checkName = false;
             foreach ($books as $index => $book) {
@@ -96,10 +96,10 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books?sort=name&order=desc&page=2')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-desc');
+                ->visit('/admin/books?sort=name&order=desc&page=2')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-desc');
             $books = Book::orderBy('name', 'Desc')->skip(10)->take(6)->get();
             $checkName = false;
             foreach ($books as $index => $book) {
@@ -122,11 +122,11 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books')
-                    ->clickLink('Author')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-asc');
+                ->visit('/admin/books')
+                ->clickLink('Author')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-asc');
             $books = Book::orderBy('author', 'ASC')->limit(10)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
@@ -149,10 +149,10 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books?sort=author&order=asc&page=2')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-asc');
+                ->visit('/admin/books?sort=author&order=asc&page=2')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-asc');
             $books = Book::orderBy('author', 'ASC')->skip(10)->take(6)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
@@ -175,11 +175,11 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books?sort=author&order=asc')
-                    ->clickLink('Author')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-desc');
+                ->visit('/admin/books?sort=author&order=asc')
+                ->clickLink('Author')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-desc');
             $books = Book::orderBy('author', 'Desc')->limit(10)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
@@ -202,11 +202,10 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books?sort=author&order=desc&page=2')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-desc');
-
+                ->visit('/admin/books?sort=author&order=desc&page=2')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-desc');
             $books = Book::orderBy('author', 'DESC')->skip(10)->take(6)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
@@ -229,11 +228,11 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books')
-                    ->clickLink('Rating')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-asc');
+                ->visit('/admin/books')
+                ->clickLink('Rating')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-asc');
             $books = Book::orderBy('avg_rating', 'Asc')->limit(10)->get();
             $checkAvgRating = false;
             foreach ($books as $index => $book) {
@@ -256,10 +255,10 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books?sort=avg_rating&order=asc&page=2')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-asc');
+                ->visit('/admin/books?sort=avg_rating&order=asc&page=2')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-asc');
             $books = Book::orderBy('avg_rating', 'ASC')->skip(10)->take(6)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
@@ -282,11 +281,11 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books?sort=avg_rating&order=asc')
-                    ->clickLink('Rating')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-desc');
+                ->visit('/admin/books?sort=avg_rating&order=asc')
+                ->clickLink('Rating')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-desc');
             $books = Book::orderBy('avg_rating', 'Desc')->limit(10)->get();
             $checkAvgRating = false;
             foreach ($books as $index => $book) {
@@ -309,10 +308,10 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books?sort=avg_rating&order=desc&page=2')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-desc');
+                ->visit('/admin/books?sort=avg_rating&order=desc&page=2')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-desc');
             $books = Book::orderBy('avg_rating', 'DESC')->skip(10)->take(6)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
@@ -335,17 +334,17 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books')
-                    ->clickLink('Total borrow')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-asc');
+                ->visit('/admin/books')
+                ->clickLink('Total borrow')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-asc');
             $books = Book::select('books.id', 'books.name', 'books.author', 'books.avg_rating', 'borrowings.book_id')
-                   ->addselect(DB::raw('count(borrowings.book_id) as borrowing'))
-                   ->leftJoin('borrowings', 'borrowings.book_id', '=', 'books.id')
-                   ->groupby('books.id')
-                   ->orderBy('borrowing', 'Asc')
-                   ->limit(10)->get();
+                ->addselect(DB::raw('count(borrowings.book_id) as borrowing'))
+                ->leftJoin('borrowings', 'borrowings.book_id', '=', 'books.id')
+                ->groupby('books.id')
+                ->orderBy('borrowing', 'Asc')
+                ->limit(10)->get();
             $checkTotal = false;
             foreach ($books as $index => $book) {
                 $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
@@ -367,17 +366,16 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books?sort=borrowings_count&order=asc&page=2')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-asc');
+                ->visit('/admin/books?sort=borrowings_count&order=asc&page=2')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-asc');
             $books = Book::select('books.id', 'books.name', 'books.author', 'books.avg_rating', 'borrowings.book_id')
-                   ->addselect(DB::raw('count(borrowings.book_id) as borrowing'))
-                   ->leftJoin('borrowings', 'borrowings.book_id', '=', 'books.id')
-                   ->groupby('books.id')
-                   ->orderBy('borrowing', 'Asc')
-                   ->skip(10)->take(6)->get();
-
+                ->addselect(DB::raw('count(borrowings.book_id) as borrowing'))
+                ->leftJoin('borrowings', 'borrowings.book_id', '=', 'books.id')
+                ->groupby('books.id')
+                ->orderBy('borrowing', 'Asc')
+                ->skip(10)->take(6)->get();
             $checkTotal = false;
             foreach ($books as $index => $book) {
                 $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
@@ -399,17 +397,17 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books?sort=borrowings_count&order=asc')
-                    ->clickLink('Total borrow')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-desc');
+                ->visit('/admin/books?sort=borrowings_count&order=asc')
+                ->clickLink('Total borrow')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-desc');
             $books = Book::select('books.id', 'books.name', 'books.author', 'books.avg_rating', 'borrowings.book_id')
-                   ->addselect(DB::raw('count(borrowings.book_id) as borrowing'))
-                   ->leftJoin('borrowings', 'borrowings.book_id', '=', 'books.id')
-                   ->groupby('books.id')
-                   ->orderBy('borrowing', 'Desc')
-                   ->limit(10)->get();
+                ->addselect(DB::raw('count(borrowings.book_id) as borrowing'))
+                ->leftJoin('borrowings', 'borrowings.book_id', '=', 'books.id')
+                ->groupby('books.id')
+                ->orderBy('borrowing', 'Desc')
+                ->limit(10)->get();
             $checkTotal = false;
             foreach ($books as $index => $book) {
                 $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
@@ -431,16 +429,16 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books?sort=borrowings_count&order=desc&page=2')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-desc');
+                ->visit('/admin/books?sort=borrowings_count&order=desc&page=2')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-desc');
             $books = Book::select('books.id', 'books.name', 'books.author', 'books.avg_rating', 'borrowings.book_id')
-                   ->addselect(DB::raw('count(borrowings.book_id) as borrowing'))
-                   ->leftJoin('borrowings', 'borrowings.book_id', '=', 'books.id')
-                   ->groupby('books.id')
-                   ->orderBy('borrowing', 'Desc')
-                   ->skip(10)->take(6)->get();
+                ->addselect(DB::raw('count(borrowings.book_id) as borrowing'))
+                ->leftJoin('borrowings', 'borrowings.book_id', '=', 'books.id')
+                ->groupby('books.id')
+                ->orderBy('borrowing', 'Desc')
+                ->skip(10)->take(6)->get();
             $checkTotal = false;
             foreach ($books as $index => $book) {
                 $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
@@ -462,11 +460,11 @@ class SortBookTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/books')
-                    ->clickLink('Name')
-                    ->resize(1200, 1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertVisible('.fa.fa-sort-asc');
+                ->visit('/admin/books')
+                ->clickLink('Name')
+                ->resize(1200, 1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertVisible('.fa.fa-sort-asc');
             $books = Book::orderBy('name', 'ASC')->limit(10)->get();
             $checkName = false;
             foreach ($books as $index => $book) {

@@ -1,18 +1,18 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Pages\Books;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 use App\Model\Book;
-use App\Model\Category;
-use App\Model\Donator;
 use App\Model\User;
+use App\Model\Donator;
+use Tests\DuskTestCase;
+use App\Model\Category;
 use App\Model\Borrowing;
-use Illuminate\Support\Facades\DB;
+use Laravel\Dusk\Browser;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class SearchBookTest extends BaseTestBook
 {
@@ -51,8 +51,8 @@ class SearchBookTest extends BaseTestBook
     public function userLogin()
     {
         factory(User::class, 1)->create([
-           'team'          => 'PHP',
-           'role'          => 1,
+           'team' => 'PHP',
+           'role' => 1,
         ]);
     }
 
@@ -66,16 +66,16 @@ class SearchBookTest extends BaseTestBook
         $this->makeData(6);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/books')
-                    ->resize(1200,1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertInputValue('search', '')
-                    ->select('choose', 'Name - Author')
-                    ->assertVisible('.btn.btn-info .fa.fa-search')
-                    ->click('.btn.btn-info')
-                    ->visit('/admin/books?search=&choose=all')
-                    ->assertQueryStringHas('search', '')
-                    ->assertQueryStringHas('choose', 'all');
+                ->visit('/admin/books')
+                ->resize(1200,1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertInputValue('search', '')
+                ->select('choose', 'Name - Author')
+                ->assertVisible('.btn.btn-info .fa.fa-search')
+                ->click('.btn.btn-info')
+                ->visit('/admin/books?search=&choose=all')
+                ->assertQueryStringHas('search', '')
+                ->assertQueryStringHas('choose', 'all');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(6, $elements);
         });
@@ -91,16 +91,16 @@ class SearchBookTest extends BaseTestBook
         $this->makeData(6);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/books')
-                    ->resize(1200,1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertInputValue('search', '')
-                    ->select('choose', 'Name')
-                    ->assertVisible('.btn.btn-info .fa.fa-search')
-                    ->click('.btn.btn-info')
-                    ->visit('/admin/books?search=&choose=name')
-                    ->assertQueryStringHas('search', '')
-                    ->assertQueryStringHas('choose', 'name');
+                ->visit('/admin/books')
+                ->resize(1200,1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertInputValue('search', '')
+                ->select('choose', 'Name')
+                ->assertVisible('.btn.btn-info .fa.fa-search')
+                ->click('.btn.btn-info')
+                ->visit('/admin/books?search=&choose=name')
+                ->assertQueryStringHas('search', '')
+                ->assertQueryStringHas('choose', 'name');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(6, $elements);
         });
@@ -116,16 +116,16 @@ class SearchBookTest extends BaseTestBook
         $this->makeData(6);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/books')
-                    ->resize(1200,1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->assertInputValue('search', '')
-                    ->select('choose', 'Author')
-                    ->assertVisible('.btn.btn-info .fa.fa-search')
-                    ->click('.btn.btn-info')
-                    ->visit('/admin/books?search=&choose=author')
-                    ->assertQueryStringHas('search', '')
-                    ->assertQueryStringHas('choose', 'author');
+                ->visit('/admin/books')
+                ->resize(1200,1600)
+                ->assertSee('LIST OF BOOK')
+                ->assertInputValue('search', '')
+                ->select('choose', 'Author')
+                ->assertVisible('.btn.btn-info .fa.fa-search')
+                ->click('.btn.btn-info')
+                ->visit('/admin/books?search=&choose=author')
+                ->assertQueryStringHas('search', '')
+                ->assertQueryStringHas('choose', 'author');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(6, $elements);
         });
@@ -141,17 +141,17 @@ class SearchBookTest extends BaseTestBook
         $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/books')
-                    ->resize(1200,1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->type('search', 'JavaScript')
-                    ->select('choose', 'Name - Author')
-                    ->assertVisible('.btn.btn-info .fa.fa-search')
-                    ->click('#submit')
-                    ->visit('/admin/books?search=JavaScript&choose=all')
-                    ->assertQueryStringHas('search', 'JavaScript')
-                    ->assertQueryStringHas('choose', 'all')
-                    ->assertSee('JavaScript');
+                ->visit('/admin/books')
+                ->resize(1200,1600)
+                ->assertSee('LIST OF BOOK')
+                ->type('search', 'JavaScript')
+                ->select('choose', 'Name - Author')
+                ->assertVisible('.btn.btn-info .fa.fa-search')
+                ->click('#submit')
+                ->visit('/admin/books?search=JavaScript&choose=all')
+                ->assertQueryStringHas('search', 'JavaScript')
+                ->assertQueryStringHas('choose', 'all')
+                ->assertSee('JavaScript');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
         });
@@ -167,17 +167,17 @@ class SearchBookTest extends BaseTestBook
         $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/books')
-                    ->resize(1200,1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->type('search', 'Murach')
-                    ->select('choose', 'Name - Author')
-                    ->assertVisible('.btn.btn-info .fa.fa-search')
-                    ->click('#submit')
-                    ->visit('/admin/books?search=Murach&choose=all')
-                    ->assertQueryStringHas('search', 'Murach')
-                    ->assertQueryStringHas('choose', 'all')
-                    ->assertSee('Murach');
+                ->visit('/admin/books')
+                ->resize(1200,1600)
+                ->assertSee('LIST OF BOOK')
+                ->type('search', 'Murach')
+                ->select('choose', 'Name - Author')
+                ->assertVisible('.btn.btn-info .fa.fa-search')
+                ->click('#submit')
+                ->visit('/admin/books?search=Murach&choose=all')
+                ->assertQueryStringHas('search', 'Murach')
+                ->assertQueryStringHas('choose', 'all')
+                ->assertSee('Murach');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
         });
@@ -193,17 +193,17 @@ class SearchBookTest extends BaseTestBook
         $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/books')
-                    ->resize(1200,1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->type('search', 'JavaScript')
-                    ->select('choose', 'Name')
-                    ->assertVisible('.btn.btn-info .fa.fa-search')
-                    ->click('#submit')
-                    ->visit('/admin/books?search=JavaScript&choose=name')
-                    ->assertQueryStringHas('search', 'JavaScript')
-                    ->assertQueryStringHas('choose', 'name')
-                    ->assertSee('JavaScript');
+                ->visit('/admin/books')
+                ->resize(1200,1600)
+                ->assertSee('LIST OF BOOK')
+                ->type('search', 'JavaScript')
+                ->select('choose', 'Name')
+                ->assertVisible('.btn.btn-info .fa.fa-search')
+                ->click('#submit')
+                ->visit('/admin/books?search=JavaScript&choose=name')
+                ->assertQueryStringHas('search', 'JavaScript')
+                ->assertQueryStringHas('choose', 'name')
+                ->assertSee('JavaScript');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
         });
@@ -219,17 +219,17 @@ class SearchBookTest extends BaseTestBook
         $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/books')
-                    ->resize(1200,1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->type('search', 'Murach')
-                    ->select('choose', 'author')
-                    ->assertVisible('.btn.btn-info .fa.fa-search')
-                    ->click('#submit')
-                    ->visit('/admin/books?search=Murach&choose=author')
-                    ->assertQueryStringHas('search', 'Murach')
-                    ->assertQueryStringHas('choose', 'author')
-                    ->assertSee('Murach');
+                ->visit('/admin/books')
+                ->resize(1200,1600)
+                ->assertSee('LIST OF BOOK')
+                ->type('search', 'Murach')
+                ->select('choose', 'author')
+                ->assertVisible('.btn.btn-info .fa.fa-search')
+                ->click('#submit')
+                ->visit('/admin/books?search=Murach&choose=author')
+                ->assertQueryStringHas('search', 'Murach')
+                ->assertQueryStringHas('choose', 'author')
+                ->assertSee('Murach');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
         });
@@ -245,16 +245,16 @@ class SearchBookTest extends BaseTestBook
         $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/books')
-                    ->resize(1200,1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->type('search', 'hello')
-                    ->select('choose', 'author')
-                    ->assertVisible('.btn.btn-info .fa.fa-search')
-                    ->click('#submit')
-                    ->visit('/admin/books?search=hello&choose=all')
-                    ->assertSee('Sorry, Not be found.')
-                    ->assertSee('ComeBack');
+                ->visit('/admin/books')
+                ->resize(1200,1600)
+                ->assertSee('LIST OF BOOK')
+                ->type('search', 'hello')
+                ->select('choose', 'author')
+                ->assertVisible('.btn.btn-info .fa.fa-search')
+                ->click('#submit')
+                ->visit('/admin/books?search=hello&choose=all')
+                ->assertSee('Sorry, Not be found.')
+                ->assertSee('ComeBack');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
         });
@@ -270,16 +270,16 @@ class SearchBookTest extends BaseTestBook
         $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/books')
-                    ->resize(1200,1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->type('search', 'hello')
-                    ->select('choose', 'name')
-                    ->assertVisible('.btn.btn-info .fa.fa-search')
-                    ->click('#submit')
-                    ->visit('/admin/books?search=hello&choose=name')
-                    ->assertSee('Sorry, Not be found.')
-                    ->assertSee('ComeBack');
+                ->visit('/admin/books')
+                ->resize(1200,1600)
+                ->assertSee('LIST OF BOOK')
+                ->type('search', 'hello')
+                ->select('choose', 'name')
+                ->assertVisible('.btn.btn-info .fa.fa-search')
+                ->click('#submit')
+                ->visit('/admin/books?search=hello&choose=name')
+                ->assertSee('Sorry, Not be found.')
+                ->assertSee('ComeBack');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
         });
@@ -295,16 +295,16 @@ class SearchBookTest extends BaseTestBook
         $this->makeData(8);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/books')
-                    ->resize(1200,1600)
-                    ->assertSee('LIST OF BOOK')
-                    ->type('search', 'hello')
-                    ->select('choose', 'author')
-                    ->assertVisible('.btn.btn-info .fa.fa-search')
-                    ->click('#submit')
-                    ->visit('/admin/books?search=hello&choose=author')
-                    ->assertSee('Sorry, Not be found.')
-                    ->assertSee('ComeBack');
+                ->visit('/admin/books')
+                ->resize(1200,1600)
+                ->assertSee('LIST OF BOOK')
+                ->type('search', 'hello')
+                ->select('choose', 'author')
+                ->assertVisible('.btn.btn-info .fa.fa-search')
+                ->click('#submit')
+                ->visit('/admin/books?search=hello&choose=author')
+                ->assertSee('Sorry, Not be found.')
+                ->assertSee('ComeBack');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
         });

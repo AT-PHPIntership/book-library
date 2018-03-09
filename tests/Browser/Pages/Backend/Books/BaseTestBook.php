@@ -2,21 +2,21 @@
 
 namespace Tests\Browser\Pages\Backend\Books;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use DB;
 use App\Model\Book;
 use App\Model\User;
-use App\Model\Category;
-use App\Model\Donator;
-use App\Model\Borrowing;
+use App\Model\Post;
 use App\Model\QrCode;
 use App\Model\Rating;
-use App\Model\Post;
 use App\Model\Comment;
+use App\Model\Donator;
+use Tests\DuskTestCase;
 use App\Model\Favorite;
+use App\Model\Category;
+use App\Model\Borrowing;
+use Laravel\Dusk\Browser;
 use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class BaseTestBook extends DuskTestCase
 {

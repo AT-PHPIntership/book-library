@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\tests\Browser\Pages\BackEnd\Books;
+namespace Tests\Browser\Pages\Books;
 
 use App\Model\Book;
 use App\Model\Borrowing;
