@@ -107,10 +107,10 @@ class Handler extends ExceptionHandler
     public function showMessageAndCode($code, $message)
     {
         return response()->json([
-                    'meta' => [
-                        'code' => $code,
-                        'message' => $message
-                    ],
-                ], $code);
+            'meta' => [
+                'code' => $code,
+                'message' => $message
+            ],
+        ], $code);
     }
 }
