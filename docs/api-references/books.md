@@ -299,6 +299,8 @@ Get book reviews
             "type": 1,
             "name": "Book's name",
             "team": "SA",
+            "rating": 2,
+            "created_at": "2018-03-01 07:36:37",
             "favorites_count": 1,
             "comments_count": 0
         },
@@ -308,6 +310,8 @@ Get book reviews
             "type": 1,
             "name": "Book's name",
             "team": "PHP",
+            "rating": 2,
+            "created_at": "2018-03-01 07:36:37",
             "favorites_count": 0,
             "comments_count": 0
         },

@@ -52,28 +52,27 @@ class PostController extends ApiController
                 $ratingPost = Rating::create($request->all());
             }
             DB::commit();
-            $data = [
-                'reviewPost' => $post,
-                'ratingPost' => $ratingPost ?? null,
-            ];
         } catch (Exception $e) {
             DB::rollback();
             \Log::error($e);
         }
+        $data = [
+            'reviewPost' => $post,
+            'ratingPost' => $ratingPost ?? null,
+        ];
         return metaResponse($data, Response::HTTP_CREATED);
     }
     
-        /**
-         * Get all post's comments
-         *
-         * @param integer $id post's id
-         *
-         * @return Illuminate\Http\Response
-         */
+    /**
+     * Get all post's comments
+     *
+     * @param integer $id post's id
+     *
+     * @return Illuminate\Http\Response
+     */
     public function getCommentsOfPost($id)
     {
         $comments = Comment::getParentComments($id);
-
         return metaResponse($comments);
     }
 }

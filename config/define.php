@@ -27,6 +27,9 @@
     'book' => [
       'item_limit' => 20,
     ],
+    'review' => [
+      'limit_render' => 20,
+    ],
     'time_send_mail' => 14,
     'qrcode' => [
       'begin_prefix_pos' => 0,
