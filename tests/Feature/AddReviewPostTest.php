@@ -41,17 +41,18 @@ class AddNewReviewPost extends TestCase
                 'code'
             ],
             'reviewPost' => [
-                'user_id',
                 'content',
+                'book_id',
                 'type',
+                'user_id',
                 'updated_at',
                 'created_at',
-                'id',
+                'id'
             ],
             'ratingPost' =>[
-                'user_id',
                 'book_id',
                 'rating',
+                'user_id',
                 'updated_at',
                 'created_at',
                 'id'
@@ -68,13 +69,13 @@ class AddNewReviewPost extends TestCase
         $this->makeUser();
         $user = User::find(1);
         $this->makeData(1);
-        $response = $this->POST('/api/posts',['content' => 'abc','rating' => '1', 'book_id' => '2'], ['token' => $user->access_token]);
+        $response = $this->POST('/api/posts',['content' => 'abc','rating' => '1', 'book_id' => '2', 'type' => '1'], ['token' => $user->access_token]);
         $response->assertJsonStructure([
                 'meta' => [
                     'message',
                     'code'
                 ],
-        ])->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
+        ])->assertStatus(Response::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -86,7 +87,7 @@ class AddNewReviewPost extends TestCase
         $this->makeUser();
         $user = User::find(1);
         $this->makeData(1);
-        $response = $this->POST('/api/posts',['content' => 'abc','rating' => '1', 'book_id' => '1'], ['token' => $user->access_token]);
+        $response = $this->POST('/api/posts',['content' => 'a11111111111111111bc','rating' => '1', 'book_id' => '1', 'type' => '1'], ['token' => $user->access_token]);
         $response->assertJsonStructure($this->jsonStructureAddReviewPost());
         $response->assertStatus(Response::HTTP_CREATED);
     }

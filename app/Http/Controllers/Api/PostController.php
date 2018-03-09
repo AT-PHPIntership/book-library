@@ -61,7 +61,8 @@ class PostController extends ApiController
             \Log::error($e);
         }
         return metaResponse($data, Response::HTTP_CREATED);
-
+    }
+    
         /**
          * Get all post's comments
          *
@@ -69,11 +70,10 @@ class PostController extends ApiController
          *
          * @return Illuminate\Http\Response
          */
-        public function getCommentsOfPost($id)
-        {
-            $comments = Comment::getParentComments($id);
+    public function getCommentsOfPost($id)
+    {
+        $comments = Comment::getParentComments($id);
 
-            return metaResponse($comments);
-        }
+        return metaResponse($comments);
     }
 }
