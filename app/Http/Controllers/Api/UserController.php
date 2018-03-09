@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\ApiController;
-use App\Model\User;
 use DB;
-use Illuminate\Http\Response;
+use App\Model\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Api\ApiController;
 
 class UserController extends ApiController
 {
@@ -52,11 +52,11 @@ class UserController extends ApiController
         ];
         
         $user = User::leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
-                    ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
-                    ->leftJoin('books', 'donators.id', 'books.donator_id')
-                    ->select($fields)
-                    ->groupby('users.id')
-                    ->findOrFail($id);
+            ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
+            ->leftJoin('books', 'donators.id', 'books.donator_id')
+            ->select($fields)
+            ->groupby('users.id')
+            ->findOrFail($id);
         return metaResponse(['data' => $user]);
     }
 }

@@ -2,16 +2,16 @@
 
 namespace Tests\Browser\Pages\Backend\Posts;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Faker\Factory as Faker;
+use DB;
 use App\Model\User;
 use App\Model\Book;
 use App\Model\Post;
-use App\Model\Category;
 use App\Model\Donator;
-use DB;
+use Tests\DuskTestCase;
+use App\Model\Category;
+use Laravel\Dusk\Browser;
+use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AdminListPostsTest extends DuskTestCase
 {
@@ -38,10 +38,10 @@ class AdminListPostsTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin')
-                    ->clickLink('POSTS')
-                    ->assertPathIs('/admin/posts')
-                    ->assertSee('List Posts');
+                ->visit('/admin')
+                ->clickLink('POSTS')
+                ->assertPathIs('/admin/posts')
+                ->assertSee('List Posts');
         });
     }
 
@@ -54,8 +54,8 @@ class AdminListPostsTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/posts')
-                    ->assertSee('List Posts');
+                ->visit('/admin/posts')
+                ->assertSee('List Posts');
             $elements = $browser->elements('#list-posts-table tbody tr');
             $this->assertCount(0, $elements);
             $this->assertNull($browser->element('.pagination'));
@@ -73,8 +73,8 @@ class AdminListPostsTest extends DuskTestCase
         $this->makeData($numberPost);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/posts')
-                    ->assertSee('List Posts');
+                ->visit('/admin/posts')
+                ->assertSee('List Posts');
             $elements = $browser->elements('#list-posts-table tbody tr');
             $this->assertCount(config('define.page_length'), $elements);
         });
@@ -92,8 +92,8 @@ class AdminListPostsTest extends DuskTestCase
         $this->makeData($numberPost);
         $this->browse(function (Browser $browser) use ($numberPost) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/posts')
-                    ->assertSee('List Posts');
+                ->visit('/admin/posts')
+                ->assertSee('List Posts');
             $elements = $browser->elements('.pagination li');
             $numberPage = count($elements) - 2;
             $this->assertTrue($numberPage == ceil($numberPost / (config('define.page_length'))));
@@ -112,9 +112,9 @@ class AdminListPostsTest extends DuskTestCase
         $this->makeData($numberPost);
         $this->browse(function (Browser $browser) use ($numberPost) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/posts?page=2')
-                    ->assertSee('List Posts')
-                    ->assertQueryStringHas('page', 2);
+                ->visit('/admin/posts?page=2')
+                ->assertSee('List Posts')
+                ->assertQueryStringHas('page', 2);
             $elements = $browser->elements('#list-posts-table tbody tr');
             $this->assertCount($numberPost % (config('define.page_length')), $elements); 
         });
