@@ -5,13 +5,13 @@ namespace Tests\Feature;
 use App\Model\User;
 use Tests\TestCase;
 use Faker\Factory as Faker;
-use DB;
 use App\Model\Book;
 use App\Model\Category;
 use App\Model\Donator;
 use App\Model\Post;
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use DB;
 
 class AddNewReviewPost extends TestCase
 {
@@ -24,9 +24,10 @@ class AddNewReviewPost extends TestCase
      */
     public function testStatusCodeWhenInPostPage()
     {
-        $this->makeUser();
+        $this->makeData();
         $response = $this->POST('/api/posts/');
         $response->assertStatus(Response::HTTP_OK);
+
     }
 
     /**
@@ -66,9 +67,8 @@ class AddNewReviewPost extends TestCase
      * @return void
      */
     public function testIfCreateFail(){
-        $this->makeUser();
+        $this->makeData();
         $user = User::find(1);
-        $this->makeData(1);
         $response = $this->POST('/api/posts',['content' => 'abc','rating' => '1', 'book_id' => '2', 'type' => '1'], ['token' => $user->access_token]);
         $response->assertJsonStructure([
                 'meta' => [
@@ -84,62 +84,65 @@ class AddNewReviewPost extends TestCase
      * @return void
      */
     public function testStructureAddReviewPost(){
-        $this->makeUser();
+        $this->makeData();
         $user = User::find(1);
-        $this->makeData(1);
-        $response = $this->POST('/api/posts',['content' => 'a11111111111111111bc','rating' => '1', 'book_id' => '1', 'type' => '1'], ['token' => $user->access_token]);
+        $response = $this->POST('/api/posts',['content' => 'abc12345678','rating' => '1', 'book_id' => '1', 'type' => '1'], ['token' => $user->access_token]);
         $response->assertJsonStructure($this->jsonStructureAddReviewPost());
         $response->assertStatus(Response::HTTP_CREATED);
+        $this->checkDataCreated($response);
     }
+
+    /**
+     * Check data after creaeted.
+     *
+     * @return void
+     */
+    public function checkDataCreated($response)
+     {
+         $apiData = json_decode($response->getContent());
+         $reviewPost = [
+             'content' => $apiData->reviewPost->content,
+             'book_id' => $apiData->reviewPost->book_id,
+             'type' => $apiData->reviewPost->type,
+             'user_id' => $apiData->reviewPost -> user_id,
+             'updated_at' => $apiData->reviewPost->updated_at,
+             'created_at' => $apiData->reviewPost->created_at,
+             'id' => $apiData->reviewPost->id,
+         ];
+         $ratingPost = [
+             'rating' => $apiData->ratingPost->rating,
+             'book_id' => $apiData->ratingPost->book_id,
+             'user_id' => $apiData->ratingPost->user_id,
+             'updated_at' => $apiData->ratingPost->updated_at,
+             'created_at' => $apiData->ratingPost->created_at,
+             'id' => $apiData->ratingPost->id,
+         ];
+         $this->assertDatabaseHas('posts', $reviewPost);
+         $this->assertDatabaseHas('ratings', $ratingPost);
+     }
 
     /**
      * Make data to test
      *
      * @return void
      */
-    public function makeData($row)
+    public function makeData()
     {
         $faker = Faker::create();
 
-        factory(Category::class)->create();
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
+        $category = factory(Category::class)->create();
 
-        $userIds = DB::table('users')->pluck('id')->toArray();
+        $user = factory(User::class)->create([
+            'access_token' => $faker->name
+        ]);
 
         $donator = factory(Donator::class)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
-        ]);
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
-
-        factory(Book::class)->create([
-            'category_id' => $faker->randomElement($categoryIds),
-            'donator_id' => $faker->randomElement($donatorIds),
-        ]);
-        $bookIds = DB::table('books')->pluck('id')->toArray();
-
-        for ($i = 0; $i < $row; $i++) {
-            factory(Post::class)->create([
-                'user_id' => $faker->randomElement($userIds),
-                'book_id' => $faker->randomElement($bookIds),
-            ]);
-        }
-    }
-
-    /**
-     * Make user to login
-     *
-     * @return void
-     */
-    public function makeUser(){
-         \DB::table('users')->insert([
-            'id' => '1',
-            'employee_code' => 'AT0123',
-            'name' => 'SA Nguyen',
-            'email' => 'sa.nguyen@gmail.com',
-            'team' => 'SA',
-            'role' => '1',
-            'access_token' => '123'
+            'user_id' => 1,
         ]);
 
+        $book = factory(Book::class)->create([
+            'category_id' => 1,
+            'donator_id' => 1,
+        ]);
     }
 }

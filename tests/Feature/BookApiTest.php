@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use Tests\Browser\Pages\Backend\Books\BaseTestBook;
-use Illuminate\Http\Response;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Model\Book;
+use Illuminate\Http\Response;
+use Tests\Browser\Pages\Backend\Books\BaseTestBook;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class BookApiTest extends BaseTestBook
 {
