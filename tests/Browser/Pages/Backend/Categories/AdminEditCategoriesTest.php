@@ -2,12 +2,12 @@
 
 namespace Tests\Browser\Pages\Backend\Categories;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Model\User;
+use Tests\DuskTestCase;
 use App\Model\Category;
+use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\Backend\Users\BaseTestUser;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AdminEditCategoriesTest extends BaseTestUser
 {
@@ -35,10 +35,10 @@ class AdminEditCategoriesTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/categories')
-                    ->assertSee('List Categories')
-                    ->assertMissing('#table-categories .btn-show-edit-modal')
-                    ->assertMissing('#table-categories #edit-modal1');
+                ->visit('/admin/categories')
+                ->assertSee('List Categories')
+                ->assertMissing('#table-categories .btn-show-edit-modal')
+                ->assertMissing('#table-categories #edit-modal1');
         });
     }
 
@@ -52,10 +52,10 @@ class AdminEditCategoriesTest extends BaseTestUser
         $this->makeDataOfEditCategories(2);
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/categories')
-                    ->assertSee('List Categories')
-                    ->assertVisible('#table-categories .btn-show-edit-modal')
-                    ->assertVisible('#table-categories #edit-modal1');
+                ->visit('/admin/categories')
+                ->assertSee('List Categories')
+                ->assertVisible('#table-categories .btn-show-edit-modal')
+                ->assertVisible('#table-categories #edit-modal1');
         });
     }
 
@@ -69,14 +69,14 @@ class AdminEditCategoriesTest extends BaseTestUser
         $category = $this->makeDataOfEditCategories(1);
         $this->browse(function (Browser $browser) use ($category) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/categories')
-                    ->press('#table-categories #edit-modal1')
-                    ->pause(1000)
-                    ->assertSee('Rename Category')
-                    ->assertInputValue('#id-category', $category[0]->id)
-                    ->assertInputValue('#name-category', $category[0]->name)
-                    ->assertSeeIn('.btn-update-name-category', 'Update')
-                    ->assertSeeIn('.btn-close-update-category', 'Close');
+                ->visit('/admin/categories')
+                ->press('#table-categories #edit-modal1')
+                ->pause(1000)
+                ->assertSee('Rename Category')
+                ->assertInputValue('#id-category', $category[0]->id)
+                ->assertInputValue('#name-category', $category[0]->name)
+                ->assertSeeIn('.btn-update-name-category', 'Update')
+                ->assertSeeIn('.btn-close-update-category', 'Close');
         });
     }
 
@@ -90,14 +90,14 @@ class AdminEditCategoriesTest extends BaseTestUser
         $category = $this->makeDataOfEditCategories(2);
         $this->browse(function (Browser $browser) use ($category) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/categories')
-                    ->press('#table-categories .category2 #edit-modal2')
-                    ->pause(2000)
-                    ->type('name-category', $category[0]->name)
-                    ->pause(2000)
-                    ->press('.btn-update-name-category')
-                    ->pause(5000)
-                    ->assertSee('The name has already been taken.');
+                ->visit('/admin/categories')
+                ->press('#table-categories .category2 #edit-modal2')
+                ->pause(2000)
+                ->type('name-category', $category[0]->name)
+                ->pause(2000)
+                ->press('.btn-update-name-category')
+                ->pause(5000)
+                ->assertSee('The name has already been taken.');
         });    
     }
 
@@ -111,14 +111,14 @@ class AdminEditCategoriesTest extends BaseTestUser
         $category = $this->makeDataOfEditCategories(1);
         $this->browse(function (Browser $browser) use ($category) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/categories')
-                    ->press('#table-categories .category1 #edit-modal1')
-                    ->pause(2000)
-                    ->type('name-category', '')
-                    ->pause(2000)
-                    ->press('.btn-update-name-category')
-                    ->pause(5000)
-                    ->assertSee('The name field is required.');
+                ->visit('/admin/categories')
+                ->press('#table-categories .category1 #edit-modal1')
+                ->pause(2000)
+                ->type('name-category', '')
+                ->pause(2000)
+                ->press('.btn-update-name-category')
+                ->pause(5000)
+                ->assertSee('The name field is required.');
         });    
     }
 
@@ -132,16 +132,16 @@ class AdminEditCategoriesTest extends BaseTestUser
         $category = $this->makeDataOfEditCategories(1);
         $this->browse(function (Browser $browser) use ($category) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/categories')
-                    ->assertDontSee('New Category')
-                    ->press('#table-categories .category1  #edit-modal1')
-                    ->pause(2000)
-                    ->type('name-category', 'New Category')
-                    ->pause(2000)
-                    ->press('.btn-update-name-category')
-                    ->pause(5000)
-                    ->assertDontSee('Rename Category')
-                    ->assertSee('New Category');
+                ->visit('/admin/categories')
+                ->assertDontSee('New Category')
+                ->press('#table-categories .category1  #edit-modal1')
+                ->pause(2000)
+                ->type('name-category', 'New Category')
+                ->pause(2000)
+                ->press('.btn-update-name-category')
+                ->pause(5000)
+                ->assertDontSee('Rename Category')
+                ->assertSee('New Category');
             $this->assertDatabaseHas('categories', ['id' => $category[0]->id, 'name' => 'New Category']);
         });
     }
@@ -156,14 +156,14 @@ class AdminEditCategoriesTest extends BaseTestUser
         $category = $this->makeDataOfEditCategories(1);
         $this->browse(function (Browser $browser) use ($category) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/categories')
-                    ->press('#table-categories .category1  #edit-modal1')
-                    ->pause(1000)
-                    ->press('.btn-close-update-category')
-                    ->pause(1000)
-                    ->assertDontSee('Rename Category')
-                    ->assertDontSeeIn('.btn-update-name-category', 'Update')
-                    ->assertDontSeeIn('.btn-close-update-category', 'Close');
+                ->visit('/admin/categories')
+                ->press('#table-categories .category1  #edit-modal1')
+                ->pause(1000)
+                ->press('.btn-close-update-category')
+                ->pause(1000)
+                ->assertDontSee('Rename Category')
+                ->assertDontSeeIn('.btn-update-name-category', 'Update')
+                ->assertDontSeeIn('.btn-close-update-category', 'Close');
         });
     }
 

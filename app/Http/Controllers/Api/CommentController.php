@@ -70,4 +70,18 @@ class CommentController extends ApiController
             return response()->json(Response::HTTP_NOT_FOUND);
         }
     }
+
+    /**
+     * Get all child comment for one comment
+     *
+     * @param integer $id parent comment's id
+     *
+     * @return Illuminate\Http\Response
+     */
+    public function getChildComments($id)
+    {
+        $comments = Comment::getChildComments($id);
+        
+        return metaResponse($comments);
+    }
 }

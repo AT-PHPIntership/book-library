@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
+use DB;
+use App\Model\User;
 use Tests\TestCase;
+use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use App\Model\User;
-use Illuminate\Http\Response;
 
 class UserInformationTest extends TestCase
 {

@@ -2,13 +2,13 @@
 
 namespace Tests\Browser\Pages\Backend\Users;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use DB;
 use App\Model\User;
+use Tests\DuskTestCase;
+use Laravel\Dusk\Browser;
 use Faker\Factory as Faker;
 use Tests\Browser\Pages\Backend\Users\BaseTestUser;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class SetRoleTest extends BaseTestUser
 {
@@ -24,10 +24,10 @@ class SetRoleTest extends BaseTestUser
         $userLogin = factory(User::class)->create(['role' => User::ROLE_USER]);
         $this->browse(function (Browser $browser) use ($userLogin) {
             $browser->loginAs($userLogin)
-                    ->resize(1200, 900)
-                    ->visit('/admin/users')
-                    ->assertPathIs('/login')
-                    ->assertSee('You are NOT an Administrator');
+                ->resize(1200, 900)
+                ->visit('/admin/users')
+                ->assertPathIs('/login')
+                ->assertSee('You are NOT an Administrator');
         });
     }
 
@@ -41,10 +41,10 @@ class SetRoleTest extends BaseTestUser
         $userLogin = factory(User::class)->create(['team' => $this->getTeamExceptSA(), 'role' => User::ROLE_ADMIN]);
         $this->browse(function (Browser $browser) use ($userLogin) {
             $browser->loginAs($userLogin)
-                    ->resize(1200, 900)
-                    ->visit('/admin/users')
-                    ->assertSee('List Users')
-                    ->assertDontSee('Role');
+                ->resize(1200, 900)
+                ->visit('/admin/users')
+                ->assertSee('List Users')
+                ->assertDontSee('Role');
         });
     }
 
@@ -58,10 +58,10 @@ class SetRoleTest extends BaseTestUser
         $userLogin = $this->makeUserTeamSA();
         $this->browse(function (Browser $browser) use ($userLogin) {
             $browser->loginAs($userLogin)
-                    ->resize(1200, 900)
-                    ->visit('/admin/users')
-                    ->assertSee('List Users')
-                    ->assertSee('Role');
+                ->resize(1200, 900)
+                ->visit('/admin/users')
+                ->assertSee('List Users')
+                ->assertSee('Role');
         });
     }
 
@@ -76,14 +76,14 @@ class SetRoleTest extends BaseTestUser
         $userLogin = $this->makeUserTeamSA();
         $this->browse(function (Browser $browser) use ($userLogin) {
             $browser->loginAs($userLogin)
-                    ->resize(1200, 900)
-                    ->visit('/admin/users')
-                    ->assertSeeIn('#role-1', 'User')
-                    ->assertVisible('#role-1', 'background-color: #d73925')
-                    ->press('#role-1')
-                    ->pause(3000)
-                    ->assertSeeIn('#role-1', 'Admin')
-                    ->assertVisible('#role-1', 'background-color: #00a65a'); 
+                ->resize(1200, 900)
+                ->visit('/admin/users')
+                ->assertSeeIn('#role-1', 'User')
+                ->assertVisible('#role-1', 'background-color: #d73925')
+                ->press('#role-1')
+                ->pause(3000)
+                ->assertSeeIn('#role-1', 'Admin')
+                ->assertVisible('#role-1', 'background-color: #00a65a'); 
         });
     }
 
@@ -98,14 +98,14 @@ class SetRoleTest extends BaseTestUser
         $userLogin = $this->makeUserTeamSA();
         $this->browse(function (Browser $browser) use ($userLogin) {
             $browser->loginAs($userLogin)
-                    ->resize(1200, 900)
-                    ->visit('/admin/users')
-                    ->assertSeeIn('#role-1', 'Admin')
-                    ->assertVisible('#role-1', 'background-color: #00a65a')
-                    ->press('#role-1')
-                    ->pause(3000)
-                    ->assertSeeIn('#role-1', 'User')
-                    ->assertVisible('#role-1', 'background-color: #d73925');
+                ->resize(1200, 900)
+                ->visit('/admin/users')
+                ->assertSeeIn('#role-1', 'Admin')
+                ->assertVisible('#role-1', 'background-color: #00a65a')
+                ->press('#role-1')
+                ->pause(3000)
+                ->assertSeeIn('#role-1', 'User')
+                ->assertVisible('#role-1', 'background-color: #d73925');
         });
     }
 
@@ -120,16 +120,16 @@ class SetRoleTest extends BaseTestUser
         $userLogin  = $this->makeUserTeamSA();
         $this->browse(function (Browser $browser) use ($userLogin) {
             $browser->loginAs($userLogin)
-                    ->resize(1200, 900)
-                    ->visit('/admin/users')
-                    ->assertSeeIn('#role-1', 'Admin')
-                    ->assertVisible('#role-1', 'background-color: #00a65a')
-                    ->assertVisible('#role-1', 'disabled')
-                    ->press('#role-1')
-                    ->pause(1000)
-                    ->assertSeeIn('#role-1', 'Admin')
-                    ->assertVisible('#role-1', 'background-color: #00a65a')
-                    ->assertVisible('#role-1', 'disabled');
+                ->resize(1200, 900)
+                ->visit('/admin/users')
+                ->assertSeeIn('#role-1', 'Admin')
+                ->assertVisible('#role-1', 'background-color: #00a65a')
+                ->assertVisible('#role-1', 'disabled')
+                ->press('#role-1')
+                ->pause(1000)
+                ->assertSeeIn('#role-1', 'Admin')
+                ->assertVisible('#role-1', 'background-color: #00a65a')
+                ->assertVisible('#role-1', 'disabled');
         });
     }
 }
