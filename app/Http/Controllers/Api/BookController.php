@@ -184,12 +184,22 @@ class BookController extends Controller
             'image',
             'avg_rating'
         ];
+        $category = $request->category;
+        $language = $request->language;
         $books = Book::select($fields)
-            ->where('name', 'like', "%$request->search%")
-            ->orWhere('author', 'like', "%$request->search%")
-            ->orderBy('created_at', 'desc')
+            ->where(function ($where) use ($request) {
+                $where->where('name', 'like', "%$request->search%")
+                ->orWhere('author', 'like', "%$request->search%");
+            });
+        if ($request->has('language')) {
+            $books = $books->where('language', $language);
+        }
+        if ($request->has('category')) {
+            $books = $books->where('category_id', $category);
+        }
+        $books = $books->orderBy('created_at', 'desc')
             ->paginate(config('define.book.item_limit'));
-        $books->appends(['search' => $request->search])->render();
+        $books->appends(['search' => $request->search, 'category' => $category, 'language' => $language])->render();
         return metaResponse($books);
     }
 
