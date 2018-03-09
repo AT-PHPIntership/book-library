@@ -97,6 +97,7 @@ class ImportCSVTest extends DuskTestCase
             $totalRecord = Book::count();
             $bookRow = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $bookRow);
+            $this->assertSame(0, $totalRecord);
         });
 
         $data = Excel::load('/tests/files/csv/AT-Book List-fail.csv')->get();
