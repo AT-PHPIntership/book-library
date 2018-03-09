@@ -2,17 +2,17 @@
 
 namespace Tests\Browser\Pages\Backend\Borrowings;
 
+use DB;
+use App\Model\Book;
+use App\Model\User;
+use App\Model\Donator;
 use Tests\DuskTestCase;
+use App\Model\Category;
+use App\Model\Borrowing;
 use Laravel\Dusk\Browser;
+use Faker\Factory as Faker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\Browser\Pages\Backend\Users\BaseTestUser;
-use Faker\Factory as Faker;
-use App\Model\Book;
-use App\Model\Borrowing;
-use App\Model\Category;
-use App\Model\Donator;
-use App\Model\User;
-use DB;
 
 class AdminSearchBorrowTest extends BaseTestUser
 {
@@ -43,13 +43,13 @@ class AdminSearchBorrowTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('admin/borrowings')
-                    ->assertSee('List Borrowers')
-                    ->assertVisible('#frm-search-borrow')
-                    ->assertVisible('input[name=search]')
-                    ->assertVisible('select[name=choose]')
-                    ->assertVisible('#search-borrow')
-                    ->assertVisible('.fa-search');
+                ->visit('admin/borrowings')
+                ->assertSee('List Borrowers')
+                ->assertVisible('#frm-search-borrow')
+                ->assertVisible('input[name=search]')
+                ->assertVisible('select[name=choose]')
+                ->assertVisible('#search-borrow')
+                ->assertVisible('.fa-search');
         });
     }
 
@@ -62,13 +62,13 @@ class AdminSearchBorrowTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/borrowings')
-                    ->assertInputValue('search', '')
-                    ->select('choose', 'all')
-                    ->click('#search-borrow')
-                    ->visit('/admin/borrowings?search=&choose=all')
-                    ->assertQueryStringHas('search', '')
-                    ->assertQueryStringHas('choose', 'all');
+                ->visit('/admin/borrowings')
+                ->assertInputValue('search', '')
+                ->select('choose', 'all')
+                ->click('#search-borrow')
+                ->visit('/admin/borrowings?search=&choose=all')
+                ->assertQueryStringHas('search', '')
+                ->assertQueryStringHas('choose', 'all');
             $elements = $browser->elements('#table-borrowings tbody tr');
             $this->assertCount(self::NUMBER_BORROWS, $elements);    
         });
@@ -83,13 +83,13 @@ class AdminSearchBorrowTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/borrowings')
-                    ->assertInputValue('search', '')
-                    ->select('choose', 'books')
-                    ->click('#search-borrow')
-                    ->visit('/admin/borrowings?search=&choose=books')
-                    ->assertQueryStringHas('search', '')
-                    ->assertQueryStringHas('choose', 'books');
+                ->visit('/admin/borrowings')
+                ->assertInputValue('search', '')
+                ->select('choose', 'books')
+                ->click('#search-borrow')
+                ->visit('/admin/borrowings?search=&choose=books')
+                ->assertQueryStringHas('search', '')
+                ->assertQueryStringHas('choose', 'books');
             $elements = $browser->elements('#table-borrowings tbody tr');
             $this->assertCount(self::NUMBER_BORROWS, $elements);    
         });
@@ -104,13 +104,13 @@ class AdminSearchBorrowTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/borrowings')
-                    ->assertInputValue('search', '')
-                    ->select('choose', 'users')
-                    ->click('#search-borrow')
-                    ->visit('/admin/borrowings?search=&choose=users')
-                    ->assertQueryStringHas('search', '')
-                    ->assertQueryStringHas('choose', 'users');
+                ->visit('/admin/borrowings')
+                ->assertInputValue('search', '')
+                ->select('choose', 'users')
+                ->click('#search-borrow')
+                ->visit('/admin/borrowings?search=&choose=users')
+                ->assertQueryStringHas('search', '')
+                ->assertQueryStringHas('choose', 'users');
             $elements = $browser->elements('#table-borrowings tbody tr');
             $this->assertCount(self::NUMBER_BORROWS, $elements);    
         });
@@ -125,10 +125,10 @@ class AdminSearchBorrowTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/borrowings')
-                    ->type('search', 'Vo Van Nghia')
-                    ->select('choose', 'all')
-                    ->click('#search-borrow');
+                ->visit('/admin/borrowings')
+                ->type('search', 'Vo Van Nghia')
+                ->select('choose', 'all')
+                ->click('#search-borrow');
             $elements = $browser->elements('#table-borrowings tbody tr');
             $this->assertCount(0, $elements);    
         });
@@ -143,11 +143,11 @@ class AdminSearchBorrowTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/borrowings')
-                    ->type('search', 'Vo Van Nghia')
-                    ->select('choose', 'users')
-                    ->click('#search-borrow')
-                    ->pause(2000);
+                ->visit('/admin/borrowings')
+                ->type('search', 'Vo Van Nghia')
+                ->select('choose', 'users')
+                ->click('#search-borrow')
+                ->pause(2000);
             $elements = $browser->elements('#table-borrowings tbody tr');
             $this->assertCount(0, $elements);
         });
@@ -162,11 +162,11 @@ class AdminSearchBorrowTest extends BaseTestUser
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/borrowings')
-                    ->type('search', 'Javascript')
-                    ->select('choose', 'books')
-                    ->click('#search-borrow')
-                    ->pause(2000);
+                ->visit('/admin/borrowings')
+                ->type('search', 'Javascript')
+                ->select('choose', 'books')
+                ->click('#search-borrow')
+                ->pause(2000);
             $elements = $browser->elements('#table-borrowings tbody tr');
             $this->assertCount(0, $elements);    
         });
@@ -179,13 +179,14 @@ class AdminSearchBorrowTest extends BaseTestUser
      */
     public function testSearchDataFilterAllHaveResultReturned()
     {
+        $this->makeDataForSpecialCases();
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/borrowings')
-                    ->type('search', 'HTML & CSS')
-                    ->select('choose', 'all')
-                    ->click('#search-borrow')
-                    ->pause(2000);
+                ->visit('/admin/borrowings')
+                ->type('search', 'HTML & CSS')
+                ->select('choose', 'all')
+                ->click('#search-borrow')
+                ->pause(2000);
             $elements = $browser->elements('#table-borrowings tbody tr');
             $this->assertCount(3, $elements);    
         });
@@ -198,13 +199,14 @@ class AdminSearchBorrowTest extends BaseTestUser
      */
     public function testSearchDataFilterBooksHaveResultReturned()
     {
+        $this->makeDataForSpecialCases();
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/borrowings')
-                    ->type('search', 'HTML & CSS')
-                    ->select('choose', 'books')
-                    ->click('#search-borrow')
-                    ->pause(2000);
+                ->visit('/admin/borrowings')
+                ->type('search', 'HTML & CSS')
+                ->select('choose', 'books')
+                ->click('#search-borrow')
+                ->pause(2000);
             $elements = $browser->elements('#table-borrowings tbody tr');
             $this->assertCount(3, $elements);    
         });
@@ -217,14 +219,15 @@ class AdminSearchBorrowTest extends BaseTestUser
      */
     public function testSearchDataFilterUsersHaveResultReturned()
     {
+        $this->makeDataForSpecialCases();
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
-                    ->visit('/admin/borrowings')
-                    ->resize(1600, 2000)
-                    ->type('search', 'hayantt')
-                    ->select('choose', 'users')
-                    ->click('#search-borrow')
-                    ->pause(2000);
+                ->visit('/admin/borrowings')
+                ->resize(1600, 2000)
+                ->type('search', 'hayantt')
+                ->select('choose', 'users')
+                ->click('#search-borrow')
+                ->pause(2000);
             $elements = $browser->elements('#table-borrowings tbody tr');
             $this->assertCount(3, $elements);    
         });
@@ -241,33 +244,40 @@ class AdminSearchBorrowTest extends BaseTestUser
 
         factory(Category::class)->create();
 
-        
-        factory(User::class, 5)->create();
-        $userIds = DB::table('users')->pluck('id')->toArray();
-        
-        factory(User::class)->create([
-            'id' => '161',
-            'name' => 'hayantt'
-        ]);
+        $users = factory(User::class, 5)->create();
+        $userIds = $users->pluck('id')->toArray();
         
         factory(Donator::class)->create();
 
-        factory(Book::class, 5)->create([
+        $books = factory(Book::class, 5)->create([
             'category_id' => 1,
             'donator_id'  => 1,
             'name'        => $faker->name,
             'author'      => $faker->name
         ]);
-        $bookIds = DB::table('books')->pluck('id')->toArray();
-        
-        for ($i = 1; $i < $row - 2; $i++)
+        $bookIds = $books->pluck('id')->toArray();
+
+        for ($i = 0; $i < $row; $i++)
         {
             $borrowing = factory(Borrowing::class)->create([
                 'book_id' =>  $faker->randomElement($bookIds),
                 'user_id' =>  $faker->randomElement($userIds)
             ]);
         }
-
+    }
+    
+    /**
+     * make data to unit test for special cases
+     *
+     * @return void
+     */
+    public function makeDataForSpecialCases()
+    {
+        $faker = Faker::create();
+        factory(User::class)->create([
+            'id' => '161',
+            'name' => 'hayantt'
+        ]);
         factory(Book::class)->create([
             'id'             => '2018',
             'category_id'    => 1,
@@ -275,11 +285,9 @@ class AdminSearchBorrowTest extends BaseTestUser
             'name'           => 'HTML & CSS',
             'author'         => $faker->name
         ]);
-
         $borrowing = factory(Borrowing::class, 3)->create([
             'book_id' =>  2018,
             'user_id' =>  161
         ]);
     }
-
 }
