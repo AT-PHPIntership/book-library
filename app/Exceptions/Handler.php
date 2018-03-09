@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -57,6 +58,13 @@ class Handler extends ExceptionHandler
         $code = 0;
         if ($request->route() != null) {
             if ($request->route()->getPrefix() === 'api') {
+                 //error 400
+                if ($exception instanceof ValidationException) {
+                    $code = Response::HTTP_BAD_REQUEST;
+                    $message = $exception->errors();
+                    return $this->showMessageAndCode($code, $message);
+                }
+
                 //error 405
                 if ($exception instanceof MethodNotAllowedHttpException) {
                     $code = Response::HTTP_BAD_METHOD;
