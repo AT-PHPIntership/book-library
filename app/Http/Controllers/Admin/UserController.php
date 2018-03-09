@@ -30,17 +30,17 @@ class UserController extends Controller
             DB::raw('COUNT(DISTINCT(books.id)) AS total_donated'),
         ];
         $users = User::select($fields)
-                    ->leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
-                    ->groupBy('users.id')
-                    ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
-                    ->leftJoin('books', 'donators.id', 'books.donator_id');
+            ->leftJoin('borrowings', 'borrowings.user_id', '=', 'users.id')
+            ->groupBy('users.id')
+            ->leftJoin('donators', 'donators.user_id', '=', 'users.id')
+            ->leftJoin('books', 'donators.id', 'books.donator_id');
         // get value filter and limit on url
         $filter = $request->input('filter');
-        $limit = $request->input('limit');
+        $limit  = $request->input('limit');
         if ($filter == Book::DONATED) {
             $users = $users->orderby('total_donated', 'DESC')
-                            ->limit($limit)
-                            ->get();
+                ->limit($limit)
+                ->get();
         } else {
             $users = $users->paginate(config('define.page_length'));
         }
@@ -63,19 +63,19 @@ class UserController extends Controller
         ];
 
         $user = User::select($fields)
-        ->leftJoin('borrowings', 'users.id', '=', 'borrowings.user_id')
-        ->leftJoin('donators', 'users.id', '=', 'donators.user_id')
-        ->where('users.employee_Code', '=', $employeeCode)
-        ->groupBy('users.id')
-        ->firstOrFail();
+            ->leftJoin('borrowings', 'users.id', '=', 'borrowings.user_id')
+            ->leftJoin('donators', 'users.id', '=', 'donators.user_id')
+            ->where('users.employee_Code', '=', $employeeCode)
+            ->groupBy('users.id')
+            ->firstOrFail();
 
         $bookBorrowing = DB::table('borrowings')
-        ->join('books', 'borrowings.book_id', '=', 'books.id')
-        ->join('users', 'borrowings.user_id', '=', 'users.id')
-        ->select('books.name')
-        ->where('users.employee_Code', '=', $employeeCode)
-        ->whereNull('borrowings.to_date')
-        ->first();
+            ->join('books', 'borrowings.book_id', '=', 'books.id')
+            ->join('users', 'borrowings.user_id', '=', 'users.id')
+            ->select('books.name')
+            ->where('users.employee_Code', '=', $employeeCode)
+            ->whereNull('borrowings.to_date')
+            ->first();
 
         return view('backend.users.show', compact('user', 'bookBorrowing'));
     }
