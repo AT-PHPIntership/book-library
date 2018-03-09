@@ -1,5 +1,4 @@
 <?php
-
     return [
         'datetime_format' => 'Y-m-d h:i:s',
         'date_format' => 'd-m-Y',
@@ -24,10 +23,7 @@
             '500_server_error' => 'Server Error',
             'token_not_found' => 'AccessToken Not Found',
             '440_login_timeout' => 'Login Timeout',
-            'empty_comment' => 'Empty Comment',
-            'post_not_found' => 'Post Not Found',
-            'error_occurred' => 'Has Error Occurred, Please Try Again',
-            'parent_id_not_found' => 'Parent Id Not Found'
+            'error_occurred' => 'Has Error Occurred, Please Try Again'
         ],
         'book' => [
             'item_limit' => 20,

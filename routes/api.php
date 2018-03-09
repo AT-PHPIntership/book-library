@@ -13,7 +13,6 @@ use Illuminate\Routing\middleware;
 */
 
 //Api
-
 Route::group(['namespace' => 'Api'], function () {
     Route::post('login', 'LoginController@login');    
     Route::group(['middleware' => 'apiLogin'], function () {
