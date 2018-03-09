@@ -83,17 +83,14 @@ class BookReviewTest extends TestCase
     {
         $faker = Faker::create();
         factory(Category::class, 3)->create();
-        factory(User::class, 1)->create();
-        DB::table('users')->pluck('id')->toArray();
-        factory(Donator::class, 1)->create();
-        DB::table('categories')->pluck('id')->toArray();
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
+        factory(User::class)->create();
+        factory(Donator::class)->create();
         factory(Book::class, $totalBook)->create([
             'category_id' => $faker->randomElement([
                 '1' => 2,
                 '2' => 3
             ]),
-            'donator_id' => $faker->randomElement($donatorIds),
+            'donator_id' => 1,
         ]);
         $userId = DB::table('users')->pluck('id')->toArray();
         $bookId = DB::table('books')->pluck('id')->toArray();
