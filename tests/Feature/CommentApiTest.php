@@ -137,34 +137,28 @@ class CommentApiTest extends TestCase
         factory(Category::class)->create();
         factory(User::class)->create();
         factory(Donator::class)->create();
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
         factory(Book::class, $totalBook)->create([
             'category_id' => 1,
-            'donator_id' => $faker->randomElement($donatorIds),
+            'donator_id' => 1,
         ]);
-        $userId = DB::table('users')->pluck('id')->toArray();
-        $bookId = DB::table('books')->pluck('id')->toArray();
-        $faker = Faker::create();
-        for ($i = 0; $i <= 1; $i++) {
-            factory(Post::class, 1)->create([
-                'user_id' => $faker->randomElement($userId),
-                'book_id' => 1
-            ]);
-        }
+        factory(Post::class, 1)->create([
+            'user_id' => 1,
+            'book_id' => 1
+        ]);
         for ($i = 0; $i <= 3; $i++) {
-            factory(Favorite::class, 1)->create([
-                'user_id' => $faker->randomElement($userId)
+            factory(Favorite::class)->create([
+                'user_id' => 1
             ]);
         }
         // Create parent comment
         factory(Comment::class, 1)->create([
-            'user_id' => $faker->randomElement($userId),
+            'user_id' => 1,
             'parent_id' => null,
             'post_id' => 1
         ]);
         // Create child comment
         factory(Comment::class, 1)->create([
-            'user_id' => $faker->randomElement($userId),
+            'user_id' => 1,
             'parent_id' => 1,
             'post_id' => 1
         ]);
