@@ -2,7 +2,7 @@
 
 ### `GET` Book
 ```
-/api/books
+/api/books?category=1&language=en&search=abc
 ```
 Get list books with paginate
 
@@ -17,19 +17,6 @@ Get list books with paginate
 | category | number | optional | 1 |
 | language | string | optional | am |
 | search | string | optional | a |
-
-### `GET` Filter book with keyword.
-
-```
-    .../api/books?category=1    //Get list book follow category_id.
-```
-```
-    .../api/books?language=am    //Get list book follow language.
-```
-
-```
-    .../api/books?category=1&language=rm&search=a   //Get list book with correct keyword.
-```
 
 #### Response Exist
 ```json
