@@ -18,7 +18,7 @@
             'English' => 'English',
         ],
         'messages' => [
-            '404_not_found' => 'Page Not Found',
+            '404_not_found' => 'Not Found',
             '405_method_error' => 'Method Failure',
             '500_server_error' => 'Server Error',
             'token_not_found' => 'AccessToken Not Found',
@@ -39,5 +39,13 @@
             'limit_render' => 10,
         ],
         'time_in_day_send_mail' => '11:00',
-        'time_zone' => 'Asia/Ho_Chi_Minh'
+        'time_zone' => 'Asia/Ho_Chi_Minh',
+        'post' => [
+            'page_length' => 20,
+        ],
+        'type_post' => [
+            \App\Model\Post::REVIEW_TYPE, 
+            \App\Model\Post::STATUS_TYPE, 
+            \App\Model\Post::FIND_TYPE,       
+        ]
     ];

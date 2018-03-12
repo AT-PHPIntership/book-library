@@ -75,4 +75,36 @@ class PostController extends ApiController
         $comments = Comment::getParentComments($id);
         return metaResponse($comments);
     }
+
+    /**
+     * Get list post of user
+     *
+     * @param Request $request request
+     * @param int     $id      id of user
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getListPostOfUser(Request $request, $id)
+    {
+        $fields = [
+            'books.name as book_name',
+            'books.image',
+            'books.avg_rating',
+            'posts.updated_at',
+        ];
+        $posts = Post::getPostsByType(null, $fields)
+            ->leftJoin('books', 'books.id', '=', 'posts.book_id')
+            ->where('user_id', $id);
+        if ($request->has('type')) {
+            $postTypes = config('define.type_post');
+            $type = $request->type;
+            foreach ($postTypes as $postType) {
+                if ($postType == $type) {
+                    $posts = $posts->where('type', $type);
+                }
+            }
+        }
+        $posts = $posts->paginate(config('define.post.page_length'));
+        return metaResponse($posts);
+    }
 }
