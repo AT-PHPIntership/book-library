@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Exception;
 use DB;
+use Storage;
 
 class PostController extends ApiController
 {
@@ -41,7 +42,6 @@ class PostController extends ApiController
             $request['book_id'] = null;
         }
         $request['user_id'] = $this->user->id;
-
         DB::beginTransaction();
         try {
             // Create post
@@ -50,6 +50,14 @@ class PostController extends ApiController
             // Create rating when post's type is review
             if ($request->type == Post::REVIEW_TYPE) {
                 $ratingPost = Rating::create($request->all());
+            }
+            // Create image when choose find type
+            if ($request->type == Post::FIND_TYPE) {
+                $data = $request->toArray();
+                $folder = config('image.posts.upload_path');
+                $path = Storage::disk('public')->putFile($folder, $request->file('image'));
+                $data['image'] = $path;
+                $post = Post::create($data);
             }
             DB::commit();
         } catch (Exception $e) {
