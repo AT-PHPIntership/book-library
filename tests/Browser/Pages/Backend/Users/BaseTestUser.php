@@ -2,12 +2,12 @@
 
 namespace Tests\Browser\Pages\Backend\Users;
 
+use DB;
+use App\Model\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Faker\Factory as Faker;
-use App\Model\User;
-use DB;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class BaseTestUser extends DuskTestCase
 {

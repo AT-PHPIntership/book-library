@@ -2,16 +2,16 @@
 
 namespace Tests\Browser\Pages\Backend\Posts;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Faker\Factory as Faker;
+use DB;
 use App\Model\User;
 use App\Model\Book;
 use App\Model\Post;
-use App\Model\Category;
 use App\Model\Donator;
-use DB;
+use Tests\DuskTestCase;
+use App\Model\Category;
+use Laravel\Dusk\Browser;
+use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AdminDeletePostTest extends DuskTestCase
 {
@@ -41,7 +41,7 @@ class AdminDeletePostTest extends DuskTestCase
         
         $this->browse(function (Browser $browser) use($post) {
             $browser->visit('/admin/posts/' . $post->id)
-                    ->assertPathIs('/login');
+                ->assertPathIs('/login');
         });
     }
 
@@ -56,12 +56,12 @@ class AdminDeletePostTest extends DuskTestCase
         
         $this->browse(function (Browser $browser) use($post) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/posts/' . $post->id)
-                    ->resize(1200, 1600)
-                    ->assertSee('Detail Post')
-                    ->click('button.fa-trash-o')
-                    ->pause(1000)
-                    ->assertSee('Confirm Delete !');
+                ->visit('/admin/posts/' . $post->id)
+                ->resize(1200, 1600)
+                ->assertSee('Detail Post')
+                ->click('button.fa-trash-o')
+                ->pause(1000)
+                ->assertSee('Confirm Delete !');
         });
     }
 
@@ -76,14 +76,14 @@ class AdminDeletePostTest extends DuskTestCase
         
         $this->browse(function (Browser $browser) use($post) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/posts/' . $post->id)
-                    ->resize(1200, 1600)
-                    ->click('button.fa-trash-o')
-                    ->pause(1000)
-                    ->assertSee('Confirm Delete !')
-                    ->press('Close')
-                    ->pause(1000)
-                    ->assertDontSee('Confirm Delete !');
+                ->visit('/admin/posts/' . $post->id)
+                ->resize(1200, 1600)
+                ->click('button.fa-trash-o')
+                ->pause(1000)
+                ->assertSee('Confirm Delete !')
+                ->press('Close')
+                ->pause(1000)
+                ->assertDontSee('Confirm Delete !');
         });
     }
 
@@ -98,14 +98,14 @@ class AdminDeletePostTest extends DuskTestCase
         
         $this->browse(function (Browser $browser) use($post) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/posts/' . $post->id)
-                    ->resize(1200, 1600)
-                    ->click('button.fa-trash-o')
-                    ->pause(1000)
-                    ->assertSee('Confirm Delete !')
-                    ->press('OK')
-                    ->assertSee('Delete success !')
-                    ->visit('/admin/posts');
+                ->visit('/admin/posts/' . $post->id)
+                ->resize(1200, 1600)
+                ->click('button.fa-trash-o')
+                ->pause(1000)
+                ->assertSee('Confirm Delete !')
+                ->press('OK')
+                ->assertSee('Delete success !')
+                ->visit('/admin/posts');
         });
     }
 
@@ -120,14 +120,14 @@ class AdminDeletePostTest extends DuskTestCase
         
         $this->browse(function (Browser $browser) use($post) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/posts/' . $post->id)
-                    ->resize(1200, 1600);
+                ->visit('/admin/posts/' . $post->id)
+                ->resize(1200, 1600);
             $post->delete();
             $browser->click('button.fa-trash-o')
-                    ->pause(1000)
-                    ->assertSee('Confirm Delete !')
-                    ->press('OK')
-                    ->assertDontSee('Delete success !');
+                ->pause(1000)
+                ->assertSee('Confirm Delete !')
+                ->press('OK')
+                ->assertDontSee('Delete success !');
         });
     }
 

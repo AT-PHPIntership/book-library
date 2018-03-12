@@ -2,18 +2,18 @@
 
 namespace Tests\Browser\Pages\Books;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use App\Model\Category;
-use App\Model\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Facebook\WebDriver\WebDriverBy;
-use Illuminate\Http\UploadedFile;
-use App\Model\Book;
-use Faker\Factory as Faker;
 use DB;
-use App\Model\Donator;
 use Carbon\Carbon;
+use App\Model\User;
+use App\Model\Book;
+use App\Model\Donator;
+use Tests\DuskTestCase;
+use App\Model\Category;
+use Laravel\Dusk\Browser;
+use Faker\Factory as Faker;
+use Illuminate\Http\UploadedFile;
+use Facebook\WebDriver\WebDriverBy;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class EditBookTest extends DuskTestCase
 {
@@ -37,18 +37,18 @@ class EditBookTest extends DuskTestCase
         $book = Book::findOrFail(15);
         $this->browse(function (Browser $browser) use ($book) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/books')
-                    ->resize(1600, 2000)
-                    ->click('.btn-edit-15')
-                    ->assertSee('Edit Book')
-                    ->assertInputValue('name', $book->name)
-                    ->assertInputValue('author', $book->author)
-                    ->assertInputValue('price', $book->price)
-                    ->assertInputValue('year', $book->year)
-                    ->assertSelected('category_id', $book->category->id)
-                    ->assertInputValue('employee_code', $book->donator->employee_code)
-                    ->assertInputValue('description', $book->description)
-                    ->assertSourceHas('no-image.png');
+                ->visit('/admin/books')
+                ->resize(1600, 2000)
+                ->click('.btn-edit-15')
+                ->assertSee('Edit Book')
+                ->assertInputValue('name', $book->name)
+                ->assertInputValue('author', $book->author)
+                ->assertInputValue('price', $book->price)
+                ->assertInputValue('year', $book->year)
+                ->assertSelected('category_id', $book->category->id)
+                ->assertInputValue('employee_code', $book->donator->employee_code)
+                ->assertInputValue('description', $book->description)
+                ->assertSourceHas('no-image.png');
         });
     }  
 
@@ -78,18 +78,17 @@ class EditBookTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) use ($name, $category_id, $author, $price, $donator_id, $pages, $language, $year, $description, $image, $messages) {
             $browser->loginAs(User::find(1))
-                    ->visit('/admin/books/1/edit')
-                    ->resize(1600, 2000)
-                    ->type('name', $name)
-                    ->select('category_id', $category_id)
-                    ->type('author', $author)
-                    ->type('price', $price)
-                    ->type('employee_code', $donator_id)
-                    ->type('pages', $pages)
-                    ->select('language', $language)
-                    ->type('year', $year)
-                    ->attach('image', $image);
-
+                ->visit('/admin/books/1/edit')
+                ->resize(1600, 2000)
+                ->type('name', $name)
+                ->select('category_id', $category_id)
+                ->type('author', $author)
+                ->type('price', $price)
+                ->type('employee_code', $donator_id)
+                ->type('pages', $pages)
+                ->select('language', $language)
+                ->type('year', $year)
+                ->attach('image', $image);
             $this->typeInCKEditor('#cke_description iframe', $browser, $description);
                         
             $browser->press('Submit');
@@ -111,17 +110,17 @@ class EditBookTest extends DuskTestCase
         $category = Category::findOrFail(2);
         $this->browse(function (Browser $browser) use ($category, $book) {
             $browser->loginAs(User::find(1))
-                    ->visit('admin/books/1/edit')
-                    ->resize(1600, 2000)
-                    ->type('name', 'Example Book')
-                    ->select('category_id', $category->id)
-                    ->type('author', 'Example Author')
-                    ->type('price', '10009')
-                    ->type('employee_code', 'AT-00001')
-                    ->type('pages', '222')
-                    ->select('language', 1)
-                    ->type('year', '2018')
-                    ->attach('image', $this->fakeImage());
+                ->visit('admin/books/1/edit')
+                ->resize(1600, 2000)
+                ->type('name', 'Example Book')
+                ->select('category_id', $category->id)
+                ->type('author', 'Example Author')
+                ->type('price', '10009')
+                ->type('employee_code', 'AT-00001')
+                ->type('pages', '222')
+                ->select('language', 1)
+                ->type('year', '2018')
+                ->attach('image', $this->fakeImage());
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
                 
             $browser->press('Submit')
@@ -154,18 +153,18 @@ class EditBookTest extends DuskTestCase
         $category = Category::findOrFail(1);
         $this->browse(function (Browser $browser) use ($category, $book) {
             $browser->loginAs(User::find(1))
-                    ->visit('admin/books/1/edit')
-                    ->resize(1600, 2000)
-                    ->type('name', 'Example Book')
-                    ->select('category_id', $category->id)
-                    ->type('author', 'Example Author')
-                    ->type('price', '10009')
-                    ->type('employee_code', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lore Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lore')
-                    ->type('pages', '222')
-                    ->select('language', 1)
-                    ->type('year', '2018')
-                    ->attach('image', $this->fakeImage());
+                ->visit('admin/books/1/edit')
+                ->resize(1600, 2000)
+                ->type('name', 'Example Book')
+                ->select('category_id', $category->id)
+                ->type('author', 'Example Author')
+                ->type('price', '10009')
+                ->type('employee_code', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lore Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lore')
+                ->type('pages', '222')
+                ->select('language', 1)
+                ->type('year', '2018')
+                ->attach('image', $this->fakeImage());
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
                 
             $browser->press('Submit')
@@ -195,18 +194,17 @@ class EditBookTest extends DuskTestCase
     public function testPressBackButton() {
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('admin/books')
-                    ->resize(1600, 2000)
-                    ->clickLink(2)
-                    ->click('.btn-edit-1')
-                    ->clickLink('Back')
-                    ->assertQueryStringHas('page', 2);
-
+                ->visit('admin/books')
+                ->resize(1600, 2000)
+                ->clickLink(2)
+                ->click('.btn-edit-1')
+                ->clickLink('Back')
+                ->assertQueryStringHas('page', 2);
             $browser->visit('admin/books/1/edit')
-                    ->resize(1600, 2000)
-                    ->clickLink('Back')
-                    ->clickLink(2)
-                    ->assertQueryStringHas('page', 2);
+                ->resize(1600, 2000)
+                ->clickLink('Back')
+                ->clickLink(2)
+                ->assertQueryStringHas('page', 2);
         });
     }
 
@@ -220,26 +218,26 @@ class EditBookTest extends DuskTestCase
         $category = Category::findOrFail(1);
         $this->browse(function (Browser $browser) use ($book, $category) {
             $browser->loginAs(User::find(1))
-                    ->visit('admin/books/1/edit')
-                    ->resize(1600, 2000)
-                    ->type('name', 'Example Book')
-                    ->select('category_id', $category->id)
-                    ->type('author', 'Example Author')
-                    ->type('price', '10009')
-                    ->type('employee_code', 'AT-00001')
-                    ->type('year', '1996')
-                    ->attach('image', $this->fakeImage());
+                ->visit('admin/books/1/edit')
+                ->resize(1600, 2000)
+                ->type('name', 'Example Book')
+                ->select('category_id', $category->id)
+                ->type('author', 'Example Author')
+                ->type('price', '10009')
+                ->type('employee_code', 'AT-00001')
+                ->type('year', '1996')
+                ->attach('image', $this->fakeImage());
             $this->typeInCKEditor('#cke_description iframe', $browser, 'abc');
 
             $browser->press('Reset')
-                    ->assertInputValue('name', $book->name)
-                    ->assertNotSelected('category_id', $category->name)
-                    ->assertInputValue('author', $book->author)
-                    ->assertInputValue('price', $book->price)
-                    ->assertInputValue('employee_code', $book->donator->employee_code)
-                    ->assertInputValue('year', $book->year)
-                    ->assertInputValue('description', $book->description)
-                    ->assertSourceHas('no-image.png');
+                ->assertInputValue('name', $book->name)
+                ->assertNotSelected('category_id', $category->name)
+                ->assertInputValue('author', $book->author)
+                ->assertInputValue('price', $book->price)
+                ->assertInputValue('employee_code', $book->donator->employee_code)
+                ->assertInputValue('year', $book->year)
+                ->assertInputValue('description', $book->description)
+                ->assertSourceHas('no-image.png');
         });
     }
 
@@ -283,10 +281,10 @@ class EditBookTest extends DuskTestCase
     public function fakeUser() {
         $user = [
             'employee_code' => 'AT0286',
-            'name'          => 'SA Dinh Thi.',
-            'email'         => 'sa.as@asiantech.vn',
-            'team'          => 'SA',
-            'role'          => 1,
+            'name' => 'SA Dinh Thi.',
+            'email' => 'sa.as@asiantech.vn',
+            'team' => 'SA',
+            'role' => 1,
         ];
         $user = factory(User::class, 1)->create($user);
     }
