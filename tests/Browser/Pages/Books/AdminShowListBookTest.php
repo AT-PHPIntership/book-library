@@ -2,16 +2,16 @@
 
 namespace Tests\Browser\tests\Browser\Pages\BackEnd\Books;
 
-use App\Model\Book;
-use App\Model\Borrowing;
-use App\Model\Category;
-use App\Model\Donator;
 use App\Model\User;
+use App\Model\Book;
+use App\Model\Donator;
+use App\Model\Category;
 use Tests\DuskTestCase;
+use App\Model\Borrowing;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AdminShowListBookTest extends DuskTestCase
 {
@@ -61,10 +61,9 @@ class AdminShowListBookTest extends DuskTestCase
         $this->makeListOfBook(10);
         $this->browse(function (Browser $browser) {
         $browser->loginAs(User::find(1))
-                ->visit('/admin/books/')
-                ->resize(900, 1600)
-                ->assertTitle('Admin | LIST OF BOOK')
-                ->screenshot('sample-screenshot');
+            ->visit('/admin/books/')
+            ->resize(900, 1600)
+            ->assertTitle('Admin | LIST OF BOOK');
         $elements = $browser->elements('#table-book tbody tr');
         $this->assertCount(10, $elements);
         $this->assertNull($browser->element('.pagination'));
@@ -82,11 +81,9 @@ class AdminShowListBookTest extends DuskTestCase
         $this->makeListOfBook(15);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
-                            ->visit('/admin/books')
-                            ->resize(900, 1600)
-                            ->click('.pagination li:nth-child(3) a')
-                            ->screenshot('sample-screenshot');
-
+                ->visit('/admin/books')
+                ->resize(900, 1600)
+                ->click('.pagination li:nth-child(3) a');
             $elements = $page->elements('#table-book tbody tr');
             $this->assertCount(5, $elements);
             $browser->assertQueryStringHas('page', 2);
@@ -104,10 +101,10 @@ class AdminShowListBookTest extends DuskTestCase
         $this->makeUser();
         $this->browse(function (Browser $browser) {
         $browser->loginAs(User::find(1))
-                ->visit('/admin/books')
-                ->resize(900, 1600)
-                ->assertSee('Sorry, Not be found.')
-                ->assertTitle('Admin | LIST OF BOOK');
+            ->visit('/admin/books')
+            ->resize(900, 1600)
+            ->assertSee('Sorry, Not be found.')
+            ->assertTitle('Admin | LIST OF BOOK');
         $elements = $browser->elements('#table-book tbody tr');
         $this->assertNull($browser->element('.pagination'));
         });

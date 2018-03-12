@@ -120,7 +120,7 @@ class Post extends Model
     }
 
     /**
-    * Custom format lable type by review, status, find book
+     * Custom format lable type by review, status, find book
      *
      * @return mixed
      */
@@ -137,5 +137,35 @@ class Post extends Model
                 return ['#settings', __('post.find_book')] ;
                 break;
         }
+    }
+
+    /**
+     * Get post data
+     *
+     * @param integer $type         post's type
+     * @param array   $addingFields adding some needed fields
+     *
+     * @return App\Model\Post
+     */
+    public static function getPostsByType($type, $addingFields = null)
+    {
+        $fields = [
+            'posts.id',
+            'posts.content',
+            'posts.type',
+            'users.name',
+            'users.team',
+            'users.avatar_url',
+            'posts.created_at'
+        ];
+
+        if ($addingFields != null) {
+            $fields = array_merge($fields, $addingFields);
+        }
+
+        return self::select($fields)->withCount('favorites')
+            ->withCount('comments')
+            ->where('posts.type', $type)
+            ->join('users', 'posts.user_id', 'users.id');
     }
 }
