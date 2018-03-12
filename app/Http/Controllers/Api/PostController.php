@@ -50,24 +50,31 @@ class PostController extends ApiController
             // Create rating when post's type is review
             if ($request->type == Post::REVIEW_TYPE) {
                 $ratingPost = Rating::create($request->all());
+            $data = [
+                'reviewPost' => $post,
+                'ratingPost' => $ratingPost ?? null,
+            ];
             }
+
             // Create image when choose find type
             if ($request->type == Post::FIND_TYPE) {
-                $data = $request->toArray();
-                $folder = config('image.posts.upload_path');
-                $path = Storage::disk('public')->putFile($folder, $request->file('image'));
-                $data['image'] = $path;
+                $data = $request->except(['image']);
+                if (isset($request->image)) {
+                    $folder = config('image.posts.upload_path');
+                    $path = Storage::disk('public')->putFile($folder, $request->file('image'));
+                    $data['image'] = $path;
+                }
                 $post = Post::create($data);
+                $data = [
+                    'data' => $post,
+                ];
             }
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
             \Log::error($e);
         }
-        $data = [
-            'reviewPost' => $post,
-            'ratingPost' => $ratingPost ?? null,
-        ];
+
         return metaResponse($data, Response::HTTP_CREATED);
     }
     
