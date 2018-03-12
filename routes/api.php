@@ -16,6 +16,7 @@ use Illuminate\Routing\middleware;
 Route::group(['namespace' => 'Api'], function () {
     Route::post('login', 'LoginController@login');    
     Route::group(['middleware' => 'apiLogin'], function () {
+        Route::resource('posts', 'PostController');
         Route::get('users/{id}', 'UserController@show');
         Route::put('comments/{id}', 'CommentController@update');
     });

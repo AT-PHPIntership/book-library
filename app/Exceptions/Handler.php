@@ -58,7 +58,7 @@ class Handler extends ExceptionHandler
         $code = 0;
         if ($request->route() != null) {
             if ($request->route()->getPrefix() === 'api') {
-                 //error 400
+                //error 400
                 if ($exception instanceof ValidationException) {
                     $code = Response::HTTP_BAD_REQUEST;
                     $message = $exception->errors();
@@ -108,10 +108,10 @@ class Handler extends ExceptionHandler
     public function showMessageAndCode($code, $message)
     {
         return response()->json([
-                    'meta' => [
-                        'code' => $code,
-                        'message' => $message
-                    ],
-                ], $code);
+            'meta' => [
+                'code' => $code,
+                'message' => $message
+            ],
+        ], $code);
     }
 }
