@@ -2,21 +2,23 @@
 
 ### `GET` Book
 ```
-/api/books
+/api/books?category=1&language=en&search=abc
 ```
 Get list books with paginate
 
-#### Request Headers
+#### Request header
 | Key | Value |
 |---|---|
-|Accept|application\json
+| Accept | application/json |
+| Content-type | application/json |
+#### Request body
+| Key | Type | Requried | Example |
+|---|---|---|
+| category | number | optional | 1 |
+| language | string | optional | am |
+| search | string | optional | a |
 
-#### Request Body
-| Key | Value |
-|---|---|
-| content | Content |
-
-#### Response
+#### Response Exist
 ```json
 {
     "meta": {
@@ -49,7 +51,28 @@ Get list books with paginate
     "to": 20,
     "total": 2,
 }
+```
 
+#### Response Not Exist
+```json
+{
+    "meta": {
+        "message": null,
+        "code": 200
+    },
+    "current_page": 1,
+    "data": [],
+    "first_page_url": "http://book.library.org/api/books?category=100&page=1",
+    "from": null,
+    "last_page": 1,
+    "last_page_url": "http://book.library.org/api/books?category=100&page=1",
+    "next_page_url": null,
+    "path": "http://book.library.org/api/books",
+    "per_page": 20,
+    "prev_page_url": null,
+    "to": null,
+    "total": 0
+}
 ```
 
 ### `GET` Top books borrow
@@ -299,6 +322,8 @@ Get book reviews
             "type": 1,
             "name": "Book's name",
             "team": "SA",
+            "rating": 2,
+            "created_at": "2018-03-01 07:36:37",
             "favorites_count": 1,
             "comments_count": 0
         },
@@ -308,6 +333,8 @@ Get book reviews
             "type": 1,
             "name": "Book's name",
             "team": "PHP",
+            "rating": 2,
+            "created_at": "2018-03-01 07:36:37",
             "favorites_count": 0,
             "comments_count": 0
         },

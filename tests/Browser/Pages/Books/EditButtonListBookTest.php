@@ -3,15 +3,15 @@
 namespace Tests\Browser;
 
 use App\Model\Book;
-use App\Model\Borrowing;
-use App\Model\Category;
-use App\Model\Donator;
 use App\Model\User;
+use App\Model\Donator;
+use App\Model\Category;
 use Tests\DuskTestCase;
+use App\Model\Borrowing;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class EditButtonShowBookTest extends DuskTestCase
 {

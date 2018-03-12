@@ -3,9 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryUpdateRequest extends FormRequest
+class CheckFilterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,15 +17,23 @@ class CategoryUpdateRequest extends FormRequest
     {
         return true;
     }
+
     /**
-     * Get the validation rules that apply to the request edit name category.
+     * The URI to redirect to if validation fails.
+     *
+     * @var string
+     */
+    protected $redirect = '/admin/404';
+
+    /**
+     * Get the validation rules that apply to the request.
      *
      * @return array
      */
     public function rules()
     {
         return [
-            'name' => 'required|unique:categories|max:255',
+            'filter' => Rule::in(['donated', 'borrowed']),
         ];
     }
 }

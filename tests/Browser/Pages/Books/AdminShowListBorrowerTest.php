@@ -2,16 +2,16 @@
 
 namespace Tests\Browser\tests\Browser\Pages\BackEnd\Books;
 
-use App\Model\Book;
-use App\Model\Borrowing;
-use App\Model\Category;
-use App\Model\Donator;
 use App\Model\User;
+use App\Model\Book;
+use App\Model\Donator;
 use Tests\DuskTestCase;
+use App\Model\Category;
+use App\Model\Borrowing;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AdminShowListBorrowingsTest extends DuskTestCase
 {
@@ -77,8 +77,7 @@ class AdminShowListBorrowingsTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                 ->visit('/admin/borrowings/')
                 ->resize(900, 1600)
-                ->assertTitle('Admin | LIST OF BORROWINGS')
-                ->screenshot('sample-screenshot');
+                ->assertTitle('Admin | LIST OF BORROWINGS');
             $elements = $browser->elements('#table-borrowings tbody tr');
             $this->assertCount(10, $elements);
             $this->assertNull($browser->element('.pagination'));
@@ -98,9 +97,7 @@ class AdminShowListBorrowingsTest extends DuskTestCase
             $page = $browser->loginAs(User::find(1))
                 ->visit('/admin/borrowings/')
                 ->resize(900, 1600)
-                ->click('.pagination li:nth-child(3) a')
-                ->screenshot('sample-screenshot');
-
+                ->click('.pagination li:nth-child(3) a');
             $elements = $page->elements('#table-borrowings tbody tr');
             $this->assertCount(5, $elements);
             $browser->assertQueryStringHas('page', 2);

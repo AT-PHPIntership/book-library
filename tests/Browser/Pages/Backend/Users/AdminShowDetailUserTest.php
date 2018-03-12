@@ -2,9 +2,9 @@
 
 namespace Tests\Browser\Pages\Backend\Users;
 
+use App\Model\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use App\Model\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AdminShowDetailUserTest extends DuskTestCase

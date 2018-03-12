@@ -41,6 +41,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::post('mail/{borrowing}/send', 'SendMailController@sendMail')->name('sendMail');
     //Excel
     Route::post('books/import', 'BookController@import')->name('books.import');
+    Route::get('404', function () {
+        return view('backend.errors.404'); 
+    });
 });
 
 //Api

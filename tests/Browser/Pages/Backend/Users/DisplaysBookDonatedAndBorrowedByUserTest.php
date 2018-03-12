@@ -2,16 +2,16 @@
 
 namespace Tests\Browser\Backend\Users;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Model\User;
 use App\Model\Book;
 use App\Model\Donator;
-use App\Model\Borrowing;
 use App\Model\Category; 
-use Illuminate\Support\Facades\DB;
+use Tests\DuskTestCase;
+use App\Model\Borrowing;
+use Laravel\Dusk\Browser;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
 {
@@ -110,10 +110,10 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('admin/books?uid=2&filter=donated')
-                    ->assertSee('LIST OF BOOK')
-                    ->assertSee('Sorry, Not be found.')
-                    ->assertMissing('.pagination');
+                ->visit('admin/books?uid=2&filter=donated')
+                ->assertSee('LIST OF BOOK')
+                ->assertSee('Sorry, Not be found.')
+                ->assertMissing('.pagination');
         });
     }
 
@@ -127,10 +127,10 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('admin/books?uid=1&filter=donated')
-                    ->assertSee('LIST OF BOOK')
-                    ->assertQueryStringHas('uid', '1')
-                    ->assertQueryStringHas('filter', 'donated');
+                ->visit('admin/books?uid=1&filter=donated')
+                ->assertSee('LIST OF BOOK')
+                ->assertQueryStringHas('uid', '1')
+                ->assertQueryStringHas('filter', 'donated');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
         });
@@ -146,10 +146,10 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('admin/books?uid=1&filter=borrowed')
-                    ->assertSee('LIST OF BOOK')
-                    ->assertQueryStringHas('uid', '1')
-                    ->assertQueryStringHas('filter', 'borrowed');
+                ->visit('admin/books?uid=1&filter=borrowed')
+                ->assertSee('LIST OF BOOK')
+                ->assertQueryStringHas('uid', '1')
+                ->assertQueryStringHas('filter', 'borrowed');
             $elements = $browser->elements('#table-book tbody tr');
             $this->assertCount(1, $elements);
         });
@@ -165,10 +165,10 @@ class DisplaysDonatedAndBorrowedBooksByUserTest extends DuskTestCase
         $this->makeData();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('admin/books?uid=2&filter=borrowed')
-                    ->assertSee('LIST OF BOOK')
-                    ->assertSee('Sorry, Not be found.')
-                    ->assertMissing('.pagination');
+                ->visit('admin/books?uid=2&filter=borrowed')
+                ->assertSee('LIST OF BOOK')
+                ->assertSee('Sorry, Not be found.')
+                ->assertMissing('.pagination');
         });
     }
 }
