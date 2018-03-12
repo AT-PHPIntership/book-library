@@ -50,10 +50,10 @@ class PostController extends ApiController
             // Create rating when post's type is review
             if ($request->type == Post::REVIEW_TYPE) {
                 $ratingPost = Rating::create($request->all());
-            $data = [
-                'reviewPost' => $post,
-                'ratingPost' => $ratingPost ?? null,
-            ];
+                $data = [
+                    'reviewPost' => $post,
+                    'ratingPost' => $ratingPost ?? null,
+                ];
             }
 
             // Create image when choose find type
