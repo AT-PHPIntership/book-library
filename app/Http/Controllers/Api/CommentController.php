@@ -62,7 +62,7 @@ class CommentController extends ApiController
             $comment = Comment::create($request->all());
         } catch (\Exception $e) {
             \Log::error($e);
-            return metaResponse(null, Response::HTTP_BAD_REQUEST, config('define.messages.error_occurred'));
+            return metaResponse(null, Response::HTTP_INTERNAL_SERVER_ERROR, config('define.messages.error_occurred'));
         }
 
         return metaResponse(['data' => $comment], Response::HTTP_CREATED);
