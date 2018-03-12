@@ -135,28 +135,24 @@ Get list of status of user with paginate
 ```
 Update post with all type include review, status, find book
 
-#### Request Headers
+#### Request headers
 | Key | Value |
 |---|---|
 |Accept|application\json
 |Authorization|{token_type} {access_token}|
 
-#### Parameters
-| Key | Type | Required | Description |
+#### Request Review Type body
+
+| Key | Type | Required | Example |
 |---|---|---|---|
-| number | Integer | required | Id of post |
+| id | Integer | required | 1 |
+| type | Integer | required | 1 |
+| content | String | required | this is content |
+| book_id | Integer | required | 1 |
+| rating_id | Integer | required | 1 |
+| rating | Integer | required | 5 |
 
-#### Sample Review Type Request
-```
-{
-    "type": 1,
-    "content": "new content",
-    "rating": 5,
-    "book_id": 1,
-    "rating_id": 1
-}
-```
-#### Sample Review Type Response
+#### Response Review Type
 ```
 {
     "content": "new content",
@@ -164,36 +160,34 @@ Update post with all type include review, status, find book
     "book_rating": 1
 }
 ```
+#### Status Type Request
 
-#### Sample Status Type Request
+| Key | Type | Required | Example |
+|---|---|---|---|
+| id | Integer | required | 2 |
+| type | Integer | required | 2 |
+| content | String | required | this is content |
+
+#### Response Status Type
 ```
 {
-    "type": 2,
-    "content": "new content"
-}
-```
-#### Sample Status Type Response
-```
-{
-    "content": "new content"
+    "content": "this is content",
 }
 ```
 
-#### Sample Find Book Type Request
+#### Find Book Type Request
+
+| Key | Type | Required | Example |
+|---|---|---|---|
+| id | Integer | required | 3 |
+| type | Integer | required | 3 |
+| content | String | required | this is content |
+| image | A binary file | optional | image/* |
+
+#### Response Find Book Type
 ```
 {
-    "type": 1,
-    "content": "new content",
-    "rating": 5,
-    "book_id": 1,
-    "rating_id": 1
-}
-```
-#### Sample Find Book Type Response
-```
-{
-    "content": "new content",
-    "user_rating": "5",
-    "book_rating": 1
+    "content": "this is content",
+    "image": "image/books/a2874d56493aa387d503408a772500ad.jpg",
 }
 ```
