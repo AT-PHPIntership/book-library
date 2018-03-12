@@ -142,11 +142,12 @@ class Post extends Model
     /**
      * Get post data
      *
-     * @param array $addingFields adding some needed fields
+     * @param integer $type         post's type
+     * @param array   $addingFields adding some needed fields
      *
      * @return App\Model\Post
      */
-    public static function getPost($addingFields = null)
+    public static function getPostsByType($type = null, $addingFields = null)
     {
         $fields = [
             'posts.id',
@@ -161,11 +162,14 @@ class Post extends Model
         if ($addingFields != null) {
             $fields = array_merge($fields, $addingFields);
         }
+        
+        $posts = self::select($fields)->withCount('favorites')
+            ->withCount('comments')
+            ->join('users', 'posts.user_id', 'users.id');
 
-        return self::select($fields)->withCount('favorites')
-                                    ->withCount('comments')
-                                    ->join('users', 'posts.user_id', 'users.id')
-                                    ->leftJoin('favorites', 'users.id', 'favorites.user_id')
-                                    ->leftJoin('books', 'posts.book_id', 'books.id');
+        if ($type != null) {
+            $posts = $posts->where('posts.type', $type);
+        }
+        return $posts;
     }
 }

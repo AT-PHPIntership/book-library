@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Model\QrCode;
-use Excel;
 use DB;
+use Excel;
+use App\Model\QrCode;
+use App\Http\Controllers\Controller;
 
 class QrcodeController extends Controller
 {
@@ -46,7 +46,6 @@ class QrcodeController extends Controller
                 DB::raw("CONCAT(qrcodes.prefix, qrcodes.code_id) AS QR_Codes")
             ];
             $datas = QrCode::select($fields)->QRCodesNotPrinted()->join('books', 'qrcodes.book_id', 'books.id')->get();
-            
             if ($datas->isNotEmpty()) {
                 QrCode::where('status', Qrcode::QR_CODE_NOT_PRINTED)
                     ->update(['status' => QrCode::QR_CODE_PRINTED]);
