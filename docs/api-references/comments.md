@@ -130,3 +130,40 @@ Get review book comments
     "total": 7
 }
 ```
+
+### `DELETE` Delete Comment
+```
+/api/comments/{$id}
+
+ ```
+ Delete comment or subcomment.
+#### Request body
+| Key | Type | Required | Example|
+|---|---|---|---|
+| id | Integer | required | 1
+
+#### Sample Response
+```json
+{
+ "meta" : {
+    "message" : "Delete Successful",
+    "code" : 204
+  }
+}
+```
+```json
+{
+    "meta": {
+        "message": "Must not Delete",
+        "code": 401
+    }
+}
+```
+```json
+{
+    "meta": {
+        "message": "Page Not Found",
+        "code": 404
+    }
+}
+```
