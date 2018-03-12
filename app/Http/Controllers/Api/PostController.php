@@ -92,18 +92,14 @@ class PostController extends ApiController
             'books.avg_rating',
             'posts.updated_at',
         ];
-        $posts = Post::getPostsByType(null, $fields)
+        $userId = User::findorFail($id)->id;
+        $postTypes = config('define.type_post');
+        $checkType = in_array($request->type, $postTypes);
+        $type = $checkType ? $request->type : null;
+        $posts = Post::getPostsByType($type, $fields)
             ->leftJoin('books', 'books.id', '=', 'posts.book_id')
-            ->where('user_id', $id);
-        if ($request->has('type')) {
-            $postTypes = config('define.type_post');
-            $type = $request->type;
-            foreach ($postTypes as $postType) {
-                if ($postType == $type) {
-                    $posts = $posts->where('type', $type);
-                }
-            }
-        }
+            ->where('user_id', $userId);
+        
         $posts = $posts->paginate(config('define.post.page_length'));
         return metaResponse($posts);
     }

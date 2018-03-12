@@ -47,5 +47,5 @@
             \App\Model\Post::REVIEW_TYPE, 
             \App\Model\Post::STATUS_TYPE, 
             \App\Model\Post::FIND_TYPE,       
-        ]
+        ],
     ];
