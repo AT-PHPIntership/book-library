@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Model\Post;
 use Symfony\Component\HttpFoundation\Response;
 use App\Model\User;
-use App\Http\Requests\Api\ApiNewCommentRequest;
+use App\Http\Requests\Api\NewCommentRequest;
 
 class CommentController extends ApiController
 {
@@ -47,12 +47,12 @@ class CommentController extends ApiController
     /**
      * Create api new comment.
      *
-     * @param Request $request CreateCommentRequest
-     * @param Post    $post    Comment of this post
+     * @param NewCommentRequest $request Request add new comment
+     * @param Post              $post    Comment of this post
      *
      * @return Response
      */
-    public function store(ApiNewCommentRequest $request, Post $post)
+    public function store(NewCommentRequest $request, Post $post)
     {
         $request['user_id'] = $this->user->id;
         $request['post_id'] = $post->id;

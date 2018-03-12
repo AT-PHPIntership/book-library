@@ -5,7 +5,7 @@ namespace App\Http\Requests\Api;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class ApiNewCommentRequest extends FormRequest
+class NewCommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
