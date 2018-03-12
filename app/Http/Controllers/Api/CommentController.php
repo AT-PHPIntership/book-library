@@ -65,7 +65,6 @@ class CommentController extends ApiController
             return metaResponse(null, Response::HTTP_BAD_REQUEST, config('define.messages.error_occurred'));
         }
 
-        $comment = Comment::find($comment->id);
         return metaResponse(['data' => $comment], Response::HTTP_CREATED);
     }
     
