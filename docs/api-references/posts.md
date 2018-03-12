@@ -128,3 +128,72 @@ Get list of status of user with paginate
     }
 }
 ```
+
+### `POST` Update all type post
+```
+/api/posts/{id}
+```
+Update post with all type include review, status, find book
+
+#### Request Headers
+| Key | Value |
+|---|---|
+|Accept|application\json
+|Authorization|{token_type} {access_token}|
+
+#### Parameters
+| Key | Type | Required | Description |
+|---|---|---|---|
+| number | Integer | required | Id of post |
+
+#### Sample Review Type Request
+```
+{
+    "type": 1,
+    "content": "new content",
+    "rating": 5,
+    "book_id": 1,
+    "rating_id": 1
+}
+```
+#### Sample Review Type Response
+```
+{
+    "content": "new content",
+    "user_rating": "5",
+    "book_rating": 1
+}
+```
+
+#### Sample Status Type Request
+```
+{
+    "type": 2,
+    "content": "new content"
+}
+```
+#### Sample Status Type Response
+```
+{
+    "content": "new content"
+}
+```
+
+#### Sample Find Book Type Request
+```
+{
+    "type": 1,
+    "content": "new content",
+    "rating": 5,
+    "book_id": 1,
+    "rating_id": 1
+}
+```
+#### Sample Find Book Type Response
+```
+{
+    "content": "new content",
+    "user_rating": "5",
+    "book_rating": 1
+}
+```
