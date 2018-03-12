@@ -17,6 +17,10 @@ class AddNewReviewPost extends TestCase
 {
     use DatabaseMigrations;
 
+    private $user;
+    private $bookId;
+    private $faker;
+
     /**
      * Receive status code 200 in add posts page
      *
@@ -68,8 +72,7 @@ class AddNewReviewPost extends TestCase
      */
     public function testIfCreateFail(){
         $this->makeData();
-        $user = User::find(1);
-        $response = $this->POST('/api/posts',['content' => 'abc','rating' => '1', 'book_id' => '2', 'type' => '1'], ['token' => $user->access_token]);
+        $response = $this->POST('/api/posts',['content' => 'A','book_id' => $this->bookId,'rating' => $this->faker->numberBetween($min = 1, $max = 5), 'type' => POST::REVIEW_TYPE], ['token' => $this->user['access_token']]);
         $response->assertJsonStructure([
                 'meta' => [
                     'message',
@@ -85,10 +88,9 @@ class AddNewReviewPost extends TestCase
      */
     public function testStructureAddReviewPost(){
         $this->makeData();
-        $user = User::find(1);
-        $response = $this->POST('/api/posts',['content' => 'abc12345678','rating' => '1', 'book_id' => '1', 'type' => '1'], ['token' => $user->access_token]);
+        $response = $this->POST('/api/posts',['content' => $this->faker->text,'rating' => $this->faker->numberBetween($min = 1, $max = 5), 'book_id' => $this->bookId, 'type' => POST::REVIEW_TYPE], ['token' => $this->user['access_token']]);
         $response->assertJsonStructure($this->jsonStructureAddReviewPost());
-        $response->assertStatus(Response::HTTP_CREATED);
+        $response->assertStatus(Response::HTTP_OK);
         $this->checkDataCreated($response);
     }
 
@@ -104,7 +106,7 @@ class AddNewReviewPost extends TestCase
              'content' => $apiData->reviewPost->content,
              'book_id' => $apiData->reviewPost->book_id,
              'type' => $apiData->reviewPost->type,
-             'user_id' => $apiData->reviewPost -> user_id,
+             'user_id' => $apiData->reviewPost->user_id,
              'updated_at' => $apiData->reviewPost->updated_at,
              'created_at' => $apiData->reviewPost->created_at,
              'id' => $apiData->reviewPost->id,
@@ -128,21 +130,19 @@ class AddNewReviewPost extends TestCase
      */
     public function makeData()
     {
-        $faker = Faker::create();
+        $this->faker = Faker::create();
 
         $category = factory(Category::class)->create();
 
-        $user = factory(User::class)->create([
-            'access_token' => $faker->name
-        ]);
+        $this->user = factory(User::class)->create();
 
         $donator = factory(Donator::class)->create([
-            'user_id' => 1,
+            'user_id' => $this->user->id,
         ]);
 
-        $book = factory(Book::class)->create([
-            'category_id' => 1,
-            'donator_id' => 1,
-        ]);
+        $this->bookId = factory(Book::class)->create([
+            'category_id' => $category->id,
+            'donator_id' => $donator->id,
+        ])['id'];
     }
 }

@@ -29,6 +29,7 @@ $factory->define(App\Model\User::class, function (Faker $faker) {
         'email'         => $faker->safeEmail,
         'team'          => $team[array_rand($team)],
         'role'          => rand(0, 1),
+        'access_token'  => $faker->name,
     ];
 });
 
