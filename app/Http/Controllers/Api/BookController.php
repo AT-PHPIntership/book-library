@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use Exception;
 use DB;
-use App\Model\Book;
+use Exception;
+use Carbon\Carbon;
 use App\Model\Post;
-use App\Model\Borrowing;
+use App\Model\Book;
 use App\Model\QrCode;
 use App\Model\Rating;
 use App\Model\Comment;
 use App\Model\Favorite;
-use Carbon\Carbon;
-use Illuminate\Http\Response;
+use App\Model\Borrowing;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 
 class BookController extends Controller
 {
@@ -55,7 +55,6 @@ class BookController extends Controller
             'description',
             'avg_rating'
         ];
-
         $detailsBook = Book::select($fields)->findOrFail($id);
         return metaResponse(['data' => $detailsBook]);
     }
