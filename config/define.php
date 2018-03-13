@@ -22,7 +22,8 @@
             '405_method_error' => 'Method Failure',
             '500_server_error' => 'Server Error',
             'token_not_found' => 'AccessToken Not Found',
-            '440_login_timeout' => 'Login Timeout'
+            '440_login_timeout' => 'Login Timeout',
+            'error_occurred' => 'Has Error Occurred, Please Try Again'
         ],
         'book' => [
             'item_limit' => 20,
@@ -47,5 +48,5 @@
             \App\Model\Post::REVIEW_TYPE, 
             \App\Model\Post::STATUS_TYPE, 
             \App\Model\Post::FIND_TYPE,       
-        ]
+        ],
     ];

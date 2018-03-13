@@ -80,11 +80,11 @@ class PostController extends ApiController
      * Get list post of user
      *
      * @param Request $request request
-     * @param int     $id      id of user
+     * @param User    $user    instance of User
      *
      * @return \Illuminate\Http\Response
      */
-    public function getListPostOfUser(Request $request, $id)
+    public function getListPostOfUser(Request $request, User $user)
     {
         $fields = [
             'books.name as book_name',
@@ -92,18 +92,10 @@ class PostController extends ApiController
             'books.avg_rating',
             'posts.updated_at',
         ];
-        $posts = Post::getPostsByType(null, $fields)
+        $userId = $user->id;
+        $posts = Post::getPostsByType($request->type, $fields)
             ->leftJoin('books', 'books.id', '=', 'posts.book_id')
-            ->where('user_id', $id);
-        if ($request->has('type')) {
-            $postTypes = config('define.type_post');
-            $type = $request->type;
-            foreach ($postTypes as $postType) {
-                if ($postType == $type) {
-                    $posts = $posts->where('type', $type);
-                }
-            }
-        }
+            ->where('user_id', $userId);
         $posts = $posts->paginate(config('define.post.page_length'));
         return metaResponse($posts);
     }
