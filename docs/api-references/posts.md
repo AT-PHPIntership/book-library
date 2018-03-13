@@ -129,6 +129,38 @@ Get list of status of user with paginate
 }
 ```
 
+### `POST` Update all type post
+```
+/api/posts/{id}
+```
+Update post with all type include review, status, find book
+
+#### Request headers
+| Key | Value |
+|---|---|
+|Accept|application\json
+|Authorization|{token_type} {access_token}|
+
+#### Request body
+
+| Key | Type | Review Type | Status Type | Find Book Type | Example |
+|---|---|---|---|---|---|
+| id | Integer | required | required | required | 1 |
+| type | Integer | required (1) | required (2) | required (3) | 1 |
+| content | String | required if rating is null | yes | yes | this is content |
+| rating_id | Integer | required | - | - | 1 |
+| rating | Integer | required if content is null | - | - | 5 |
+| image | A binary file | - | - | not required | image/* |
+
+#### Response
+```
+{
+    "content": "new content",
+    "user_rating": "5",
+    "book_rating": 1,
+    "image": "image/books/a2874d56493aa387d503408a772500ad.jpg"
+}
+```
 
 ### `DELETE` Post
 ```
