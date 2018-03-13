@@ -141,53 +141,22 @@ Update post with all type include review, status, find book
 |Accept|application\json
 |Authorization|{token_type} {access_token}|
 
-#### Request Review Type body
+#### Request body
 
-| Key | Type | Required | Example |
-|---|---|---|---|
-| id | Integer | required | 1 |
-| type | Integer | required | 1 |
-| content | String | required | this is content |
-| book_id | Integer | required | 1 |
-| rating_id | Integer | required | 1 |
-| rating | Integer | required | 5 |
+| Key | Type | Review Type | Status Type | Find Book Type | Required | Example |
+|---|---|---|---|---|---|---|
+| id | Integer | yes | yes | yes | yes | 1 |
+| type | Integer | yes | yes | yes | yes | `1` if review, `2` if status, `3` if find book |
+| content | String | yes | yes | yes | yes if rating is null | this is content |
+| rating_id | Integer | yes | no | no | yes | 1 |
+| rating | Integer | yes | no | no | yes if content is null | 5 |
+| image | A binary file | no | no | yes | no | image/* |
 
-#### Response Review Type
+#### Response
 ```
 {
     "content": "new content",
     "user_rating": "5",
-    "book_rating": 1
+    "book_rating": 1,
+    "image": "image/books/a2874d56493aa387d503408a772500ad.jpg"
 }
-```
-#### Status Type Request
-
-| Key | Type | Required | Example |
-|---|---|---|---|
-| id | Integer | required | 2 |
-| type | Integer | required | 2 |
-| content | String | required | this is content |
-
-#### Response Status Type
-```
-{
-    "content": "this is content",
-}
-```
-
-#### Find Book Type Request
-
-| Key | Type | Required | Example |
-|---|---|---|---|
-| id | Integer | required | 3 |
-| type | Integer | required | 3 |
-| content | String | required | this is content |
-| image | A binary file | optional | image/* |
-
-#### Response Find Book Type
-```
-{
-    "content": "this is content",
-    "image": "image/books/a2874d56493aa387d503408a772500ad.jpg",
-}
-```
