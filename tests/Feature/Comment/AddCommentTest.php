@@ -9,7 +9,7 @@ use Faker\Factory as Faker;
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class AddCommentTest extends BaseCommentTest
+class AddCommentTest extends BaseTestComment
 {
     use DatabaseMigrations;
 

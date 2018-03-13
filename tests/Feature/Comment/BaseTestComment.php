@@ -14,7 +14,7 @@ use DB;
 use Faker\Factory as Faker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class BaseCommentTest extends TestCase
+class BaseTestComment extends TestCase
 {
     use DatabaseMigrations;
 
