@@ -11,7 +11,6 @@ use App\Model\Donator;
 use App\Model\Post;
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use DB;
 
 class AddNewReviewPost extends TestCase
 {
@@ -82,7 +81,7 @@ class AddNewReviewPost extends TestCase
     }
 
     /**
-     * Test structure of json.
+     * Test structure of add review post.
      *
      * @return void
      */
