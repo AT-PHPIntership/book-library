@@ -11,8 +11,6 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Exception;
 use DB;
-use App\Http\Requests\CheckTypeRequest;
-
 
 class PostController extends ApiController
 {
@@ -82,7 +80,7 @@ class PostController extends ApiController
      * Get list post of user
      *
      * @param Request $request request
-     * @param int     $id      id of user
+     * @param User    $user    instance of User
      *
      * @return \Illuminate\Http\Response
      */

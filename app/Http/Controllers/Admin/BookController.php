@@ -111,7 +111,7 @@ class BookController extends Controller
     
         if ($request->has('uid')) {
             if ($filter == null) {
-                $filter = Book::BORROWED;   
+                $filter = Book::BORROWED;
             }
             $books = Book::whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
                 $query->where('user_id', '=', $uid);
