@@ -21,6 +21,10 @@ class AdminSearchBorrowTest extends BaseTestUser
     const NUMBER_BORROWS = 6;
 
     private $adminUserToLogin;
+    private $category;
+    private $donator;
+    private $specialUser;
+    private $specialBook;
 
     /**
     * Override function setUp()
@@ -35,7 +39,7 @@ class AdminSearchBorrowTest extends BaseTestUser
     }
 
     /**
-     * test exist search box in list borrow
+     * Test exist search box in list borrow
      *
      * @return void
      */
@@ -54,7 +58,7 @@ class AdminSearchBorrowTest extends BaseTestUser
     }
 
     /**
-     * test search with empty data in input search and filter is all
+     * Test search with empty data in input search and filter is all
      *
      * @return void
      */
@@ -75,7 +79,7 @@ class AdminSearchBorrowTest extends BaseTestUser
     }
 
     /**
-     * test search with empty data in input search and filter is books
+     * Test search with empty data in input search and filter is books
      *
      * @return void
      */
@@ -96,7 +100,7 @@ class AdminSearchBorrowTest extends BaseTestUser
     }
 
     /**
-     * test search with empty data in input search and filter is users
+     * Test search with empty data in input search and filter is users
      *
      * @return void
      */
@@ -117,7 +121,7 @@ class AdminSearchBorrowTest extends BaseTestUser
     }
 
     /**
-     * test search have data in input search and filter is all but no results returned
+     * Test search have data in input search and filter is all but no results returned
      *
      * @return void
      */
@@ -135,7 +139,7 @@ class AdminSearchBorrowTest extends BaseTestUser
     }
 
     /**
-     * test search have data in input search and filter is users but no results returned
+     * Test search have data in input search and filter is users but no results returned
      *
      * @return void
      */
@@ -154,7 +158,7 @@ class AdminSearchBorrowTest extends BaseTestUser
     }
 
     /**
-     * test search have data in input search and filter is books but no results returned
+     * Test search have data in input search and filter is books but no results returned
      *
      * @return void
      */
@@ -163,7 +167,7 @@ class AdminSearchBorrowTest extends BaseTestUser
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
                 ->visit('/admin/borrowings')
-                ->type('search', 'Javascript')
+                ->type('search', 'Vo Van Nghia')
                 ->select('choose', 'books')
                 ->click('#search-borrow')
                 ->pause(2000);
@@ -173,7 +177,7 @@ class AdminSearchBorrowTest extends BaseTestUser
     }
 
     /**
-     * test search have data in input search and filter is all have results returned
+     * Test search have data in input search and filter is all have results returned
      *
      * @return void
      */
@@ -183,7 +187,7 @@ class AdminSearchBorrowTest extends BaseTestUser
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
                 ->visit('/admin/borrowings')
-                ->type('search', 'HTML & CSS')
+                ->type('search', $this->specialBook->name)
                 ->select('choose', 'all')
                 ->click('#search-borrow')
                 ->pause(2000);
@@ -193,7 +197,7 @@ class AdminSearchBorrowTest extends BaseTestUser
     }
 
     /**
-     * test search have data in input search and filter is books have results returned
+     * Test search have data in input search and filter is books have results returned
      *
      * @return void
      */
@@ -203,7 +207,7 @@ class AdminSearchBorrowTest extends BaseTestUser
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->adminUserToLogin)
                 ->visit('/admin/borrowings')
-                ->type('search', 'HTML & CSS')
+                ->type('search', $this->specialBook->name)
                 ->select('choose', 'books')
                 ->click('#search-borrow')
                 ->pause(2000);
@@ -213,7 +217,7 @@ class AdminSearchBorrowTest extends BaseTestUser
     }
 
     /**
-     * test search have data in input search and filter is users have results returned
+     * Test search have data in input search and filter is users have results returned
      *
      * @return void
      */
@@ -224,7 +228,7 @@ class AdminSearchBorrowTest extends BaseTestUser
             $browser->loginAs($this->adminUserToLogin)
                 ->visit('/admin/borrowings')
                 ->resize(1600, 2000)
-                ->type('search', 'hayantt')
+                ->type('search', $this->specialUser->name)
                 ->select('choose', 'users')
                 ->click('#search-borrow')
                 ->pause(2000);
@@ -234,29 +238,24 @@ class AdminSearchBorrowTest extends BaseTestUser
     }
 
     /**
-     * make data to unit test search borrow
+     * Make data to unit test search borrow
      *
      * @return void
      */
     public function makeData($row)
     {
         $faker = Faker::create();
-
-        factory(Category::class)->create();
-
+        $this->category = factory(Category::class)->create();
         $users = factory(User::class, 5)->create();
         $userIds = $users->pluck('id')->toArray();
-        
-        factory(Donator::class)->create();
-
+        $this->donator = factory(Donator::class)->create();
         $books = factory(Book::class, 5)->create([
-            'category_id' => 1,
-            'donator_id'  => 1,
+            'category_id' => $this->category->id,
+            'donator_id'  => $this->donator->id,
             'name'        => $faker->name,
             'author'      => $faker->name
         ]);
         $bookIds = $books->pluck('id')->toArray();
-
         for ($i = 0; $i < $row; $i++)
         {
             $borrowing = factory(Borrowing::class)->create([
@@ -267,27 +266,25 @@ class AdminSearchBorrowTest extends BaseTestUser
     }
     
     /**
-     * make data to unit test for special cases
+     * Make data to unit test for special cases
      *
      * @return void
      */
     public function makeDataForSpecialCases()
     {
         $faker = Faker::create();
-        factory(User::class)->create([
-            'id' => '161',
-            'name' => 'hayantt'
+        $this->specialUser = factory(User::class)->create([
+            'name' => $faker->name
         ]);
-        factory(Book::class)->create([
-            'id'             => '2018',
-            'category_id'    => 1,
-            'donator_id'     => 1,
-            'name'           => 'HTML & CSS',
-            'author'         => $faker->name
+        $this->specialBook = factory(Book::class)->create([
+            'category_id'    => $this->category->id,
+            'donator_id'     => $this->donator->id,
+            'name'           => $faker->name,
+            'author'         => $this->specialUser->name
         ]);
         $borrowing = factory(Borrowing::class, 3)->create([
-            'book_id' =>  2018,
-            'user_id' =>  161
+            'book_id' =>  $this->specialBook->id,
+            'user_id' =>  $this->specialUser->id
         ]);
     }
 }
