@@ -44,15 +44,14 @@ class PostController extends ApiController
         $request['user_id'] = $this->user->id;
         DB::beginTransaction();
         try {
-            // Create post
-            $post = Post::create($request->all());
 
             // Create rating when post's type is review
             if ($request->type == Post::REVIEW_TYPE) {
-                $ratingPost = Rating::create($request->all());
+                $post = Post::create($request->all());
+                $ratingPost = $request->rating ? $ratingPost = Rating::create($request->all()) : null;
                 $data = [
                     'reviewPost' => $post,
-                    'ratingPost' => $ratingPost ?? null,
+                    'ratingPost' => $ratingPost,
                 ];
             }
 
@@ -65,12 +64,13 @@ class PostController extends ApiController
                     $data['image'] = $path;
                 }
                 $post = Post::create($data);
-                $data = [
-                    'data' => $post,
-                ];
+                metaResponse(['data' => $post], Response::HTTP_CREATED);
             }
             DB::commit();
         } catch (Exception $e) {
+            if (isset($path)) {
+                Storage::disk('public')->delete($path);
+            }
             DB::rollback();
             \Log::error($e);
         }
