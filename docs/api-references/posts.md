@@ -143,14 +143,14 @@ Update post with all type include review, status, find book
 
 #### Request body
 
-| Key | Type | Review Type | Status Type | Find Book Type | Required | Example |
-|---|---|---|---|---|---|---|
-| id | Integer | yes | yes | yes | yes | 1 |
-| type | Integer | yes | yes | yes | yes | `1` if review, `2` if status, `3` if find book |
-| content | String | yes | yes | yes | yes if rating is null | this is content |
-| rating_id | Integer | yes | no | no | yes | 1 |
-| rating | Integer | yes | no | no | yes if content is null | 5 |
-| image | A binary file | no | no | yes | no | image/* |
+| Key | Type | Review Type | Status Type | Find Book Type | Example |
+|---|---|---|---|---|---|
+| id | Integer | required | required | required | 1 |
+| type | Integer | required (1) | required (2) | required (3) | 1 |
+| content | String | required if rating is null | yes | yes | this is content |
+| rating_id | Integer | required | - | - | 1 |
+| rating | Integer | required if content is null | - | - | 5 |
+| image | A binary file | - | - | not required | image/* |
 
 #### Response
 ```
