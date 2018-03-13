@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Model\User;
+use App\Model\Post;
 use App\Model\Comment;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use App\Http\Requests\CommentUpdateRequest;
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Requests\CommentUpdateRequest;
+use App\Http\Requests\Api\NewCommentRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends ApiController
 {
@@ -38,12 +40,12 @@ class CommentController extends ApiController
             $comment = Comment::findOrFail($id);
             $userId = $this->user->id;
             if ($comment->user_id != $userId) {
-                return metaResponse(null, Response::HTTP_FORBIDDEN, 'You dont have permission to edit');
+                return metaResponse(null, Response::HTTP_FORBIDDEN, __('comment.messages.not_permission'));
             }
         } catch (\Exception $e) {
             return response()->json([
                 'error' => [
-                    'message' => 'Comment not found'
+                    'message' => __('comment.messages.not_found')
                 ]
             ], Response::HTTP_NOT_FOUND);
         }
@@ -71,6 +73,28 @@ class CommentController extends ApiController
         }
     }
 
+    /**
+     * Create api new comment.
+     *
+     * @param NewCommentRequest $request Request add new comment
+     * @param Post              $post    Comment of this post
+     *
+     * @return Response
+     */
+    public function store(NewCommentRequest $request, Post $post)
+    {
+        $request['user_id'] = $this->user->id;
+        $request['post_id'] = $post->id;
+        //Add new Comment
+        try {
+            $comment = Comment::create($request->all());
+        } catch (\Exception $e) {
+            \Log::error($e);
+            return metaResponse(null, Response::HTTP_INTERNAL_SERVER_ERROR, config('define.messages.error_occurred'));
+        }
+        return metaResponse(['data' => $comment], Response::HTTP_CREATED);
+    }
+    
     /**
      * Get all child comment for one comment
      *
