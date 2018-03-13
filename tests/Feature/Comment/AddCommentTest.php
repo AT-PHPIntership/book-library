@@ -101,7 +101,7 @@ class AddCommentTest extends BaseTestComment
         $response = $this->POST('api/posts/100/comment', $this->request, $this->token)
             ->assertExactJson([
                 'meta' => [
-                    'message' => 'Page Not Found',
+                    'message' => 'Not Found',
                     'code' => Response::HTTP_NOT_FOUND
                 ]
             ]);
