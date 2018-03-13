@@ -95,8 +95,8 @@ class PostController extends ApiController
         $userId = $user->id;
         $posts = Post::getPostsByType($request->type, $fields)
             ->leftJoin('books', 'books.id', '=', 'posts.book_id')
-            ->where('user_id', $userId);
-        $posts = $posts->paginate(config('define.post.page_length'));
+            ->where('user_id', $userId)
+            ->paginate(config('define.post.page_length'));
         return metaResponse($posts);
     }
 }
