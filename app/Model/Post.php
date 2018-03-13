@@ -162,12 +162,12 @@ class Post extends Model
         if ($addingFields != null) {
             $fields = array_merge($fields, $addingFields);
         }
-        
+
         $posts = self::select($fields)->withCount('favorites')
             ->withCount('comments')
             ->join('users', 'posts.user_id', 'users.id');
-
-        if ($type != null) {
+            
+        if (in_array($type, config('define.type_post'))) {
             $posts = $posts->where('posts.type', $type);
         }
         return $posts;

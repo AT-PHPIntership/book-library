@@ -11,6 +11,8 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Exception;
 use DB;
+use App\Http\Requests\CheckTypeRequest;
+
 
 class PostController extends ApiController
 {
@@ -84,7 +86,7 @@ class PostController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function getListPostOfUser(Request $request, $id)
+    public function getListPostOfUser(Request $request, User $user)
     {
         $fields = [
             'books.name as book_name',
@@ -92,14 +94,10 @@ class PostController extends ApiController
             'books.avg_rating',
             'posts.updated_at',
         ];
-        $userId = User::findorFail($id)->id;
-        $postTypes = config('define.type_post');
-        $checkType = in_array($request->type, $postTypes);
-        $type = $checkType ? $request->type : null;
-        $posts = Post::getPostsByType($type, $fields)
+        $userId = $user->id;
+        $posts = Post::getPostsByType($request->type, $fields)
             ->leftJoin('books', 'books.id', '=', 'posts.book_id')
             ->where('user_id', $userId);
-        
         $posts = $posts->paginate(config('define.post.page_length'));
         return metaResponse($posts);
     }
