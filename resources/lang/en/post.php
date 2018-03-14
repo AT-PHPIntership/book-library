@@ -24,5 +24,6 @@ return [
     'message' => [
         'success' => 'Delete success !',
         'error' => 'Delete failure !',
+        'unauthorized' => 'You are not the owner of this post',
     ]
 ];

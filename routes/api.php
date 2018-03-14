@@ -20,6 +20,7 @@ Route::group(['namespace' => 'Api'], function () {
         Route::get('users/{id}', 'UserController@show');
         Route::get('users/{user}/posts', 'PostController@getListPostOfUser');
         Route::post('posts/{post}/comment', 'CommentController@store');
+        Route::delete('posts/{post}', 'PostController@destroy');
     });
     Route::get('categories', 'CategoryController@index');
     Route::get('books', 'BookController@index');

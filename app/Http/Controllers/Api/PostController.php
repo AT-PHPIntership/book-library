@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Exception;
 use DB;
+use App\Http\Controllers\Api\ApiController;
 
 class PostController extends ApiController
 {
@@ -98,5 +99,32 @@ class PostController extends ApiController
             ->where('user_id', $userId)
             ->paginate(config('define.post.page_length'));
         return metaResponse($posts);
+    }
+
+    /**
+     * Delete post.
+     *
+     * @param Post $post object of post
+     *
+     * @return Response
+     */
+    public function destroy(Post $post)
+    {
+        DB::beginTransaction();
+        try {
+            if ($this->user->can('destroy', $post)) {
+                $post->delete();
+                DB::commit();
+                $message = __('post.message.success');
+                return metaResponse([], Response::HTTP_OK, $message);
+            } else {
+                $message = __('post.message.unauthorized');
+                return metaResponse([], Response::HTTP_UNAUTHORIZED, $message);
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
+            \Log::error($e->getMessage());
+            return metaResponse([], Response::HTTP_INTERNAL_SERVER_ERROR, config('define.messages.500_server_error'));
+        }
     }
 }
