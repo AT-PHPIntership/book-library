@@ -48,4 +48,25 @@ class Rating extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    /**
+     * Update rating has been rated by the user
+     *
+     * @param App\Model\Post $post      post instance
+     * @param integer        $newRating new rating update from user
+     *
+     * @return integer
+     */
+    public static function updateRating(Post $post, $newRating)
+    {
+        $rating = self::where([
+            ['user_id', $post->user_id],
+            ['book_id', $post->book_id]
+        ])->first();
+        $oldRating = $rating->rating;
+        $newAvgRating = Book::updateRatingOfBook($post->book_id, $oldRating, $newRating);
+        $rating->rating = $newRating;
+        $rating->save();
+        return $newAvgRating;
+    }
 }

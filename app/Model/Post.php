@@ -8,6 +8,9 @@ use App\Model\Favorite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Iatstuti\Database\Support\CascadeSoftDeletes;
+use App\Model\Rating;
+use Storage;
+use Illuminate\Http\Response;
 
 class Post extends Model
 {
@@ -167,5 +170,108 @@ class Post extends Model
             ->withCount('comments')
             ->where('posts.type', $type)
             ->join('users', 'posts.user_id', 'users.id');
+    }
+    
+    /**
+     * Update post type review
+     *
+     * @param App\Model\Post          $post    post instance
+     * @param Illuminate\Http\Request $request request
+     *
+     * @return array
+     */
+    public static function updateReview($post, $request)
+    {
+        $review = $post;
+        if (isset($review)) {
+            $rating = $request->rating;
+            if (isset($request->content)) {
+                self::where('id', $post->id)->update(['content' => $request->content]);
+            }
+            $newRating = null;
+            if (isset($request->rating)) {
+                $newRating = Rating::updateRating($post, $rating);
+            }
+            $changedData = [
+                'content' => $request->content,
+                'user_rating' => $request->rating,
+                'book_rating' => $newRating,
+            ];
+            return $changedData;
+        }
+    }
+
+    /**
+     * Update post type status
+     *
+     * @param App\Model\Post          $post    post instance
+     * @param Illuminate\Http\Request $request request
+     *
+     * @return array
+     */
+    public static function updateStatus($post, $request)
+    {
+        $status = $post;
+        if (isset($status)) {
+            $status->content = $request->content;
+            $status->save();
+
+            $changedData = [
+                'content' => $request->content
+            ];
+            return $changedData;
+        }
+    }
+
+    /**
+     * Update post type find book
+     *
+     * @param App\Model\Post          $post    post instance
+     * @param Illuminate\Http\Request $request request
+     *
+     * @return array
+     */
+    public static function updateFindBook($post, $request)
+    {
+        try {
+            $findBook = $post;
+            if (isset($findBook)) {
+                $fullImage = null;
+                $findBook->content = $request->content;
+                if ($request->hasFile('image')) {
+                    $newPath = self::uploadImage($request);
+                    $oldPath = $findBook->image;
+                    $findBook->image = $newPath;
+                    $fullImage = request()->getSchemeAndHttpHost() . '/' . config('image.books.storage') . $findBook->image;
+                }
+                $findBook->save();
+                if ($request->hasFile('image') && isset($findBook->image) && Storage::disk('public')->has($findBook->image)) {
+                    Storage::disk('public')->delete($oldPath);
+                }
+                $dataChanged = [
+                    'content' => $request->content,
+                    'image' => $fullImage
+                ];
+                return $dataChanged;
+            }
+        } catch (\Exception $e) {
+            if (Storage::disk('public')->has($path)) {
+                Storage::disk('public')->delete($path);
+            }
+        }
+    }
+
+    /**
+     * Update new image for find book
+     *
+     * @param Illuminate\Http\Request $request request
+     *
+     * @return string
+     */
+    public static function uploadImage($request)
+    {
+        $folder = config('image.posts.upload_path');
+        $path = Storage::disk('public')->putFile($folder, $request->file('image'));
+        return $path;
     }
 }

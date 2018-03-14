@@ -39,5 +39,12 @@
             'limit_render' => 10,
         ],
         'time_in_day_send_mail' => '11:00',
-        'time_zone' => 'Asia/Ho_Chi_Minh'
+        'time_zone' => 'Asia/Ho_Chi_Minh',
+        'post_validate' => [
+            'type_required' => 'Post type parameter is required',
+            'book_id_required' => 'book_id parameter is required',
+            'rating_id_required' => 'rating_id parameter is required',
+            'content_required' => 'Content is required',
+            'image_image' => 'Must be image type'
+        ],
     ];

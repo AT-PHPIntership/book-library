@@ -18,6 +18,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['middleware' => 'apiLogin'], function () {
         Route::resource('posts', 'PostController');
         Route::get('users/{id}', 'UserController@show');
+        Route::put('posts/{post}', 'PostController@update');
     });
     Route::get('categories', 'CategoryController@index');
     Route::get('books', 'BookController@index');
