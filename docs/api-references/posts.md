@@ -129,7 +129,7 @@ Get list of status of user with paginate
 }
 ```
 
-### `POST` Update all type post
+### `PUT` Update all type post
 ```
 /api/posts/{id}
 ```
@@ -141,53 +141,45 @@ Update post with all type include review, status, find book
 |Accept|application\json
 |Authorization|{token_type} {access_token}|
 
-#### Request Review Type body
+#### Request body
 
-| Key | Type | Required | Example |
-|---|---|---|---|
-| id | Integer | required | 1 |
-| type | Integer | required | 1 |
-| content | String | required | this is content |
-| book_id | Integer | required | 1 |
-| rating_id | Integer | required | 1 |
-| rating | Integer | required | 5 |
+| Key | Type | Review Type | Status Type | Find Book Type | Example |
+|---|---|---|---|---|---|
+| id | Integer | required | required | required | 1 |
+| type | Integer | required (1) | required (2) | required (3) | 1 |
+| content | String | required if rating is null | yes | yes | this is content |
+| rating_id | Integer | required | - | - | 1 |
+| rating | Integer | required if content is null | - | - | 5 |
+| image | A binary file | - | - | not required | image/* |
 
-#### Response Review Type
+#### Response
 ```
 {
     "content": "new content",
     "user_rating": "5",
-    "book_rating": 1
-}
-```
-#### Status Type Request
-
-| Key | Type | Required | Example |
-|---|---|---|---|
-| id | Integer | required | 2 |
-| type | Integer | required | 2 |
-| content | String | required | this is content |
-
-#### Response Status Type
-```
-{
-    "content": "this is content",
+    "book_rating": 1,
+    "image": "image/books/a2874d56493aa387d503408a772500ad.jpg"
 }
 ```
 
-#### Find Book Type Request
-
-| Key | Type | Required | Example |
-|---|---|---|---|
-| id | Integer | required | 3 |
-| type | Integer | required | 3 |
-| content | String | required | this is content |
-| image | A binary file | optional | image/* |
-
-#### Response Find Book Type
+### `DELETE` Post
 ```
+/api/posts/{id}
+```
+Delete the post
+
+#### Request Headers
+| Key | Value |
+|---|---|
+|Accept|application\json
+|Authorization|{token_type} {access_token}|
+
+#### Response
+```json
 {
-    "content": "this is content",
-    "image": "image/books/a2874d56493aa387d503408a772500ad.jpg",
+    "meta": {
+        "message": "null",
+        "code": 200
+    }
 }
 ```

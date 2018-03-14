@@ -18,11 +18,12 @@
             'English' => 'English',
         ],
         'messages' => [
-            '404_not_found' => 'Page Not Found',
+            '404_not_found' => 'Not Found',
             '405_method_error' => 'Method Failure',
             '500_server_error' => 'Server Error',
             'token_not_found' => 'AccessToken Not Found',
-            '440_login_timeout' => 'Login Timeout'
+            '440_login_timeout' => 'Login Timeout',
+            'error_occurred' => 'Has Error Occurred, Please Try Again'
         ],
         'book' => [
             'item_limit' => 20,
@@ -46,5 +47,13 @@
             'rating_id_required' => 'rating_id parameter is required',
             'content_required' => 'Content is required',
             'image_image' => 'Must be image type'
+        ],
+        'post' => [
+            'page_length' => 20,
+        ],
+        'type_post' => [
+            \App\Model\Post::REVIEW_TYPE, 
+            \App\Model\Post::STATUS_TYPE, 
+            \App\Model\Post::FIND_TYPE,       
         ],
     ];
