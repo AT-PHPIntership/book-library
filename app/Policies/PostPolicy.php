@@ -10,7 +10,7 @@ class PostPolicy
 {
     use HandlesAuthorization;
 
-/**
+    /**
      * Determine if the given post can be deleted by the user.
      *
      * @param App\Model\User $user object of user

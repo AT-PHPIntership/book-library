@@ -115,9 +115,9 @@ class PostController extends ApiController
             if ($this->user->can('destroy', $post)) {
                 $post->delete();
                 DB::commit();
-                return metaResponse([], Response::HTTP_OK, 'Delete Post Successful');
+                return metaResponse([], Response::HTTP_OK, config('define.post.delete_success'));
             } else {
-                return metaResponse([], Response::HTTP_UNAUTHORIZED, 'You are not the owner of this post');
+                return metaResponse([], Response::HTTP_UNAUTHORIZED, config('define.post.unauthorized'));
             }
         } catch (Exception $e) {
             DB::rollBack();
