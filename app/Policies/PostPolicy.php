@@ -13,8 +13,9 @@ class PostPolicy
 /**
      * Determine if the given post can be deleted by the user.
      *
-     * @param  App\Model\User  $user
-     * @param  App\Model\Post  $post
+     * @param App\Model\User $user object of user
+     * @param App\Model\Post $post object of post
+     *
      * @return bool
      */
     public function destroy(User $user, Post $post)

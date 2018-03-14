@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Exception;
 use DB;
+use App\Http\Controllers\Api\ApiController;
 
 class PostController extends ApiController
 {
@@ -101,22 +102,27 @@ class PostController extends ApiController
     }
 
     /**
-     * delete post.
+     * Delete post.
      *
-     * @param  Request  $request
-     * @param  Post  $post
+     * @param Post $post object of post
+     *
      * @return Response
      */
-    public function destroy(Request $request, Post $post)
+    public function destroy(Post $post)
     {
-        $this->authorize('destroy', $post);
         DB::beginTransaction();
         try {
-            $post->delete();
-            DB::commit();
-            return response()->json(['success' => true], Response::HTTP_OK);
+            if ($this->user->can('destroy', $post)) {
+                $post->delete();
+                DB::commit();
+                return metaResponse([], Response::HTTP_OK, 'Delete Post Successful');
+            } else {
+                return metaResponse([], Response::HTTP_UNAUTHORIZED, 'You are not the owner of this post');
+            }
         } catch (Exception $e) {
             DB::rollBack();
+            \Log::error($e->getMessage());
+            return metaResponse([], Response::HTTP_INTERNAL_SERVER_ERROR, config('define.messages.500_server_error'));
         }
     }
 }
