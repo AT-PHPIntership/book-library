@@ -146,9 +146,7 @@ Update post with all type include review, status, find book
 | Key | Type | Review Type | Status Type | Find Book Type | Example |
 |---|---|---|---|---|---|
 | id | Integer | required | required | required | 1 |
-| type | Integer | required (1) | required (2) | required (3) | 1 |
 | content | String | required if rating is null | yes | yes | this is content |
-| rating_id | Integer | required | - | - | 1 |
 | rating | Integer | required if content is null | - | - | 5 |
 | image | A binary file | - | - | not required | image/* |
 
