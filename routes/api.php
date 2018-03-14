@@ -19,6 +19,7 @@ Route::group(['namespace' => 'Api'], function () {
         Route::resource('posts', 'PostController');
         Route::get('users/{id}', 'UserController@show');
         Route::get('users/{user}/posts', 'PostController@getListPostOfUser');
+        Route::put('comments/{id}', 'CommentController@update');
         Route::post('posts/{post}/comment', 'CommentController@store');
     });
     Route::get('categories', 'CategoryController@index');
