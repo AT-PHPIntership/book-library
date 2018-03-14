@@ -160,3 +160,26 @@ Update post with all type include review, status, find book
     "book_rating": 1,
     "image": "image/books/a2874d56493aa387d503408a772500ad.jpg"
 }
+```
+
+### `DELETE` Post
+```
+/api/posts/{id}
+```
+Delete the post
+
+#### Request Headers
+| Key | Value |
+|---|---|
+|Accept|application\json
+|Authorization|{token_type} {access_token}|
+
+#### Response
+```json
+{
+    "meta": {
+        "message": "null",
+        "code": 200
+    }
+}
+```
