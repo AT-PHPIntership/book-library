@@ -43,8 +43,6 @@
         'time_zone' => 'Asia/Ho_Chi_Minh',
         'post' => [
             'page_length' => 20,
-            'delete_success' => 'Delete Post Successful',
-            'unauthorized' => 'You are not the owner of this post',
         ],
         'type_post' => [
             \App\Model\Post::REVIEW_TYPE, 
