@@ -99,4 +99,24 @@ class PostController extends ApiController
             ->paginate(config('define.post.page_length'));
         return metaResponse($posts);
     }
+
+    /**
+     * delete post.
+     *
+     * @param  Request  $request
+     * @param  Post  $post
+     * @return Response
+     */
+    public function destroy(Request $request, Post $post)
+    {
+        $this->authorize('destroy', $post);
+        DB::beginTransaction();
+        try {
+            $post->delete();
+            DB::commit();
+            return response()->json(['success' => true], Response::HTTP_OK);
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+    }
 }
