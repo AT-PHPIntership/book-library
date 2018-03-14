@@ -11,6 +11,11 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Exception;
 use DB;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\UpdatePostRequest;
 
 class PostController extends ApiController
 {
@@ -74,6 +79,38 @@ class PostController extends ApiController
     {
         $comments = Comment::getParentComments($id);
         return metaResponse($comments);
+    }
+
+    /**
+     * Update new rating from user
+     *
+     * @param Illuminate\Http\Request $request request
+     * @param App\Model\Post          $post    post instance
+     *
+     * @return Illuminate\Http\Response
+     */
+    public function update(UpdatePostRequest $request, Post $post)
+    {
+        try {
+            if ($post->user_id != $this->user->id) {
+                throw new ModelNotFoundException();
+            }
+            switch ($post->type) {
+                case Post::REVIEW_TYPE:
+                    $data = Post::updateReview($post, $request);
+                    return metaResponse(['data' => $data], Response::HTTP_OK);
+                case Post::STATUS_TYPE:
+                    $data = Post::updateStatus($post, $request);
+                    return metaResponse(['data' => $data], Response::HTTP_OK);
+                case Post::FIND_TYPE:
+                    $data = Post::updateFindBook($post, $request);
+                    return metaResponse(['data' => $data], Response::HTTP_OK);
+            }
+        } catch (\Exception $e) {
+            if ($e instanceof ModelNotFoundException) {
+                return metaResponse(null, Response::HTTP_NOT_FOUND, config('define.messages.404_not_found'));
+            }
+        }
     }
 
     /**

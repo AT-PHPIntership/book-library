@@ -295,4 +295,26 @@ class Book extends Model
 
         return true;
     }
+
+    /**
+     * Update book rating
+     *
+     * @param integer $id        book'id
+     * @param integer $oldRating old user's rating
+     * @param integer $newRating new user's rating
+     *
+     * @return integer
+     */
+    public static function updateRatingOfBook($id, $oldRating, $newRating)
+    {
+        $fields = [
+            'avg_rating',
+            'total_rating'
+        ];
+        $book = self::select($fields)->findOrFail($id);
+        $newAvgRating = ($book->avg_rating * $book->total_rating - $oldRating + $newRating) / $book->total_rating;
+        $book->avg_rating = round($newAvgRating, 1);
+        $book->save();
+        return $book->avg_rating;
+    }
 }

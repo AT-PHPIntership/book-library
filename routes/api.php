@@ -18,6 +18,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['middleware' => 'apiLogin'], function () {
         Route::resource('posts', 'PostController');
         Route::get('users/{id}', 'UserController@show');
+        Route::put('posts/{post}', 'PostController@update');
         Route::get('users/{user}/posts', 'PostController@getListPostOfUser');
         Route::post('posts/{post}/comment', 'CommentController@store');
     });

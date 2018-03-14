@@ -169,7 +169,7 @@ class BookController extends Controller
             // save image path, move image to directory
             $hasImage = $request->hasFile('image');
             if ($hasImage) {
-                $oldImage = $book->image;
+                $oldImage = explode(request()->getSchemeAndHttpHost() . '/' . config('image.books.storage'), $book->image);
                 $defaultPath = config('image.books.default_path');
                 $defaultImage = config('image.books.no_image_name');
                 $isNotDefaultImage = ($oldImage != ($defaultPath . $defaultImage)) ? true : false;
