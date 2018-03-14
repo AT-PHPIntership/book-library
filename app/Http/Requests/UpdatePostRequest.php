@@ -28,7 +28,7 @@ class UpdatePostRequest extends FormRequest
         switch ($postType) {
             case Post::REVIEW_TYPE:
                 $rules = [
-                    'content' => 'max:100'
+                    'content' => 'required|max:100'
                 ];
                 break;
             case Post::STATUS_TYPE:
