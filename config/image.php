@@ -12,6 +12,6 @@ return [
         'path_upload'  => 'images/users/',
     ],
     'posts' => [
-        'path_upload'  => 'images/posts/',
+        'upload_path'  => 'images/posts',
     ],
 ];
