@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Pages\Books;
 
 use App\Model\User;
 use App\Model\Book;
@@ -12,6 +12,7 @@ use Laravel\Dusk\Browser;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 use Tests\Browser\Pages\Backend\Users\BaseTestUser;
+use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class SortBookTest extends BaseTestUser
@@ -29,7 +30,8 @@ class SortBookTest extends BaseTestUser
     {
         parent::setUp();
         $this->adminUserToLogin = $this->makeAdminUserToLogin();
-        $this->makeData(16);
+        $baseTestBook = new BaseTestBook();
+        $baseTestBook->makeListOfBook(16);
     }
 
     /**
@@ -48,7 +50,7 @@ class SortBookTest extends BaseTestUser
             $books = Book::orderBy('name', 'ASC')->skip(10)->take(6)->get();
             $checkName = false;
             foreach ($books as $index => $book) {
-                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
+                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
                 $checkName = $book->name === $bookName;
                 if (!$checkName) {
                     break;
@@ -75,7 +77,7 @@ class SortBookTest extends BaseTestUser
             $books = Book::orderBy('name', 'DESC')->limit(10)->get();
             $checkName = false;
             foreach ($books as $index => $book) {
-                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
+                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
                 $checkName = $book->name === $bookName;
                 if (!$checkName) {
                     break;
@@ -101,7 +103,7 @@ class SortBookTest extends BaseTestUser
             $books = Book::orderBy('name', 'Desc')->skip(10)->take(6)->get();
             $checkName = false;
             foreach ($books as $index => $book) {
-                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
+                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
                 $checkName = $book->name === $bookName;
                 if (!$checkName) {
                     break;
@@ -128,7 +130,7 @@ class SortBookTest extends BaseTestUser
             $books = Book::orderBy('author', 'ASC')->limit(10)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
-                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
+                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
                 $checkAuthor = $book->author === $bookAuthor;
                 if (!$checkAuthor) {
                     break;
@@ -154,7 +156,7 @@ class SortBookTest extends BaseTestUser
             $books = Book::orderBy('author', 'ASC')->skip(10)->take(6)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
-                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
+                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
                 $checkAuthor = $book->author === $bookAuthor;
                 if (!$checkAuthor) {
                     break;
@@ -181,7 +183,7 @@ class SortBookTest extends BaseTestUser
             $books = Book::orderBy('author', 'Desc')->limit(10)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
-                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
+                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
                 $checkAuthor = $book->author === $bookAuthor;
                 if (!$checkAuthor) {
                     break;
@@ -207,7 +209,7 @@ class SortBookTest extends BaseTestUser
             $books = Book::orderBy('author', 'DESC')->skip(10)->take(6)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
-                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
+                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
                 $checkAuthor = $book->author === $bookAuthor;
                 if (!$checkAuthor) {
                     break;
@@ -234,7 +236,7 @@ class SortBookTest extends BaseTestUser
             $books = Book::orderBy('avg_rating', 'Asc')->limit(10)->get();
             $checkAvgRating = false;
             foreach ($books as $index => $book) {
-                $bookAvgRating = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
+                $bookAvgRating = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
                 $checkAvgRating = $book->avg_rating == $bookAvgRating;
                 if (!$checkAvgRating) {
                     break;
@@ -260,7 +262,7 @@ class SortBookTest extends BaseTestUser
             $books = Book::orderBy('avg_rating', 'ASC')->skip(10)->take(6)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
-                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
+                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
                 $checkAuthor = $book->avg_rating == $bookAuthor;
                 if (!$checkAuthor) {
                     break;
@@ -287,7 +289,7 @@ class SortBookTest extends BaseTestUser
             $books = Book::orderBy('avg_rating', 'Desc')->limit(10)->get();
             $checkAvgRating = false;
             foreach ($books as $index => $book) {
-                $bookAvgRating = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
+                $bookAvgRating = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
                 $checkAvgRating = $book->avg_rating == $bookAvgRating;
                 if (!$checkAvgRating) {
                     break;
@@ -313,7 +315,7 @@ class SortBookTest extends BaseTestUser
             $books = Book::orderBy('avg_rating', 'DESC')->skip(10)->take(6)->get();
             $checkAuthor = false;
             foreach ($books as $index => $book) {
-                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(4)');
+                $bookAuthor = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
                 $checkAuthor = $book->avg_rating == $bookAuthor;
                 if (!$checkAuthor) {
                     break;
@@ -345,7 +347,7 @@ class SortBookTest extends BaseTestUser
                 ->limit(10)->get();
             $checkTotal = false;
             foreach ($books as $index => $book) {
-                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
+                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
                 $checkTotal = $book->borrowing == $bookTotal;
                 if (!$checkTotal) {
                     break;
@@ -376,7 +378,7 @@ class SortBookTest extends BaseTestUser
                 ->skip(10)->take(6)->get();
             $checkTotal = false;
             foreach ($books as $index => $book) {
-                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
+                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
                 $checkTotal = $book->borrowing == $bookTotal;
                 if (!$checkTotal) {
                     break;
@@ -408,7 +410,7 @@ class SortBookTest extends BaseTestUser
                 ->limit(10)->get();
             $checkTotal = false;
             foreach ($books as $index => $book) {
-                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
+                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
                 $checkTotal = $book->borrowing == $bookTotal;
                 if (!$checkTotal) {
                     break;
@@ -439,7 +441,7 @@ class SortBookTest extends BaseTestUser
                 ->skip(10)->take(6)->get();
             $checkTotal = false;
             foreach ($books as $index => $book) {
-                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(5)');
+                $bookTotal = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(6)');
                 $checkTotal = $book->borrowing == $bookTotal;
                 if (!$checkTotal) {
                     break;
@@ -466,7 +468,7 @@ class SortBookTest extends BaseTestUser
             $books = Book::orderBy('name', 'ASC')->limit(10)->get();
             $checkName = false;
             foreach ($books as $index => $book) {
-                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(2)');
+                $bookName = $browser->text('#table-book tbody tr:nth-child(' . (string)($index + 1) . ') td:nth-child(3)');
                 $checkName = $book->name == $bookName;
                 if (!$checkName) {
                     break;
@@ -474,46 +476,5 @@ class SortBookTest extends BaseTestUser
             }
             $this->assertTrue($checkName);
         });
-    }
-
-    /**
-     * A Data test example.
-     *
-     * @return void
-     */
-    public function makeData($row)
-    {
-        $faker = Faker::create();
-
-        factory(Category::class, 5)->create();
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-
-        factory(User::class, 5)->create();
-        $userIds = DB::table('users')->pluck('id')->toArray();
-
-        factory(Donator::class, 5)->create([
-            'user_id' => $faker->randomElement($userIds)
-        ]);
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
-
-        for ($i = 0; $i <= $row; $i++)
-        {
-            factory(Book::class)->create([
-                'category_id' => $faker->randomElement($categoryIds),
-                'donator_id' => $faker->randomElement($donatorIds),
-                'name' => $faker->sentence(rand(2,5)),
-                'author' => $faker->name,
-            ]);
-        }
-        $bookIds = DB::table('books')->pluck('id')->toArray();
-        
-        for ($i = 0; $i <= $row; $i++)
-        {
-            $borrowing = factory(Borrowing::class)->create([
-                'book_id' =>  $faker->randomElement($bookIds),
-                'user_id' =>  $faker->randomElement($userIds),
-            ]);
-        }
-
     }
 }

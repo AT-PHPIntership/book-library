@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Pages\Books;
 
 use App\Model\Book;
 use App\Model\User;
@@ -9,45 +9,24 @@ use App\Model\Category;
 use Tests\DuskTestCase;
 use App\Model\Borrowing;
 use Laravel\Dusk\Browser;
+use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class EditButtonShowBookTest extends DuskTestCase
+class EditButtonShowBookTest extends BaseTestBook
 {
     use DatabaseMigrations;
 
     /**
-     * Create virtual listbook database.
+     * Create user with role "Admin".
      *
      * @return void
      */
-    public function makeListOfBook($rows)
+    public function setUp()
     {
-        $faker = Faker::create();
-        factory(Category::class, 10)->create();
-        factory(User::class, 10)->create();
-        $userIds = DB::table('users')->pluck('id')->toArray();
-        factory(Donator::class, 10)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
-        ]);
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
-        factory(Book::class, $rows)->create([
-            'category_id' => $faker->randomElement($categoryIds),
-            'donator_id' => $faker->randomElement($donatorIds),
-        ]);
-    }
-
-    /**
-     * Create virtual user database.
-     *
-     * @return void
-     */
-    public function makeUser(){
-        factory(User::class)->create([
-            'role' => User::ROOT_ADMIN
-        ]);
+        parent::setUp();
+        factory(User::class)->create(['role' => User::ROLE_ADMIN]);
     }
 
     /**
@@ -57,7 +36,6 @@ class EditButtonShowBookTest extends DuskTestCase
      */
     public function testClickEditButton()
     {
-        $this->makeUser();
         $this->makeListOfBook(1);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -65,8 +43,7 @@ class EditButtonShowBookTest extends DuskTestCase
                 ->click('.btn-edit-1')
                 ->assertPathIs('/admin/books/1/edit')
                 ->assertSee('Edit Book')
-                ->resize(1200, 900)
-                ->screenshot('sample-screenshot');
+                ->resize(1200, 900);
             $elements = $browser->elements('.form-group');
             $this->assertCount(10, $elements);
         });
@@ -79,7 +56,6 @@ class EditButtonShowBookTest extends DuskTestCase
      */
     public function testShowCorrectNameOfEachLabel()
     {
-        $this->makeUser();
         $donator = factory(Donator::class)->create([
             'employee_code' => 'AT-0001',
         ]);
@@ -94,8 +70,7 @@ class EditButtonShowBookTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                 ->visit('/admin/books/1/edit')
                 ->assertSee('Edit Book')
-                ->resize(900, 1600)
-                ->screenshot('sample-screenshot');
+                ->resize(900, 1600);
             $browser->assertInputValue('name', $book->name)
                 ->assertInputValue('author', $book->author)
                 ->assertInputValue('price', $book->price)

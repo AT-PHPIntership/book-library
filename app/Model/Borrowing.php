@@ -40,10 +40,8 @@ class Borrowing extends Model
      * @var array $searchable table search
      */
     protected $searchable = [
-        'input' => [
-            ['users.name', 'like'],
-            ['books.name', 'like'],
-        ]
+        'users.name',
+        'books.name'
     ];
 
     /**

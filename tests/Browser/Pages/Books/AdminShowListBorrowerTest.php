@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\tests\Browser\Pages\BackEnd\Books;
+namespace Tests\Browser\Pages\Books;
 
 use App\Model\User;
 use App\Model\Book;
@@ -12,55 +12,42 @@ use Laravel\Dusk\Browser;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 
-class AdminShowListBorrowingsTest extends DuskTestCase
+class AdminShowListBorrowingsTest extends BaseTestBook
 {
     use DatabaseMigrations;
 
     /**
-     * Make list database
+     * Create user with role "Admin".
      *
      * @return void
      */
-    public function makeList($rows)
+    public function setUp()
     {
+        parent::setUp();
+        factory(User::class)->create(['role' => User::ROLE_ADMIN]);
+    }
+
+    /**
+     * Make list database
+     *
+     * @param Int $rows Number of borrowing.
+     *
+     * @return void
+     */
+    public function makeListBorrowing($rows)
+    {
+        $this->makeListOfBook(10);
         $faker = Faker::create();
-        factory(User::class, 10)->create();
         $userIds = DB::table('users')->pluck('id')->toArray();
-
-        factory(Category::class, 10)->create();
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-
-        factory(Donator::class, 10)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
-        ]);
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
-
-        factory(Book::class, 10)->create([
-            'category_id' => $faker->randomElement($categoryIds),
-            'donator_id' => $faker->randomElement($donatorIds),
-        ]);
-
         $bookIds = DB::table('books')->pluck('id')->toArray();
-
         for ($i=0; $i<= $rows; $i++){
-            factory(Borrowing::class, 1)->create([
+            factory(Borrowing::class)->create([
                 'user_id' => $faker->randomElement($userIds),
                 'book_id' => $faker->randomElement($bookIds),
             ]);
         }
-
-    }
-
-    /**
-     * Make user database
-     *
-     * @return void
-     */
-    public function makeUser(){
-        factory(User::class)->create([
-            'role' => User::ROOT_ADMIN
-        ]);
     }
 
     /**
@@ -70,9 +57,7 @@ class AdminShowListBorrowingsTest extends DuskTestCase
      */
     public function testShowListBorrower()
     {
-        $this->makeUser();
-        $this->makeList(9);
-
+        $this->makeListBorrowing(9);
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                 ->visit('/admin/borrowings/')
@@ -91,8 +76,7 @@ class AdminShowListBorrowingsTest extends DuskTestCase
      */
     public function testShowPageList()
     {
-        $this->makeUser();
-        $this->makeList(14);
+        $this->makeListBorrowing(14);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
                 ->visit('/admin/borrowings/')
@@ -112,7 +96,6 @@ class AdminShowListBorrowingsTest extends DuskTestCase
      */
     public function testEmptyPage()
     {
-        $this->makeUser();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                 ->visit('/admin/borrowings/')

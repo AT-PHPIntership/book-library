@@ -174,8 +174,8 @@ class BookApiTest extends BaseTestBook
     public function testSearchBookCorrectNameAndAuthor()
     {
         $this->makeListOfBook(2);
-        Book::where('id', 1)->update(['name' => '0']);
-        Book::where('id', 2)->update(['author' => '0']);
+        Book::where('id', 2)->update(['name' => '0']);
+        Book::where('id', 1)->update(['author' => '0']);
         $response = $this->json('GET', '/api/books?search=0');
         $response->assertJson([
             'data' => [

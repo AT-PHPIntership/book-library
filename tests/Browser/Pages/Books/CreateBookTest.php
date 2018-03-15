@@ -12,7 +12,6 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CreateBookTest extends DuskTestCase
 {
-
     use DatabaseMigrations;
 
     /**
@@ -21,7 +20,7 @@ class CreateBookTest extends DuskTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->fakeUser();
+        factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $category = factory(Category::class, 10)->create();
     }
 
@@ -115,9 +114,9 @@ class CreateBookTest extends DuskTestCase
                 ->attach('image', $this->fakeImage());
             $this->typeInCKEditor('#cke_description iframe', $browser, 'This is a description');
             
-
             $browser->press('Submit')
                     ->assertSee('Create Success');
+
             $this->assertDatabaseHas('books', [
                 'id' => 1,
                 'category_id' => $category->id,
@@ -130,7 +129,6 @@ class CreateBookTest extends DuskTestCase
                 "avg_rating" => 0,
                 "total_rating" => 0,
                 "status" => 1,
-
             ]);
             
         });
@@ -256,21 +254,5 @@ class CreateBookTest extends DuskTestCase
      */
     public function fakeNotImage() {
         return UploadedFile::fake()->create('image.pdf');
-    }
-
-    /**
-     * Adding user for testing
-     * 
-     * @return void
-     */
-    public function fakeUser() {
-        $user = [
-            'employee_code' => 'AT0286',
-            'name' => 'SA Dinh Thi.',
-            'email' => 'sa.as@asiantech.vn',
-            'team' => 'SA',
-            'role' => 1,
-        ];
-        $user = factory(User::class)->create($user);
     }
 }

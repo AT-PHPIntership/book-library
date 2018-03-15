@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\tests\Browser\Pages\BackEnd\Books;
+namespace Tests\Browser\Pages\Books;
 
 use App\Model\User;
 use App\Model\Book;
@@ -12,42 +12,21 @@ use Laravel\Dusk\Browser;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 
-class AdminShowListBookTest extends DuskTestCase
+class AdminShowListBookTest extends BaseTestBook
 {
     use DatabaseMigrations;
 
     /**
-     * Create virtual database
+     * Create user with role "Admin".
      *
      * @return void
      */
-    public function makeListOfBook($rows)
+    public function setUp()
     {
-        $faker = Faker::create();
-        factory(Category::class, 10)->create();
-        factory(User::class, 10)->create();
-        $userIds = DB::table('users')->pluck('id')->toArray();
-        factory(Donator::class, 10)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
-        ]);
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
-        factory(Book::class, $rows)->create([
-            'category_id' => $faker->randomElement($categoryIds),
-            'donator_id' => $faker->randomElement($donatorIds),
-        ]);
-    }
-
-    /**
-     * Create virtual database
-     *
-     * @return void
-     */
-    public function makeUser(){
-        factory(User::class)->create([
-            'role' => User::ROOT_ADMIN
-        ]);
+        parent::setUp();
+        factory(User::class)->create(['role' => User::ROLE_ADMIN]);
     }
 
     /**
@@ -57,7 +36,6 @@ class AdminShowListBookTest extends DuskTestCase
      */
     public function testShowListBook()
     {
-        $this->makeUser();
         $this->makeListOfBook(10);
         $this->browse(function (Browser $browser) {
         $browser->loginAs(User::find(1))
@@ -77,7 +55,6 @@ class AdminShowListBookTest extends DuskTestCase
      */
     public function testShowPageList()
     {
-        $this->makeUser();
         $this->makeListOfBook(15);
         $this->browse(function (Browser $browser) {
             $page = $browser->loginAs(User::find(1))
@@ -98,7 +75,6 @@ class AdminShowListBookTest extends DuskTestCase
      */
     public function testEmptyPage()
     {
-        $this->makeUser();
         $this->browse(function (Browser $browser) {
         $browser->loginAs(User::find(1))
             ->visit('/admin/books')

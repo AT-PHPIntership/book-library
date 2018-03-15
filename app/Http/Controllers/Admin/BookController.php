@@ -94,11 +94,13 @@ class BookController extends Controller
     public function index(CheckFilterRequest $request)
     {
         $columns = [
-            'id',
+            'books.id',
             'name',
             'author',
             'avg_rating',
-            'total_rating'
+            'total_rating',
+            'qrcodes.prefix as prefix',
+            'qrcodes.code_id as code'
         ];
 
         $search = $request->search;
@@ -107,25 +109,27 @@ class BookController extends Controller
         $limit = $request->limit;
         $filter = $request->filter;
 
-        $books = Book::search($search, $choose)->select($columns)->withCount('borrowings')->sortable();
-    
-        if ($request->has('uid')) {
-            if ($filter == null) {
-                $filter = Book::BORROWED;
-            }
-            $books = Book::whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
-                $query->where('user_id', '=', $uid);
-            })->withCount('borrowings')->sortable()->search($search, $choose)
-                ->orderby('id', 'desc')->paginate(config('define.page_length'))
-                ->appends(['search' => $search, 'choose' => $choose, 'uid' => $uid, 'limit' => $limit, 'filter' => $filter]);
-        } elseif ($filter == Book::BORROWED) {
-            $books = $books->orderBy('borrowings_count', 'DESC')
-                    ->limit($limit)
-                    ->get();
-        } else {
-            $books = $books->orderby('id', 'desc')->sortable()->paginate(config('define.page_length'))
-            ->appends(['search' => $search, 'choose' => $choose, 'uid' => $uid, 'limit' => $limit, 'filter' => $filter]);
+        $books = Book::select($columns);
+
+        if ($request->has('uid') && $request->has('filter')) {
+            $books = $books->whereHas(config('define.filter.' . $filter), function ($query) use ($uid) {
+                $query->where('user_id', $uid);
+            });
         }
+
+        $books = $books->search($search, $choose)
+            ->join('qrcodes', 'qrcodes.book_id', 'books.id')
+            ->withCount('borrowings')
+            ->sortable();
+        
+        if ($request->has('limit')) {
+            $books = $books->orderBy('borrowings_count', 'DESC')->limit($limit)->get();
+        } else {
+            $books = $books->orderBy('id', 'desc')
+                ->paginate(config('define.page_length'))
+                ->appends(['search' => $search, 'choose' => $choose, 'uid' => $uid, 'filter' => $filter]);
+        }
+
         return view('backend.books.list', compact('books'));
     }
 

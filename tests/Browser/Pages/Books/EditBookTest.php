@@ -14,8 +14,9 @@ use Faker\Factory as Faker;
 use Illuminate\Http\UploadedFile;
 use Facebook\WebDriver\WebDriverBy;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\Browser\Pages\Backend\Books\BaseTestBook;
 
-class EditBookTest extends DuskTestCase
+class EditBookTest extends BaseTestBook
 {
 
     /**
@@ -25,13 +26,23 @@ class EditBookTest extends DuskTestCase
 
     use DatabaseMigrations;
 
+    /**
+     * Create user with role "Admin" and make data.
+     *
+     * @return void
+     */
     public function setUp()
     {
         parent::setUp();
-        $this->fakeUser();
+        factory(User::class)->create(['role' => User::ROLE_ADMIN]);
         $this->fakeData();
     }
 
+    /**
+     * Test access edit book.
+     * 
+     * @return void
+     */
     public function testAccessEditBook()
     {
         $book = Book::findOrFail(15);
@@ -126,11 +137,10 @@ class EditBookTest extends DuskTestCase
             $browser->press('Submit')
                     ->assertSee('Edit Success');
         });
-
         $this->assertDatabaseHas('books', [
             'id' => 1,
             'category_id' => $category->id,
-            'donator_id' => ($this->donators->count() + 1),
+            'donator_id' => DB::table('donators')->count(),
             'name' => 'Example Book',
             'author' => 'Example Author',
             'year' => '2018',
@@ -274,44 +284,13 @@ class EditBookTest extends DuskTestCase
     }
 
     /**
-     * Adding user for testing
-     * 
-     * @return void
-     */
-    public function fakeUser() {
-        $user = [
-            'employee_code' => 'AT0286',
-            'name' => 'SA Dinh Thi.',
-            'email' => 'sa.as@asiantech.vn',
-            'team' => 'SA',
-            'role' => 1,
-        ];
-        $user = factory(User::class, 1)->create($user);
-    }
-
-    /**
      * Fake data testing
      * 
      * @return void
      */
     public function fakeData()
     {
-        $faker = Faker::create();
-        factory(Category::class, 3)->create();
-        factory(User::class, 10)->create();
-        $userIds = DB::table('users')->pluck('id')->toArray();
-        $this->donators =  factory(Donator::class, 10)->create([
-            'user_id' => $faker->unique()->randomElement($userIds)
-        ]);
-        $categoryIds = DB::table('categories')->pluck('id')->toArray();
-        $donatorIds = DB::table('donators')->pluck('id')->toArray();
-        $book = factory(Book::class, 15)->create([
-            'category_id' => $faker->randomElement([
-                '1' => 2,
-                '2' => 3
-            ]),
-            'donator_id' => $faker->randomElement($donatorIds),
-            'image'      => 'no-image.png',
-        ]);
+        $this->makeListOfBook(15);
+        Book::select()->update(['image' => 'no-image.png']);
     }
 }

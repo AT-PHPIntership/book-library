@@ -114,10 +114,8 @@ class Book extends Model
      * @var array $searchable table search
      */
     protected $searchable = [
-        'input' => [
-            ['name', 'like'],
-            ['author', 'like'],
-        ],
+        'name',
+        'author'
     ];
 
     /**
